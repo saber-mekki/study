@@ -1,0 +1,107 @@
+// button style
+.btn {
+	font-size: 15px;
+	padding: 14px 30px;
+	color: $white;
+	border-radius: 0px;
+	border: 0;
+	font-weight: 500;
+	transition: .3s;
+	position: relative;
+	z-index: 1;
+	overflow: hidden;
+	&:active,
+	&:focus {
+		border: 0;
+		box-shadow: none !important;
+	}
+	&:hover {
+		transform: translateY(-2px);
+	}
+	&.btn-sm {
+		padding: 12px 25px;
+	}
+	&.btn-lg {
+		font-size: 16px;
+		padding: 18px 40px;
+		@include breakAt(md-device) {
+			font-size: 14px;
+			padding: 14px 30px;
+		}
+	}
+	&::after {
+		position: absolute;
+		content: "";
+		height: 0;
+		width: 100%;
+		top: 0;
+		left: 0;
+		transition: .3s ease-out;
+		z-index: -1;
+	}
+	&:hover::after {
+		height: 100%;
+		top: auto;
+		bottom: 0;
+	}
+	&.btn-primary {
+		background-color: $color-primary !important;
+		&:hover::after,
+		&:active::after,
+		&:focus::after {
+			color: $white;
+			background-color: darken($color-primary, 5%) !important;
+		}
+	}
+	&.btn-secondary {
+		background-color: $color-secondary !important;
+		&:hover::after,
+		&:active::after,
+		&:focus::after {
+			color: $white;
+			background-color: darken($color-secondary, 5%) !important;
+		}
+	}
+	&.btn-outline-primary {
+		color: $color-primary;
+		background-color: transparent;
+		border: 2px solid $color-primary;
+		&:hover {
+			color: $white;
+		}
+		&:active::after,
+		&:hover::after,
+		&:focus::after {
+			background-color: $color-primary !important;
+		}
+	}
+	&.btn-blue {
+		background-color: #001E92;
+		&:hover {
+			color: $white;
+		}
+		&:active::after,
+		&:hover::after,
+		&:focus::after {
+			background-color: $color-secondary !important;
+		}
+	}
+	&.btn-link {
+		&:hover {
+			color: #fff;
+			text-decoration: none;
+		}
+		&.text-dark:hover {
+			color: $color-primary !important;
+		}
+	}
+	&.btn-light {
+		color: $black !important;
+	}
+}
+
+.input-group-append {
+	.btn:hover {
+		transform: translate(0);
+	}
+}

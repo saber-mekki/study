@@ -1,0 +1,562 @@
+// preloader
+.preloader {
+   position: fixed;
+   top: 0;
+   left: 0;
+   height: 100vh;
+   width: 100vw;
+   background-color: $white;
+   z-index: 99999;
+}
+
+
+// banner
+.banner-2 {
+   overflow: hidden;
+   .banner-illustration {
+      max-width: 114%;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 800px;
+      min-height: 300px;
+   }
+}
+.banner-1,
+.banner-3 {
+   padding-top: 180px;
+   padding-bottom: 180px;
+   @include breakAt(md-device) {
+      padding-top: 120px;
+      padding-bottom: 120px;
+   }
+   &.has-overlay::after {
+      background-color: #001B61;
+      opacity: .4;
+   }
+}
+.banner-1{
+   &.has-overlay::after {
+      opacity: .6;
+   }
+   .text-lg .has-line::after {
+      bottom: 17px;
+      @include breakAt(lg-device) {
+         bottom: 14px;
+      }
+      @include breakAt(md-device) {
+         bottom: 10px;
+      }
+   }
+}
+
+.search-form {
+   background-color: rgba($color-secondary, .35);
+   padding: 40px 30px;
+   @include breakAt(sm-device) {
+      padding: 35px 20px;
+   }
+   .nice-select {
+      width: 100%;
+      margin-bottom: 30px;
+      border-radius: 50px;
+      height: 50px;
+      line-height: 49px;
+      font-weight: 500;
+      padding: 0 18px;
+      &::after {
+         height: 8px;
+         width: 8px;
+         right: 20px;
+      }
+      .list {
+         width: 100%;
+      }
+  }
+}
+.tab-nav {
+   margin-bottom: 30px;
+   position: relative;
+   z-index: 2;
+   .nav-item {
+      &:first-child .nav-link {
+         border-top-left-radius: 5px;
+         border-bottom-left-radius: 5px;
+      }
+      &:last-child .nav-link {
+         border-top-right-radius: 5px;
+         border-bottom-right-radius: 5px;
+      }
+   }
+   .nav-link {
+      border-radius: 0px;
+      font-weight: 500;
+      color: $white;
+      background-color: $color-secondary;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      position: relative;
+
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @include breakAt(xs-device) {
+         border-radius: 0 !important;
+      }
+
+      &::before {
+         position: absolute;
+         content: "";
+         border: 10px solid transparent;
+         border-top-color: $color-primary;
+         left: 50%;
+         transform: translateX(-50%);
+         bottom: -10px;
+         z-index: -1;
+         transition: .3s ease-out;
+      }
+      &:hover {
+         background-color: lighten($color-primary, 6%);
+      }
+      &.active {
+         background-color: $color-primary;
+         &::before {
+            bottom: -20px;
+         }
+      }
+   }
+}
+.nice-select .option.selected {
+   font-weight: 500;
+   color: $color-primary;
+}
+
+
+// page-header
+.page-header {
+   padding-top: 150px;
+   padding-bottom: 150px;
+   .breadcrumb {
+      .active a {
+         color: #fff;
+      }
+      color: #fff;
+   }
+   &.has-overlay::after {
+      background-color: $color-secondary;
+      opacity: .5;
+   }
+   .breadcrumb-item+.breadcrumb-item::before {
+      color: $color-primary;
+   }
+}
+
+
+// nav-scrollable
+.nav-scrollable {
+   position: relative;
+   z-index: 2;
+   height: 2.2rem;
+   overflow-y: hidden;
+   border-bottom: 3px solid $color-primary;
+   nav {
+      flex-wrap: nowrap;
+      padding-bottom: 1.3rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      a {
+         position: relative;
+         color: inherit;
+         font-weight: 500;
+         padding: 0 15px;
+         &::before {
+            position: absolute;
+            content: "";
+            border: 10px solid transparent;
+            border-bottom-color: $color-primary;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -20px;
+            opacity: 0;
+            transition: .3s ease-out;
+         }
+         &.active,
+         &:hover {
+            text-decoration: none;
+            color: $color-primary;
+         }
+         &.active,
+         &:hover {
+            &::before {
+               bottom: -10px;
+               opacity: 1;
+            }
+         }
+      }
+   }
+}
+
+
+// tutor-item
+.tutor-item {
+   border-left: 5px solid $color-primary;
+}
+.tutor-item-alt {
+   position: relative;
+   padding-bottom: 36px;
+   box-shadow: 0 10px 15px #ddd;
+   &::after {
+      position: absolute;
+      content: "";
+      height: 6px;
+      width: 80%;
+      left: 10%;
+      bottom: 0;
+      background-color: $color-primary;
+      transition: .3s;
+   }
+   &:hover::after {
+      width: 100%;
+      left: 0;
+   }
+}
+
+
+// blog style
+.blog-half-bg-gray {
+   position: relative;
+   z-index: 1;
+   &::after {
+      position: absolute;
+      content: "";
+      height: 354px;
+      width: 100%;
+      background: $gray;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      @include breakAt(xl-device) {
+         height: 313px;
+      }
+      @include breakAt(lg-device) {
+         height: 340px;
+      }
+      @include breakAt(md-device) {
+         height: 446px;
+      }
+      @include breakAt(sm-device) {
+         height: 400px;
+      }
+   }
+}
+
+
+// newsletter-input-group
+.newsletter-input-group {
+   @include breakAt(sm-device) {
+      .form-control {
+         width: 100%;
+         margin-bottom: 10px;
+      }
+      .btn {
+         width: 100%;
+      }
+   }
+   &.rounded-pill {
+      @include breakAt(sm-device) {
+         border-radius: 5px !important;
+         background: transparent !important;
+         overflow: visible !important;
+         .btn {
+            border-radius: 0 !important;
+         }
+      }
+   }
+}
+
+
+// video-popup-section
+.video-popup-section {
+   &.has-overlay::after {
+      background-color: #001E92;
+      opacity: .75;
+   }
+}
+.has-video-popup {
+   position: relative;
+   transform: translateY(80px);
+   &.tansform-none {
+      transform: translateY(0);
+   }
+   &.has-overlay::after {
+      background-color: $black;
+      opacity: .25;
+      z-index: 5;
+      transition: .3s;
+      border-radius: 10px;
+   }
+   &.rounded-0.has-overlay::after {
+      border-radius: 0px !important;
+   }
+   .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: .3s;
+      z-index: 6;
+      @include breakAt(md-device) {
+         height: 70px;
+         width: 70px;
+      }
+      @include breakAt(sm-device) {
+         height: 50px;
+         width: 50px;
+      }
+   }
+   &:hover {
+      .play-btn {
+         transform: translate(-50%, -50%) scale(1.1);
+      }
+      &.has-overlay::after {
+         opacity: .5;
+      }
+   }
+}
+
+.has-white-half {
+   position: relative;
+   z-index: 1;
+   &::after {
+      position: absolute;
+      content: "";
+      height: 25%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-color: $white;
+      z-index: -1;
+   }
+}
+
+
+// cta-section
+.cta-section {
+   &.has-overlay::after {
+      background-color: $color-primary;
+      opacity: .7;
+   }
+}
+
+
+// instructors-item
+.instructors-item {
+   .card-img-top {
+      transition: .5s;
+      width: 100% !important;
+   }
+   .instructor-social {
+      position: absolute;
+      width: 100%;
+      top: 60%;
+      transform: translateY(-50%);
+      left: 0;
+      font-size: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: .3s;
+   }
+   &:hover {
+      .card-img-top {
+         opacity: .1;
+      }
+      .instructor-social {
+         top: 50%;
+         opacity: 1;
+         visibility: visible;
+      }
+   }
+}
+
+
+// how-it-works
+.how-it-works-item {
+   padding: 30px;
+   padding-bottom: 40px;
+   padding-top: 80px;
+   margin-top: 80px;
+   transition: 0.3s;
+   img {
+      position: absolute;
+      height: 160px;
+      width: 160px;
+      top: -10px;
+      left: calc(50% - 80px);
+      transition: .3s;
+   }
+   &:hover {
+      padding-top: 75px;
+      box-shadow: none !important;
+      img {
+         top: -5px;
+      }
+   }
+   &.works-item-alt {
+      padding-bottom: 40px;
+      padding-top: 40px;
+      margin-top: 30px;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      img {
+         height: 120px;
+         width: auto;
+         margin-bottom: 20px;
+      }
+      &:hover {
+         transform: translateY(2px);
+      }
+   }
+   &.shape-style-1,
+   &.shape-style-2 {
+      background-image: url(../images/how-it-works-tutors/left-01.png), url(../images/how-it-works-tutors/right-01.png);
+      background-position: left top, right bottom;
+      background-repeat: no-repeat;
+      &:hover {
+         border-color: #FDE8DA;
+      }
+   }
+   &.shape-style-1 {
+      background-image: url(../images/how-it-works-tutors/left-02.png), url(../images/how-it-works-tutors/right-02.png);
+      &:hover {
+         border-color: #D8F1F4;
+      }
+   }
+}
+
+
+// find-tutor-section
+.find-tutor-section {
+   &.has-overlay::after {
+      background-color: $color-secondary;
+      opacity: .85;
+   }
+}
+
+
+// map-image
+.map-image {
+   position: relative;
+   img {
+      max-width: 100%;
+      min-height: 300px;
+      object-fit: cover;
+      @include breakAt(md-device) {
+         filter: brightness(.8);
+      }
+   }
+   img, .map-text {
+      transition: 0.3s;
+   }
+   .map-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: $white;
+      opacity: 0;
+      width: 100%;
+      text-align: center;
+      @include breakAt(md-device) {
+         opacity: 1;
+      }
+   }
+   &:hover {
+      img {
+         filter: brightness(.5);
+      }
+      .map-text {
+         opacity: 1;
+      }
+   }
+}
+
+
+// counter section
+.counter-section {
+   background-color: #001B61;
+   position: relative;
+   &::after {
+      position: absolute;
+      content: "";
+      height: 100%;
+      width: 3000px;
+      left: 100%;
+      top: 0;
+      background-color: #001B61;
+   }
+}
+
+
+// card
+.blog-card,
+.course-card {
+   @include breakAt(md-device) {
+      .p-30 {
+         padding: 20px !important;
+      }
+   }
+}
+
+.course-card {
+   overflow: hidden;
+   .card-img-top {
+      transition: .3s ease-out;
+      transform-origin: bottom;
+      filter: sepia(10);
+   }
+   &:hover {
+      .card-img-top {
+         transform: scale(1.15);
+         filter: sepia(0);
+      }
+   }
+}
+
+
+// courser-curriculum
+.courser-curriculum {
+   max-height: 250px;
+   overflow-y: auto;
+}
+
+
+// blockquote
+.blockquote {
+   @include breakAt(md-device) {
+      padding: 20px;
+      font-size: 18px;
+   }
+}
+
+
+// tag-list
+.tag-list {
+   li a {
+      display: inline-block;
+      padding: 5px 14px;
+      color: $color-secondary;
+      border-radius: 50px;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      &:hover {
+         color: $white;
+         background-color: $color-primary;
+      }
+   }
+}

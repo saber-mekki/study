@@ -1,0 +1,45 @@
+// footer style
+.footer-newsletter-overlap {
+    margin-top: 100px;
+    .newsletter-overlap {
+        transform: translateY(-100px);
+    }
+}
+
+
+// scroll to top
+a.scroll-to-top {
+    position: fixed;
+    bottom: 0;
+    right: 30px;
+    height: 40px;
+    width: 40px;
+    background:$color-primary;
+    line-height: 40px;
+    text-align: center;
+    color: $white;
+    border-radius: 6px;
+    transition: .3s;
+    z-index: 995;
+    font-size: 14px;
+    opacity: 0;
+    visibility: hidden;
+    @include breakAt(md-device) {
+        right: 10px;
+        height: 30px;
+        width: 30px;
+        line-height: 30px;
+        font-size: 12px;
+    }
+    &.show {
+        bottom: 50px;
+        opacity: 1;
+        visibility: visible;
+        &:hover {
+            transform: translateY(-4px);
+        }
+        @include breakAt(md-device) {
+            bottom: 10px;
+        }
+    }
+}

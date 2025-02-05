@@ -1,0 +1,495 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+   color: #4e6b7b;
+   background-color: $white;
+   font-family: $font-primary;
+   font-weight: 400;
+   font-size: 15px;
+   line-height: 1.65;
+}
+::selection {
+	color: $white;
+	background-color: darken($color-primary, 5);
+	text-shadow: none;
+}
+:focus {
+    outline: 0;
+}
+
+/*------------------------------------------------------------------
+ # default styles
+-------------------------------------------------------------------*/
+@media (min-width: 1200px) {
+   .container-lg {
+      max-width: 1300px;
+   }
+}
+
+.section-padding {
+    padding: 115px 0;
+    &.pb-fix {
+        padding-bottom: 85px;
+    }
+    @include breakAt(md-device) {
+        padding: 90px 0;
+        &.pb-fix {
+            padding-bottom: 60px;
+        }
+    }
+}
+
+.has-line {
+   display: inline-block;
+   position: relative;
+   z-index: 1;
+   font-weight: 500;
+   &::after {
+      position: absolute;
+      content: "";
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background-color: $color-tertiary;
+      z-index: -1;
+   }
+   &.line-primary::after {
+      background-color: $color-primary;
+   }
+}
+.section-title {
+    font-weight: bold;
+    font-size: $h1;
+    line-height: 1.3;
+    text-transform: capitalize;
+    margin-bottom: 50px;
+    color: $color-secondary;
+    margin-top: -9px;
+    word-break: break-word;
+    @include breakAt(md-device) {
+        font-size: $h2;
+        margin-top: -5px;
+    }
+    &.has-line,
+    .has-line {
+      &::after {
+         bottom: 11px;
+         @include breakAt(md-device) {
+            bottom: 5px;
+         }
+      }
+   }
+}
+
+.text-xl {
+    font-size: $text-xl;
+    font-weight: bold;
+    @include breakAt(lg-device) {
+        font-size: 65px;
+    }
+    @include breakAt(md-device) {
+        font-size: 46px;
+    }
+    @include breakAt(sm-device) {
+        font-size: 36px;
+    }
+}
+.text-lg {
+    font-size: $text-lg;
+    font-weight: bold;
+    @include breakAt(lg-device) {
+        font-size: 50px;
+    }
+    @include breakAt(md-device) {
+        font-size: 42px;
+    }
+}
+
+.social-icons {
+    li {
+        display: inline-block;
+    }
+    li:not(:last-child) {
+        border-right: 1px solid #a8a8a8;
+    }
+    a {
+        padding: 2px 13px;
+        color: #4e6b7b;
+        &:hover {
+            color: $color-primary;
+        }
+    }
+    &.text-white a {
+        color: $white;
+        &:hover {
+            color: $white;
+            opacity: .5;
+        }
+    }
+}
+
+.custom-select,
+.form-control {
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+.form-control {
+    height: 55px;
+    border-radius: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    &:focus {
+        border-color: #999;
+    }
+}
+textarea.form-control {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.custom-radio-group {
+    width: 50%;
+    border: 1px solid #ced4da;
+    width: 100%;
+    .custom-radio {
+        padding: 15px;
+        padding-left: 40px;
+        width: 100%;
+        height: 55px;
+        position: relative;
+        label {
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 55px;
+            line-height: 55px;
+            width: calc(100% - 40px);
+            &::before {
+                top: calc(50% - 8px);
+            }
+        }
+        &:not(:last-child) {
+            border-right: 1px solid #ced4da;
+        }
+    }
+}
+.custom-control-input:checked~.custom-control-label::before {
+    border-color: $color-primary;
+    background-color: $color-primary;
+}
+.custom-control-input:focus~.custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba($color-primary, .25);
+}
+
+.pagination {
+    .page-item {
+        .page-link {
+            padding: 13px 0;
+            color: #4e6b7b;
+            border: 0;
+            background-color: $white;
+            margin: 5px;
+            width: 45px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: none !important;
+            &:hover {
+                background-color: $color-primary;
+                color: $white;
+            }
+        }
+        &.active .page-link {
+            background-color: $color-primary;
+            color: $white;
+        }
+    }
+}
+
+
+// owl carousl
+.owl-carousel {
+    img {
+        width: auto !important;
+    }
+}
+.owl-dots button {
+    height: 15px;
+    width: 19px;
+    margin-top: 30px;
+    margin-right: 15px;
+    transition: .3s ease-out;
+    opacity: .5;
+    span {
+        display: block;
+        height: 100%;
+        width: 100%;
+        background: $color-primary;
+        border-radius: 10px;
+    }
+    &.active {
+        width: 35px;
+        opacity: 1
+    }
+}
+.has-dots-center {
+    .owl-dots {
+        text-align: center;
+    }
+}
+.nav-arrows {
+    user-select: none;
+    span {
+        border: 2px solid;
+        height: 38px;
+        width: 38px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 50%;
+        cursor: pointer;
+        margin: 0 10px;
+        font-size: 18px;
+        justify-content: center;
+        transition: .3s;
+        &.active {
+            color: $color-primary;
+            border-color: $color-primary;
+        }
+        &:hover {
+            color: $color-primary;
+            border-color: $color-primary;
+            transform: translateY(-3px)
+        }
+        &.fa-chevron-left {padding-right: 2px; margin-left: 0;}
+        &.fa-chevron-right {padding-left: 2px; margin-right: 0;}
+    }
+    &.arrow-vcentered {
+        span {
+           position: absolute;
+           top: calc(50% - 19px);
+           left: -50px;
+           &.fa-chevron-right {
+              left: auto;
+              right: -50px;
+           }
+        }
+        @include breakAt(lg-device) {
+            text-align: center;
+            span {
+                position: static;
+                margin-top: 25px;
+            }
+        }
+     }
+}
+
+
+// hover effects
+.hover-grayscale {
+    img {
+        transition: .3s;
+    }
+    &:hover img {
+        filter: grayscale(1);
+    }
+}
+
+// has-outline-primary
+.has-outline-primary img {
+    border: 2px solid $color-primary;
+    padding: 3px;
+}
+
+
+// img-line-box
+.img-line-box {
+    position: relative;
+    padding-top: 15px;
+    padding-left: 15px;
+    z-index: 1;
+    &::after {
+        position: absolute;
+        content: "";
+        height: calc(100% - 15px);
+        width: calc(100% - 15px);
+        border: 3px solid $color-primary;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+}
+
+
+// widget
+.widget {
+    margin-bottom: 40px;
+    &:last-child {
+        margin-bottom: 0;
+    }
+    .widget-title {
+        background-color: $color-tertiary;
+        color: $white;
+        font-weight: 600;
+        padding: 11px 20px;        
+    }
+}
+.widget-list {
+    li a {
+       padding: 10px 20px;
+       display: block;
+       color: #4e6b7b;
+       border-bottom: 1px solid #ddd;
+       font-weight: 500;
+       &:hover {
+          color: $color-primary;
+       }
+    }
+    li:last-child a {
+       border-bottom: 0 !important;
+       margin-bottom: 10px;
+    }
+ }
+
+
+// rounded input-group
+.input-group.rounded-pill {
+    .form-control {
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
+        border-right: 0;
+        padding-left: 20px;
+        &:focus + .input-group-append button {
+            border-color: #999;
+        }
+    }
+    .input-group-append button {
+        border-left: 0;
+        padding-right: 20px;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+        transition: .3s;
+    }
+}
+
+
+/*------------------------------------------------------------------
+ # helper classes
+-------------------------------------------------------------------*/
+.font-primary {font-family: $font-primary}
+
+.rounded-sm {border-radius: 5px !important}
+.rounded {border-radius: 10px !important}
+.rounded-lg {border-radius: 25px !important}
+.shadow {box-shadow: 0px 15px 30px rgba(0,0,0,.075) !important}
+.shadow-lg {box-shadow: 0 1rem 3rem rgba(0,0,0,.075) !important}
+
+.font-weight-500 {font-weight: 500}
+.font-weight-600 {font-weight: 600}
+
+.line-hight-0 {line-height: .9}
+
+.text-underline {
+    text-decoration: 1px dashed;
+}
+a.text-underline:hover {
+    text-decoration-style: solid;
+}
+
+.bg-cover {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.border-dark {
+    border-color: rgba(white, .1) !important;
+}
+
+.has-overlay {
+    position: relative;
+    z-index: 1;
+    &::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+.text-light {color: $light !important}
+a.text-light:hover {color: $color-primary !important}
+.bg-light {background-color: $light !important}
+.bg-gray {background-color: $gray !important}
+.text-blue {color: #001E92 !important}
+a.text-blue:hover {color: $color-primary !important}
+.bg-blue {background-color: #001E92 !important}
+
+.text-primary {color: $color-primary !important}
+a.text-primary:hover {color: darken($color-primary, 10) !important}
+.bg-primary {background-color: $color-primary !important}
+
+.text-secondary {color: $color-secondary !important}
+a.text-secondary:hover {color: $color-primary !important}
+.bg-secondary {background-color: $color-secondary !important}
+
+.text-tertiary {color: $color-tertiary !important}
+a.text-tertiary:hover {color: $color-primary !important}
+.bg-tertiary {background-color: $color-tertiary !important}
+
+.bg-black {background-color: $black}
+.text-black {color: $black}
+.text-black-100 {color: $black-100}
+.bg-black-100 {background-color: $black-100}
+.bg-black-200 {background-color: $black-200}
+.text-black-200 {color: $black-200}
+.bg-black-300 {background-color: $black-300}
+.text-black-300 {color: $black-300}
+.text-black-400 {color: $black-400}
+.bg-black-400 {background-color: $black-400}
+.text-black-500 {color: $black-500}
+.bg-black-500 {background-color: $black-500}
+.text-black-600 {color: $black-600}
+.bg-black-600 {background-color: $black-600}
+.text-black-700 {color: $black-700}
+.bg-black-700 {background-color: $black-700}
+.text-black-800 {color: $black-800}
+.bg-black-800 {background-color: $black-800}
+.text-black-900 {color: $black-900}
+.bg-black-900 {background-color: $black-900}
+
+a.text-link {
+    color: #4e6b7b;
+    &:hover {
+        color: $color-primary
+    }
+}
+
+
+/*------------------------------------------------------------------
+ # spacing classes
+-------------------------------------------------------------------*/
+$step: 5; // minimum value
+$max: 121; // maximum value (+)1
+@for $i from 1 through ceil($max/$step) {
+    $value: ($i - 1)*$step;
+    .m-#{$value}{margin: #{$value}px};
+    .mt-#{$value}{margin-top: #{$value}px};
+    .mb-#{$value}{margin-bottom: #{$value}px};
+    .ml-#{$value}{margin-left: #{$value}px};
+    .mr-#{$value}{margin-right: #{$value}px};
+    .mx-#{$value}{margin-left: #{$value}px;margin-right: #{$value}px};
+    .my-#{$value}{margin-top: #{$value}px;margin-bottom: #{$value}px};
+    .p-#{$value}{padding: #{$value}px};
+    .pt-#{$value}{padding-top: #{$value}px};
+    .pb-#{$value}{padding-bottom: #{$value}px};
+    .pl-#{$value}{padding-left: #{$value}px};
+    .pr-#{$value}{padding-right: #{$value}px};
+    .px-#{$value}{padding-left: #{$value}px;padding-right: #{$value}px};
+    .py-#{$value}{padding-top: #{$value}px;padding-bottom: #{$value}px};
+}
