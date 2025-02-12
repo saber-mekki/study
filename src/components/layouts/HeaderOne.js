@@ -1,8 +1,13 @@
-import React, {Component} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-class HeaderOne extends Component {
-    render() {
+import LanguageDropdown from "../LanguageDropdown"
+
+function  HeaderOne (){
+
+    const { t } = useTranslation();
+
         return (
             <header className="bg-white shadow">
                 <div className="container-lg">
@@ -35,7 +40,7 @@ class HeaderOne extends Component {
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="false">
-                                        Home <i className="fas fa-angle-down" />
+                                        {t("Home")} <i className="fas fa-angle-down" />
                                     </Link>
                                     <ul className="dropdown-menu">
                                         <li><Link to={'/home-one'} className="dropdown-item active initiate-scripts">HomeTutor</Link></li>
@@ -94,7 +99,7 @@ class HeaderOne extends Component {
                                         data-target="#signin-modal">Signin</a>
                                 </li>
                             </ul>
-
+                            < LanguageDropdown />
                             <div className="ml-0 ml-xl-4 mt-3 mt-xl-0 mb-3 mb-xl-0 text-center text-xl-right">
                                 <a
                                     href="#!"
@@ -108,6 +113,6 @@ class HeaderOne extends Component {
             </header>
         );
     }
-}
+
 
 export default HeaderOne;
