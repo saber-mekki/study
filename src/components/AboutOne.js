@@ -3,10 +3,13 @@ import React from "react";
 import SectionOne from "./layouts/SectionOne";
 import VideoPopup from "./layouts/VideoPopup";
 
-function AboutOne() {
+import { useTranslation } from "react-i18next";
 
+
+function AboutOne() {
+const { t } = useTranslation();
         return (
-            <SectionOne title={'About Us'}>
+            <SectionOne title={t("About Us")}>
                 {/* start of section */}
                 <section className="section-padding">
                     <div className="container">
@@ -17,14 +20,9 @@ function AboutOne() {
                             <div className="col-lg-5 mt-5 mt-lg-0">
                                 <h2 className="section-title mb-30">Who <span className="has-line">We Are</span></h2>
                                 <p className="mb-3">
-                                    Dispatched entreaties boisterous say why stimulated. Certain forbade pcture now
-                                    prevent carried she sitting.
+                                   {t("welcome_message")}
                                 </p>
-                                <p>
-                                    Uneasy barton seeing remark happen hi has. Am possible offering contempt mr distance
-                                    stronger an. Attachment excellence announcing or reasonable am on if indulgence.
-                                    Exeter talked in agreed spirit no he unable do. Betrayed shutters in vicinity it unpacked in.
-                                </p>
+                                
                             </div>
                         </div>
                     </div>
@@ -39,17 +37,11 @@ function AboutOne() {
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-lg-5">
-                                <h2 className="section-title mb-30">Our <span className="has-line">Vision</span></h2>
+                                <h2 className="section-title mb-30 has-line">Our <span className="has-line">Vision</span></h2>
                                 <p className="mb-3">
-                                    Weddings and any opinions suitable smallest nay. My he houses or months settle remove
-                                    ladies appear. Engrossed suffering supposing he recommend.
+                                   {t("Our Vision")}
                                 </p>
-                                <p>
-                                    Uneasy barton seeing remark happen hi has. Am possible offering contempt mr distance
-                                    stronger an. Attachment excellence announcing or reasonable am on if indulgence.
-                                    Exeter talked in agreed spirit no he unable do. Betrayed shutters in vicinity it
-                                    unpacked in.
-                                </p>
+                               
                             </div>
                             <div className="col-lg-7 mt-5 mt-lg-0 text-center">
                                 <img width="49%" src={process.env.PUBLIC_URL + '/assets/images/our-vision-01.jpg'} alt="" />
