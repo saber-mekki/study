@@ -1,3 +1,10 @@
 {
-   "Home":"Home"
+   "Home": "Home",
+   "About": "About",
+   "Courses": "Courses",
+   "Blog": "Blog",
+   "Pages": "Pages",
+   "Contact Us": "Contact Us",
+   "Signin": "Signin",
+   "Become A Tutor":"Become A Tutor"
 } 

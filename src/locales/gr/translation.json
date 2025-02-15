@@ -1,6 +1,13 @@
 {
     
-
+"Home": "Startseite",
+    "About": "Über",
+    "Courses": "Kurse",
+    "Blog": "Blog",
+    "Pages": "Seiten",
+    "Contact Us": "Kontaktieren Sie uns",
+    "Signin": "Anmelden",
+    "Become A Tutor":"Werde ein Tutor"
 
 
 } 
