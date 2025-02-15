@@ -1,9 +1,10 @@
-import React, {Component} from "react";
+import React from "react";
+
 import SectionOne from "./layouts/SectionOne";
 import VideoPopup from "./layouts/VideoPopup";
 
-class AboutOne extends Component {
-    render() {
+function AboutOne() {
+
         return (
             <SectionOne title={'About Us'}>
                 {/* start of section */}
@@ -83,6 +84,6 @@ class AboutOne extends Component {
             </SectionOne>
         );
     }
-}
+
 
 export default AboutOne;
