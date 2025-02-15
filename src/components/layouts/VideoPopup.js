@@ -1,8 +1,10 @@
-import React, {Component} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-class VideoPopup extends Component {
-    render() {
+function VideoPopup()  {
+    const { t } = useTranslation();
+
         return (
             <section className="section-padding pt-0 bg-light has-white-half">
                 <div className="container">
@@ -23,13 +25,13 @@ class VideoPopup extends Component {
                                         alt="" />
                                 </a>
                                 <h2
-                                    className="section-title mt-50 mb-25">
-                                    What Some Awesome Parent Says <span className="has-line">About Us</span>
+                                    className="section-title mt-50 mb-25 ">
+                                    What Some Awesome Parent Says <span className="has-line">About Us  </span> 
                                 </h2>
-                                <p className="mb-40">Weddings and any opinions suitable smallest nay. My he houses
-                                    or months settle remove <br /> ladies appear. Engrossed suffering supposing he
-                                    recommend.</p>
-                                <Link to={'/about-one'} className="btn btn-lg btn-secondary rounded-pill">About Us</Link>
+                                <p className="mb-40">                    
+                                    {t("What Parents of Our Students Say About Us")}
+                                </p>
+                                <Link to={'/about-one'} className="btn btn-lg btn-secondary rounded-pill">{t("About Us")}</Link>
                             </div>
                         </div>
                     </div>
@@ -37,6 +39,6 @@ class VideoPopup extends Component {
             </section>
         );
     }
-}
+
 
 export default VideoPopup;
