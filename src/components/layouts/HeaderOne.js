@@ -51,18 +51,14 @@ function  HeaderOne (){
                                 <li className="nav-item dropdown">
                                     <Link
                                         className="nav-link dropdown-toggle"
-                                        to={'/'}
+                                        to={'/about-one'}
                                         role="button"
                                         data-toggle="dropdown"
                                         aria-haspopup="true"
                                         aria-expanded="false">
-                                        {t("About")} <i className="fas fa-angle-down" />
+                                        {t("About")} 
                                     </Link>
-                                    <ul className="dropdown-menu">
-                                        <li><Link to={'/about-one'} className="dropdown-item initiate-scripts">About Us 01</Link></li>
-                                        <li><Link to={'/about-two'} className="dropdown-item initiate-scripts">About Us 02</Link></li>
-                                        <li><Link to={'/about-three'} className="dropdown-item initiate-scripts">About Us 03</Link></li>
-                                    </ul>
+                                  
                                 </li>
                                 <li className="nav-item">
                                     <Link to={'/courses'} className="nav-link initiate-scripts">{t("Courses")}</Link>
