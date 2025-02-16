@@ -1,10 +1,10 @@
-import React, {Component} from "react";
+import React from "react";
 import SectionOne from "./layouts/SectionOne";
 
-class Contact extends Component {
-    render() {
+function Contact() {
+
         return (
-            <SectionOne title={'Contact'}>
+            <SectionOne title={("Contact")}>
                 <section className="section-padding bg-gray">
                     <div className="container">
                         <div className="row justify-content-between">
@@ -116,6 +116,6 @@ class Contact extends Component {
             </SectionOne>
         );
     }
-}
+
 
 export default Contact;
