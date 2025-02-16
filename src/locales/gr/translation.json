@@ -12,7 +12,26 @@
 ,    "About Us": "Über uns"
 ,"Our Vision": "Unsere Vision ist es, Lernende und Pädagogen gleichermaßen zu befähigen, indem wir zugängliche und hochwertige Online-Bildung anbieten. Wir streben an, eine globale Gemeinschaft zu schaffen, in der Studierende ihre Fähigkeiten entwickeln, ihre Ziele erreichen und mit Experten-Tutoren in Kontakt treten können. Durch innovative Lernwerkzeuge, personalisierte Anleitung und eine interaktive Plattform setzen wir uns dafür ein, die Zukunft der Bildung zu gestalten. Gemeinsam können wir Barrieren überwinden, Wissen aufbauen und unbegrenzte Möglichkeiten für alle freischalten."
 ,    "What Parents of Our Students Say About Us": "Die Eltern unserer Studenten haben uns wunderbares Feedback zu unseren Dienstleistungen gegeben. Viele schätzen, wie wir das Lernen für Schüler aller Altersgruppen zugänglicher machen. Sie loben unseren Ansatz der personalisierten Bildung, der ihren Kindern hilft, sich zu verbessern. Von flexiblen Nachhilfeoptionen bis hin zu unserer interaktiven Plattform sind die Eltern beeindruckt davon, wie wir auf die Bedürfnisse von Lernenden und Tutoren eingehen. Ihre Zufriedenheit treibt uns an, uns ständig zu verbessern und eine unterstützende Lernumgebung für alle zu schaffen."
-
+,"Contact":"Kontakt",
+"Send a message":"Eine Nachricht senden",
+"email privacy":"Ihre E-Mail-Adresse wird nicht veröffentlicht.",
+"required fields":"Erforderliche Felder sind markiert *",
+"name": "Name",
+"email": "E-Mail",
+"subject": "Betreff",
+"message": "Nachricht",
+"know_course": "Ich möchte mehr über den Kurs wissen",
+"contact_info": "Kontaktinformation",
+"contact_welcome_message": "Willkommen auf unserer Website.",
+"contact_glad_message": "Wir freuen uns, Sie hier zu haben.",
+  
+"contact_details": "Kontaktdetails",
+  "phone": "Telefon:",
+  "mail": "E-Mail:",
+  "location": "Standort: ",
+  "opening_hours": "Öffnungszeiten",
+  "work_days": "Montag-Freitag",
+  "work_time": "10:30 Uhr - 19:00 Uhr"
 
 
 } 

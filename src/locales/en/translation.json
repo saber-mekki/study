@@ -11,6 +11,26 @@
    ,"About Us": "About Us",
    "Our Vision": "Our vision is to empower learners and educators alike by providing accessible, high-quality online education. We aim to create a global community where students can develop their skills, achieve their goals, and connect with expert tutors. Through innovative learning tools, personalized guidance, and an interactive platform, we are committed to shaping the future of education. Together, we can break barriers, build knowledge, and unlock limitless possibilities for everyone."
    ,"What Parents of Our Students Say About Us": "Les parents de nos étudiants ont partagé d'excellents retours sur nos services. Beaucoup ont apprécié la manière dont nous rendons l'apprentissage plus accessible aux étudiants de tous âges. Ils saluent notre approche de l'éducation personnalisée, qui aide leurs enfants à exceller. Des options de tutorat flexibles à notre plateforme interactive, les parents sont impressionnés par la façon dont nous répondons aux besoins tant des apprenants que des tuteurs. Leur satisfaction nous pousse à nous améliorer continuellement et à créer un environnement éducatif de soutien pour tous."
+   ,"Contact":"Contact"
+   ,"Send a message":"Send  Message"
+   ,"email privacy":"Your email address will not be published.",
+   "required fields":"Required fields are marked *",
+   "name": "Name",
+  "email": "Email",
+  "subject": "Subject",
+  "message": "Message",
+  "know_course": "I want to know about the course",
+  "contact_info": "Contact Info",
+  "contact_welcome_message": "Welcome to our Website.",
+  "contact_glad_message": "We are glad to have you around.",
+
+  "contact_details": "Contact Details",
+  "phone": "Phone:",
+  "mail": "Mail:",
+  "location": "Location: ",
+  "opening_hours": "Opening Hours",
+  "work_days": "Monday-Friday",
+  "work_time": "10:30 a.m - 7:00 p.m"
 
 
 } 

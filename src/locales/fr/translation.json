@@ -11,7 +11,27 @@
 ,    "About Us": "À propos de nous"
 ,    "Our Vision": "Notre vision est d'autonomiser les apprenants et les éducateurs en offrant une éducation en ligne accessible et de haute qualité. Nous visons à créer une communauté mondiale où les étudiants peuvent développer leurs compétences, atteindre leurs objectifs et se connecter avec des tuteurs experts. Grâce à des outils d'apprentissage innovants, des conseils personnalisés et une plateforme interactive, nous nous engageons à façonner l'avenir de l'éducation. Ensemble, nous pouvons briser les barrières, bâtir des connaissances et débloquer des possibilités illimitées pour tous."
 ,    "What Our Parents Say About Us": "Nos parents ont partagé d'excellents retours sur nos services. Beaucoup ont apprécié la manière dont nous rendons l'apprentissage plus accessible aux étudiants de tous âges. Ils saluent notre approche de l'éducation personnalisée, qui aide leurs enfants à exceller. Des options de tutorat flexibles à notre plateforme interactive, les parents sont impressionnés par la façon dont nous répondons aux besoins tant des apprenants que des tuteurs. Leur satisfaction nous pousse à nous améliorer continuellement et à créer un environnement éducatif de soutien pour tous."
+,"Contact":"Contact",
+"Send a message":" Envoyer un message",
+"email privacy":"Votre adresse e-mail ne sera pas publiée.",
 
+"required fields":"Les champs obligatoires sont marqués *",
+"name": "Nom",
+"email": "E-mail",
+"subject": "Sujet",
+"message": "Message",
+"know_course": "Je veux en savoir plus sur le cours",
+"contact_info": "Informations de contact",
+"contact_welcome_message": "Bienvenue sur notre site web.",
+"contact_glad_message": "Nous sommes ravis de vous avoir parmi nous.",
+
+"contact_details": "Détails du contact",
+  "phone": "Téléphone :",
+  "mail": "E-mail:",
+  "location": "Emplacement :",
+  "opening_hours": "Heures d'ouverture",
+  "work_days": "Lundi-Vendredi",
+  "work_time": "10h30 - 19h00"
 
 
 
