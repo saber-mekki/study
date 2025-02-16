@@ -1,58 +1,64 @@
 import React from "react";
+
 import SectionOne from "./layouts/SectionOne";
 
+import { useTranslation } from "react-i18next";
+
 function Contact() {
+    const { t } = useTranslation();
+
 
         return (
-            <SectionOne title={("Contact")}>
+            <SectionOne title={t("Contact")}>
                 <section className="section-padding bg-gray">
                     <div className="container">
                         <div className="row justify-content-between">
                             <div className="col-lg-7 order-1 order-lg-0">
                                 <div className="mb-5">
-                                    <h2 className="text-secondary font-weight-bold mb-2">Send a Message</h2>
-                                    <p>Your email address will not be published. <br /> Required fields are marked.</p>
+                                    <h2 className="text-secondary font-weight-bold mb-2">{t("Send a message")}</h2>
+                                    <p>{t("email privacy")}
+                                        <br /> {t("required fields")}</p>
                                 </div>
                                 <form action="#">
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="mb-30">
-                                                <label htmlFor="name">Name*</label>
+                                                <label htmlFor="name">{t("name")}*</label>
                                                 <input
                                                     type="text"
                                                     className="form-control rounded-sm"
                                                     id="name"
-                                                    placeholder="Jack Barker" />
+                                                    placeholder="Ben Hamed souhail" />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
                                             <div className="mb-30">
-                                                <label htmlFor="email">Email*</label>
+                                                <label htmlFor="email">{t("email")}*</label>
                                                 <input
                                                     type="email"
                                                     className="form-control rounded-sm"
                                                     id="emailL"
-                                                    placeholder="jack@email.com" />
+                                                    placeholder="souhail@email.com" />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="mb-30">
-                                                <label htmlFor="sub">Subject</label>
+                                                <label htmlFor="sub">{t("subject")}</label>
                                                 <input
                                                     type="text"
                                                     className="form-control rounded-sm"
                                                     id="sub"
-                                                    placeholder="I want to know about course." />
+                                                    placeholder={t("know_course")} />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
                                             <div className="mb-30">
-                                                <label htmlFor="message">Message</label>
+                                                <label htmlFor="message">{t("message")}</label>
                                                 <textarea className="form-control rounded-sm" id="message" rows="5" />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
-                                            <button type="submit" className="btn btn-primary rounded-sm">Send Message
+                                            <button type="submit" className="btn btn-primary rounded-sm">{t("Send a message")}
                                             </button>
                                         </div>
                                     </div>
@@ -61,23 +67,23 @@ function Contact() {
 
                             <div className="col-xl-4 col-lg-5 mb-5 mb-lg-0 order-0 order-lg-1">
                                 <div className="mb-5">
-                                    <h2 className="text-secondary font-weight-bold mb-2">Contact Info</h2>
-                                    <p>Welcome to our Website. <br /> We are glad to have you around.</p>
+                                    <h2 className="text-secondary font-weight-bold mb-2">{t("contact_info")}</h2>
+                                    <p>{t("contact_welcome_message")}. <br /> {t("contact_glad_message")}.</p>
                                 </div>
                                 <div
                                     className="shadow-sm p-20 mt-4 rounded-sm bg-white d-block d-sm-flex align-items-center">
                                     <i className="fas fa-phone fa-2x text-primary" />
                                     <div className="ml-sm-4 mt-3 mt-sm-0">
-                                        <h4 className="text-secondary font-weight-600 mb-1">Contact Details</h4>
-                                        <p>Phone: <a href="tel:+7800123452" className="text-dark">+780 123 452</a></p>
-                                        <p>Mail: <a href="mailto:contact@eduskill.com" className="text-dark">contact@eduskill.com</a></p>
+                                        <h4 className="text-secondary font-weight-600 mb-1">{t("contact_details")}</h4>
+                                        <p>{t("phone")} <a href="tel:+7800123452" className="text-dark">+780 123 452</a> </p>
+                                        <p>{t("mail")} <a href="mailto:contact@eduskill.com" className="text-dark">contact@eduskill.com</a></p>
                                     </div>
                                 </div>
                                 <div
                                     className="shadow-sm p-20 mt-4 rounded-sm bg-white d-block d-sm-flex align-items-center">
                                     <i className="fas fa-map-marked-alt fa-2x text-primary" />
                                     <div className="ml-sm-4 mt-3 mt-sm-0">
-                                        <h4 className="text-secondary font-weight-600 mb-1">Location</h4>
+                                        <h4 className="text-secondary font-weight-600 mb-1">{t("location")}</h4>
                                         <p>PO Box 97845 Baker st. 567, Los Angeles, California, US.</p>
                                     </div>
                                 </div>
@@ -85,9 +91,9 @@ function Contact() {
                                     className="shadow-sm p-20 mt-4 rounded-sm bg-white d-block d-sm-flex align-items-center">
                                     <i className="fas fa-user-clock fa-2x text-primary" />
                                     <div className="ml-sm-4 mt-3 mt-sm-0">
-                                        <h4 className="text-secondary font-weight-600 mb-1">Opening Hours</h4>
-                                        <p>Monday-Friday</p>
-                                        <p>10:30a.m-7:00p.m</p>
+                                        <h4 className="text-secondary font-weight-600 mb-1">{t("opening_hours")}</h4>
+                                        <p>{t("work_days")}</p>
+                                        <p>{t("work_time")}</p>
                                     </div>
                                 </div>
                             </div>
