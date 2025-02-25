@@ -1,7 +1,9 @@
-import React, {Component} from "react";
+import React from "react";
 
-class SignUpModal extends Component {
-    render() {
+function SignUpModal () {
+   
+   
+    
         return (
             <div className="modal fade rounded" id="signup-modal" tabIndex="-1" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered">
@@ -88,6 +90,6 @@ class SignUpModal extends Component {
             </div>
         );
     }
-}
+
 
 export default SignUpModal;
