@@ -4,11 +4,11 @@ import { initReactI18next } from "react-i18next";
 
 import translationFR from "./locales/fr/translation.json";
 import translationAR from "./locales/ar/translation.json";
-
 import translationGR from "./locales/gr/translation.json";
 import translationEN from "./locales/en/translation.json";
 
-// the translations
+const savedLanguage = localStorage.getItem("language") || "en"; 
+
 const resources = {
     fr: {
         translation: translationFR,
@@ -25,17 +25,29 @@ const resources = {
 };
 
 i18n.use(detector)
-    .use(initReactI18next) // passes i18n down to react-i18next
+    .use(initReactI18next)
     .init({
         resources,
-        lng:[ "en","gr","ar","fr"],
-        fallbackLng: "en", // use en if detected lng is not available
+        lng: savedLanguage, 
+        fallbackLng: "en", 
 
-        keySeparator: false, // we do not use keys in form messages.welcome
+        keySeparator: false,
 
         interpolation: {
-            escapeValue: false, // react already safes from xss
+            escapeValue: false,
         },
     });
+
+const setLanguageDirection = (lng) => {
+    document.documentElement.setAttribute("dir", lng === "ar" ? "rtl" : "ltr");
+    document.documentElement.setAttribute("lang", lng);
+};
+
+setLanguageDirection(savedLanguage);
+
+i18n.on("languageChanged", (lng) => {
+    localStorage.setItem("language", lng); 
+    setLanguageDirection(lng); 
+});
 
 export default i18n;
