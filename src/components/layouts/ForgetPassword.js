@@ -1,7 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 const ForgetPassword = () => {
+    const { t } = useTranslation();
+
     const [form1, setForm1] = useState(true);
     const [form2, setForm2] = useState(false);
     const [form3, setForm3] = useState(false);
@@ -16,17 +19,15 @@ const ForgetPassword = () => {
     const [code, setCode] = useState('');
     const [codeError, setCodeError] = useState('');
 
-    
-    /** Handle form1 (Email submission) **/
     const handleSubmit = async (e) => {
         e.preventDefault();
         setEmailError('');
 
         if (!email) {
-            setEmailError("Email is required");
+            setEmailError(t("emailRequired"));
             return;
         } else if (!email.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
-            setEmailError("Invalid email format");
+            setEmailError(t("invalidEmail"));
             return;
         }
 
@@ -34,44 +35,37 @@ const ForgetPassword = () => {
             const response = await axios.post('http://localhost:5000/api/v1/checkEmail', { email });
 
             if (!response.data.exists) {
-                setEmailError("Email doesn't exist");
+                setEmailError(t("emailNotExist"));
                 return;
             }
 
             setForm1(false);
             setForm2(true);
         } catch (error) {
-            setEmailError('Something went wrong. Please try again.');
+            setEmailError(t("somethingWentWrong"));
         }
     };
 
-    /** Handle form2 (Code submission) **/
     const handleCodeSubmit = (e) => {
         e.preventDefault();
         setCodeError('');
-
-       
 
         setForm2(false);
         setForm3(true);
     };
 
-    /** Handle form3 (Password submission) **/
     const handlePasswordSubmit = (e) => {
         e.preventDefault();
         setPasswordError('');
 
         if (password !== repassword) {
-            setPasswordError("Passwords do not match!");
+            setPasswordError(t("passwordMismatch"));
             return;
         }
 
-
-        alert("Password successfully reset!");
-
+        alert(t("passwordResetSuccess"));
     };
 
-    /** Close modal & reset state **/
     const handleModalClose = () => {
         setForm1(true);
         setForm2(false);
@@ -98,7 +92,7 @@ const ForgetPassword = () => {
             <div className="modal-dialog modal-dialog-centered mx-auto" style={{ maxWidth: "400px" }}>
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h4 className="modal-title text-secondary font-weight-600">Reset Password</h4>
+                        <h4 className="modal-title text-secondary font-weight-600">{t("resetPassword")}</h4>
                         <button type="button" className="close" data-dismiss="modal" onClick={handleModalClose} aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -109,7 +103,7 @@ const ForgetPassword = () => {
                         {form1 && (
                             <form className="row" onSubmit={handleSubmit} noValidate>
                                 <div className="form-group mb-3 col-12">
-                                    <label className="text-secondary h6 mb-2" htmlFor="email">Email Address*</label>
+                                    <label className="text-secondary h6 mb-2" htmlFor="email">{t("emailAddress")}*</label>
                                     <input
                                         onChange={(e) => setEmail(e.target.value)}
                                         value={email}
@@ -124,7 +118,7 @@ const ForgetPassword = () => {
                                 </div>
                                 <div className="form-group col-12">
                                     <button className="btn btn-primary w-100 rounded-sm" type="submit">
-                                        Send Code
+                                        {t("sendCode")}
                                     </button>
                                 </div>
                             </form>
@@ -134,7 +128,7 @@ const ForgetPassword = () => {
                         {form2 && (
                             <form className="row" onSubmit={handleCodeSubmit}>
                                 <div className="form-group mb-3 col-12">
-                                    <label className="text-secondary h6 mb-2" htmlFor="code">Confirmation Code</label>
+                                    <label className="text-secondary h6 mb-2" htmlFor="code">{t("confirmationCode")}</label>
                                     <input
                                         onChange={(e) => setCode(e.target.value)}
                                         value={code}
@@ -150,7 +144,7 @@ const ForgetPassword = () => {
                                 </div>
                                 <div className="form-group col-12">
                                     <button className="btn btn-primary w-100 rounded-sm" type="submit">
-                                        Verify Code
+                                        {t("verifyCode")}
                                     </button>
                                 </div>
                             </form>
@@ -160,7 +154,7 @@ const ForgetPassword = () => {
                         {form3 && (
                             <form className="row" onSubmit={handlePasswordSubmit}>
                                 <div className="form-group mb-3 col-12">
-                                    <label className="text-secondary h6 mb-2" htmlFor="password">New Password</label>
+                                    <label className="text-secondary h6 mb-2" htmlFor="password">{t("newPassword")}</label>
                                     <input
                                         onChange={(e) => setPassword(e.target.value)}
                                         value={password}
@@ -172,7 +166,7 @@ const ForgetPassword = () => {
                                 </div>
 
                                 <div className="form-group mb-3 col-12">
-                                    <label className="text-secondary h6 mb-2" htmlFor="repassword">Retype Password</label>
+                                    <label className="text-secondary h6 mb-2" htmlFor="repassword">{t("retypePassword")}</label>
                                     <input
                                         onChange={(e) => setRepassword(e.target.value)}
                                         value={repassword}
@@ -187,7 +181,7 @@ const ForgetPassword = () => {
 
                                 <div className="form-group col-12">
                                     <button className="btn btn-primary w-100 rounded-sm" type="submit">
-                                        Reset Password
+                                        {t("resetPassword")}
                                     </button>
                                 </div>
                             </form>
