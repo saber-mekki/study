@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
-const SignInModal = () => {
+function SignInModal() {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [email, setEmail] = useState('');
@@ -10,7 +11,15 @@ const SignInModal = () => {
   const history = useHistory();
   const [role, setRole] = useState('student');
   let type_register = '';
-
+  const { t } = useTranslation();
+  const resetForm = () => {
+    setEmail("");
+    
+    setPassword("");
+    
+    setPasswordError("");
+    setEmailError("");
+}; 
   const handleTabClick = (selectedRole) => {
     setRole(selectedRole);
   };
@@ -23,11 +32,10 @@ const SignInModal = () => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, { email, password, type_register });
       type_register = response.data.result.type_register;
-      localStorage.setItem('authToken', response.data.result.token);//i will chnage it
+      localStorage.setItem('authToken', response.data.result.token); // will change it
 
       if (role !== type_register) {
-        setPasswordError('Role mismatch. Please login as the correct role.');
-
+        setPasswordError(t("Role mismatch. Please login as the correct role."));
         return;
       }
 
@@ -35,25 +43,27 @@ const SignInModal = () => {
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404) {
-          setEmailError('Email not found. Please check.');
+          setEmailError(t("Email not found. Please check."));
         } else if (err.response.status === 401) {
-          setPasswordError('Invalid password. Please try again.');
+          setPasswordError(t("Invalid password. Please try again."));
         } else {
-          setPasswordError('An error occurred. Please try again.');
+          setPasswordError(t("An error occurred. Please try again."));
         }
       } else {
-        setPasswordError('Server not responding. Please try later.');
+        setPasswordError(t("Server not responding. Please try later."));
       }
     }
   };
 
   return (
-    <div className="modal fade rounded" id="signin-modal" tabIndex="-1" aria-hidden="true">
+    <div  onClick={(e) => {
+      if (e.target.id === "signin-modal") resetForm();}}//i dont like this 
+      className="modal fade rounded" id="signin-modal" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered mx-auto" style={{ maxWidth: '400px' }}>
         <div className="modal-content">
           <div className="modal-header">
-            <h4 className="modal-title text-secondary font-weight-600">Welcome back</h4>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+            <h4 className="modal-title text-secondary font-weight-600">{t("Welcome back")}</h4>
+            <button onClick={() => resetForm()} type="button" className="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -76,7 +86,7 @@ const SignInModal = () => {
                     alt=""
                     style={{ height: "45px" }}
                   />
-                  Login as<br />Student
+                  {t("Login")} <br /> {t("Student")}
                 </a>
               </li>
               <li className="nav-item" role="presentation">
@@ -96,18 +106,18 @@ const SignInModal = () => {
                     alt=""
                     style={{ height: "45px" }}
                   />
-                  Login as<br />Tutor
+                  {t("Login")}<br />{t("Tutor")}
                 </a>
               </li>
             </ul>
 
             <form onSubmit={handleSubmit} className="row">
-              <div className="form-group  col-12">
+              <div className="form-group col-12">
                 <label className="text-secondary h6 font-weight-600 mb-2" htmlFor="email">
-                  Email Address*
+                  {t("Email Address*")}
                 </label>
                 <input
-                placeholder='souhail@gmail.com'
+                  placeholder={t("Enter your email")}
                   className="form-control shadow-none rounded-sm"
                   type="email"
                   id="email"
@@ -119,11 +129,12 @@ const SignInModal = () => {
                   <div className="center-error">
                     <div className="text-danger">{emailError}</div>
                   </div>
-                )}              </div>
+                )}
+              </div>
 
               <div className="form-group mb-20 col-12">
                 <label className="text-secondary h6 font-weight-600 mb-2" htmlFor="passwordSignIn">
-                  Password*
+                  {t("Password*")}
                 </label>
                 <input
                   className="form-control shadow-none rounded-sm"
@@ -133,32 +144,30 @@ const SignInModal = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-                {passwordError && <div className="center-error">
-                  <div className="text-danger">{passwordError}</div> </div>}               </div>
+                {passwordError && (
+                  <div className="center-error">
+                    <div className="text-danger">{passwordError}</div>
+                  </div>
+                )}
+              </div>
 
-             
-                  <button
-  type="button"
-  className="forgot-password"
-  data-dismiss="modal"
-  data-toggle="modal"
-  data-target="#forget"
->
-  Forgot password?
-</button> 
+              <button
+                type="button"
+                className="forgot-password"
+                data-dismiss="modal"
+                data-toggle="modal"
+                data-target="#forget"
+              >
+                {t("Forgot password?")}
+              </button>
+
               <div className="form-group col-12">
-              
-                <div>
-                
-
-
-                </div>
                 <button
                   style={{ marginBottom: "15px" }}
                   className={`btn ${role === "student" ? "btn-blue" : "btn-primary"} w-100 rounded-sm`}
                   type="submit"
                 >
-                  Sign In
+                  {t("Sign In")}
                 </button>
 
                 <button
@@ -167,11 +176,9 @@ const SignInModal = () => {
                   data-toggle="modal"
                   data-target="#signup-modal"
                   data-dismiss="modal"
-
                 >
-                  Sign UP
+                  {t("Sign Up")}
                 </button>
-
               </div>
             </form>
           </div>
@@ -179,6 +186,6 @@ const SignInModal = () => {
       </div>
     </div>
   );
-};
+}
 
 export default SignInModal;
