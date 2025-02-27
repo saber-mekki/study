@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import SignUpModal from "./layouts/SignUpModal";
+import ForgetPassword from "./layouts/ForgetPassword";
 import SignInModal from "./layouts/SignInModal";
 import HeaderOne from "./layouts/HeaderOne";
 import BannerOne from "./layouts/BannerOne";
@@ -19,6 +20,8 @@ class HomeOne extends Component {
     render() {
         return (
             <>
+                <ForgetPassword />
+
                 <SignUpModal />
                 <SignInModal />
                 <HeaderOne />
