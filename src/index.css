@@ -7,4 +7,39 @@ padding-top:15px;
 
 }
 
- 
+.forgot-password {
+    color: var(--primary);  /* Set text color to primary color */
+    border: none;
+    background:transparent;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    width: 100%;
+text-align: left;
+margin:0;
+padding-top:10px;
+padding-right: 10px;
+}
+  
+  .forgot-password:hover {
+    color: red;  
+    background:transparent;
+
+  }
+  /* global.css */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+#code {
+  text-align: center;
+}
+#code::placeholder {
+  text-align: center;
+}
