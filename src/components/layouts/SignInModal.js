@@ -8,11 +8,11 @@ const SignInModal = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
-  const [role, setRole] = useState('student'); 
-  let type_register='';
+  const [role, setRole] = useState('student');
+  let type_register = '';
 
   const handleTabClick = (selectedRole) => {
-    setRole(selectedRole);  
+    setRole(selectedRole);
   };
 
   const handleSubmit = async (e) => {
@@ -21,12 +21,12 @@ const SignInModal = () => {
     setPasswordError('');
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, { email, password ,type_register});
-      type_register=response.data.result.type_register ;
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, { email, password, type_register });
+      type_register = response.data.result.type_register;
       localStorage.setItem('authToken', response.data.result.token);//i will chnage it
-    
-      if(role!==type_register){
-        setPasswordError('Role mismatch. Please login as the correct role.'); 
+
+      if (role !== type_register) {
+        setPasswordError('Role mismatch. Please login as the correct role.');
 
         return;
       }
@@ -59,54 +59,55 @@ const SignInModal = () => {
           </div>
           <div className="modal-body p-3 p-sm-4">
             <ul className="nav nav-pills nav-justified tab-nav" id="myTab" role="tablist">
-            <li className="nav-item" role="presentation">
-        <a
-          className={`nav-link ${role === 'student' ? 'active' : ''}`}
-          id="student-tab"
-          data-toggle="tab"
-          href="#student"
-          role="tab"
-          aria-controls="student"
-          aria-selected={role === 'student'}
-          onClick={() => handleTabClick('student')}
-        >
-          <img
-            src={process.env.PUBLIC_URL + '/assets/images/guardian.png'}
-            className="mr-2"
-            alt=""
-            style={{ height: "45px" }}
-          />
-          Login as<br />Student
-        </a>
-      </li>
-      <li className="nav-item" role="presentation">
-        <a
-          className={`nav-link ${role === 'tutor' ? 'active' : ''}`}
-          id="tutor-tab"
-          data-toggle="tab"
-          href="#tutor"
-          role="tab"
-          aria-controls="tutor"
-          aria-selected={role === 'tutor'}
-          onClick={() => handleTabClick('tutor')}
-        >
-          <img
-            src={process.env.PUBLIC_URL + '/assets/images/tutor.png'}
-            className="mr-2"
-            alt=""
-            style={{ height: "45px" }}
-          />
-          Login as<br />Tutor
-        </a>
-      </li>
+              <li className="nav-item" role="presentation">
+                <a
+                  className={`nav-link ${role === 'student' ? 'active' : ''}`}
+                  id="student-tab"
+                  data-toggle="tab"
+                  href="#student"
+                  role="tab"
+                  aria-controls="student"
+                  aria-selected={role === 'student'}
+                  onClick={() => handleTabClick('student')}
+                >
+                  <img
+                    src={process.env.PUBLIC_URL + '/assets/images/guardian.png'}
+                    className="mr-2"
+                    alt=""
+                    style={{ height: "45px" }}
+                  />
+                  Login as<br />Student
+                </a>
+              </li>
+              <li className="nav-item" role="presentation">
+                <a
+                  className={`nav-link ${role === 'tutor' ? 'active' : ''}`}
+                  id="tutor-tab"
+                  data-toggle="tab"
+                  href="#tutor"
+                  role="tab"
+                  aria-controls="tutor"
+                  aria-selected={role === 'tutor'}
+                  onClick={() => handleTabClick('tutor')}
+                >
+                  <img
+                    src={process.env.PUBLIC_URL + '/assets/images/tutor.png'}
+                    className="mr-2"
+                    alt=""
+                    style={{ height: "45px" }}
+                  />
+                  Login as<br />Tutor
+                </a>
+              </li>
             </ul>
 
             <form onSubmit={handleSubmit} className="row">
-              <div className="form-group mb-20 col-12">
+              <div className="form-group  col-12">
                 <label className="text-secondary h6 font-weight-600 mb-2" htmlFor="email">
                   Email Address*
                 </label>
                 <input
+                placeholder='souhail@gmail.com'
                   className="form-control shadow-none rounded-sm"
                   type="email"
                   id="email"
@@ -135,21 +136,37 @@ const SignInModal = () => {
                 {passwordError && <div className="center-error">
                   <div className="text-danger">{passwordError}</div> </div>}               </div>
 
+             
+                  <button
+  type="button"
+  className="forgot-password"
+  data-dismiss="modal"
+  data-toggle="modal"
+  data-target="#forget"
+>
+  Forgot password?
+</button> 
               <div className="form-group col-12">
-              <button
-              style={{ marginBottom: "15px" } }
-        className={`btn ${role === "student" ? "btn-blue" : "btn-primary"} w-100 rounded-sm`}
-        type="submit"
-      >
-        Sign In
-      </button>
+              
+                <div>
+                
+
+
+                </div>
+                <button
+                  style={{ marginBottom: "15px" }}
+                  className={`btn ${role === "student" ? "btn-blue" : "btn-primary"} w-100 rounded-sm`}
+                  type="submit"
+                >
+                  Sign In
+                </button>
 
                 <button
-        className={`btn ${role === "student" ? "btn-blue" : "btn-primary"} w-100 rounded-sm`}
-        type="submit"
+                  className={`btn ${role === "student" ? "btn-blue" : "btn-primary"} w-100 rounded-sm`}
+                  type="submit"
                   data-toggle="modal"
                   data-target="#signup-modal"
-                  data-dismiss="modal" // Close the current modal when clicked
+                  data-dismiss="modal"
 
                 >
                   Sign UP
