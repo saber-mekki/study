@@ -31,8 +31,58 @@
   "location": "Emplacement :",
   "opening_hours": "Heures d'ouverture",
   "work_days": "Lundi-Vendredi",
-  "work_time": "10h30 - 19h00"
+  "work_time": "10h30 - 19h00",
 
+  
+    "Welcome back": "Bienvenue",
+    "Login": "Connexion",
+    "Student": "Étudiant",
+    "Tutor": "Professeur",
+    "Email Address*": "Adresse e-mail*",
+    "Enter your email": "Entrez votre e-mail",
+    "Password*": "Mot de passe*",
+    "Sign In": "Se connecter",
+    "Sign Up": "Créer un compte",
+    "Forgot password?": "Mot de passe oublié ?",
+    "Role mismatch. Please login as the correct role.": "Rôle incorrect. Veuillez vous connecter avec le bon rôle.",
+    "Email not found. Please check.": "E-mail introuvable. Veuillez vérifier.",
+    "Invalid password. Please try again.": "Mot de passe incorrect. Veuillez réessayer.",
+    "An error occurred. Please try again.": "Une erreur s'est produite. Veuillez réessayer.",
+    "Server not responding. Please try later.": "Le serveur ne répond pas. Veuillez réessayer plus tard." ,
 
-
+    
+      "emailRequired": "L'email est requis",
+      "invalidEmail": "Format de l'email invalide",
+      "emailNotExist": "L'email n'existe pas",
+      "somethingWentWrong": "Une erreur est survenue. Veuillez réessayer.",
+      "passwordMismatch": "Les mots de passe ne correspondent pas !",
+      "passwordResetSuccess": "Le mot de passe a été réinitialisé avec succès !",
+      "resetPassword": "Réinitialiser le mot de passe",
+      "emailAddress": "Adresse e-mail",
+      "sendCode": "Envoyer le code",
+      "confirmationCode": "Code de confirmation",
+      "verifyCode": "Vérifier le code",
+      "newPassword": "Nouveau mot de passe",
+      "retypePassword": "Retaper le mot de passe",
+      "resetPasswordBtn": "Réinitialiser le mot de passe",
+    
+    
+      
+          "title": "Inscrivez-vous maintenant",
+          "yourName": "Votre Nom*",
+          "phoneNumber": "Numéro de téléphone*",
+          "gender": "Sexe*",
+          "type": "Type*",
+          "password": "Mot de passe*",
+          "signUpBtn": "S'inscrire",
+          "emailError": "L'email est déjà utilisé.",
+          "passwordError": "Les mots de passe ne correspondent pas." ,
+          "registerNow":"Inscrivez-vous maintenant",
+          "phone Number":"Numéro de téléphone" ,
+            "male": "Homme",
+            "female": "Femme",
+            "student": "Étudiant",
+            "tutor": "Tuteur"
+          
+          
 }

@@ -30,6 +30,61 @@
 "location": "الموقع: ",
 "opening_hours": "ساعات العمل",
 "work_days": "الإثنين - الجمعة",
-"work_time": "10:30 صباحًا - 7:00 مساءً"
+"work_time": "10:30 صباحًا - 7:00 مساءً",
 
+
+
+    "Welcome back": "مرحبًا بعودتك",
+    "Login": "تسجيل الدخول",
+    "Student": "طالب",
+    "Tutor": "مدرس",
+    "Email Address*": "عنوان البريد الإلكتروني*",
+    "Enter your email": "أدخل بريدك الإلكتروني",
+    "Password*": "كلمة المرور*",
+    "Sign In": "تسجيل الدخول",
+    "Sign Up": "إنشاء حساب",
+    "Forgot password?": "هل نسيت كلمة المرور؟",
+    "Role mismatch. Please login as the correct role.": "عدم تطابق الدور. يرجى تسجيل الدخول بالدور الصحيح.",
+    "Email not found. Please check.": "البريد الإلكتروني غير موجود. يرجى التحقق.",
+    "Invalid password. Please try again.": "كلمة المرور غير صحيحة. حاول مرة أخرى.",
+    "An error occurred. Please try again.": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+    "Server not responding. Please try later.": "الخادم لا يستجيب. يرجى المحاولة لاحقًا."
+  
+,
+        "emailRequired": "البريد الإلكتروني مطلوب",
+        "invalidEmail": "تنسيق البريد الإلكتروني غير صالح",
+        "emailNotExist": "البريد الإلكتروني غير موجود",
+        "somethingWentWrong": "حدث خطأ. يرجى المحاولة مرة أخرى.",
+        "passwordMismatch": "كلمات المرور غير متطابقة!",
+        "passwordResetSuccess": "تم إعادة تعيين كلمة المرور بنجاح!",
+        "resetPassword": "إعادة تعيين كلمة المرور",
+        "emailAddress": "عنوان البريد الإلكتروني",
+        "sendCode": "إرسال الرمز",
+        "confirmationCode": "رمز التأكيد",
+        "verifyCode": "التحقق من الرمز",
+        "newPassword": "كلمة المرور الجديدة",
+        "retypePassword": "إعادة كتابة كلمة المرور",
+        "resetPasswordBtn": "إعادة تعيين كلمة المرور" ,
+      
+      
+        
+            
+              "title": "سجل الآن",
+              "yourName": "اسمك*",
+              "phoneNumber": "رقم الهاتف*",
+              "gender": "الجنس*",
+              "type": "النوع*",
+              "password": "كلمة المرور*",
+              "emailError": "البريد الإلكتروني قيد الاستخدام بالفعل.",
+              "passwordError": "كلمات المرور غير متطابقة.",
+              "registerNow":"سجل الآن",
+              "phone Number":"رقم الهاتف",
+              
+                "male": "ذكر",
+                "female": "أنثى",
+                "student": "طالب",
+                "tutor": "مدرس"
+              
+              
+           
 } 

@@ -31,7 +31,61 @@
   "location": "Standort: ",
   "opening_hours": "Öffnungszeiten",
   "work_days": "Montag-Freitag",
-  "work_time": "10:30 Uhr - 19:00 Uhr"
+  "work_time": "10:30 Uhr - 19:00 Uhr",
+
+  
+    "Welcome back": "Willkommen zurück",
+    "Login": "Anmelden",
+    "Student": "Student",
+    "Tutor": "Lehrer",
+    "Email Address*": "E-Mail-Adresse*",
+    "Enter your email": "Geben Sie Ihre E-Mail ein",
+    "Password*": "Passwort*",
+    "Sign In": "Einloggen",
+    "Sign Up": "Registrieren",
+    "Forgot password?": "Passwort vergessen?",
+    "Role mismatch. Please login as the correct role.": "Rollenfehler. Bitte melden Sie sich mit der richtigen Rolle an.",
+    "Email not found. Please check.": "E-Mail nicht gefunden. Bitte überprüfen.",
+    "Invalid password. Please try again.": "Falsches Passwort. Bitte versuchen Sie es erneut.",
+    "An error occurred. Please try again.": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "Server not responding. Please try later.": "Server reagiert nicht. Bitte versuchen Sie es später erneut.",
+
+    "emailRequired": "E-Mail ist erforderlich",
+  "invalidEmail": "Ungültiges E-Mail-Format",
+  "emailNotExist": "E-Mail existiert nicht",
+  "somethingWentWrong": "Etwas ist schief gelaufen. Bitte versuchen Sie es erneut.",
+  "passwordMismatch": "Die Passwörter stimmen nicht überein!",
+  "passwordResetSuccess": "Passwort erfolgreich zurückgesetzt!",
+  "resetPassword": "Passwort zurücksetzen",
+  "emailAddress": "E-Mail-Adresse",
+  "sendCode": "Code senden",
+  "confirmationCode": "Bestätigungscode",
+  "verifyCode": "Code verifizieren",
+  "newPassword": "Neues Passwort",
+  "retypePassword": "Passwort erneut eingeben",
+  "resetPasswordBtn": "Passwort zurücksetzen" ,
+
+
+      "title": "Jetzt registrieren",
+      "yourName": "Ihr Name*",
+      "phoneNumber": "Telefonnummer*",
+      "gender": "Geschlecht*",
+      "type": "Typ*",
+      "password": "Passwort*",
+      "signUpBtn": "Anmelden",
+      "emailError": "E-Mail wird bereits verwendet.",
+      "passwordError": "Passwörter stimmen nicht überein.",
+      "registerNow":"Jetzt registrieren",
+      "phone Number":"Telefonnummer",
+        "male": "Männlich",
+        "female": "Weiblich",
+        "student": "Student",
+        "tutor": "Tutor"
+      
+      
+
+
+    
 
 
 } 

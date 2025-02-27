@@ -30,7 +30,62 @@
   "location": "Location: ",
   "opening_hours": "Opening Hours",
   "work_days": "Monday-Friday",
-  "work_time": "10:30 a.m - 7:00 p.m"
+  "work_time": "10:30 a.m - 7:00 p.m",
 
+  
+    "Welcome back": "Welcome back",
+    "Login": "Login",
+    "Student": "Student",
+    "Tutor": "Tutor",
+    "Email Address*": "Email Address*",
+    "Enter your email": "Enter your email",
+    "Password*": "Password*",
+    "Sign In": "Sign In",
+    "Sign Up": "Sign Up",
+    "Forgot password?": "Forgot password?",
+    "Role mismatch. Please login as the correct role.": "Role mismatch. Please login as the correct role.",
+    "Email not found. Please check.": "Email not found. Please check.",
+    "Invalid password. Please try again.": "Invalid password. Please try again.",
+    "An error occurred. Please try again.": "An error occurred. Please try again.",
+    "Server not responding. Please try later.": "Server not responding. Please try later." ,
+
+    
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email format",
+      "emailNotExist": "Email doesn't exist",
+      "somethingWentWrong": "Something went wrong. Please try again.",
+      "passwordMismatch": "Passwords do not match!",
+      "passwordResetSuccess": "Password successfully reset!",
+      "resetPassword": "Reset Password",
+      "emailAddress": "Email Address",
+      "sendCode": "Send Code",
+      "confirmationCode": "Confirmation Code",
+      "verifyCode": "Verify Code",
+      "newPassword": "New Password",
+      "retypePassword": "Retype Password",
+      "resetPasswordBtn": "Reset Password" ,
+    
+    
+    
+          "title": "Register now",
+          "yourName": "Your Name*",
+          "phoneNumber": "Phone Number*",
+          "gender": "Gender*",
+          "type": "Type*",
+          "password": "Password*",
+          "signUpBtn": "Sign Up",
+          "emailError": "Email is already in use.",
+          "passwordError": "Passwords do not match.",
+          "registerNow":"Register Now" ,
+          "phone Number":"Phone Number",
+          
+            "male": "Male",
+            "female": "Female",
+            "student": "Student",
+            "tutor": "Tutor"
+          
+          
+
+       
 
 } 
