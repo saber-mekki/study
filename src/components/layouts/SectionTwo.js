@@ -5,11 +5,13 @@ import HeaderTwo from "./HeaderTwo";
 import PageHeaderTwo from "./PageHeaderTwo";
 import FooterOne from "./FooterOne";
 import BackToTop from "./BackToTop";
+import ForgetPassword from "./ForgetPassword";
 
 class SectionTwo extends Component {
     render() {
         return (
             <>
+             <ForgetPassword />
                 <SignUpModal />
                 <SignInModal />
                 <HeaderTwo />

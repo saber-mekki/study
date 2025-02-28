@@ -12,11 +12,13 @@ import CertificateSection from "./layouts/CertificateSection";
 import BlogSection from "./layouts/BlogSection";
 import FooterOne from "./layouts/FooterOne";
 import BackToTop from "./layouts/BackToTop";
+import ForgetPassword from "./layouts/ForgetPassword";
 
 class HomeTwo extends Component {
     render() {
         return (
             <>
+             <ForgetPassword />
                 <SignUpModal />
                 <SignInModal />
                 <HeaderTwo />

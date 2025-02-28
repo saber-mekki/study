@@ -12,11 +12,14 @@ import InstructorsCarousel from "./layouts/InstructorsCarousel";
 import BlogSection from "./layouts/BlogSection";
 import FooterTwo from "./layouts/FooterTwo";
 import BackToTop from "./layouts/BackToTop";
+import ForgetPassword from "./layouts/ForgetPassword";
+
 
 class HomeThree extends Component {
     render() {
         return (
             <>
+             <ForgetPassword />
                 <SignUpModal />
                 <SignInModal />
                 <HeaderThree />

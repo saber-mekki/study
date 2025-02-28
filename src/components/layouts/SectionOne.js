@@ -5,11 +5,13 @@ import HeaderOne from "./HeaderOne";
 import PageHeaderOne from "./PageHeaderOne";
 import FooterOne from "./FooterOne";
 import BackToTop from "./BackToTop";
+import ForgetPassword from "./ForgetPassword";
 
 function SectionOne (props) {
     
         return (
             <>
+             <ForgetPassword />
                 <SignUpModal />
                 <SignInModal />
                 <HeaderOne />
