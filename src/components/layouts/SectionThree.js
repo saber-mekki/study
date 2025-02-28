@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React  from "react";
 import SignUpModal from "./SignUpModal";
 import SignInModal from "./SignInModal";
 import HeaderTwo from "./HeaderTwo";
@@ -7,11 +7,10 @@ import FooterOne from "./FooterOne";
 import BackToTop from "./BackToTop";
 import ForgetPassword from "./ForgetPassword";
 
-class SectionThree extends Component {
-    render() {
+export default function SectionThree () {
         return (
             <>
-             <ForgetPassword />
+                <ForgetPassword />
                 <SignUpModal />
                 <SignInModal />
                 <HeaderTwo />
@@ -21,7 +20,4 @@ class SectionThree extends Component {
                 <BackToTop />
             </>
         );
-    }
-}
-
-export default SectionThree;
+}   

@@ -7,21 +7,21 @@ import FooterOne from "./FooterOne";
 import BackToTop from "./BackToTop";
 import ForgetPassword from "./ForgetPassword";
 
-function SectionOne (props) {
-    
-        return (
-            <>
-             <ForgetPassword />
-                <SignUpModal />
-                <SignInModal />
-                <HeaderOne />
-                <PageHeaderOne title={props.title} />
-                {props.children}
-                <FooterOne />
-                <BackToTop />
-            </>
-        );
-    }
+function SectionOne(props) {
+
+    return (
+        <>
+            <ForgetPassword />
+            <SignUpModal />
+            <SignInModal />
+            <HeaderOne />
+            <PageHeaderOne title={props.title} />
+            {props.children}
+            <FooterOne />
+            <BackToTop />
+        </>
+    );
+}
 
 
 export default SectionOne;
