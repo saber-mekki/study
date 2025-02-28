@@ -14,12 +14,12 @@ function SignInModal() {
   const { t } = useTranslation();
   const resetForm = () => {
     setEmail("");
-    
+
     setPassword("");
-    
+
     setPasswordError("");
     setEmailError("");
-}; 
+  };
   const handleTabClick = (selectedRole) => {
     setRole(selectedRole);
   };
@@ -56,8 +56,9 @@ function SignInModal() {
   };
 
   return (
-    <div  onClick={(e) => {
-      if (e.target.id === "signin-modal") resetForm();}}//i dont like this 
+    <div onClick={(e) => {
+      if (e.target.id === "signin-modal") resetForm();
+    }}//i dont like this 
       className="modal fade rounded" id="signin-modal" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered mx-auto" style={{ maxWidth: '400px' }}>
         <div className="modal-content">
@@ -117,7 +118,7 @@ function SignInModal() {
                   {t("Email Address*")}
                 </label>
                 <input
-                  placeholder={t("Enter your email")}
+                  placeholder={`${role}@gmail.com`}
                   className="form-control shadow-none rounded-sm"
                   type="email"
                   id="email"

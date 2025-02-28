@@ -8,7 +8,7 @@ padding-top:15px;
 }
 
 .forgot-password {
-    color: var(--primary);  /* Set text color to primary color */
+    color: var(--primary);  
     border: none;
     background:transparent;
     padding: 0.5rem 1rem;
@@ -27,7 +27,6 @@ padding-right: 10px;
     background:transparent;
 
   }
-  /* global.css */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -35,11 +34,93 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 input[type="number"] {
-  -moz-appearance: textfield;
+  appearance: textfield; 
+  -moz-appearance: textfield; 
+  -webkit-appearance: textfield; 
 }
+
 #code {
   text-align: center;
 }
 #code::placeholder {
   text-align: center;
+}
+.modal-header .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+html[dir="rtl"] .modal-header .close {
+  left: 10px;
+  right: auto;
+}
+
+@media (min-width: 768px) {
+  :dir(rtl) .language-switch {
+      direction: rtl;
+      right: auto;
+      left: 0;
+      text-align: right;
+      margin: -180px;
+  }
+
+  :dir(rtl) .language-switch .notify-item {
+      text-align: right;
+  }
+}
+
+body {
+  direction: ltr;
+  text-align: left;
+}
+
+
+[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+
+[dir="rtl"] input,
+[dir="rtl"] textarea {
+  text-align: right;
+}
+
+[dir="rtl"] .modal-content {
+  text-align: right;
+}
+
+[dir="rtl"] .form-control {
+  text-align: right;
+}
+
+[dir="rtl"] .custom-radio-group {
+  flex-direction: row-reverse; 
+}
+
+[dir="rtl"] .custom-radio-group {
+  direction: ltr !important;
+  text-align: left !important;
+}
+html[dir="rtl"] .forgot-password,
+body[dir="rtl"] .forgot-password {
+  text-align: right;
+}
+  
+html[dir="rtl"] .form-group {
+  text-align: right;
+}
+
+html[dir="rtl"] .custom-radio-group {
+  direction: rtl;
+}
+
+html[dir="rtl"] .custom-control-label {
+  text-align: right;
+  width: 2rem;
+  margin-right: 3rem;
+}
+html[dir="rtl"] .custom-control-input {
+  text-align: right;
 }
