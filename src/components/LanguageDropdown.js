@@ -58,7 +58,6 @@ export default function LanguageDropdown() {
                     tag="button"
                 >
                     <img src={flag} alt={lng} height="16" className="mr-1" />
-                    <span className="align-middle">{lng}</span>
                 </DropdownToggle>
                 <DropdownMenu className="language-switch" right style={{
                     right: "55px"

@@ -94,15 +94,15 @@ function  HeaderOne (){
                                         data-toggle="modal"
                                         data-target="#signin-modal">{t("Signin")}</a>
                                 </li>
-                            </ul>
-                            < LanguageDropdown />
-                            <div className="ml-0 ml-xl-4 mt-3 mt-xl-0 mb-3 mb-xl-0 text-center text-xl-right">
                                 <a
-                                    href="#!"
-                                    className="btn btn-sm btn-blue rounded-pill"
-                                    data-toggle="modal"
-                                    data-target="#signup-modal">{t("Become A Tutor")}</a>
-                            </div>
+                                href="#!"
+                                className="btn btn-sm btn-primary"
+                                data-toggle="modal"
+                                data-target="#signup-modal">{t("Signup")}</a>
+                                  < LanguageDropdown />
+                            </ul>
+                           
+                          
                         </div>
                     </nav>
                 </div>
