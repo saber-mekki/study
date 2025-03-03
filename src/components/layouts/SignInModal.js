@@ -32,14 +32,13 @@ function SignInModal() {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, { email, password, type_register });
       type_register = response.data.result.type_register;
-      localStorage.setItem('authToken', response.data.result.token); // will change it
-
+      localStorage.setItem('authToken', response.data.tokens.accessToken); 
       if (role !== type_register) {
         setPasswordError(t("Role mismatch. Please login as the correct role."));
         return;
       }
 
-      history.push('/dashboard');
+      history.push('/');
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404) {
@@ -58,7 +57,7 @@ function SignInModal() {
   return (
     <div onClick={(e) => {
       if (e.target.id === "signin-modal") resetForm();
-    }}//i dont like this 
+    }}
       className="modal fade rounded" id="signin-modal" tabIndex="-1" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered mx-auto" style={{ maxWidth: '400px' }}>
         <div className="modal-content">

@@ -1,6 +1,5 @@
-import React,  {useState }  from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 function SignUpModal() {
@@ -12,9 +11,8 @@ function SignUpModal() {
     const [type, setType] = useState("student");
     const [passwordError, setPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
-    let setError=''
-    const history = useHistory();
-  const { t } = useTranslation();
+    const [error, setError] = useState("");
+    const { t } = useTranslation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,7 +29,7 @@ function SignUpModal() {
 
             if (password !== repassword) {
                 setPasswordError(t('passwordMismatch'));
-                
+
                 return;
             }
 
@@ -43,17 +41,21 @@ function SignUpModal() {
                 type_register: type
             });
 
-            history.push('./succ');
+
+            const signinModal = new window.bootstrap.Modal(document.getElementById('signin-modal'));
+            signinModal.show();
         } catch (err) {
             if (err.response && err.response.data.error) {
                 setError(err.response.data.error);
+
             } else {
                 setError(t('errorOccurred'));
             }
+            window.alert(error)
         }
     };
-   
-   
+
+
     const resetForm = () => {
         setEmail("");
         setName("");
@@ -63,9 +65,9 @@ function SignUpModal() {
         setType("student");
         setPasswordError("");
         setEmailError("");
-    }; 
+    };
     return (
-        <div  onClick={(e) => {
+        <div onClick={(e) => {
             if (e.target.id === "signup-modal") resetForm();//i dont like this 
         }} className="modal fade rounded" id="signup-modal" tabIndex="-1" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
@@ -73,8 +75,8 @@ function SignUpModal() {
                     <div className="modal-header">
                         <h4 className="modal-title text-secondary font-weight-600">{t('registerNow')}</h4>
                         <button onClick={() => resetForm()} //m
-                        
-                        type="button" className="close" data-dismiss="modal" aria-label="Close">
+
+                            type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -106,8 +108,8 @@ function SignUpModal() {
                             </div>
                             <div className="form-group mb-0 col-12">
                                 <label className="text-secondary h6 mb-2" htmlFor="email2">
-                                    
-                                {t('emailAddress')}*
+
+                                    {t('emailAddress')}*
                                 </label>
                                 <input
                                     onChange={(e) => setEmail(e.target.value)}
@@ -199,8 +201,8 @@ function SignUpModal() {
                             <div className="form-group mb-0 col-12">
                                 <label className="text-secondary h6 mb-" htmlFor="repassword">
                                     {t('retypePassword')}  *
-                                    
-                                    </label>
+
+                                </label>
                                 <input
                                     onChange={(e) => setRePassword(e.target.value)}
                                     value={repassword}
