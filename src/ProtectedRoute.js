@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 
 import { isAuthenticated } from "./helper";
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+ function ProtectedRoute ({ component: Component, ...rest }) {
     return (
         <Route
             {...rest}
@@ -14,4 +14,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     );
 };
 
-export default ProtectedRoute;
+function ProtectedAdminRoute ( {isAdmin, component: Component, ...rest } ) {
+  return   isAuthenticated()  && isAdmin ? <Component /> : <Redirect to="/login" />;
+};
+
+export {ProtectedRoute,ProtectedAdminRoute} ;
