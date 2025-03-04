@@ -21,7 +21,6 @@ class HomeOne extends Component {
         return (
             <>
                 <ForgetPassword />
-
                 <SignUpModal />
                 <SignInModal />
                 <HeaderOne />

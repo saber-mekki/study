@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import {Router, Route, Switch, HashRouter,Redirect} from "react-router-dom";
 
 import history from "./History";
@@ -16,10 +16,13 @@ import CourseDetailsTwo from "./components/CourseDetailsTwo";
 import BlogDetails from "./components/BlogDetails";
 import Contact from "./components/Contact";
 
-import ProtectedRoute from "./ProtectedRoute"; // Import the ProtectedRoute component
+import {ProtectedRoute,ProtectedAdminRoute} from "./ProtectedRoute";
+import SignInModal from "./components/SignInModal";
+import AdminDashboard from "./dashboard";
 
-class Routes extends Component {
-    render() {
+function Routes  () {
+
+    const isAdmin = localStorage.getItem("role") === "admin";
         return (
             <Router history={history}>
                 <HashRouter basename="/">
@@ -32,14 +35,14 @@ class Routes extends Component {
                         <Route exact path={'/about-two'} render={(props) => (<AboutTwo {...props} />)} />
                         <Route exact path={'/about-three'} render={(props) => (<AboutThree {...props} />)} />
                         <Route exact path={'/courses'} render={(props) => (<Courses {...props} />)} />
-                      
+                        <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
                         <Route exact path={'/job-board'} render={(props) => (<JobBoard {...props} />)} />
                         <Route exact path={'/course-details-one'} render={(props) => (<CourseDetailsOne {...props} />)} />
                         <Route exact path={'/course-details-two'} render={(props) => (<CourseDetailsTwo {...props} />)} />
                         <Route exact path={'/blog-details'} render={(props) => (<BlogDetails {...props} />)} />
                         <Route exact path={'/contact'} render={(props) => (<Contact {...props} />)} />
                  
-                        <ProtectedRoute exact path="/admin" component={JobBoard} />
+                        <ProtectedAdminRoute isAdmin={isAdmin} exact path="/dash/admin" component={AdminDashboard} />
                         <ProtectedRoute exact path="/dashboard" component={Courses} />
                         <ProtectedRoute exact path={'/blog'} component={Blog}  />
                         <Route render={() => <Redirect to="/login" />} />
@@ -48,6 +51,5 @@ class Routes extends Component {
             </Router>
         )
     }
-}
 
 export default Routes;
