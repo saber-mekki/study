@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { useHistory } from 'react-router-dom';
 
 function SignUpModal() {
+    const { t } = useTranslation();
+    const history = useHistory();
+
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [number, setNumber] = useState("");
@@ -11,12 +15,10 @@ function SignUpModal() {
     const [type, setType] = useState("student");
     const [passwordError, setPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
-    const [error, setError] = useState("");
-    const { t } = useTranslation();
+    const [closeModal,setCloseModal] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setEmailError("");
         setPasswordError("");
 
@@ -29,7 +31,6 @@ function SignUpModal() {
 
             if (password !== repassword) {
                 setPasswordError(t('passwordMismatch'));
-
                 return;
             }
 
@@ -41,20 +42,17 @@ function SignUpModal() {
                 type_register: type
             });
 
-
-            const signinModal = new window.bootstrap.Modal(document.getElementById('signin-modal'));
-            signinModal.show();
+            history.push('/login')
+            setCloseModal(true)
         } catch (err) {
             if (err.response && err.response.data.error) {
-                setError(err.response.data.error);
+                setEmailError(err.response.data.error);
 
             } else {
-                setError(t('errorOccurred'));
+                setEmailError(t('errorOccurred'));
             }
-            window.alert(error)
         }
     };
-
 
     const resetForm = () => {
         setEmail("");
@@ -66,6 +64,7 @@ function SignUpModal() {
         setPasswordError("");
         setEmailError("");
     };
+
     return (
         <div onClick={(e) => {
             if (e.target.id === "signup-modal") resetForm();//i dont like this 
@@ -74,7 +73,7 @@ function SignUpModal() {
                 <div className="modal-content">
                     <div className="modal-header">
                         <h4 className="modal-title text-secondary font-weight-600">{t('registerNow')}</h4>
-                        <button onClick={() => resetForm()} //m
+                        <button onClick={() => resetForm()} 
 
                             type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -221,7 +220,7 @@ function SignUpModal() {
                             )}
 
                             <div className="form-group col-12">
-                                <button className="btn btn-primary w-100 rounded-sm" type="submit">{t('Sign Up')}</button>
+                                <button className="btn btn-primary w-100 rounded-sm" type="submit" data-dismiss={!closeModal?"":"modal" }>{t('Sign Up')}</button>
                             </div>
                         </form>
                     </div>
