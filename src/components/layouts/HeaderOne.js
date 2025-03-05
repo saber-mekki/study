@@ -31,64 +31,118 @@ function HeaderOne() {
             <span className="fas fa-bars" />
           </button>
 
-
-
           <div className="collapse navbar-collapse" id="navbarNavAlt">
             <ul className="navbar-nav mt-4 mt-xl-0 ml-auto">
               <li className="nav-item dropdown active">
                 <Link
                   className="nav-link dropdown-toggle"
-                  to={'/'}
+                  to={"/"}
                   role="button"
                   data-toggle="dropdown"
                   aria-haspopup="true"
-                  aria-expanded="false">
+                  aria-expanded="false"
+                >
                   {t("Home")} <i className="fas fa-angle-down" />
                 </Link>
                 <ul className="dropdown-menu">
-                  <li><Link to={'/home-one'} className="dropdown-item active initiate-scripts">HomeTutor</Link></li>
-                  <li><Link to={'/home-two'} className="dropdown-item initiate-scripts">Online Course</Link></li>
-                  <li><Link to={'/home-three'} className="dropdown-item initiate-scripts">Online University</Link></li>
+                  <li>
+                    <Link
+                      to={"/home-one"}
+                      className="dropdown-item active initiate-scripts"
+                    >
+                      HomeTutor
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/home-two"}
+                      className="dropdown-item initiate-scripts"
+                    >
+                      Online Course
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/home-three"}
+                      className="dropdown-item initiate-scripts"
+                    >
+                      Online University
+                    </Link>
+                  </li>
                 </ul>
               </li>
               <li className="nav-item dropdown">
                 <Link
                   className="nav-link dropdown-toggle"
-                  to={'/about-one'}
+                  to={"/about-one"}
                   role="button"
                   data-toggle="dropdown"
                   aria-haspopup="true"
-                  aria-expanded="false">
+                  aria-expanded="false"
+                >
                   {t("About")}
                 </Link>
-
               </li>
               <li className="nav-item">
-                <Link to={'/courses'} className="nav-link initiate-scripts">{t("Courses")}</Link>
+                <Link to={"/courses"} className="nav-link initiate-scripts">
+                  {t("Courses")}
+                </Link>
               </li>
               <li className="nav-item">
-                <Link to={'/blog'} className="nav-link initiate-scripts">{t("Blog")}</Link>
+                <Link to={"/blog"} className="nav-link initiate-scripts">
+                  {t("Blog")}
+                </Link>
               </li>
               <li className="nav-item dropdown">
                 <Link
                   className="nav-link dropdown-toggle"
-                  to={'/'}
+                  to={"/"}
                   role="button"
                   data-toggle="dropdown"
                   aria-haspopup="true"
-                  aria-expanded="false">
+                  aria-expanded="false"
+                >
                   {t("Pages")} <i className="fas fa-angle-down" />
                 </Link>
                 <ul className="dropdown-menu">
-                  <li><Link to={'/job-board'} className="dropdown-item initiate-scripts">Job Board</Link></li>
-                  <li><Link to={'/course-details-one'} className="dropdown-item initiate-scripts">Course Details 01</Link></li>
-                  <li><Link to={'/course-details-two'} className="dropdown-item initiate-scripts">Course Details 02</Link></li>
-                  <li><Link to={'/blog-details'} className="dropdown-item initiate-scripts">Blog Details</Link>
+                  <li>
+                    <Link
+                      to={"/job-board"}
+                      className="dropdown-item initiate-scripts"
+                    >
+                      Job Board
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/course-details-one"}
+                      className="dropdown-item initiate-scripts"
+                    >
+                      Course Details 01
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/course-details-two"}
+                      className="dropdown-item initiate-scripts"
+                    >
+                      Course Details 02
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/blog-details"}
+                      className="dropdown-item initiate-scripts"
+                    >
+                      Blog Details
+                    </Link>
                   </li>
                 </ul>
               </li>
               <li className="nav-item">
-                <Link to={'/contact'} className="nav-link initiate-scripts">{t("Contact Us")}</Link>
+                <Link to={"/contact"} className="nav-link initiate-scripts">
+                  {t("Contact Us")}
+                </Link>
               </li>
               <li className="nav-item">
                 <a
@@ -123,6 +177,5 @@ function HeaderOne() {
     </header>
   );
 }
-
 
 export default HeaderOne;
