@@ -124,3 +124,46 @@ html[dir="rtl"] .custom-control-label {
 html[dir="rtl"] .custom-control-input {
   text-align: right;
 }
+
+.SignUptutorForm {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100%;  
+  width: 100%;
+  gap:10px;
+
+}
+
+.SignUptutorForm div {
+  height: 100%;  
+}
+
+.signForm {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row; 
+  flex: 1; 
+}
+
+.Inputs{
+width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;  
+  flex: 1;  
+}
+
+p {
+  font-family: Arial, sans-serif; 
+  font-size: 22px; 
+  color: #333; 
+  line-height: 1.5; 
+  text-align: justify; 
+  border-radius: 5px; 
+}
+.xx{
+  border: 5px solid red;
+}
