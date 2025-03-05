@@ -305,15 +305,12 @@ function SignUpTutor() {
                           value={subject}
                           checked={selectedSubject.includes(subject)}
                           onChange={(e) => {
-                            setcheck("")
-
                             const value = e.target.value;
                             if (selectedSubject.includes(value)) {
                               setSelectedSubject(
-                                selectedSubject.filter((item) => item !== value),
-
-                                setcheck("")
+                                selectedSubject.filter((item) => item !== value)
                               );
+                              setcheck("");
                             } else {
                               if (selectedSubject.length < 3) {
                                 setSelectedSubject([...selectedSubject, value]);
