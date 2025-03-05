@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import SignUpModal from "./layouts/SignUpModal";
 import ForgetPassword from "./layouts/ForgetPassword";
 import SignInModal from "./layouts/SignInModal";
@@ -15,11 +15,13 @@ import TutorsCarouselOne from "./layouts/TutorsCarouselOne";
 import MobileAppSection from "./layouts/MobileAppSection";
 import FooterOne from "./layouts/FooterOne";
 import BackToTop from "./layouts/BackToTop";
+import SignUpTutor from "./layouts/SignUpTutor";
 
 class HomeOne extends Component {
     render() {
         return (
             <>
+                <SignUpTutor />
                 <ForgetPassword />
                 <SignUpModal />
                 <SignInModal />
