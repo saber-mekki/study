@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import PasswordStrengthBar from "react-password-strength-bar";
 
 function SignUpTutor() {
   const { t } = useTranslation();
@@ -11,11 +12,12 @@ function SignUpTutor() {
   const [formIndex, setFormIndex] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("Male");
+  const [gender, setGender] = useState("male");
   const [check, setcheck] = useState("");
   const [EmailError, setEmailError] = useState("");
   const [subjectError, setSubjectError] = useState("");
-  const [Phone, setPhone] = useState("");
+  const [phone_number, setPhone] = useState("");
+
   const subjects = [
     "English",
     "Physics",
@@ -31,43 +33,58 @@ function SignUpTutor() {
     "Biology",
     "Chemistry",
     "Maths_Higher_Level",
-    "Economic",
   ];
+  const [idFile, setIdFile] = useState(null);
+  const [degreeFile, setDegreeFile] = useState(null);
+  const [degree, setDegree] = useState("");
 
-  const handleNext = () => {
-    setFormIndex(2);
+  const handleFileChange = (e, setFile) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFile(file);
+    }
   };
 
   const handleBack = () => {
     setFormIndex(1);
   };
-
-  const handleSubmit = async (e) => {
+  const handleStepChange = (newStep) => {
+    if (newStep >= 1 && newStep <= 3) {
+      setFormIndex(newStep);
+    }
+  };
+  const handleSubmitStep1 = async (e) => {
     e.preventDefault();
 
-    const emailCheckResponse = await axios.post(
-      "http://localhost:5000/api/v1/checkEmail",
-      { email }
-    );
-    if (emailCheckResponse.data.exists) {
-      setEmailError(t("emailError"));
-      return;
+    // Check if email already exists
+    try {
+      const emailCheckResponse = await axios.post(
+        "http://localhost:5000/api/v1/checkEmail",
+        { email }
+      );
+      if (emailCheckResponse.data.exists) {
+        setEmailError(t("emailError"));
+        return;
+      } else {
+        setEmailError("");
+      }
+    } catch (error) {
+      console.error("Error checking email:", error);
     }
-    setEmailError("");
 
+    // Check password match
     if (password !== rePassword) {
-      setEmailError("");
-
       setPasswordError(t("passwordError"));
       return;
+    } else {
+      setPasswordError("");
     }
 
-    setPasswordError("");
-
-    handleNext();
+    // Move to step 2 after successful validation
+    handleStepChange(2);
   };
 
-  const handleFinish = async (e) => {
+  const handleSubmitStep2 = (e) => {
     e.preventDefault();
 
     if (selectedSubject.length === 0) {
@@ -77,40 +94,70 @@ function SignUpTutor() {
       setSubjectError("");
     }
 
+    // Move to step 3 after successful validation
+    handleStepChange(3);
+  };
+
+  const handleClose = (e) => {
+    setFormIndex(1);
+
+    setName("");
+    setEmail("");
+    setPhone("");
+    setPassword("");
+    setRePassword("");
+    setSelectedSubject([]);
+    setIdFile(null);
+    setDegreeFile(null);
+  };
+
+  const handleFinish = async (e) => {
+    e.preventDefault();
+
     const data = {
       name,
       email,
       password,
       type_register: "tutor",
-      selectedSubjects: selectedSubject,
+      phone_number,
+      gender,
     };
 
     try {
       await axios.post("http://localhost:5000/api/v1/addUser", data);
-
-      alert("Form submitted!");
+      setName("");
+      setEmail("");
+      setPhone("");
+      setPassword("");
+      setRePassword("");
+      setSelectedSubject([]);
+      setIdFile(null);
+      setDegreeFile(null);
+      setFormIndex(4);
     } catch (error) {
       console.error("Error during user registration:", error);
-      alert("There was an error during registration. Please try again.");
+      alert(t("registrationError"));
     }
   };
 
   return (
     <div
-      className="modal fade rounded"
+      className=" mt-25 modal  fade rounded "
       id="signuptutor"
       tabIndex="-1"
       aria-hidden="true"
+      style={{ maxHeight: "92vh" }}
     >
       <div
         className="modal-dialog modal-dialog-centered mt-0"
-        style={{ maxWidth: "90%", Height: "400px" }}
+        style={{ maxWidth: "50%" }}
       >
         <div className="modal-content">
           <div className="modal-header bg-primary">
-            <h4 className="section-title mb-0">
-              <span className="has-line"> {t("registerNow")} </span>
-            </h4>
+            <h2 className="mb-0 text-secondary">
+              <span className="has-line">{t("registerNow")}</span>
+            </h2>
+
             <button
               onClick={handleBack}
               type="button"
@@ -123,21 +170,21 @@ function SignUpTutor() {
           </div>
 
           {formIndex === 1 && (
-            <div className="modal-body p-3 p-sm-4">
+            <div className="modal-body">
               <form
                 method="POST"
                 className="SignUptutorForm"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmitStep1}
               >
                 <div>
-                  <p className="mt-20 font-weight-600 text-secondary">
+                  <p className="mt-0 text-secondary fw-bold">
                     {t("welcomeMessage")} <br /> {t("welcomeMessage2")} :
                   </p>
                 </div>
 
                 <div className="Inputs">
                   <div className="signForm">
-                    <div className="form-group mb-20 col-12">
+                    <div className="form-group mb-2 col-12">
                       <label className="text-secondary h6 mb-2" htmlFor="fname">
                         {t("yourName")}
                       </label>
@@ -151,8 +198,11 @@ function SignUpTutor() {
                         required
                       />
                     </div>
-                    <div className="form-group mb-20 col-12">
-                      <label className="text-secondary h6 mb-2" htmlFor="fname">
+                    <div className="form-group mb-2 col-12">
+                      <label
+                        className="text-secondary h6 mb-2"
+                        htmlFor="fnumber"
+                      >
                         {t("phoneNumber")}
                       </label>
                       <input
@@ -160,12 +210,12 @@ function SignUpTutor() {
                         type="number"
                         placeholder={t("phoneNumber")}
                         id="fname"
-                        value={Phone}
+                        value={phone_number}
                         onChange={(e) => setPhone(e.target.value)}
                         required
                       />
                     </div>
-                    <div className="form-group mb-20 col-12">
+                    <div className="form-group mb-2 col-12">
                       <label
                         className="text-secondary h6 mb-2"
                         htmlFor="pnumber"
@@ -181,12 +231,13 @@ function SignUpTutor() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                       />
+                      <PasswordStrengthBar password={password} />
                       <div className="text-danger">{passwordError}</div>
                     </div>
                   </div>
 
                   <div className="signForm">
-                    <div className="form-group mb-20 col-12">
+                    <div className="form-group mb-2 col-12">
                       <label
                         className="text-secondary h6 mb-2"
                         htmlFor="email2"
@@ -207,7 +258,7 @@ function SignUpTutor() {
                       )}
                     </div>
 
-                    <div className="form-group mb-20 col-12">
+                    <div className="form-group mb-2 col-12">
                       <label className="text-secondary h6 mb-2 d-block">
                         {t("gender")}
                       </label>
@@ -219,7 +270,7 @@ function SignUpTutor() {
                             name="gender"
                             className="custom-control-input"
                             value="Male"
-                            checked={gender === "Male"}
+                            checked={gender === "male"}
                             onChange={(e) => setGender(e.target.value)}
                           />
                           <label
@@ -236,7 +287,7 @@ function SignUpTutor() {
                             name="gender"
                             className="custom-control-input"
                             value="Female"
-                            checked={gender === "Female"}
+                            checked={gender === "female"}
                             onChange={(e) => setGender(e.target.value)}
                           />
                           <label
@@ -248,6 +299,7 @@ function SignUpTutor() {
                         </div>
                       </div>
                     </div>
+
                     <div className="form-group mb-20 col-12">
                       <label
                         className="text-secondary h6 mb-2"
@@ -286,9 +338,13 @@ function SignUpTutor() {
 
           {formIndex === 2 && (
             <div className="modal-body p-0">
-              <form method="POST" className="SignUptutorForm d-flex gap-5">
+              <form
+                method="POST"
+                className="SignUptutorForm d-flex gap-5"
+                onSubmit={handleSubmitStep2}
+              >
                 <div
-                  className="d-flex flex-column p-5 Inputs"
+                  className="d-flex flex-column p-0 Inputs"
                   style={{ height: "auto", gap: "24px" }}
                 >
                   <p>{t("messagesubject")}</p>
@@ -305,6 +361,8 @@ function SignUpTutor() {
                           value={subject}
                           checked={selectedSubject.includes(subject)}
                           onChange={(e) => {
+                            setSubjectError("");
+                            setcheck("");
                             const value = e.target.value;
                             if (selectedSubject.includes(value)) {
                               setSelectedSubject(
@@ -314,12 +372,8 @@ function SignUpTutor() {
                             } else {
                               if (selectedSubject.length < 3) {
                                 setSelectedSubject([...selectedSubject, value]);
-                                setcheck("");
                               } else {
-                                setcheck(
-                                  t("subjectLimitError")
-
-                                );
+                                setcheck(t("subjectLimitError"));
                               }
                             }
                           }}
@@ -328,7 +382,7 @@ function SignUpTutor() {
                             width: "20px",
                             height: "20px",
                             margin: "5px",
-                          }} 
+                          }}
                         />
                         <span
                           className={
@@ -359,7 +413,7 @@ function SignUpTutor() {
                   <button
                     className="btn btn-primary w-20 rounded-sm ml-5"
                     type="button"
-                    onClick={handleBack}
+                    onClick={() => handleStepChange(formIndex - 1)}
                     style={{ direction: "ltr" }}
                   >
                     <i className="fas fa-arrow-left mr-2"></i>
@@ -367,14 +421,156 @@ function SignUpTutor() {
                   </button>
                   <button
                     className="btn btn-primary w-20 rounded-sm"
-                    type="submit"
-                    onClick={handleFinish}
+                    type="button"
+                    onClick={() => {
+                      if (selectedSubject.length === 0) {
+                        setSubjectError(t("pleaseSelectSubject"));
+                      } else {
+                        handleStepChange(formIndex + 1);
+                      }
+                    }}
                     style={{ direction: "ltr" }}
                   >
-                    {t("finish")} <i className="fas fa-check ml-2"></i>
+                    {t("next")} <i className="fas fa-arrow-right ml-2"></i>
                   </button>
                 </div>
               </form>
+            </div>
+          )}
+
+          {formIndex === 3 && (
+            <div className="container mt-1 p-1 bg-white shadow rounded">
+              <h4 className="mb-3">{t("Identity & Education")}</h4>
+              <p className="text-muted mb-4">
+                {t("Please upload the required documents for verification.")}
+              </p>
+
+              <form onSubmit={handleFinish}>
+                <div className="d-flex flex-row ml-5" style={{ gap: "50px" }}>
+                  <div className="d-flex flex-column">
+                    <div className="mb-3">
+                      <label className="form-label text-dark">
+                        {t("ID or Passport:")}
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*,application/pdf"
+                        onChange={(e) => handleFileChange(e, setIdFile)}
+                        className="form-control"
+                        style={{ display: "block", maxWidth: "200px" }}
+                        required
+                      />
+                      {idFile && (
+                        <p className="form-text text-muted small">
+                          {t("Uploaded:")} {idFile.name}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="mb-3">
+                      <label className="form-label text-dark ">
+                        {t("Upload Degree Certificate:")}
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*,application/pdf"
+                        onChange={(e) => handleFileChange(e, setDegreeFile)}
+                        className="form-control"
+                        style={{ display: "block", maxWidth: "200px" }}
+                        required
+                      />
+                      {degreeFile && (
+                        <p className="form-text text-muted small">
+                          {t("Uploaded:")} {degreeFile.name}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="d-flex flex-column">
+                    <div className="mb-3">
+                      <label className="form-label text-dark">
+                        {t("University Degree:")}
+                      </label>
+                      <select
+                        value={degree}
+                        onChange={(e) => setDegree(e.target.value)}
+                        className="form-select"
+                        style={{ maxWidth: "200px" }}
+                        required
+                      >
+                        <option value="">{t("Select your degree")}</option>
+                        <option value="bachelor">{t("Bachelor's")}</option>
+                        <option value="master">{t("Master's")}</option>
+                        <option value="phd">{t("PhD")}</option>
+                        <option value="other">{t("Other")}</option>
+                      </select>
+                    </div>
+
+                    <label htmlFor="message" className="form-label text-dark">
+                      {t("Send a cover letter:")}
+                    </label>
+                    <textarea
+                      id="message"
+                      className="form-control"
+                      rows="4"
+                      placeholder={t(
+                        "Introduce yourself and explain why you're applying"
+                      )}
+                      style={{ marginBottom: "10px" }}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div
+                  className="d-flex justify-content-between w-100"
+                  style={{ direction: "ltr" }}
+                >
+                  <button
+                    className="btn btn-primary w-20 rounded-sm ml-5"
+                    type="button"
+                    onClick={() => handleStepChange(formIndex - 1)}
+                    style={{ direction: "ltr" }}
+                  >
+                    <i className="fas fa-arrow-left mr-2"></i>
+                    {t("back")}
+                  </button>
+
+                  <button
+                    className="btn btn-primary w-20 rounded-sm"
+                    type="submit"
+                    style={{ direction: "ltr" }}
+                  >
+                    {t("next")} <i className="fas fa-arrow-right ml-2"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
+
+          {formIndex === 4 && (
+            <div className="d-flex flex-column align-items-center p-4">
+              <div className="mb-4 text-center">
+                <h3 className="mb-3 text-primary">{t("Success!")}</h3>
+                <p className="mb-2 text-secondary">
+                  {t(
+                    "Your registration was successful. We are currently reviewing your information and will confirm your account shortly."
+                  )}
+                </p>
+                <p className="mb-4 text-secondary">
+                  {t("Thank you for joining us and for your patience!")}
+                </p>
+                <button
+                  onClick={handleClose}
+                  className="btn btn-success"
+                  type="button"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  {t("Got it!")}
+                </button>
+              </div>
             </div>
           )}
         </div>
