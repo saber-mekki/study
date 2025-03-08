@@ -6,6 +6,8 @@
   "Pages": "Pages",
   "Contact Us": "Contactez-nous",
   "Signin": "Se connecter",
+  "Signup": "Inscription",
+
   "Become A Tutor": "Devenez un tuteur",
   "welcome_message": "Bienvenue sur notre plateforme d'apprentissage en ligne ! Que vous soyez un étudiant désireux d'acquérir de nouvelles compétences ou un tuteur prêt à partager son expertise, vous êtes au bon endroit. Nous proposons une large gamme de cours et de vidéos pédagogiques auxquels vous pouvez accéder à tout moment, où que vous soyez. De plus, grâce à notre fonctionnalité d'appel vidéo, vous pouvez avoir des réunions individuelles avec des tuteurs pour approfondir votre compréhension et recevoir des conseils personnalisés. Rejoignez-nous dès aujourd'hui et donnez un coup de pouce à votre parcours d'apprentissage !",
   "About Us": "À propos de nous",
@@ -96,5 +98,23 @@
   "next": "Suivant",
   "finish": "Terminer",
   "pleaseSelectSubject": "Veuillez sélectionner un sujet.",
-  "subjectLimitError": "Vous ne pouvez sélectionner que jusqu'à 3 sujets."
+  "subjectLimitError": "Vous ne pouvez sélectionner que jusqu'à 3 sujets.",
+  "Identity & Education": "Identité & Éducation",
+  "Please upload the required documents for verification.": "Veuillez télécharger les documents requis pour vérification.",
+  "ID or Passport:": "Carte d'identité ou Passeport:",
+  "Uploaded:": "Téléchargé:",
+  "Upload Degree Certificate:": "Télécharger le Certificat de Diplôme:",
+  "University Degree:": "Diplôme Universitaire:",
+  "Select your degree": "Sélectionnez votre diplôme",
+  "Bachelor's": "Licence",
+  "Master's": "Master",
+  "PhD": "Doctorat",
+  "Other": "Autre",
+  "Send a cover letter:": "Envoyer une lettre de motivation:",
+  "Introduce yourself and explain why you're applying": "Présentez-vous et expliquez pourquoi vous postulez",
+  
+  "Success!": "Succès!",
+  "Your registration was successful. We are currently reviewing your information and will confirm your account shortly.": "Votre inscription a été réussie. Nous examinons actuellement vos informations et confirmerons votre compte sous peu.",
+  "Thank you for joining us and for your patience!": "Merci de nous avoir rejoint et pour votre patience!",
+  "Got it!": "D'accord!"
 }

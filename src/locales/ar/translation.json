@@ -6,6 +6,8 @@
     "Pages": "الصفحات",
     "Contact Us": "اتصل بنا",
     "Signin": "تسجيل الدخول",
+    "Signup": "تسجيل",
+
     "Become A Tutor": "أصبح مدرسًا",
     "welcome_message": "مرحبًا بك في منصتنا للتعلم الإلكتروني! سواء كنت طالبًا حريصًا على تعلم مهارات جديدة أو مدرسًا جاهزًا لمشاركة خبراته، فقد جئت إلى المكان الصحيح. نحن نقدم مجموعة واسعة من الدورات والفيديوهات التعليمية التي يمكنك الوصول إليها في أي وقت ومن أي مكان. بالإضافة إلى ذلك، مع ميزة مكالمات الفيديو، يمكنك إجراء اجتماعات فردية مع المعلمين لتعميق فهمك والحصول على إرشادات مخصصة. انضم إلينا اليوم ورفع مستوى رحلتك التعليمية!",
     "About Us": "من نحن   ",
@@ -95,5 +97,23 @@
     "next": "التالي",
     "finish": "إنهاء",
     "pleaseSelectSubject": "يرجى اختيار مادة.",
-    "subjectLimitError": "يمكنك اختيار 3 مواد فقط."
+    "subjectLimitError": "يمكنك اختيار 3 مواد فقط.",
+    "Identity & Education": "الهوية والتعليم",
+    "Please upload the required documents for verification.": "يرجى تحميل المستندات المطلوبة للتحقق.",
+    "ID or Passport:": "بطاقة الهوية أو جواز السفر:",
+    "Uploaded:": "تم التحميل:",
+    "Upload Degree Certificate:": "تحميل شهادة الدرجة العلمية:",
+    "University Degree:": "درجة الجامعة:",
+    "Select your degree": "اختر درجتك العلمية",
+    "Bachelor's": "بكالوريوس",
+    "Master's": "ماجستير",
+    "PhD": "دكتوراه",
+    "Other": "أخرى",
+    "Send a cover letter:": "إرسال خطاب تغطية:",
+    "Introduce yourself and explain why you're applying": "قدِّم نفسك واشرح لماذا تتقدم",
+    
+    "Success!": "نجاح!",
+    "Your registration was successful. We are currently reviewing your information and will confirm your account shortly.": "تم التسجيل بنجاح. نحن حاليًا نقوم بمراجعة معلوماتك وسنؤكد حسابك قريبًا.",
+    "Thank you for joining us and for your patience!": "شكرًا لانضمامك إلينا ولصبرك!",
+    "Got it!": "حسنًا!"
 }

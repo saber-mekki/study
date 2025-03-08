@@ -6,6 +6,7 @@
   "Pages": "Seiten",
   "Contact Us": "Kontaktieren Sie uns",
   "Signin": "Anmelden",
+  "Signup": "Aanmelden",
   "Become A Tutor": "Werde ein Tutor",
   "welcome_message": "Willkommen auf unserer E-Learning-Plattform! Egal, ob Sie ein Student sind, der neue Fähigkeiten erlernen möchte, oder ein Tutor, der bereit ist, sein Wissen zu teilen – Sie sind hier genau richtig. Wir bieten eine breite Palette an Kursen und Schulungsvideos, auf die Sie jederzeit und überall zugreifen können. Zudem können Sie mit unserer Videoanruffunktion Einzelgespräche mit Tutoren führen, um Ihr Verständnis zu vertiefen und individuelle Anleitung zu erhalten. Werden Sie noch heute Mitglied und bringen Sie Ihre Lernreise auf die nächste Stufe!",
   "About Us": "Über uns",
@@ -96,5 +97,23 @@
   "next": "Volgende",
   "finish": "Voltooien",
   "pleaseSelectSubject": "Selecteer een onderwerp.",
-  "subjectLimitError": "Je kunt slechts 3 onderwerpen selecteren."
+  "subjectLimitError": "Je kunt slechts 3 onderwerpen selecteren.",
+  "Identity & Education": "Identiteit & Opleiding",
+    "Please upload the required documents for verification.": "Gelieve de vereiste documenten te uploaden voor verificatie.",
+    "ID or Passport:": "ID-kaart of Paspoort:",
+    "Uploaded:": "Geüpload:",
+    "Upload Degree Certificate:": "Upload het Diploma Certificaat:",
+    "University Degree:": "Universitair Diploma:",
+    "Select your degree": "Selecteer je diploma",
+    "Bachelor's": "Bachelor",
+    "Master's": "Master",
+    "PhD": "Doctor",
+    "Other": "Ander",
+    "Send a cover letter:": "Stuur een begeleidende brief:",
+    "Introduce yourself and explain why you're applying": "Stel jezelf voor en leg uit waarom je solliciteert",
+    
+    "Success!": "Succes!",
+    "Your registration was successful. We are currently reviewing your information and will confirm your account shortly.": "Uw registratie was succesvol. We beoordelen momenteel uw gegevens en zullen uw account binnenkort bevestigen.",
+    "Thank you for joining us and for your patience!": "Bedankt dat u zich bij ons aansluit en voor uw geduld!",
+    "Got it!": "Begrepen!"
 }
