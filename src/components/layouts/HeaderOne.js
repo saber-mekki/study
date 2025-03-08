@@ -42,34 +42,9 @@ function HeaderOne() {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  {t("Home")} <i className="fas fa-angle-down" />
+                  {t("Home")}
                 </Link>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link
-                      to={"/home-one"}
-                      className="dropdown-item active initiate-scripts"
-                    >
-                      HomeTutor
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={"/home-two"}
-                      className="dropdown-item initiate-scripts"
-                    >
-                      Online Course
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={"/home-three"}
-                      className="dropdown-item initiate-scripts"
-                    >
-                      Online University
-                    </Link>
-                  </li>
-                </ul>
+               
               </li>
               <li className="nav-item dropdown">
                 <Link
