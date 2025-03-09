@@ -155,7 +155,7 @@ function SignUpTutor() {
         <div className="modal-content">
           <div className="modal-header bg-primary">
             <h2 className="mb-0 text-secondary">
-              <span className="has-line">{t("registerNow")}</span>
+              <span>{t("registerNow")}</span>
             </h2>
 
             <button
