@@ -80,7 +80,7 @@ function HeaderOne() {
                       data-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      {t("Connexion")}
+                      {t("Connexion")} <i className="fas fa-angle-down" /> 
                     </a>
                     <div className="dropdown-menu" aria-labelledby="connexionDropdown">
                       <a className="dropdown-item" href="#!" data-toggle="modal" data-target="#signin-modal">
