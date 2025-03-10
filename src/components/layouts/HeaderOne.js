@@ -3,15 +3,17 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import LanguageDropdown from "../LanguageDropdown";
+import ProfileMenu from "./ProfileMenu";
 
 function HeaderOne() {
   const { t } = useTranslation();
+  const isAuthenticated = localStorage.getItem("authToken");
 
   return (
     <header className="bg-white shadow">
       <div className="container-lg">
         <nav className="navbar navbar-expand-xl navbar-dark px-0">
-          <Link to={"/home-one"} className="navbar-brand initiate-scripts">
+          <Link to={"/home-one"} className="navbar-brand">
             <img
               src={process.env.PUBLIC_URL + "/assets/images/logo-2.png"}
               alt=""
@@ -20,7 +22,7 @@ function HeaderOne() {
           </Link>
 
           <button
-            className="navbar-toggler ml-3"
+            className="navbar-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#navbarNavAlt"
@@ -32,41 +34,18 @@ function HeaderOne() {
           </button>
 
           <div className="collapse navbar-collapse" id="navbarNavAlt">
-            <ul className="navbar-nav mt-4 mt-xl-0 ml-auto">
-              <li className="nav-item dropdown active">
-                <Link
-                  className="nav-link dropdown-toggle"
-                  to={"/"}
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  {t("Home")}
-                </Link>
-               
-              </li>
-              <li className="nav-item dropdown">
-                <Link
-                  className="nav-link dropdown-toggle"
-                  to={"/about-one"}
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  {t("About")}
-                </Link>
+            <ul className="navbar-nav d-flex align-items-center ml-auto">
+              <li className="nav-item">
+                <Link to={"/"} className="nav-link">{t("Home")}</Link>
               </li>
               <li className="nav-item">
-                <Link to={"/courses"} className="nav-link initiate-scripts">
-                  {t("Courses")}
-                </Link>
+                <Link to={"/about-one"} className="nav-link">{t("About")}</Link>
               </li>
               <li className="nav-item">
-                <Link to={"/blog"} className="nav-link initiate-scripts">
-                  {t("Blog")}
-                </Link>
+                <Link to={"/courses"} className="nav-link">{t("Courses")}</Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/blog"} className="nav-link">{t("Blog")}</Link>
               </li>
               <li className="nav-item dropdown">
                 <Link
@@ -80,72 +59,49 @@ function HeaderOne() {
                   {t("Pages")} <i className="fas fa-angle-down" />
                 </Link>
                 <ul className="dropdown-menu">
-                  <li>
-                    <Link
-                      to={"/job-board"}
-                      className="dropdown-item initiate-scripts"
-                    >
-                      Job Board
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={"/course-details-one"}
-                      className="dropdown-item initiate-scripts"
-                    >
-                      Course Details 01
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={"/course-details-two"}
-                      className="dropdown-item initiate-scripts"
-                    >
-                      Course Details 02
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to={"/blog-details"}
-                      className="dropdown-item initiate-scripts"
-                    >
-                      Blog Details
-                    </Link>
-                  </li>
+                  <li><Link to={"/job-board"} className="dropdown-item">Job Board</Link></li>
+                  <li><Link to={"/course-details-one"} className="dropdown-item">Course Details 01</Link></li>
+                  <li><Link to={"/course-details-two"} className="dropdown-item">Course Details 02</Link></li>
+                  <li><Link to={"/blog-details"} className="dropdown-item">Blog Details</Link></li>
                 </ul>
               </li>
               <li className="nav-item">
-                <Link to={"/contact"} className="nav-link initiate-scripts">
-                  {t("Contact Us")}
-                </Link>
+                <Link to={"/contact"} className="nav-link">{t("Contact Us")}</Link>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  href="#!"
-                  data-toggle="modal"
-                  data-target="#signin-modal">{t("Signin")}</a>
-              </li>
-              <a
-                href="#!"
-                className="btn btn-sm btn-primary rounded-pill"
-                data-toggle="modal"
-                data-target="#signup-modal">{t("Signup")}</a>
 
-              <div className="ml-0 ml-xl-4 mt-3 mt-xl-0 mb-3 mb-xl-0 text-center text-xl-right">
-                <a
-                  href="#!"
-                  className="btn btn-sm btn-blue rounded-pill"
-                  data-toggle="modal"
-                  data-target="#signuptutor"
-                >
-                  {t("Become A Tutor")}
-                </a>
-              </div>
-              < LanguageDropdown />
+              {!isAuthenticated && (
+                <>
+                  <li className="nav-item dropdown">
+                    <a
+                      className="nav-link dropdown-toggle"
+                      href="#!"
+                      id="connexionDropdown"
+                      role="button"
+                      data-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      {t("Connexion")}
+                    </a>
+                    <div className="dropdown-menu" aria-labelledby="connexionDropdown">
+                      <a className="dropdown-item" href="#!" data-toggle="modal" data-target="#signin-modal">
+                        {t("Sign In")}
+                      </a>
+                      <a className="dropdown-item" href="#!" data-toggle="modal" data-target="#signup-modal">
+                        {t("Sign Up")}
+                      </a>
+                    </div>
+                  </li>
+                  <li className="nav-item">
+                    <a href="#!" className="btn btn-sm btn-blue rounded-pill" data-toggle="modal" data-target="#signuptutor">
+                      {t("Become A Tutor")}
+                    </a>
+                  </li>
+                </>
+              )}
+
+              {isAuthenticated && <ProfileMenu />}
+              <LanguageDropdown />
             </ul>
-
-
           </div>
         </nav>
       </div>
