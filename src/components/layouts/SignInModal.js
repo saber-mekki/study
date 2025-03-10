@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import Cookies from "js-cookie"; 
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+
 function SignInModal() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -27,40 +29,40 @@ function SignInModal() {
     e.preventDefault();
     setEmailError("");
     setPasswordError("");
-  
+
     try {
-      
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/login`,
         { email, password, type_register }
       );
-     
-      type_register = response.data.result.type_register;
-      const user_name = response.data.result.user_name;  
 
-      localStorage.setItem("authToken", response.data.tokens.accessToken);
+      const token = response.data.tokens.accessToken;
+      const decodedToken = jwtDecode(token);
+      const user_name = decodedToken.user_name;
+
       Cookies.set("role", role);
       Cookies.set("name", user_name);
 
-      if (role !== type_register && type_register !== "admin") {
+      localStorage.setItem("authToken", token);
+
+      if (
+        role !== response.data.result.type_register &&
+        response.data.result.type_register !== "admin"
+      ) {
         setPasswordError(t("Role mismatch. Please login as the correct role."));
         return;
       }
 
-
-  
-    
-  
       document.querySelector("#signin-modal").classList.remove("show");
       document.body.classList.remove("modal-open");
       document.querySelector(".modal-backdrop")?.remove();
       document.body.style.backdropFilter = "none";
       document.body.style.filter = "none";
-  
+
       setTimeout(() => {
-        window.location.href = type_register === "admin" ? "/dash/admin" : "/s";
+        window.location.href =
+          response.data.result.type_register === "admin" ? "/dash/admin" : "/s";
       }, 100);
-  
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404) {
@@ -75,7 +77,6 @@ function SignInModal() {
       }
     }
   };
-  
 
   return (
     <div
@@ -215,18 +216,16 @@ function SignInModal() {
               <div className="form-group col-12">
                 <button
                   style={{ marginBottom: "15px" }}
-                  className={`btn ${
-                    role === "student" ? "btn-blue" : "btn-primary"
-                  } w-100 rounded-sm`}
+                  className={`btn ${role === "student" ? "btn-blue" : "btn-primary"
+                    } w-100 rounded-sm`}
                   type="submit"
                 >
                   {t("Sign In")}
                 </button>
 
                 <button
-                  className={`btn ${
-                    role === "student" ? "btn-blue" : "btn-primary"
-                  } w-100 rounded-sm`}
+                  className={`btn ${role === "student" ? "btn-blue" : "btn-primary"
+                    } w-100 rounded-sm`}
                   type="submit"
                   data-toggle="modal"
                   data-target="#signup-modal"
