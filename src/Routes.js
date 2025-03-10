@@ -15,6 +15,7 @@ import CourseDetailsOne from "./components/CourseDetailsOne";
 import CourseDetailsTwo from "./components/CourseDetailsTwo";
 import BlogDetails from "./components/BlogDetails";
 import Contact from "./components/Contact";
+import Profile from "./components/layouts/Profile";
 
 import { ProtectedRoute, ProtectedAdminRoute } from "./ProtectedRoute";
 /* import SignInModal from "./components/SignInModal";
@@ -41,6 +42,7 @@ function Routes() {
                     <Route exact path={'/course-details-two'} render={(props) => (<CourseDetailsTwo {...props} />)} />
                     <Route exact path={'/blog-details'} render={(props) => (<BlogDetails {...props} />)} />
                     <Route exact path={'/contact'} render={(props) => (<Contact {...props} />)} />
+                    <Route exact path={'/profile'} render={(props) => (<Profile {...props} />)} />
 
                     <ProtectedAdminRoute isAdmin={isAdmin} exact path="/dash/admin" component={AdminDashboard} />
                     <ProtectedRoute exact path="/dashboard" component={Courses} />
