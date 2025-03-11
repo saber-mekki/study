@@ -167,3 +167,12 @@ p {
 .xx{
   border: 5px solid red;
 }
+.no-transform {
+  transition: none !important; 
+}
+
+.no-transform:hover,
+.no-transform:focus {
+  transform: none !important; 
+  text-decoration: underline !important; 
+}
