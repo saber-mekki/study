@@ -146,11 +146,12 @@ function SignUpTutor() {
       id="signuptutor"
       tabIndex="-1"
       aria-hidden="true"
-      style={{ maxHeight: "92vh" }}
+      style={{ maxHeight: "100vh", margin: "0" }}
     >
       <div
-        className="modal-dialog modal-dialog-centered mt-0"
-        style={{ maxWidth: "50%" }}
+        className="modal-dialog custom-modal modal-dialog-centered mt-0 w-100 w-md-50 "
+        style={{ maxHeight: "100vh" }}
+
       >
         <div className="modal-content">
           <div className="modal-header bg-primary">
@@ -257,43 +258,34 @@ function SignUpTutor() {
                         <div className="text-danger mt-2">{EmailError}</div>
                       )}
                     </div>
-
                     <div className="form-group mb-2 col-12">
-                      <label className="text-secondary h6 mb-2 d-block">
-                        {t("gender")}
-                      </label>
-                      <div className="d-flex custom-radio-group rounded-sm">
+                      <label className="text-secondary h6 mb-2 d-block">{t("gender")}</label>
+                      <div className="d-flex flex-column flex-md-row custom-radio-group rounded-sm">
                         <div className="custom-control custom-radio">
                           <input
                             type="radio"
-                            id="customRadio1"
+                            id="customRadioMaleTutor"
                             name="gender"
                             className="custom-control-input"
-                            value="Male"
-                            checked={gender === "male"}
+                            value="male"
                             onChange={(e) => setGender(e.target.value)}
+                            checked={gender === "male"}
                           />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customRadio1"
-                          >
+                          <label className="custom-control-label" htmlFor="customRadioMaleTutor">
                             {t("male")}
                           </label>
                         </div>
                         <div className="custom-control custom-radio">
                           <input
                             type="radio"
-                            id="customRadio2"
+                            id="customRadioFemaleTutor"
                             name="gender"
                             className="custom-control-input"
-                            value="Female"
-                            checked={gender === "female"}
+                            value="female"
                             onChange={(e) => setGender(e.target.value)}
+                            checked={gender === "female"}
                           />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customRadio2"
-                          >
+                          <label className="custom-control-label" htmlFor="customRadioFemaleTutor">
                             {t("female")}
                           </label>
                         </div>
@@ -438,116 +430,94 @@ function SignUpTutor() {
             </div>
           )}
 
-          {formIndex === 3 && (
-            <div className="container mt-1 p-1 bg-white shadow rounded">
-              <h4 className="mb-3">{t("Identity & Education")}</h4>
-              <p className="text-muted mb-4">
-                {t("Please upload the required documents for verification.")}
-              </p>
+{formIndex === 3 && (
+  <div className="container mt-1 p-3 bg-white shadow rounded">
+    <h4 className="mb-3">{t("Identity & Education")}</h4>
+    <p className="text-muted mb-4">
+      {t("Please upload the required documents for verification.")}
+    </p>
 
-              <form onSubmit={handleFinish}>
-                <div className="d-flex flex-row ml-5" style={{ gap: "50px" }}>
-                  <div className="d-flex flex-column">
-                    <div className="mb-3">
-                      <label className="form-label text-dark">
-                        {t("ID or Passport:")}
-                      </label>
-                      <input
-                        type="file"
-                        accept="image/*,application/pdf"
-                        onChange={(e) => handleFileChange(e, setIdFile)}
-                        className="form-control"
-                        style={{ display: "block", maxWidth: "200px" }}
-                        required
-                      />
-                      {idFile && (
-                        <p className="form-text text-muted small">
-                          {t("Uploaded:")} {idFile.name}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="mb-3">
-                      <label className="form-label text-dark ">
-                        {t("Upload Degree Certificate:")}
-                      </label>
-                      <input
-                        type="file"
-                        accept="image/*,application/pdf"
-                        onChange={(e) => handleFileChange(e, setDegreeFile)}
-                        className="form-control"
-                        style={{ display: "block", maxWidth: "200px" }}
-                        required
-                      />
-                      {degreeFile && (
-                        <p className="form-text text-muted small">
-                          {t("Uploaded:")} {degreeFile.name}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-column">
-                    <div className="mb-3">
-                      <label className="form-label text-dark">
-                        {t("University Degree:")}
-                      </label>
-                      <select
-                        value={degree}
-                        onChange={(e) => setDegree(e.target.value)}
-                        className="form-select"
-                        style={{ maxWidth: "200px" }}
-                        required
-                      >
-                        <option value="">{t("Select your degree")}</option>
-                        <option value="bachelor">{t("Bachelor's")}</option>
-                        <option value="master">{t("Master's")}</option>
-                        <option value="phd">{t("PhD")}</option>
-                        <option value="other">{t("Other")}</option>
-                      </select>
-                    </div>
-
-                    <label htmlFor="message" className="form-label text-dark">
-                      {t("Send a cover letter:")}
-                    </label>
-                    <textarea
-                      id="message"
-                      className="form-control"
-                      rows="4"
-                      placeholder={t(
-                        "Introduce yourself and explain why you're applying"
-                      )}
-                      style={{ marginBottom: "10px" }}
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div
-                  className="d-flex justify-content-between w-100"
-                  style={{ direction: "ltr" }}
-                >
-                  <button
-                    className="btn btn-primary w-20 rounded-sm ml-5"
-                    type="button"
-                    onClick={() => handleStepChange(formIndex - 1)}
-                    style={{ direction: "ltr" }}
-                  >
-                    <i className="fas fa-arrow-left mr-2"></i>
-                    {t("back")}
-                  </button>
-
-                  <button
-                    className="btn btn-primary w-20 rounded-sm"
-                    type="submit"
-                    style={{ direction: "ltr" }}
-                  >
-                    {t("next")} <i className="fas fa-arrow-right ml-2"></i>
-                  </button>
-                </div>
-              </form>
-            </div>
+    <form onSubmit={handleFinish}>
+      <div className="row">
+        <div className="col-12 col-md-6 mb-3">
+          <label className="form-label text-dark">{t("ID or Passport:")}</label>
+          <input
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={(e) => handleFileChange(e, setIdFile)}
+            className="form-control"
+            required
+          />
+          {idFile && (
+            <p className="form-text text-muted small">{t("Uploaded:")} {idFile.name}</p>
           )}
+        </div>
+
+        <div className="col-12 col-md-6 mb-3">
+          <label className="form-label text-dark">{t("Upload Degree Certificate:")}</label>
+          <input
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={(e) => handleFileChange(e, setDegreeFile)}
+            className="form-control"
+            required
+          />
+          {degreeFile && (
+            <p className="form-text text-muted small">{t("Uploaded:")} {degreeFile.name}</p>
+          )}
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-12 col-md-6 mb-3">
+          <label className="form-label text-dark">{t("University Degree:")}</label>
+          <select
+            value={degree}
+            onChange={(e) => setDegree(e.target.value)}
+            className="form-select"
+            required
+          >
+            <option value="">{t("Select your degree")}</option>
+            <option value="bachelor">{t("Bachelor's")}</option>
+            <option value="master">{t("Master's")}</option>
+            <option value="phd">{t("PhD")}</option>
+            <option value="other">{t("Other")}</option>
+          </select>
+        </div>
+
+        <div className="col-12 mb-3">
+          <label htmlFor="message" className="form-label text-dark">{t("Send a cover letter:")}</label>
+          <textarea
+            id="message"
+            className="form-control"
+            rows="4"
+            placeholder={t("Introduce yourself and explain why you're applying")}
+            required
+          />
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-between w-100">
+        <button
+          className="btn btn-primary w-20 rounded-sm"
+          type="button"
+          onClick={() => handleStepChange(formIndex - 1)}
+        >
+          <i className="fas fa-arrow-left mr-2"></i>
+          {t("back")}
+        </button>
+
+        <button
+          className="btn btn-primary w-20 rounded-sm"
+          type="submit"
+        >
+          {t("next")} <i className="fas fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+)}
+
 
           {formIndex === 4 && (
             <div className="d-flex flex-column align-items-center p-4">
