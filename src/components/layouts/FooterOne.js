@@ -6,7 +6,7 @@ class FooterOne extends Component {
         return (
             <footer>
                 <div className="container">
-                    <div className="row">
+                 {/*    <div className="row">
                         <div className="col-md-12">
                             <div className="py-5 px-3 px-sm-5 bg-light">
                                 <div className="row align-items-center">
@@ -33,7 +33,7 @@ class FooterOne extends Component {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="py-3">
                         <div className="row align-items-center">
                             <div className="col-lg-9 text-center text-lg-left mb-4 mb-lg-0">
