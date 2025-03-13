@@ -176,3 +176,14 @@ p {
   transform: none !important; 
   text-decoration: underline !important; 
 }
+.custom-modal {
+  max-width: 100vw; 
+  transition: all 0.3s ease; 
+}
+
+@media (min-width: 768px) {
+  .custom-modal {
+    max-width: 60%;
+  }
+}
+  
