@@ -1,27 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
+import React, {  useState } from "react";
 import axios from "axios";
 
-export default function ChangePassword() {
+export default function ChangePassword({email}) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [userEmail, setUserEmail] = useState("");
   const [CurrentPasswordError, setCurrentPasswordError] = useState("");
-
   const [SendEmailMessage, setSendEmailMessage] = useState(false);
   const [UpadateSucc, setUpadateSucc] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      setUserEmail(decodedToken.user_email);
-    } else {
-      alert("No token found in localStorage");
-    }
-  }, []);
+ 
 
   const handleSendEmail = () => {
     setSendEmailMessage(true);
@@ -41,21 +30,18 @@ export default function ChangePassword() {
     setErrorMessage("");
     setCurrentPasswordError("");
 
-    if (!userEmail) {
+    if (!email) {
       setErrorMessage("User email is missing.");
       return;
     }
 
-    if (!checkUpdateLimit()) {
-      setErrorMessage("You can only update your password 3 times in an hour.");
-      return;
-    }
+ 
 
     try {
       const loginResponse = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/login`,
         {
-          email: userEmail,
+          email: email,
           password: currentPassword,
         }
       );
@@ -80,13 +66,17 @@ export default function ChangePassword() {
       const updateResponse = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/updatePassword`,
         {
-          email: userEmail,
-          newPassword: newPassword,
+          email: email,
+          password: newPassword,
         }
       );
-
+      if (!checkUpdateLimit()) {
+        setErrorMessage("You can only update your password 3 times in an hour.");
+        return;
+      }
       if (updateResponse.status === 200) {
         setUpadateSucc(true);
+      
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
@@ -103,7 +93,7 @@ export default function ChangePassword() {
         if (error.response.status === 401) {
           setCurrentPasswordError("Current password is incorrect.");
         } else if (error.response.status === 404) {
-          setErrorMessage("User not found." + userEmail);
+          setErrorMessage("User not found." + email);
         } else {
           setErrorMessage(
             `${error.response.data?.error || "An error occurred. Try again."}`
@@ -174,7 +164,7 @@ export default function ChangePassword() {
                           </h5>
                           <h3 className="text-muted">
                             We have sent an email to{" "}
-                            <strong>{maskEmail(userEmail)}</strong>. Please
+                            <strong>{maskEmail(email)}</strong>. Please
                             check your inbox and follow the instructions.
                           </h3>
                         </>
