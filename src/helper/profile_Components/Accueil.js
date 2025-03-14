@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback,useEffect } from "react";
 import Cropper from "react-easy-crop";
 import { FaCamera } from "react-icons/fa";
 
-export default function Accueil({ role, name, image, email }) {
+export default function Accueil({ role, name, image,phoneNumber, email }) {
   const [profileImage, setProfileImage] = useState(image);
   const [selectedImage, setSelectedImage] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -13,7 +13,13 @@ export default function Accueil({ role, name, image, email }) {
   const [lengthMin, setlengthMin] = useState(false);
 
   const [bio, setBio] = useState("Hi, I'm " + name + " i love EduSkills");
-
+  useEffect(() => {
+    if (name) {
+      setBio(`Hi, I'm ${name} i love EduSkills`);
+    }
+    
+  }, [name]);
+  
   const handleEditClick = () => {
     setIsEditing((prev) => !prev);
   };
@@ -102,6 +108,8 @@ export default function Accueil({ role, name, image, email }) {
       <div className="mt-0">
         <h4>{name}</h4>
         <h4>{email}</h4>
+        <h4>{role}</h4>
+
         <div
           className="bio-section w-50 mt-2 p-1  rounded shadow-sm mx-auto"
           style={{ backgroundColor: "#f1faee" }}
