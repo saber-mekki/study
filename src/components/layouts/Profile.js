@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
-import Password from "../../helper/profile_Components/ChangePassword";
-import Account from "../../helper/profile_Components/Account";
-import Mycourses from "../../helper/profile_Components/Mycourses";
-import Settings from "../../helper/profile_Components/Settings";
-import Accueil from "../../helper/profile_Components/Accueil";
+import Password from "../profileComponents/ChangePassword";
+import Account from "../profileComponents/Account";
+import Mycourses from "../profileComponents/Mycourses";
+import Settings from "../profileComponents/Settings";
+import Accueil from "../profileComponents/Accueil";
 import HeaderOne from "./HeaderOne";
 import Footer from "./FooterOne";
 import axios from "axios";
