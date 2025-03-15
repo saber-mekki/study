@@ -8,18 +8,20 @@ import {
   FaUserGraduate,
 } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
-
 import Cookies from "js-cookie";
 
+import { useSelector } from "react-redux";
+
 function ProfileMenu() {
+
+  const user = useSelector((state) => state.user);
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     Cookies.remove("role");
     window.location.href = "/";
   };
 
-  const userRole = Cookies.get("role");
-  const name = Cookies.get("name");
 
   return (
     <li className="nav-item dropdown" style={{ marginLeft: "205px" }}>
@@ -58,12 +60,12 @@ function ProfileMenu() {
               objectFit: "cover",
             }}
           />
-          <span className="mt-2 ">{name}</span>
+          <span className="mt-2 ">{user.name}</span>
         </Link>
 
         <div className="dropdown-divider"></div>
 
-        {userRole === "student" && (
+        {user.role === "student" && (
           <>
             <Link to="/courses" className="dropdown-item">
               <FaBookOpen style={{ marginRight: "10px" }} /> My Courses
@@ -77,7 +79,7 @@ function ProfileMenu() {
           </>
         )}
 
-        {userRole === "tutor" && (
+        {user.role === "tutor" && (
           <>
             <Link to="/my-classes" className="dropdown-item">
               <FaChalkboardTeacher style={{ marginRight: "10px" }} /> My Classes
