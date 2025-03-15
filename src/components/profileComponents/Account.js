@@ -1,19 +1,19 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import  updateUserStore  from "../../redux/userSlice";
 
 export default function Account({
-  email,
-  fullName: initialFullName,
-  phoneNumber: initialPhoneNumber,
-  date,
-  usergender,
-  onAccountUpdate
-
+  onAccountUpdate,
+  email
 }) {
+
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber || "");
-  const [fullName, setFullName] = useState(initialFullName || "");
   const [Succ, SetSucc] = useState(false);
   const [EmailError, setEmailError] = useState("");
   const [emailValue, setEmailValue] = useState(email);
@@ -25,20 +25,48 @@ export default function Account({
   const [ResendCode, SetResendCode] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
   const [countdown, setCountdown] = useState(60);
-  const [gender, setGender] = useState(usergender);
 
+  const [phoneNumber, setPhoneNumber] = useState(user.phone);
+  const [fullName, setFullName] = useState(user.name);
+  const [birthDate, setBirthDate] = useState(user.dateOfBirth);
+  const [gender, setGender] = useState(user.gender);
 
-  const [birthDate, setBirthDate] = useState(() => {
-    const d = new Date(date);
-    const year = d.getFullYear();
-    const month = (d.getMonth() + 1).toString().padStart(2, '0');
-    const day = d.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  });
 
   const [dateError, setDateError] = useState("");
 
+  const updateUser = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/updateUser",
+        {
+          name: fullName,
+          email: prevEmail,
+          newEmail: emailValue,
+          type_register: "student",
+          gender: gender,
+          date_of_birth: birthDate,
+          phone_number: phoneNumber,
+        }
+      );
+      const token = response.data.tokens.accessToken;
+      localStorage.setItem("authToken", token);
 
+      if (response.data.error) {
+        setError(response.data.message || "Error updating user");
+        return;
+      }
+
+      setIsEditing(false);
+      SetSucc(true);
+      setPrevEmail(emailValue);
+      dispatch(updateUserStore({ name: fullName, phone: phoneNumber, dateOfBirth: birthDate, gender }));
+      onAccountUpdate();
+    } catch (err) {
+      setError("An error occurred while updating user details.");
+      console.error("Error during the update process:", err);
+    }
+
+  };
 
 
   const handleDateChange = (e) => {
@@ -63,6 +91,7 @@ export default function Account({
     SetErrorCode("")
     setEmailWarning(false);
   };
+
   const handleConfirm = () => {
     SetSucc("");
     if (!fullName || !emailValue || !phoneNumber) {
@@ -87,48 +116,18 @@ export default function Account({
 
     updateUser();
 
-  
-  };
-
-  const updateUser = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/updateUser",
-        {
-          name: fullName,
-          email: prevEmail,
-          newEmail: emailValue,
-          type_register: "student",
-          gender: gender,
-          date_of_birth: birthDate,
-          phone_number: phoneNumber,
-        }
-      );
-      const token = response.data.tokens.accessToken;
-      localStorage.setItem("authToken", token);
-      if (response.data.error) {
-        setError(response.data.message || "Error updating user");
-        return;
-      }
-
-      setIsEditing(false);
-
-      SetSucc(true);
-      setPrevEmail(emailValue);
-    } catch (err) {
-      setError("An error occurred while updating user details.");
-      console.error("Error during the update process:", err);
-    }
 
   };
+
 
   const handleCancel = () => {
-    setFullName(initialFullName);
+    setFullName(user.name);
     setEmailValue(prevEmail);
-    setPhoneNumber(initialPhoneNumber);
+    setPhoneNumber(user.phone);
     setIsEditing(false);
     setDateError('')
   };
+
   const HandleConfirmCode = () => {
     if (Mycode === "0000") {
       SetCode(false);
@@ -147,6 +146,7 @@ export default function Account({
     setEmailWarning(false);
     SetCode(true);
   };
+
   const handleResendCode = () => {
     SetErrorCode("Wait 60s before requesting a new code ⏳");
     setResendDisabled(true);
@@ -163,6 +163,13 @@ export default function Account({
       });
     }, 1000);
   };
+
+  useEffect(()=>{
+    setPhoneNumber(user.phone)
+    setFullName(user.name)
+    setGender(user.gender)
+    setBirthDate(user.dateOfBirth)
+  },[user])
 
   return (
     <div>
@@ -304,7 +311,7 @@ export default function Account({
 
                 <i className="bi bi-check-circle text-success fs-1 mb-3"></i>
                 <h4 className="text-success mb-3" style={{ fontWeight: 'bold' }}>
-                Details Updated Successfully!
+                  Details Updated Successfully!
                 </h4>
                 <h6 className="text-muted mb-4">
                   Your Details Have Been Updated Successfully!
