@@ -20,6 +20,7 @@ import Profile from "./components/layouts/Profile";
 import { ProtectedRoute, ProtectedAdminRoute } from "./ProtectedRoute";
 /* import SignInModal from "./components/SignInModal";
  */import AdminDashboard from "./dashboard";
+ import Video from "./components/video";
 
 function Routes() {
 
@@ -28,6 +29,7 @@ function Routes() {
         <Router history={history}>
             <HashRouter basename="/">
                 <Switch>
+                <Route exact path={'/video'} render={(props) => (<Video {...props} />)} />
                     <Route exact path={'/'} render={(props) => (<HomeOne {...props} />)} />
                     <Route exact path={'/home-one'} render={(props) => (<HomeOne {...props} />)} />
                     <Route exact path={'/home-two'} render={(props) => (<HomeTwo {...props} />)} />
