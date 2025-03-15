@@ -2,7 +2,13 @@ import React, { useState, useCallback,useEffect } from "react";
 import Cropper from "react-easy-crop";
 import { FaCamera } from "react-icons/fa";
 
-export default function Accueil({ role, name, image,phoneNumber, email }) {
+import { useSelector } from "react-redux";
+
+
+export default function Accueil({ image,email }) {
+ 
+   const user = useSelector((state) => state.user);
+
   const [profileImage, setProfileImage] = useState(image);
   const [selectedImage, setSelectedImage] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -12,13 +18,13 @@ export default function Accueil({ role, name, image,phoneNumber, email }) {
   const [isEditing, setIsEditing] = useState(false);
   const [lengthMin, setlengthMin] = useState(false);
 
-  const [bio, setBio] = useState("Hi, I'm " + name + " i love EduSkills");
+  const [bio, setBio] = useState("Hi, I'm " + user.name + " i love EduSkills");
   useEffect(() => {
-    if (name) {
-      setBio(`Hi, I'm ${name} i love EduSkills`);
+    if (user.name) {
+      setBio(`Hi, I'm ${user.name} i love EduSkills`);
     }
     
-  }, [name]);
+  }, [user.name]);
   
   const handleEditClick = () => {
     setIsEditing((prev) => !prev);
@@ -106,9 +112,9 @@ export default function Accueil({ role, name, image,phoneNumber, email }) {
       </div>
 
       <div className="mt-0">
-        <h4>{name}</h4>
+        <h4>{user.name}</h4>
         <h4>{email}</h4>
-        <h4>{role}</h4>
+        <h4>{user.role}</h4>
 
         <div
           className="bio-section w-50 mt-2 p-1  rounded shadow-sm mx-auto"
