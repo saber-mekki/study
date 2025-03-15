@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice";  
+
 import Password from "../profileComponents/ChangePassword";
 import Account from "../profileComponents/Account";
 import Mycourses from "../profileComponents/Mycourses";
@@ -8,24 +13,23 @@ import Settings from "../profileComponents/Settings";
 import Accueil from "../profileComponents/Accueil";
 import HeaderOne from "./HeaderOne";
 import Footer from "./FooterOne";
-import axios from "axios";
-import { error } from "jquery";
 
 const UserProfile = () => {
-  const [phone, setphone] = useState("");
-  const [role, setrole] = useState("");
-  const [name, setname] = useState("");
-  const [email, setemail] = useState("");
-  const [Error, setError] = useState("");
-  const [date, setDate] = useState("");
-  const [gender, Setgender] = useState("male");
+  const dispatch = useDispatch();
+  const img = "/assets/images/profile.jpg";
 
   const [activeSection, setActiveSection] = useState("accueil");
-  const img = "/assets/images/profile.jpg";
+  const [name, setname] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [role, setrole] = useState("");
+
+ 
   const handleSectionChange = (section) => {
     setActiveSection(section);
     localStorage.setItem("activeSection", section);
   };
+
   useEffect(() => {
     const savedSection = localStorage.getItem("activeSection");
     if (savedSection) {
@@ -38,6 +42,7 @@ const UserProfile = () => {
     setActiveSection("accueil");
     localStorage.setItem("activeSection", "accueil");
   };
+
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     Cookies.remove("role");
@@ -56,9 +61,7 @@ const UserProfile = () => {
 
         const decodedToken = jwtDecode(token);
         const userEmail = decodedToken.user_email;
-        /* const Myname=decodedToken.user_name;
-                const phone=decodedToken.phone_number; */
-        setemail(userEmail);
+        setEmail(userEmail);
 
         const response = await axios.post(
           "http://localhost:5000/api/v1/getUser",
@@ -72,9 +75,16 @@ const UserProfile = () => {
         } else {
           setname(response.data.user.user_name);
           setrole(response.data.user.type_register);
-          setphone(response.data.user.phone_number);
-          setDate(response.data.user.date_of_birth);
-          Setgender(response.data.user.gender);
+          dispatch(
+            setUser({
+              name: response.data.user.user_name,
+              role: response.data.user.type_register,
+              phone: response.data.user.phone_number,
+              dateOfBirth: response.data.user.date_of_birth,
+              gender: response.data.user.gender,
+            })
+          );
+
         }
       } catch (err) {
         if (err.response && err.response.data.error) {
@@ -86,7 +96,7 @@ const UserProfile = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -175,21 +185,16 @@ const UserProfile = () => {
               <div className="card-body">
                 {activeSection === "accueil" && (
                   <Accueil
-                    role={role}
-                    name={name}
+                   
                     image={img}
                     email={email}
-                    phoneNumber={phone}
+                    
                   />
                 )}
                 {activeSection === "personal" && (
                   <Account
-                    email={email}
-                    fullName={name}
-                    phoneNumber={phone}
-                    date={date}
-                    usergender={gender}
                     onAccountUpdate={handleAccountUpdate}
+                    email={email}
                   />
                 )}
 
