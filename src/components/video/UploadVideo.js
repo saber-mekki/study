@@ -1,65 +1,52 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
-const UploadVideo = () => {
-  const [file, setFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [fileUrl, setFileUrl] = useState("");
+const VideoUpload = () => {
+  const [video, setVideo] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [message, setMessage] = useState("");
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+  const handleFileChange = (e) => {
+    setVideo(e.target.files[0]);
   };
 
   const handleUpload = async () => {
-    if (!file) {
-      alert("Veuillez sélectionner un fichier !");
+    if (!video) {
+      setMessage("Select a video first!");
       return;
     }
 
-    setUploading(true);
-
     const formData = new FormData();
-    formData.append("video", file);
+    formData.append("video", video);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/upload`, {
-        method: "POST",
-        body: formData,
+      const token = localStorage.getItem("authToken");
+
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/video-upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+        onUploadProgress: (progressEvent) => {
+          setProgress(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+        },
       });
 
-      const data = await response.json();
-      if (response.ok) {
-        setFileUrl(data.fileUrl);
-        alert("Upload réussi !");
-      } else {
-        alert(`Erreur : ${data.error}`);
-      }
+      setMessage(response.data.message);
     } catch (error) {
-      console.error("Erreur lors de l'upload :", error);
-      alert("Échec de l'upload.");
+      setMessage(error.response?.data?.error || "Upload failed");
     }
-
-    setUploading(false);
   };
 
   return (
     <div>
-      <h2>Uploader une Vidéo</h2>
+      <h2>Upload Video</h2>
       <input type="file" accept="video/*" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={uploading}>
-        {uploading ? "Upload en cours..." : "Uploader"}
-      </button>
-
-      {fileUrl && (
-        <div>
-          <h3>Vidéo Uploadée :</h3>
-          <video controls width="500">
-            <source src={fileUrl} type="video/mp4" />
-            Votre navigateur ne supporte pas la vidéo.
-          </video>
-        </div>
-      )}
+      <button onClick={handleUpload}>Upload</button>
+      {progress > 0 && <p>Uploading: {progress}%</p>}
+      {message && <p>{message}</p>}
     </div>
   );
 };
 
-export default UploadVideo;
+export default VideoUpload;
