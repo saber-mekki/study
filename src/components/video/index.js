@@ -1,3 +1,5 @@
+import StudentJoin from "./StudentJoin";
+import TutorDashboard from "./TutorDashboard";
 import UploadVideo from "./UploadVideo";
 import VideoList from "./VideoList";
 
@@ -6,7 +8,9 @@ function Video() {
     <div>
       <h1>Plateforme de Streaming</h1>
       <UploadVideo />
-      <VideoList />
+      <VideoList />  
+      <TutorDashboard />
+      <StudentJoin />
     </div>
   );
 }
