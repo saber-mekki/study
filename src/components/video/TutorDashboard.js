@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:5000");
-const peerConnections = {}; // Store peer connections
+const socket = io(`${process.env.REACT_APP_API_URL}`);
+const peerConnections = {}; 
 
 const TutorLiveSession = () => {
   const [roomCode, setRoomCode] = useState("");
