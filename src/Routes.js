@@ -18,8 +18,8 @@ import Contact from "./components/Contact";
 import Profile from "./components/layouts/Profile";
 
 import { ProtectedRoute, ProtectedAdminRoute } from "./ProtectedRoute";
-/* import SignInModal from "./components/SignInModal";
- */import AdminDashboard from "./dashboard";
+import SignInModal from "./components/SignInModal";
+ import AdminDashboard from "./dashboard";
  import Video from "./components/video";
 
 function Routes() {
@@ -45,6 +45,7 @@ function Routes() {
                     <Route exact path={'/blog-details'} render={(props) => (<BlogDetails {...props} />)} />
                     <Route exact path={'/contact'} render={(props) => (<Contact {...props} />)} />
                     <Route exact path={'/profile'} render={(props) => (<Profile {...props} />)} />
+                    <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
 
                     <ProtectedAdminRoute isAdmin={isAdmin} exact path="/dash/admin" component={AdminDashboard} />
                     <ProtectedRoute exact path="/dashboard" component={Courses} />
