@@ -1,23 +1,28 @@
 import { useState, useRef, useEffect } from "react";
 import io from "socket.io-client";
 
-const socket = io(`${process.env.REACT_APP_API_URL}`);
-const peerConnections = {}; 
+const peerConnections = {}; // Store peer connections
 
 const TutorLiveSession = () => {
   const [roomCode, setRoomCode] = useState("");
   const [sessionStarted, setSessionStarted] = useState(false);
+  const [socket, setSocket] = useState(null);
   const myVideo = useRef(null);
   const streamRef = useRef(null);
 
   useEffect(() => {
-    socket.on("student-joined", async ({ studentId }) => {
+    const newSocket =io(`${process.env.REACT_APP_API_URL}`);
+    setSocket(newSocket);
+
+    newSocket.on("student-joined", async ({ studentId }) => {
       console.log("Student joined:", studentId);
-      await createPeerConnection(studentId);
+      await createPeerConnection(studentId, newSocket);
     });
 
     return () => {
-      socket.off("student-joined");
+      newSocket.off("student-joined");
+      newSocket.disconnect();
+      console.log("Socket disconnected from Tutor Page");
     };
   }, []);
 
@@ -42,14 +47,14 @@ const TutorLiveSession = () => {
       }
       streamRef.current = stream;
 
-      socket.emit("join-room", { room: data.roomId, role: "tutor" });
+      socket?.emit("join-room", { room: data.roomId, role: "tutor" });
     } catch (error) {
       console.error("Failed to start session:", error);
       alert("Error starting session. Please try again.");
     }
   };
 
-  const createPeerConnection = async (studentId) => {
+  const createPeerConnection = async (studentId, socket) => {
     const peerConnection = new RTCPeerConnection();
     peerConnections[studentId] = peerConnection;
 

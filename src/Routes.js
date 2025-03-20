@@ -38,7 +38,6 @@ function Routes() {
                     <Route exact path={'/about-two'} render={(props) => (<AboutTwo {...props} />)} />
                     <Route exact path={'/about-three'} render={(props) => (<AboutThree {...props} />)} />
                     <Route exact path={'/courses'} render={(props) => (<Courses {...props} />)} />
-                    <Route exact path={'/login'} render={(props) => (<HomeOne {...props} />)} />
                     <Route exact path={'/job-board'} render={(props) => (<JobBoard {...props} />)} />
                     <Route exact path={'/course-details-one'} render={(props) => (<CourseDetailsOne {...props} />)} />
                     <Route exact path={'/course-details-two'} render={(props) => (<CourseDetailsTwo {...props} />)} />

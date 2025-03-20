@@ -1,54 +1,57 @@
 import { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 
-
-const socket = io(`${process.env.REACT_APP_API_URL}`);
-const peerConnection = new RTCPeerConnection();
-
 const StudentLiveSession = () => {
   const [roomCode, setRoomCode] = useState("");
   const [joined, setJoined] = useState(false);
+  const [socket, setSocket] = useState(null);
   const tutorVideo = useRef(null);
+  const peerConnection = useRef(new RTCPeerConnection());
 
   useEffect(() => {
-    socket.on("receive-offer", async ({ offer, from }) => {
+    const newSocket = io(`${process.env.REACT_APP_API_URL}`);
+    setSocket(newSocket);
+
+    newSocket.on("receive-offer", async ({ offer, from }) => {
       console.log("🔴 Student Received Offer:", offer, "from:", from);
-      
+
       if (!offer) {
         console.error("No offer received");
         return;
       }
 
-      await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+      await peerConnection.current.setRemoteDescription(new RTCSessionDescription(offer));
 
-      const answer = await peerConnection.createAnswer();
-      await peerConnection.setLocalDescription(answer);
-      socket.emit("send-answer", { answer, to: from });
+      const answer = await peerConnection.current.createAnswer();
+      await peerConnection.current.setLocalDescription(answer);
+      newSocket.emit("send-answer", { answer, to: from });
 
       console.log("✅ Student Sent Answer:", answer);
     });
 
-    peerConnection.ontrack = (event) => {
+    peerConnection.current.ontrack = (event) => {
       console.log("🎥 Student Received Video Track:", event.streams[0]);
       if (tutorVideo.current) {
         tutorVideo.current.srcObject = event.streams[0];
       }
     };
 
-    socket.on("ice-candidate", ({ candidate }) => {
+    newSocket.on("ice-candidate", ({ candidate }) => {
       console.log("❄️ Student Received ICE Candidate:", candidate);
-      peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+      peerConnection.current.addIceCandidate(new RTCIceCandidate(candidate));
     });
 
     return () => {
-      socket.off("receive-offer");
-      socket.off("ice-candidate");
+      newSocket.off("receive-offer");
+      newSocket.off("ice-candidate");
+      newSocket.disconnect();
+      console.log("Socket disconnected from Student Page");
     };
   }, []);
 
   const joinSession = () => {
     console.log("🔵 Joining room:", roomCode);
-    socket.emit("join-room", { room: roomCode, role: "student" });
+    socket?.emit("join-room", { room: roomCode, role: "student" });
     setJoined(true);
   };
 
