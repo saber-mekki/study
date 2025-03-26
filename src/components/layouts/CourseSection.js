@@ -1,203 +1,85 @@
-import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import CourseCard from "./CourseCard";
+import axios from "axios";
 
-class CourseSection extends Component {
-    render() {
-        return (
-            <section className="section-padding">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-12 text-center mb-30">
-                            <h2 className="section-title">Largest Selection Of Courses</h2>
-                        </div>
-                        <div className="col-lg-12">
-                            <div className="nav-scrollable">
-                                <nav className="nav d-flex justify-content-between">
-                                    <Link to={'/'} className="active">All</Link>
-                                    <Link to={'/'}>Development</Link>
-                                    <Link to={'/'}>Design</Link>
-                                    <Link to={'/'}>Marketing</Link>
-                                    <Link to={'/'}>Lifestyle</Link>
-                                    <Link to={'/'}>IT & Software</Link>
-                                    <Link to={'/'}>Personal</Link>
-                                    <Link to={'/'}>Development</Link>
-                                    <Link to={'/'}>Business</Link>
-                                    <Link to={'/'}>Music</Link>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row justify-content-center">
-                        <div className="col-lg-4 col-md-5 col-sm-6">
-                            <div className="card course-card shadow mt-40">
-                                <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/courses/01.jpg'} alt="" />
-                                <div className="card-body p-30">
-                                    <h5 className="font-weight-600">
-                                        <Link to={'/home-one'} className="text-blue">Machine Learning A-Z: hands-On Python In Data Science</Link>
-                                    </h5>
-                                    <p className="mt-2">She exposed painted fifteen are noisier mistake led waiting surprise.</p>
-                                </div>
-                                <div className="px-30">
-                                    <div
-                                        className="card-footer px-0 bg-transparent mb-10 d-flex justify-content-between align-items-center">
-                                        <div className="rating text-primary">
-                                            <span className="font-weight-600">4.3</span>
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                        </div>
-                                        <p className="price h6">
-                                            $12.99 <s>$12.99</s>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-5 col-sm-6">
-                            <div className="card course-card shadow mt-40">
-                                <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/courses/02.jpg'} alt="" />
-                                <div className="card-body p-30">
-                                    <h5 className="font-weight-600">
-                                        <Link to={'/'} className="text-blue">
-                                            The Business Intelligence Analyst Course 2023
-                                        </Link>
-                                    </h5>
-                                    <p className="mt-2">She exposed painted fifteen are noisier mistake led waiting
-                                        surprise.</p>
-                                </div>
-                                <div className="px-30">
-                                    <div
-                                        className="card-footer px-0 bg-transparent mb-10 d-flex justify-content-between align-items-center">
-                                        <div className="rating text-primary">
-                                            <span className="font-weight-600">4.3</span>
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                        </div>
-                                        <p className="price h6">
-                                            $12.99 <s>$12.99</s>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-5 col-sm-6">
-                            <div className="card course-card shadow mt-40">
-                                <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/courses/03.jpg'} alt="" />
-                                <div className="card-body p-30">
-                                    <h5 className="font-weight-600">
-                                        <Link to={'/'} className="text-blue">The Business Intelligence Analyst Course 2023</Link>
-                                    </h5>
-                                    <p className="mt-2">She exposed painted fifteen are noisier mistake led waiting
-                                        surprise.</p>
-                                </div>
-                                <div className="px-30">
-                                    <div
-                                        className="card-footer px-0 bg-transparent mb-10 d-flex justify-content-between align-items-center">
-                                        <div className="rating text-primary">
-                                            <span className="font-weight-600">4.3</span>
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                        </div>
-                                        <p className="price h6">
-                                            $12.99 <s>$12.99</s>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-5 col-sm-6">
-                            <div className="card course-card shadow mt-40">
-                                <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/courses/04.jpg'} alt="" />
-                                <div className="card-body p-30">
-                                    <h5 className="font-weight-600">
-                                        <Link to={'/'} className="text-blue">Pianoforall - Incredible New Way To Learn Pano & Keyboard course</Link>
-                                    </h5>
-                                    <p className="mt-2">She exposed painted fifteen are noisier mistake led waiting
-                                        surprise.</p>
-                                </div>
-                                <div className="px-30">
-                                    <div
-                                        className="card-footer px-0 bg-transparent mb-10 d-flex justify-content-between align-items-center">
-                                        <div className="rating text-primary">
-                                            <span className="font-weight-600">4.3</span>
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                        </div>
-                                        <p className="price h6">
-                                            $12.99 <s>$12.99</s>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-5 col-sm-6">
-                            <div className="card course-card shadow mt-40">
-                                <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/courses/05.jpg'} alt="" />
-                                <div className="card-body p-30">
-                                    <h5 className="font-weight-600">
-                                        <Link to={'/'} className="text-blue">MLP Practitioner Certificate Course (Beginner To Advanced)</Link>
-                                    </h5>
-                                    <p className="mt-2">She exposed painted fifteen are noisier mistake led waiting
-                                        surprise.</p>
-                                </div>
-                                <div className="px-30">
-                                    <div
-                                        className="card-footer px-0 bg-transparent mb-10 d-flex justify-content-between align-items-center">
-                                        <div className="rating text-primary">
-                                            <span className="font-weight-600">4.3</span>
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                        </div>
-                                        <p className="price h6">
-                                            $12.99 <s>$12.99</s>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-5 col-sm-6">
-                            <div className="card course-card shadow mt-40">
-                                <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/courses/06.jpg'} alt="" />
-                                <div className="card-body p-30">
-                                    <h5 className="font-weight-600">
-                                        <Link to={'/'} className="text-blue">
-                                            Java Programming Masterclass For Software Developers
-                                        </Link>
-                                    </h5>
-                                    <p className="mt-2">She exposed painted fifteen are noisier mistake led waiting
-                                        surprise.</p>
-                                </div>
-                                <div className="px-30">
-                                    <div
-                                        className="card-footer px-0 bg-transparent mb-10 d-flex justify-content-between align-items-center">
-                                        <div className="rating text-primary">
-                                            <span className="font-weight-600">4.3</span>
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                            <i className="fas fa-star" />
-                                        </div>
-                                        <p className="price h6">
-                                            $12.99 <s>$12.99</s>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        );
-    }
+export default function CourseSection() {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/v1/GetAllCourses");
+        setCourses(response.data.courses);
+      } catch (error) {
+        console.log("Error fetching courses:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  const filteredCourses = selectedCategory === "All" 
+    ? courses 
+    : courses.filter(course => course.category.toLowerCase() === selectedCategory.toLowerCase());
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  return (
+    <section className="section-padding">
+      <div className="container">
+        <div className="row">
+          <div className="col-12 text-center mb-30">
+            <h2 className="section-title">Largest Selection Of Courses</h2>
+          </div>
+          <div className="col-lg-12">
+            <div className="nav-scrollable">
+              <nav className="nav d-flex justify-content-between">
+                <Link to="#" onClick={() => setSelectedCategory("All")} className={selectedCategory === "All" ? "active" : ""}>All</Link>
+                <Link to="#" onClick={() => setSelectedCategory("Development")} className={selectedCategory === "Development" ? "active" : ""}>Development</Link>
+                <Link to="#" onClick={() => setSelectedCategory("Design")} className={selectedCategory === "Design" ? "active" : ""}>Design</Link>
+                <Link to="#" onClick={() => setSelectedCategory("Marketing")} className={selectedCategory === "Marketing" ? "active" : ""}>Marketing</Link>
+                <Link to="#" onClick={() => setSelectedCategory("Lifestyle")} className={selectedCategory === "Lifestyle" ? "active" : ""}>Lifestyle</Link>
+                <Link to="#" onClick={() => setSelectedCategory("IT & Software")} className={selectedCategory === "IT & Software" ? "active" : ""}>IT & Software</Link>
+                <Link to="#" onClick={() => setSelectedCategory("Personal")} className={selectedCategory === "Personal" ? "active" : ""}>Personal</Link>
+                <Link to="#" onClick={() => setSelectedCategory("Business")} className={selectedCategory === "Business" ? "active" : ""}>Business</Link>
+                <Link to="#" onClick={() => setSelectedCategory("Music")} className={selectedCategory === "Music" ? "active" : ""}>Music</Link>
+              </nav>
+            </div>
+          </div>
+        </div>
+
+        <div className="row justify-content-center">
+          {filteredCourses.length > 0 ? (
+            filteredCourses.map((course) => (
+              <CourseCard
+                key={course.id}
+                id={course.id}
+                title={course.title}
+                category={course.category}
+                price={course.price}
+                description={course.description}
+                imageUrl={course.image}
+                tutor={course.tutor}
+                date={course.date}
+                level={course.level}
+                duration={course.duration}
+                language={course.language}
+                syllabus={course.syllabus}
+                requirements={course.requirements}
+              />
+            ))
+          ) : (
+            <p>No courses available in this category.</p>
+          )}
+        </div>
+      </div>
+    </section>
+  );
 }
-
-export default CourseSection;
