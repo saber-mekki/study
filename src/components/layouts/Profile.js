@@ -8,7 +8,7 @@ import { setUser } from "../../redux/userSlice";
 
 import Password from "../profileComponents/ChangePassword";
 import Account from "../profileComponents/Account";
-import Mycourses from "../profileComponents/Mycourses";
+import AddCourse from "../profileComponents/AddCourse";
 import Settings from "../profileComponents/Settings";
 import Accueil from "../profileComponents/Accueil";
 import HeaderOne from "./HeaderOne";
@@ -155,8 +155,9 @@ const UserProfile = () => {
                         className="btn btn-link text-primary pb-0 px-4 "
                         onClick={() => handleSectionChange("courses")}
                       >
-                        Courses
+                        ADD Courses
                       </button>
+                      
                     </li>
                     <li className="list-group-item">
                       <button
@@ -200,7 +201,7 @@ const UserProfile = () => {
 
                 {activeSection === "settings" && <Settings />}
 
-                {activeSection === "courses" && <Mycourses />}
+                {activeSection === "courses" && <AddCourse />}
 
                 {activeSection === "password" && <Password email={email} />}
               </div>
