@@ -10,6 +10,7 @@
 		"@testing-library/user-event": "^7.2.1",
 		"axios": "^1.7.2",
 		"bootstrap": "^5.3.3",
+		"bootstrap-select": "^1.13.18",
 		"i18next": "^23.16.8",
 		"i18next-browser-languagedetector": "^6.1.2",
 		"jquery": "^3.7.1",
