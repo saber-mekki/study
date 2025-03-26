@@ -6,12 +6,15 @@ const peerConnections = {}; // Store peer connections
 const TutorLiveSession = () => {
   const [roomCode, setRoomCode] = useState("");
   const [sessionStarted, setSessionStarted] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
   const [socket, setSocket] = useState(null);
   const myVideo = useRef(null);
   const streamRef = useRef(null);
+  const mediaRecorderRef = useRef(null);
+  const recordedChunksRef = useRef([]);
 
   useEffect(() => {
-    const newSocket =io(`${process.env.REACT_APP_API_URL}`);
+    const newSocket = io(`${process.env.REACT_APP_API_URL}`);
     setSocket(newSocket);
 
     newSocket.on("student-joined", async ({ studentId }) => {
@@ -88,6 +91,67 @@ const TutorLiveSession = () => {
     });
   };
 
+  const startRecording = () => {
+    if (!streamRef.current) return;
+    
+    const mediaRecorder = new MediaRecorder(streamRef.current, { mimeType: "video/webm" });
+    mediaRecorderRef.current = mediaRecorder;
+    recordedChunksRef.current = [];
+
+    mediaRecorder.ondataavailable = (event) => {
+      if (event.data.size > 0) {
+        recordedChunksRef.current.push(event.data);
+      }
+    };
+
+    mediaRecorder.onstop = async () => {
+      const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
+      await uploadVideo(blob);
+    };
+
+    mediaRecorder.start();
+    setIsRecording(true);
+    console.log("Recording started...");
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+      console.log("Recording stopped...");
+    }
+  };
+
+  const uploadVideo = async (videoBlob) => {
+    try {
+      const tutorId = "141bb681-2ed1-4c53-a7af-a01772e06bb0";
+      const formData = new FormData();
+      formData.append("video", videoBlob, "session-recording.webm");
+    formData.append("tutorId", tutorId);
+
+    // Debugging: Check FormData values
+    for (let pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/upload-video`, {
+        method: "POST",
+        body: formData ,
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert("Video uploaded successfully!");
+        console.log("Uploaded Video URL:", data.url);
+      } else {
+        throw new Error("Upload failed");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("Error uploading video");
+    }
+  };
+
   return (
     <div>
       <h2>Tutor Live Session</h2>
@@ -97,6 +161,12 @@ const TutorLiveSession = () => {
         <>
           <p>Share this code with the student: <strong>{roomCode}</strong></p>
           <video ref={myVideo} autoPlay playsInline muted />
+          <br />
+          {!isRecording ? (
+            <button onClick={startRecording}>Start Recording</button>
+          ) : (
+            <button onClick={stopRecording}>Stop Recording</button>
+          )}
         </>
       )}
     </div>
