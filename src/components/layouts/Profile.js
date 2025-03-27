@@ -150,15 +150,31 @@ const UserProfile = () => {
                         Settings
                       </button>
                     </li>
+                    {role==="tutor" &&   <li className="list-group-item">
+                      <button
+                        className="btn btn-link text-primary pb-0 px-4 "
+                        onClick={() => handleSectionChange("addcourse")}
+                      >
+                        ADD Courses
+                      </button>
+                    
+                      
+                    </li>
+
+                    }
+
+                  
                     <li className="list-group-item">
                       <button
                         className="btn btn-link text-primary pb-0 px-4 "
                         onClick={() => handleSectionChange("courses")}
                       >
-                        ADD Courses
-                      </button>
+                        My Courses
+                      </button>   
+                    
                       
                     </li>
+                    
                     <li className="list-group-item">
                       <button
                         className="btn btn-link text-primary pb-0 px-4 "
@@ -201,7 +217,7 @@ const UserProfile = () => {
 
                 {activeSection === "settings" && <Settings />}
 
-                {activeSection === "courses" && <AddCourse />}
+                {activeSection === "addcourse" && <AddCourse />}
 
                 {activeSection === "password" && <Password email={email} />}
               </div>
