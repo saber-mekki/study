@@ -3,10 +3,9 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-// Inside your AddCourse component, after successful course creation:
 
 
-export default function AddCourse() {
+export default function AddCourse({email}) {
   const history = useHistory();
   const [course, setCourse] = useState({
     title: "",
@@ -38,7 +37,6 @@ export default function AddCourse() {
     }
   };
 
-  // Open second modal only if the first modal is fully filled
   const handleDetails = (e) => {
     e.preventDefault();
 
@@ -92,6 +90,8 @@ export default function AddCourse() {
         language: course.language,
         syllabus: course.syllabus,
         requirements: course.requirements,
+        tutor_email:email
+
       });
 
       setDetails(false);
@@ -202,7 +202,7 @@ export default function AddCourse() {
 
               <button
                 type="button"
-                onClick={handleDetails} // This now triggers the validation before opening the second modal
+                onClick={handleDetails} 
                 className="btn btn-primary w-100"
               >
                 Next              </button>
