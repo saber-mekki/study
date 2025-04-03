@@ -13,6 +13,7 @@ import Settings from "../profileComponents/Settings";
 import Accueil from "../profileComponents/Accueil";
 import HeaderOne from "./HeaderOne";
 import Footer from "./FooterOne";
+import Mycourses from "../profileComponents/Mycourses";
 
 const UserProfile = () => {
   const dispatch = useDispatch();
@@ -217,7 +218,8 @@ const UserProfile = () => {
 
                 {activeSection === "settings" && <Settings />}
 
-                {activeSection === "addcourse" && <AddCourse />}
+                {activeSection === "addcourse" && <AddCourse email={email} />}
+                {activeSection === "courses" && <Mycourses email={email}/>}
 
                 {activeSection === "password" && <Password email={email} />}
               </div>
