@@ -16,6 +16,7 @@
 		"jquery": "^3.7.1",
 		"js-cookie": "^3.0.5",
 		"jwt-decode": "^4.0.0",
+		"multer": "^1.4.5-lts.2",
 		"popper.js": "^1.16.1",
 		"react": "17",
 		"react-calendar": "^5.0.0",
