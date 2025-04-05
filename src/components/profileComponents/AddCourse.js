@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import { v4 as uuidv4 } from "uuid";
 
 
 export default function AddCourse({email}) {
@@ -19,11 +20,24 @@ export default function AddCourse({email}) {
     syllabus: "",
     requirements: "",
   });
-
+  const [pdfOne, setPdfOne] = useState(null); 
+  const [pdfOnePreview, setPdfOnePreview] = useState(null); 
+  
+  const [pdfTwo, setPdfTwo] = useState(null); 
+  const [pdfTwoPreview, setPdfTwoPreview] = useState(null); 
+  
+  const [PDF, setPDF] = useState(false); 
+  
   const [errors, setErrors] = useState({});
   const user = useSelector((state) => state.user);
   const [details, setDetails] = useState(false);
 
+
+  const handlePDF = (e) => {
+ setPDF(true)
+ setDetails(false)
+
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCourse((prev) => ({ ...prev, [name]: value }));
@@ -58,10 +72,12 @@ export default function AddCourse({email}) {
 
   const onClose = () => {
     setDetails(false);
+    setPDF(false)
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const Myid = uuidv4();
 
     let validationErrors = {};
 
@@ -78,6 +94,7 @@ export default function AddCourse({email}) {
 
     try {
       await axios.post("http://localhost:5000/api/v1/CreateCourse", {
+        id:Myid,
         title: course.title,
         category: course.category,
         price: course.price,
@@ -95,12 +112,29 @@ export default function AddCourse({email}) {
       });
 
       setDetails(false);
-      history.push("/courses");
 
     } catch (error) {
       console.error("Error creating course:", error.response || error.message);
     }
-  };
+
+
+    try {
+      await axios.post("http://localhost:5000/api/v1/uploadpdf", {
+        course_id: Myid,
+        pdfFile: pdfOne
+      });
+    
+      setDetails(false);
+      history.push("/courses");
+    
+    } catch (error) {
+      const errorMessage = error.response 
+        ? error.response.data.message || "An error occurred while uploading the PDF" 
+        : error.message || "Network error";
+    
+      alert(`Error PDF: ${errorMessage}`);
+    }
+  }    
 
   return (
     <div className="container">
@@ -339,7 +373,7 @@ export default function AddCourse({email}) {
                 <button type="button" className="btn btn-secondary" onClick={onClose}>
                   Close
                 </button>
-                <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+                <button type="button" className="btn btn-primary" onClick={handlePDF}>
                   Save Course
                 </button>
               </div>
@@ -347,6 +381,159 @@ export default function AddCourse({email}) {
           </div>
         </div>
       )}
+{PDF && (
+  <div
+    className="modal fade show d-flex align-items-center justify-content-center"
+    tabIndex="-1"
+    role="dialog"
+    style={{ display: 'block' }}
+  >
+    <div
+      className="modal-dialog modal-dialog-centered h-100"
+      style={{ maxWidth: '80%', width: '100%', maxHeight: '70vh' }}
+    >
+      <div className="modal-content h-100" style={{ backgroundColor: '#f2e8cf' }}>
+        <div className="modal-header">
+          <h5
+            className="modal-title"
+            style={{
+              fontWeight: 'bold',
+              textTransform: 'uppercase',
+              color: '#333',
+            }}
+          >
+            Step 3: Upload PDFs
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            onClick={onClose}
+            aria-label="Close"
+          ></button>
+        </div>
+        <div className="modal-body">
+          <div className="mb-3">
+            <label htmlFor="pdfOne" className="form-label">
+              PDF One:
+            </label>
+            <input
+              type="file"
+              accept="application/pdf"
+              id="pdfOne"
+              name="pdfOne"
+              className="form-control"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setPdfOne(file);
+              }}
+            />
+            <button
+              type="button"
+              className="btn btn-secondary mt-2"
+              onClick={() => {
+                if (pdfOne) {
+                  setPdfOnePreview(URL.createObjectURL(pdfOne));
+                }
+              }}
+            >
+              Preview PDF One
+            </button>
+            <button
+                  type="button"
+                  className="btn btn-danger mt-2"
+                  onClick={() => setPdfOnePreview(null)} 
+                >
+                  Close Preview
+                </button>
+            {pdfOnePreview && (
+              <div className="mt-2">
+                <h6>Preview PDF One:</h6>
+                <iframe
+                  src={pdfOnePreview}
+                  title="PDF One Preview"
+                  width="100%"
+                  height="400px"
+                  style={{ border: '1px solid #ccc' }}
+                />
+              
+              </div>
+            )}
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="pdfTwo" className="form-label">
+              PDF Two:
+            </label>
+            <input
+              type="file"
+              accept="application/pdf"
+              id="pdfTwo"
+              name="pdfTwo"
+              className="form-control"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setPdfTwo(file);
+              }}
+            />
+            <button
+              type="button"
+              className="btn btn-secondary mt-2"
+              onClick={() => {
+                if (pdfTwo) {
+                  setPdfTwoPreview(URL.createObjectURL(pdfTwo));
+                }
+              }}
+            >
+              Preview PDF Two
+            </button>
+               {/* Close Preview Button for PDF Two */}
+               <button
+                  type="button"
+                  className="btn btn-danger mt-2"
+                  onClick={() => setPdfTwoPreview(null)} // Close the preview of PDF Two
+                >
+                  Close Preview
+                </button>
+            {pdfTwoPreview && (
+              <div className="mt-2">
+                <h6>Preview PDF Two:</h6>
+                <iframe
+                  src={pdfTwoPreview}
+                  title="PDF Two Preview"
+                  width="100%"
+                  height="400px"
+                  style={{ border: '1px solid #ccc' }}
+                />
+             
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={onClose}
+          >
+            Close Modal
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleSubmit}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
+
+
     </div>
   );
 }
