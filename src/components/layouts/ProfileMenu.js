@@ -9,11 +9,11 @@ import {
 } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import Cookies from "js-cookie";
-
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 function ProfileMenu() {
-
+  const { t } = useTranslation();
   const user = useSelector((state) => state.user);
 
   const handleLogout = () => {
@@ -21,7 +21,6 @@ function ProfileMenu() {
     Cookies.remove("role");
     window.location.href = "/";
   };
-
 
   return (
     <li className="nav-item dropdown" style={{ marginLeft: "205px" }}>
@@ -36,7 +35,7 @@ function ProfileMenu() {
       >
         <img
           src="/assets/images/profile.jpg"
-          alt="Profile"
+          alt={t("Profile")}
           className="d-none d-lg-block"
           style={{
             width: "40px",
@@ -45,14 +44,14 @@ function ProfileMenu() {
             objectFit: "cover",
           }}
         />
-        <span className="d-block d-lg-none">Profile</span>
+        <span className="d-block d-lg-none">{t("Profile")}</span>
       </a>
       <div className="dropdown-menu" aria-labelledby="profileDropdown">
-        <Link to="/profile" className="dropdown-item d-flex m-0  ">
+        <Link to="/profile" className="dropdown-item d-flex m-0">
           <img
             src="/assets/images/profile.jpg"
-            alt="Profile"
-            className="d-none d-lg-block mr-2 border border-primary "
+            alt={t("Profile")}
+            className="d-none d-lg-block mr-2 border border-primary"
             style={{
               width: "40px",
               height: "40px",
@@ -60,7 +59,7 @@ function ProfileMenu() {
               objectFit: "cover",
             }}
           />
-          <span className="mt-2 ">{user.name}</span>
+          <span className="mt-2">{user.name}</span>
         </Link>
 
         <div className="dropdown-divider"></div>
@@ -68,13 +67,13 @@ function ProfileMenu() {
         {user.role === "student" && (
           <>
             <Link to="/courses" className="dropdown-item">
-              <FaBookOpen style={{ marginRight: "10px" }} /> My Courses
+              <FaBookOpen style={{ marginRight: "10px" }} /> {t("My Courses")}
             </Link>
             <Link to="/achievements" className="dropdown-item">
-              <FaUserGraduate style={{ marginRight: "10px" }} /> Achievements
+              <FaUserGraduate style={{ marginRight: "10px" }} /> {t("Achievements")}
             </Link>
             <Link to="/calendar" className="dropdown-item">
-              <SlCalender style={{ marginRight: "10px" }} /> Calendar
+              <SlCalender style={{ marginRight: "10px" }} /> {t("Calendar")}
             </Link>
           </>
         )}
@@ -82,19 +81,19 @@ function ProfileMenu() {
         {user.role === "tutor" && (
           <>
             <Link to="/my-classes" className="dropdown-item">
-              <FaChalkboardTeacher style={{ marginRight: "10px" }} /> My Classes
+              <FaChalkboardTeacher style={{ marginRight: "10px" }} /> {t("My Classes")}
             </Link>
             <Link to="/courses" className="dropdown-item">
-              <FaBookOpen style={{ marginRight: "10px" }} /> Create Course
+              <FaBookOpen style={{ marginRight: "10px" }} /> {t("Create Course")}
             </Link>
           </>
         )}
 
         <Link to="/settings" className="dropdown-item">
-          <FaCog style={{ marginRight: "10px" }} /> Settings
+          <FaCog style={{ marginRight: "10px" }} /> {t("Settings")}
         </Link>
         <button className="dropdown-item" onClick={handleLogout}>
-          <FaSignOutAlt style={{ marginRight: "10px" }} /> Logout
+          <FaSignOutAlt style={{ marginRight: "10px" }} /> {t("Logout")}
         </button>
       </div>
     </li>
@@ -102,3 +101,4 @@ function ProfileMenu() {
 }
 
 export default ProfileMenu;
+  

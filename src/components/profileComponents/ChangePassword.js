@@ -1,7 +1,10 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
-export default function ChangePassword({email}) {
+export default function ChangePassword({ email }) {
+  const { t } = useTranslation();
+
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -9,8 +12,6 @@ export default function ChangePassword({email}) {
   const [CurrentPasswordError, setCurrentPasswordError] = useState("");
   const [SendEmailMessage, setSendEmailMessage] = useState(false);
   const [UpadateSucc, setUpadateSucc] = useState(false);
-
- 
 
   const handleSendEmail = () => {
     setSendEmailMessage(true);
@@ -31,11 +32,9 @@ export default function ChangePassword({email}) {
     setCurrentPasswordError("");
 
     if (!email) {
-      setErrorMessage("User email is missing.");
+      setErrorMessage(t("error.userEmailMissing"));
       return;
     }
-
- 
 
     try {
       const loginResponse = await axios.post(
@@ -47,19 +46,22 @@ export default function ChangePassword({email}) {
       );
 
       if (loginResponse.status !== 200) {
-        setCurrentPasswordError("Current password is incorrect.");
+        setCurrentPasswordError(t("error.incorrectCurrentPassword"));
         return;
       }
 
       if (newPassword !== confirmPassword) {
-        setErrorMessage("Passwords do not match.");
+        setErrorMessage(t("error.passwordsDoNotMatch"));
         return;
       }
 
       if (newPassword === currentPassword) {
-        setErrorMessage(
-          "New password cannot be the same as the current password."
-        );
+        setErrorMessage(t("error.sameNewPassword"));
+        return;
+      }
+
+      if (!checkUpdateLimit()) {
+        setErrorMessage(t("error.passwordUpdateLimit"));
         return;
       }
 
@@ -70,37 +72,27 @@ export default function ChangePassword({email}) {
           password: newPassword,
         }
       );
-      if (!checkUpdateLimit()) {
-        setErrorMessage("You can only update your password 3 times in an hour.");
-        return;
-      }
+
       if (updateResponse.status === 200) {
         setUpadateSucc(true);
-      
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
       } else {
-        setErrorMessage("Failed to update password. Try again.");
+        setErrorMessage(t("error.passwordUpdateFailed"));
       }
     } catch (error) {
-      console.error(
-        "Update Password Error:",
-        error.response ? error.response.data : error.message
-      );
-
+      console.error("Update Password Error:", error.response ? error.response.data : error.message);
       if (error.response) {
         if (error.response.status === 401) {
-          setCurrentPasswordError("Current password is incorrect.");
+          setCurrentPasswordError(t("error.incorrectCurrentPassword"));
         } else if (error.response.status === 404) {
-          setErrorMessage("User not found." + email);
+          setErrorMessage(t("error.userNotFound") + email);
         } else {
-          setErrorMessage(
-            `${error.response.data?.error || "An error occurred. Try again."}`
-          );
+          setErrorMessage(`${error.response.data?.error || t("error.general")}`);
         }
       } else {
-        setErrorMessage("Network error. Please check your connection.");
+        setErrorMessage(t("error.network"));
       }
     }
   };
@@ -108,19 +100,13 @@ export default function ChangePassword({email}) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="h-100 d-flex flex-column justify-content-between">
-        <h6 className="mb-2 text-primary w-100">Change Password</h6>
-        <h6>
-          Enter your current password and a new one. Make sure it's strong and
-          confirm it before saving.
-        </h6>
+        <h6 className="mb-2 text-primary w-100">{t("changePassword.title")}</h6>
+        <h6>{t("changePassword.instructions")}</h6>
 
         <div className="f-flex flex-column gutters ">
-          <div
-            className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12"
-            style={{ maxWidth: "100%" }}
-          >
+          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style={{ maxWidth: "100%" }}>
             <div className="form-group" style={{ maxWidth: "100%" }}>
-              <label htmlFor="currentPassword">Current Password</label>
+              <label htmlFor="currentPassword">{t("changePassword.currentPassword")}</label>
               <input
                 type="password"
                 value={currentPassword}
@@ -128,7 +114,7 @@ export default function ChangePassword({email}) {
                 className="form-control"
                 id="currentPassword"
                 required
-                placeholder="Enter current password"
+                placeholder={t("changePassword.placeholderCurrent")}
               />
             </div>
             {CurrentPasswordError && (
@@ -139,55 +125,34 @@ export default function ChangePassword({email}) {
                   type="button"
                   className="btn ml-3 btn-link text-blue p-0 border-0 no-transform"
                 >
-                  Forgot password?
+                  {t("changePassword.forgotPassword")}
                 </button>
               </div>
             )}
 
             {(SendEmailMessage || UpadateSucc) && (
-              <div
-                className="modal fade show d-block"
-                tabIndex="-1"
-                role="dialog"
-              >
-                <div
-                  className="modal-dialog modal-dialog-centered"
-                  role="document"
-                >
+              <div className="modal fade show d-block" tabIndex="-1" role="dialog">
+                <div className="modal-dialog modal-dialog-centered" role="document">
                   <div className="modal-content p-3">
                     <div className="modal-body text-center">
                       {SendEmailMessage && (
                         <>
                           <i className="bi bi-envelope-check text-success fs-1 mb-3"></i>
-                          <h5 className="text-success">
-                            Email Sent Successfully!
-                          </h5>
+                          <h5 className="text-success">{t("changePassword.emailSent")}</h5>
                           <h3 className="text-muted">
-                            We have sent an email to{" "}
-                            <strong>{maskEmail(email)}</strong>. Please
-                            check your inbox and follow the instructions.
+                            {t("changePassword.emailInstructions")} <strong>{maskEmail(email)}</strong>.
                           </h3>
                         </>
                       )}
                       {UpadateSucc && (
                         <>
                           <i className="bi bi-check-circle text-success fs-1 mb-3"></i>
-                          <h4 className="text-success mb-3">
-                            Password Update Successful!
-                          </h4>
-                          <h6 className="text-muted mb-3">
-                            Your password has been successfully updated. For
-                            your security, please ensure that you keep your new
-                            password safe.
-                          </h6>
+                          <h4 className="text-success mb-3">{t("changePassword.updateSuccessTitle")}</h4>
+                          <h6 className="text-muted mb-3">{t("changePassword.updateSuccessMessage")}</h6>
                         </>
                       )}
-                      <button
-                        type="button"
-                        className="btn rounded btn-primary mt-2"
-                        onClick={handleClose}
-                      >
-                        OK
+                      <button type="button" className="btn rounded btn-primary mt-2" onClick={handleClose}>
+                        {t("general.ok")}
                       </button>
                     </div>
                   </div>
@@ -198,7 +163,7 @@ export default function ChangePassword({email}) {
 
           <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
             <div className="form-group">
-              <label htmlFor="newPassword">New Password</label>
+              <label htmlFor="newPassword">{t("changePassword.newPassword")}</label>
               <input
                 type="password"
                 className="form-control"
@@ -206,11 +171,11 @@ export default function ChangePassword({email}) {
                 onChange={(e) => setNewPassword(e.target.value)}
                 id="newPassword"
                 required
-                placeholder="Enter new password"
+                placeholder={t("changePassword.placeholderNew")}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm New Password</label>
+              <label htmlFor="confirmPassword">{t("changePassword.confirmPassword")}</label>
               <input
                 type="password"
                 value={confirmPassword}
@@ -218,11 +183,9 @@ export default function ChangePassword({email}) {
                 className="form-control"
                 id="confirmPassword"
                 required
-                placeholder="Confirm new password"
+                placeholder={t("changePassword.placeholderConfirm")}
               />
-              {errorMessage && (
-                <div className="text-danger">{errorMessage}</div>
-              )}
+              {errorMessage && <div className="text-danger">{errorMessage}</div>}
             </div>
           </div>
         </div>
@@ -231,10 +194,10 @@ export default function ChangePassword({email}) {
           <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             <div className="text-right">
               <button type="button" className="btn btn-secondary">
-                Cancel
+                {t("general.cancel")}
               </button>
               <button type="submit" className="btn btn-primary">
-                Change Password
+                {t("changePassword.submit")}
               </button>
             </div>
           </div>
@@ -243,6 +206,7 @@ export default function ChangePassword({email}) {
     </form>
   );
 }
+
 const maskEmail = (email) => {
   const [localPart, domain] = email.split("@");
   return `${localPart[0]}***@${domain}`;
@@ -250,9 +214,7 @@ const maskEmail = (email) => {
 
 const checkUpdateLimit = () => {
   const updateCount = localStorage.getItem("passwordUpdateCount");
-  const lastUpdateTimestamp = localStorage.getItem(
-    "lastPasswordUpdateTimestamp"
-  );
+  const lastUpdateTimestamp = localStorage.getItem("lastPasswordUpdateTimestamp");
 
   const currentTime = Date.now();
   const hourDifference = (currentTime - lastUpdateTimestamp) / (1000 * 60 * 60);

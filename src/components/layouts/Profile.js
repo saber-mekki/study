@@ -15,7 +15,10 @@ import HeaderOne from "./HeaderOne";
 import Footer from "./FooterOne";
 import Mycourses from "../profileComponents/Mycourses";
 
+import { useTranslation } from "react-i18next";
+
 const UserProfile = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const img = "/assets/images/profile.jpg";
 
@@ -25,7 +28,6 @@ const UserProfile = () => {
   const [error, setError] = useState("");
   const [role, setrole] = useState("");
 
- 
   const handleSectionChange = (section) => {
     setActiveSection(section);
     localStorage.setItem("activeSection", section);
@@ -104,7 +106,7 @@ const UserProfile = () => {
       <HeaderOne />
 
       <div>
-        {Error && <div className="text-danger">{error}</div>}
+        {error && <div className="text-danger">{error}</div>}
         <div className="row gutters">
           <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
             <div className="card h-100">
@@ -130,7 +132,7 @@ const UserProfile = () => {
                             {name}
                           </h4>
 
-                          <h6 className="text-muted small mb-1">{role}</h6>
+                          <h6 className="text-muted small mb-1">{t(role)}</h6>
                         </div>
                       </div>
                     )}
@@ -140,7 +142,7 @@ const UserProfile = () => {
                         className="btn btn-link text-primary pb-0 px-4 "
                         onClick={() => handleSectionChange("personal")}
                       >
-                        Account
+                        {t("Account")}
                       </button>
                     </li>
                     <li className="list-group-item">
@@ -148,40 +150,35 @@ const UserProfile = () => {
                         className="btn btn-link text-primary pb-0 px-4 "
                         onClick={() => handleSectionChange("settings")}
                       >
-                        Settings
+                        {t("Settings")}
                       </button>
                     </li>
-                    {role==="tutor" &&   <li className="list-group-item">
-                      <button
-                        className="btn btn-link text-primary pb-0 px-4 "
-                        onClick={() => handleSectionChange("addcourse")}
-                      >
-                        ADD Courses
-                      </button>
-                    
-                      
-                    </li>
+                    {role === "tutor" && (
+                      <li className="list-group-item">
+                        <button
+                          className="btn btn-link text-primary pb-0 px-4 "
+                          onClick={() => handleSectionChange("addcourse")}
+                        >
+                          {t("Add Courses")}
+                        </button>
+                      </li>
+                    )}
 
-                    }
-
-                  
                     <li className="list-group-item">
                       <button
                         className="btn btn-link text-primary pb-0 px-4 "
                         onClick={() => handleSectionChange("courses")}
                       >
-                        My Courses
-                      </button>   
-                    
-                      
+                        {t("My Courses")}
+                      </button>
                     </li>
-                    
+
                     <li className="list-group-item">
                       <button
-                        className="btn btn-link text-primary pb-0 px-4 "
+                        className="btn btn-link text-primary pb-0 px-2 "
                         onClick={() => handleSectionChange("password")}
                       >
-                        Change Password
+                        {t("Change Password")}
                       </button>
                     </li>
                     <li className="list-group-item">
@@ -189,7 +186,7 @@ const UserProfile = () => {
                         className="btn btn-link text-primary pb-0 px-4 "
                         onClick={handleLogout}
                       >
-                        Logout
+                        {t("Logout")}
                       </button>
                     </li>
                   </ul>
@@ -203,10 +200,8 @@ const UserProfile = () => {
               <div className="card-body">
                 {activeSection === "accueil" && (
                   <Accueil
-                   
                     image={img}
                     email={email}
-                    
                   />
                 )}
                 {activeSection === "personal" && (
@@ -219,7 +214,7 @@ const UserProfile = () => {
                 {activeSection === "settings" && <Settings />}
 
                 {activeSection === "addcourse" && <AddCourse email={email} />}
-                {activeSection === "courses" && <Mycourses email={email}/>}
+                {activeSection === "courses" && <Mycourses email={email} />}
 
                 {activeSection === "password" && <Password email={email} />}
               </div>

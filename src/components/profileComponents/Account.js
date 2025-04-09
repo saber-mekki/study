@@ -1,13 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import updateUserStore from "../../redux/userSlice";
 
-import  updateUserStore  from "../../redux/userSlice";
-
-export default function Account({
-  onAccountUpdate,
-  email
-}) {
+export default function Account({ onAccountUpdate, email }) {
+  const { t } = useTranslation();
 
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -20,7 +18,7 @@ export default function Account({
   const [EmailWarning, setEmailWarning] = useState(false);
   const [prevEmail, setPrevEmail] = useState(email);
   const [Code, SetCode] = useState(false);
-  const [Mycode, SetMycode] = useState('');
+  const [Mycode, SetMycode] = useState("");
   const [ErrorCode, SetErrorCode] = useState("");
   const [ResendCode, SetResendCode] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
@@ -30,7 +28,6 @@ export default function Account({
   const [fullName, setFullName] = useState(user.name);
   const [birthDate, setBirthDate] = useState(user.dateOfBirth);
   const [gender, setGender] = useState(user.gender);
-
 
   const [dateError, setDateError] = useState("");
 
@@ -52,31 +49,40 @@ export default function Account({
       localStorage.setItem("authToken", token);
 
       if (response.data.error) {
-        setError(response.data.message || "Error updating user");
+        setError(response.data.message || t("Error updating user"));
         return;
       }
 
       setIsEditing(false);
       SetSucc(true);
       setPrevEmail(emailValue);
-      dispatch(updateUserStore({ name: fullName, phone: phoneNumber, dateOfBirth: birthDate, gender }));
+      dispatch(
+        updateUserStore({
+          name: fullName,
+          phone: phoneNumber,
+          dateOfBirth: birthDate,
+          gender,
+        })
+      );
       onAccountUpdate();
     } catch (err) {
-      setError("An error occurred while updating user details.");
+      setError(t("An error occurred while updating user details."));
       console.error("Error during the update process:", err);
     }
-
   };
-
 
   const handleDateChange = (e) => {
     const selectedDate = new Date(e.target.value);
     const today = new Date();
-    const minAgeDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    const minAgeDate = new Date(
+      today.getFullYear() - 18,
+      today.getMonth(),
+      today.getDate()
+    );
 
     if (selectedDate > minAgeDate) {
-      setDateError("You must be at least 18 years old.");
-      setError('')
+      setDateError(t("You must be at least 18 years old."));
+      setError("");
     } else {
       setDateError("");
     }
@@ -84,28 +90,25 @@ export default function Account({
     setBirthDate(e.target.value);
   };
 
-
   const handleModalClose = () => {
     SetCode(false);
-    SetMycode('')
-    SetErrorCode("")
+    SetMycode("");
+    SetErrorCode("");
     setEmailWarning(false);
   };
 
   const handleConfirm = () => {
     SetSucc("");
     if (!fullName || !emailValue || !phoneNumber) {
-      setError("All fields are required.");
+      setError(t("All fields are required."));
       return;
+    } else {
+      setError("");
     }
-    else {
-      setError("")
-    }
-
 
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(emailValue)) {
-      setEmailError("Please enter a valid email.");
+      setEmailError(t("pleaseEnterValidEmail"));
       return;
     }
 
@@ -115,17 +118,14 @@ export default function Account({
     }
 
     updateUser();
-
-
   };
-
 
   const handleCancel = () => {
     setFullName(user.name);
     setEmailValue(prevEmail);
     setPhoneNumber(user.phone);
     setIsEditing(false);
-    setDateError('')
+    setDateError("");
   };
 
   const HandleConfirmCode = () => {
@@ -134,7 +134,7 @@ export default function Account({
       updateUser();
     } else {
       SetResendCode(true);
-      SetErrorCode("Invaalid Code");
+      SetErrorCode(t("Invalid Code"));
     }
   };
 
@@ -148,7 +148,7 @@ export default function Account({
   };
 
   const handleResendCode = () => {
-    SetErrorCode("Wait 60s before requesting a new code ⏳");
+    SetErrorCode(t("Wait 60s before requesting a new code ⏳"));
     setResendDisabled(true);
     setCountdown(60);
 
@@ -164,41 +164,42 @@ export default function Account({
     }, 1000);
   };
 
-  useEffect(()=>{
-    setPhoneNumber(user.phone)
-    setFullName(user.name)
-    setGender(user.gender)
-    setBirthDate(user.dateOfBirth)
-  },[user])
+  useEffect(() => {
+    setPhoneNumber(user.phone);
+    setFullName(user.name);
+    setGender(user.gender);
+    setBirthDate(user.dateOfBirth);
+  }, [user]);
 
   return (
     <div>
-      <h6 className="mb-2 text-primary">Personal Details</h6>
+      <h6 className="mb-2 text-primary">{t("Personal Details")}</h6>
 
       {error && <div className="alert alert-danger">{error}</div>}
       <div className="row gutters">
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label htmlFor="fullName">Full Name</label>
+            <label htmlFor="fullName">{t("name")}</label>
             <input
               type="text"
               className="form-control"
               id="fullName"
-              placeholder="Enter full name"
+              placeholder={t("Enter full name")}
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               disabled={!isEditing}
             />
           </div>
         </div>
+
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label htmlFor="eMail">Email</label>
+            <label htmlFor="eMail">{t("email")}</label>
             <input
               type="email"
               className="form-control"
               id="eMail"
-              placeholder="Enter email ID"
+              placeholder={t("Enter email ID")}
               value={emailValue}
               onChange={(e) => setEmailValue(e.target.value)}
               disabled={!isEditing}
@@ -206,23 +207,25 @@ export default function Account({
           </div>
           {EmailError && <div className="alert alert-danger">{EmailError}</div>}
         </div>
+
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label htmlFor="phone">Phone</label>
+            <label htmlFor="phone">{t("phone")}</label>
             <input
               type="text"
               className="form-control"
               id="phone"
-              placeholder="Enter phone number"
+              placeholder={t("Enter phone number")}
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               disabled={!isEditing}
             />
           </div>
         </div>
+
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label>Gender</label>
+            <label>{t("gender")}</label>
             <div className="d-flex custom-radio-group rounded-sm">
               <div className="custom-control custom-radio">
                 <input
@@ -238,7 +241,7 @@ export default function Account({
                   className="custom-control-label"
                   htmlFor="customRadioMale"
                 >
-                  {("male")}
+                  {t("male")}
                 </label>
               </div>
               <div className="custom-control custom-radio">
@@ -250,24 +253,21 @@ export default function Account({
                   value="female"
                   onChange={(e) => setGender(e.target.value)}
                   checked={gender === "female"}
-
-
                 />
                 <label
                   className="custom-control-label"
                   htmlFor="customRadioFemale"
                 >
-                  {("female")}
+                  {t("female")}
                 </label>
               </div>
             </div>
-
-
           </div>
         </div>
+
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label htmlFor="birthDate">Date of Birth</label>
+            <label htmlFor="birthDate">{t("date_of_birth")}</label>
             <input
               type="date"
               className="form-control"
@@ -282,21 +282,19 @@ export default function Account({
         </div>
       </div>
 
-
-
-
       {Succ && (
         <div
           id="succ"
-          onClick={(e) => {
-            if (e.target.id === "succ") onAccountUpdate();
-          }}
+          onClick={(e) => e.target.id === "succ" && onAccountUpdate()}
           className="modal fade show d-block"
           tabIndex="-1"
           role="dialog"
         >
           <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content p-4" style={{ borderRadius: '12px', borderColor: '#6c757d' }}>
+            <div
+              className="modal-content p-4"
+              style={{ borderRadius: "12px", borderColor: "#6c757d" }}
+            >
               <div className="modal-body text-center">
                 <button
                   type="button"
@@ -304,17 +302,19 @@ export default function Account({
                   data-dismiss="modal"
                   onClick={onAccountUpdate}
                   aria-label="Close"
-                  style={{ color: '#6c757d' }}
+                  style={{ color: "#6c757d" }}
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
-
                 <i className="bi bi-check-circle text-success fs-1 mb-3"></i>
-                <h4 className="text-success mb-3" style={{ fontWeight: 'bold' }}>
-                  Details Updated Successfully!
+                <h4
+                  className="text-success mb-3"
+                  style={{ fontWeight: "bold" }}
+                >
+                  {t("Details Updated Successfully!")}
                 </h4>
                 <h6 className="text-muted mb-4">
-                  Your Details Have Been Updated Successfully!
+                  {t("Your Details Have Been Updated Successfully!")}
                 </h6>
                 <div className="d-flex justify-content-center">
                   <button
@@ -322,14 +322,14 @@ export default function Account({
                     type="button"
                     className="btn btn-success mt-2"
                     style={{
-                      padding: '10px 20px',
-                      fontSize: '16px',
-                      fontWeight: 'bold',
-                      borderRadius: '8px',
-                      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                      padding: "10px 20px",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
                     }}
                   >
-                    Continue
+                    {t("Continue")}
                   </button>
                 </div>
               </div>
@@ -338,30 +338,20 @@ export default function Account({
         </div>
       )}
 
-
-
-
-
-
-
       {(EmailWarning || Code) && (
         <div
           id="CodeConf"
-          onClick={(e) => {
-            if (e.target.id === "CodeConf") handleModalClose();
-          }}
+          onClick={(e) => e.target.id === "CodeConf" && handleModalClose()}
           className="modal fade show d-block"
           tabIndex="-1"
           role="dialog"
         >
           <div className="modal-dialog modal-dialog-centered" role="document">
-
             <div className="modal-content p-3">
-
               <div className="modal-body text-center">
                 <button
                   type="button"
-                  className="close  "
+                  className="close"
                   data-dismiss="modal"
                   onClick={handleModalClose}
                   aria-label="Close"
@@ -369,28 +359,29 @@ export default function Account({
                   <span aria-hidden="true">&times;</span>
                 </button>
 
-
                 {EmailWarning && (
                   <>
                     <i className="bi bi-exclamation-circle text-warning fs-1 mb-3"></i>
-                    <h4 className="text-warning mb-3">Confirm Email Change</h4>
+                    <h4 className="text-warning mb-3">
+                      {t("Confirm Email Change")}
+                    </h4>
                     <h6 className="text-muted mb-3">
-                      Are you sure you want to change your email? {prevEmail} to{" "}
-                      {emailValue}
+                      {t("Are you sure you want to change your email?")}{" "}
+                      {prevEmail} {t("to")} {emailValue}
                     </h6>
                     <button
                       onClick={handleConfirmEmailChange}
                       type="button"
                       className="btn btn-success mt-2 me-2"
                     >
-                      Yes
+                      {t("Yes")}
                     </button>
                     <button
                       onClick={handleCancelEmailChange}
                       type="button"
                       className="btn btn-danger mt-2"
                     >
-                      No
+                      {t("No")}
                     </button>
                   </>
                 )}
@@ -399,14 +390,12 @@ export default function Account({
                   <form className="row" onSubmit={(e) => e.preventDefault()}>
                     <div className="form-group mb-3 col-12">
                       <label className="text-secondary h6 mb-2" htmlFor="code">
-                        Confirmation Code
+                        {t("Confirmation Code")}
                       </label>
                       <input
                         onChange={(e) => {
                           const value = e.target.value.replace(/\D/g, "");
-                          if (value.length <= 4) {
-                            SetMycode(value);
-                          }
+                          if (value.length <= 4) SetMycode(value);
                           SetErrorCode("");
                         }}
                         value={Mycode}
@@ -432,7 +421,7 @@ export default function Account({
                         onClick={HandleConfirmCode}
                         disabled={Mycode.length !== 4}
                       >
-                        Verify Code
+                        {t("Verify Code")}
                       </button>
 
                       {ResendCode && (
@@ -443,8 +432,8 @@ export default function Account({
                           disabled={resendDisabled}
                         >
                           {resendDisabled
-                            ? `Wait ${countdown}s`
-                            : "Resend Code"}
+                            ? `${t("Wait")} ${countdown}s`
+                            : t("Resend Code")}
                         </button>
                       )}
                     </div>
@@ -461,15 +450,15 @@ export default function Account({
           className="btn btn-primary mt-3"
           onClick={() => setIsEditing(true)}
         >
-          Edit
+          {t("edit")}
         </button>
       ) : (
         <div className="mt-3">
           <button className="btn btn-success me-2" onClick={handleConfirm}>
-            Confirm
+            {t("confirm")}
           </button>
           <button className="btn btn-danger" onClick={handleCancel}>
-            Cancel
+            {t("cancel")}
           </button>
         </div>
       )}

@@ -3,6 +3,7 @@ import Cropper from "react-easy-crop";
 import { FaCamera } from "react-icons/fa";
 
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 
 export default function Accueil({ image,email }) {
@@ -17,6 +18,7 @@ export default function Accueil({ image,email }) {
   const [isCropping, setIsCropping] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [lengthMin, setlengthMin] = useState(false);
+  const { t } = useTranslation(); 
 
   const [bio, setBio] = useState("Hi, I'm " + user.name + " i love EduSkills");
   useEffect(() => {
@@ -120,10 +122,10 @@ export default function Accueil({ image,email }) {
           className="bio-section w-50 mt-2 p-1  rounded shadow-sm mx-auto"
           style={{ backgroundColor: "#f1faee" }}
         >
-          <h4 className="text-primary mb-3">Bio</h4>
+          <h4 className="text-primary mb-3">{t("Bio")}</h4>
           {lengthMin && (
             <small className="text-danger">
-              Bio Length must be more than 20 characters
+              {t("Bio Length must be more than 20 characters")}
             </small>
           )}
           {isEditing ? (
@@ -142,13 +144,13 @@ export default function Accueil({ image,email }) {
                   className="btn btn-outline-primary btn-sm"
                   onClick={handleSaveClick}
                 >
-                  Save Bio
+                  {t("Save Bio")}
                 </button>
                 <button
                   className="btn btn-outline-primary btn-sm"
                   onClick={handleEditClick}
                 >
-                  Cancel
+                  {t("cancel")}
                 </button>
               </div>
             </div>
@@ -160,7 +162,7 @@ export default function Accueil({ image,email }) {
               className="btn btn-outline-primary btn-sm"
               onClick={handleEditClick}
             >
-              Edit Bio
+              {t("Edit Bio")}
             </button>
           )}
         </div>
@@ -195,7 +197,7 @@ export default function Accueil({ image,email }) {
               image={selectedImage}
               crop={crop}
               zoom={zoom}
-              aspect={1} // Keep a square aspect ratio
+              aspect={1} 
               onCropChange={setCrop}
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}
@@ -229,13 +231,13 @@ export default function Accueil({ image,email }) {
               className="btn btn-success btn-sm"
               onClick={handleCropConfirm}
             >
-              Confirm
+              {t("confirm")}
             </button>
             <button
               className="btn btn-danger btn-sm"
               onClick={() => setIsCropping(false)}
             >
-              Cancel
+              {t("cancel")}
             </button>
           </div>
         </div>

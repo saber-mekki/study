@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import CourseCard from '../layouts/CourseCard';
+import { useTranslation } from "react-i18next";
 
 export default function Mycourses({ email }) {  
   const [courses, setCourses] = useState([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -45,7 +47,7 @@ export default function Mycourses({ email }) {
             />
           ))
         ) : (
-          <p>No courses found for this tutor.</p>
+          <p>{t("no_courses_found")}.</p>
         )}
       </div>
     </div>
