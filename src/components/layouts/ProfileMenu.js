@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FaCog,
@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 function ProfileMenu() {
   const { t } = useTranslation();
   const user = useSelector((state) => state.user);
+  const [role, setrole] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -22,6 +23,11 @@ function ProfileMenu() {
     window.location.href = "/";
   };
 
+  useEffect(() => {
+    const Myrole = Cookies.get("role");
+
+    setrole(Myrole);
+  }, []);
   return (
     <li className="nav-item dropdown" style={{ marginLeft: "205px" }}>
       <a
@@ -64,13 +70,14 @@ function ProfileMenu() {
 
         <div className="dropdown-divider"></div>
 
-        {user.role === "student" && (
+        {role === "student" && (
           <>
             <Link to="/courses" className="dropdown-item">
               <FaBookOpen style={{ marginRight: "10px" }} /> {t("My Courses")}
             </Link>
             <Link to="/achievements" className="dropdown-item">
-              <FaUserGraduate style={{ marginRight: "10px" }} /> {t("Achievements")}
+              <FaUserGraduate style={{ marginRight: "10px" }} />{" "}
+              {t("Achievements")}
             </Link>
             <Link to="/calendar" className="dropdown-item">
               <SlCalender style={{ marginRight: "10px" }} /> {t("Calendar")}
@@ -78,13 +85,15 @@ function ProfileMenu() {
           </>
         )}
 
-        {user.role === "tutor" && (
+        {role === "tutor" && (
           <>
             <Link to="/my-classes" className="dropdown-item">
-              <FaChalkboardTeacher style={{ marginRight: "10px" }} /> {t("My Classes")}
+              <FaChalkboardTeacher style={{ marginRight: "10px" }} />{" "}
+              {t("My Classes")}
             </Link>
             <Link to="/courses" className="dropdown-item">
-              <FaBookOpen style={{ marginRight: "10px" }} /> {t("Create Course")}
+              <FaBookOpen style={{ marginRight: "10px" }} />{" "}
+              {t("Create Course")}
             </Link>
           </>
         )}
@@ -101,4 +110,3 @@ function ProfileMenu() {
 }
 
 export default ProfileMenu;
-  
