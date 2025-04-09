@@ -9,13 +9,12 @@ import {
 } from "react-icons/fa";
 import { SlCalender } from "react-icons/sl";
 import Cookies from "js-cookie";
-import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
 function ProfileMenu() {
   const { t } = useTranslation();
-  const user = useSelector((state) => state.user);
   const [role, setrole] = useState("");
+  const [name, setname] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -24,9 +23,9 @@ function ProfileMenu() {
   };
 
   useEffect(() => {
-    const Myrole = Cookies.get("role");
 
-    setrole(Myrole);
+    setrole(Cookies.get("role"));
+    setname(Cookies.get("name"));
   }, []);
   return (
     <li className="nav-item dropdown" style={{ marginLeft: "205px" }}>
@@ -65,7 +64,7 @@ function ProfileMenu() {
               objectFit: "cover",
             }}
           />
-          <span className="mt-2">{user.name}</span>
+          <span className="mt-2">{name}</span>
         </Link>
 
         <div className="dropdown-divider"></div>
