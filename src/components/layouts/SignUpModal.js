@@ -189,47 +189,7 @@ function SignUpModal() {
                 </div>
               </div>
 
-              <div className="form-group mb-20 col-12">
-                <label className="text-secondary h6 mb-2 d-block">
-                  {t("type")}
-                </label>
-                <div className="d-flex custom-radio-group rounded-sm">
-                  <div className="custom-control custom-radio">
-                    <input
-                      type="radio"
-                      id="customRadio3"
-                      name="type"
-                      className="custom-control-input"
-                      value="student"
-                      onChange={(e) => setType(e.target.value)}
-                      checked={type === "student"}
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="customRadio3"
-                    >
-                      {t("student")}
-                    </label>
-                  </div>
-                  <div className="custom-control custom-radio">
-                    <input
-                      type="radio"
-                      id="customRadio4"
-                      name="type"
-                      className="custom-control-input"
-                      value="tutor"
-                      onChange={(e) => setType(e.target.value)}
-                      checked={type === "tutor"}
-                    />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="customRadio4"
-                    >
-                      {t("tutor")}
-                    </label>
-                  </div>
-                </div>
-              </div>
+         
 
               <div className="form-group mb-20 col-12">
                 <label className="text-secondary h6 mb-2" htmlFor="password">
