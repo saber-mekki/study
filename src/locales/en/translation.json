@@ -225,8 +225,41 @@
       "preview_pdfTwo_label": "Preview PDF Two:",
       "no_courses_found": "No courses found",
       "add_new_course": "Add a New Course",
-      "course": "Course"
-  
+      "course": "Course",
+      
+        "findThe": "Find The",
+        "perfectTutor": "Perfect Tutor",
+        "forOnline": "for Online",
+        "offline": "Offline",
+        "educationEasy": "Education now more easy than before",
+        "selectSubject": "Select Subject",
+        "all": "All",
+        "development": "Development",
+        "design": "Design",
+        "marketing": "Marketing",
+        "lifestyle": "Lifestyle",
+        "itSoftware": "IT & Software",
+        "personal": "Personal",
+        "business": "Business",
+        "music": "Music",
+        "selectCountry": "Select Country",
+        "tunisia": "Tunisia",
+        "germany": "Germany",
+        "usa": "USA",
+        "uk": "UK",
+        "selectLanguage": "Select Language",
+        "english": "English",
+        "detush": "Detush",
+        "arabic": "Arabic",
+        "french": "French",
+        "pricePerHour": "Price per Hour",
+        "selectGender": "Select Gender",
+        "selectType": "Select Type",
+        "teachingCourses": "Teaching Courses",
+        "onlineMeetings": "Online Meetings",
+        "searchTutor": "Search Tutor"
+    
+      
 
       
   
