@@ -18,6 +18,8 @@ const userSlice = createSlice({
       state.phone = action.payload.phone;
       state.dateOfBirth = action.payload.dateOfBirth;
       state.gender = action.payload.gender;
+      state.urlImage = action.payload.urlImage;
+      state.idUser = action.payload.idUser;
     },
     updateUserStore: (state, action) => {
       return { ...state, ...action.payload };

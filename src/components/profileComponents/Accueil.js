@@ -1,16 +1,17 @@
-import React, { useState, useCallback,useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Cropper from "react-easy-crop";
 import { FaCamera } from "react-icons/fa";
-
+import axios from "axios";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 
+import { setUser } from "../../redux/userSlice";
 
-export default function Accueil({ image,email }) {
- 
-   const user = useSelector((state) => state.user);
+export default function Accueil({ image, email }) {
 
-  const [profileImage, setProfileImage] = useState(image);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -18,16 +19,15 @@ export default function Accueil({ image,email }) {
   const [isCropping, setIsCropping] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [lengthMin, setlengthMin] = useState(false);
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
 
   const [bio, setBio] = useState("Hi, I'm " + user.name + " i love EduSkills");
   useEffect(() => {
     if (user.name) {
       setBio(`Hi, I'm ${user.name} i love EduSkills`);
     }
-    
   }, [user.name]);
-  
+
   const handleEditClick = () => {
     setIsEditing((prev) => !prev);
   };
@@ -59,17 +59,33 @@ export default function Accueil({ image,email }) {
 
   const handleCropConfirm = async () => {
     try {
-      const croppedImage = await getCroppedImage(
-        selectedImage,
-        croppedAreaPixels
+      const blob = await getCroppedImage(selectedImage, croppedAreaPixels);
+      const file = new File([blob], "profile.jpg", { type: "image/jpeg" });
+
+      const formData = new FormData();
+      formData.append("image", file); 
+      formData.append("userId", user.idUser); 
+
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/upload-images`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
-      setProfileImage(croppedImage);
+      dispatch(
+        setUser({
+          ...user,
+          urlImage: data.imageUrl
+        })
+      );
       setIsCropping(false);
       setSelectedImage(null);
     } catch (error) {
-      console.error("Cropping failed:", error);
+      console.error("Cropping or Upload failed:", error);
     }
   };
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       handleSaveClick();
@@ -84,7 +100,7 @@ export default function Accueil({ image,email }) {
         <label htmlFor="imageUpload">
           <img
             tabIndex="-1"
-            src={profileImage}
+            src={user.urlImage}
             alt="Profile"
             className="rounded-circle p-1 bg-primary "
             width="80"
@@ -197,7 +213,7 @@ export default function Accueil({ image,email }) {
               image={selectedImage}
               crop={crop}
               zoom={zoom}
-              aspect={1} 
+              aspect={1}
               onCropChange={setCrop}
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}
@@ -268,10 +284,11 @@ async function getCroppedImage(imageSrc, cropArea) {
 
   return new Promise((resolve) => {
     canvas.toBlob((blob) => {
-      resolve(URL.createObjectURL(blob));
+      resolve(blob);
     }, "image/jpeg");
   });
 }
+
 
 function createImage(url) {
   return new Promise((resolve, reject) => {

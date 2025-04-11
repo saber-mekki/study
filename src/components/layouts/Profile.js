@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/userSlice";  
+import { setUser } from "../../redux/userSlice";
 
 import Password from "../profileComponents/ChangePassword";
 import Account from "../profileComponents/Account";
@@ -19,8 +20,9 @@ import { useTranslation } from "react-i18next";
 
 const UserProfile = () => {
   const { t } = useTranslation();
+  const user = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
-  const img = "/assets/images/profile.jpg";
 
   const [activeSection, setActiveSection] = useState("accueil");
   const [name, setname] = useState("");
@@ -61,13 +63,13 @@ const UserProfile = () => {
           alert("No token found in localStorage");
           return;
         }
-
+        let urlImage = ""
         const decodedToken = jwtDecode(token);
         const userEmail = decodedToken.user_email;
         setEmail(userEmail);
 
         const response = await axios.post(
-          "http://localhost:5000/api/v1/getUser",
+          `${process.env.REACT_APP_API_BASE_URL}/getUser`,
           {
             email: userEmail,
           }
@@ -78,6 +80,19 @@ const UserProfile = () => {
         } else {
           setname(response.data.user.user_name);
           setrole(response.data.user.type_register);
+
+          if (decodedToken.user_id) {
+            await axios
+              .get(`${process.env.REACT_APP_API_BASE_URL}/images/${decodedToken.user_id}`)
+              .then((response) => {
+                urlImage = response.data[response.data.length - 1].image_url
+                console.log({ ff: response.data })
+              })
+              .catch((error) => {
+                console.error("Error fetching images:", error);
+              });
+          }
+
           dispatch(
             setUser({
               name: response.data.user.user_name,
@@ -85,6 +100,8 @@ const UserProfile = () => {
               phone: response.data.user.phone_number,
               dateOfBirth: response.data.user.date_of_birth,
               gender: response.data.user.gender,
+              idUser: decodedToken.user_id,
+              urlImage: urlImage
             })
           );
 
@@ -99,7 +116,7 @@ const UserProfile = () => {
     };
 
     fetchUserData();
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <>
@@ -117,7 +134,7 @@ const UserProfile = () => {
                       <div className="d-flex flex-column align-items-center text-center">
                         <img
                           onClick={() => handleSectionChange("accueil")}
-                          src={img}
+                          src={user.urlImage}
                           alt="Admin"
                           className="rounded-circle p-1 bg-primary"
                           width="60"
@@ -200,7 +217,7 @@ const UserProfile = () => {
               <div className="card-body">
                 {activeSection === "accueil" && (
                   <Accueil
-                    image={img}
+                    image={user.imagesUrl}
                     email={email}
                   />
                 )}

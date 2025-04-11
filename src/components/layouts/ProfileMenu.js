@@ -10,8 +10,10 @@ import {
 import { SlCalender } from "react-icons/sl";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 function ProfileMenu() {
+     const user = useSelector((state) => state.user);
   const { t } = useTranslation();
   const [role, setrole] = useState("");
   const [name, setname] = useState("");
@@ -39,7 +41,7 @@ function ProfileMenu() {
         aria-expanded="false"
       >
         <img
-          src="/assets/images/profile.jpg"
+          src={user.urlImage}
           alt={t("Profile")}
           className="d-none d-lg-block"
           style={{
@@ -54,7 +56,7 @@ function ProfileMenu() {
       <div className="dropdown-menu" aria-labelledby="profileDropdown">
         <Link to="/profile" className="dropdown-item d-flex m-0">
           <img
-            src="/assets/images/profile.jpg"
+            src={user.urlImage}
             alt={t("Profile")}
             className="d-none d-lg-block mr-2 border border-primary"
             style={{
