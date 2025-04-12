@@ -10,7 +10,7 @@ function RecentTutorSection() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get("oud aamilha bil OK pi/v1/users");
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/users`);
                 const users = response.data.result;
 
                 const onlyTutors = users.filter(
