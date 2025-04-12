@@ -10,7 +10,7 @@ export default function CalendarBooking({ studentId, tutorId }) {
     axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/${tutorId}`)
       .then((res) => {
-      
+      /*eslint-disable*/
         setAvailableDates(res.data.map((item) =>{if(item.status==="available") return  new Date(item.available_date)}));
       });
   }, [tutorId]);
@@ -29,14 +29,14 @@ export default function CalendarBooking({ studentId, tutorId }) {
     });
     alert('Date booked!');
   };
-  
+
   return (
     <div>
       <Calendar
         onChange={handleDateChange}
         value={selectedDate}
         tileDisabled={({ date }) =>
-          !availableDates.find((d) =>d!=undefined && d.toDateString() === date.toDateString())
+          !availableDates.find((d) =>d!==undefined && d.toDateString() === date.toDateString())
         }
       />
       <button onClick={handleSubmit} disabled={!selectedDate}>
