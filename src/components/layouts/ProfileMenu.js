@@ -11,12 +11,19 @@ import { SlCalender } from "react-icons/sl";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice";
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 function ProfileMenu() {
      const user = useSelector((state) => state.user);
   const { t } = useTranslation();
   const [role, setrole] = useState("");
   const [name, setname] = useState("");
+const dispatch = useDispatch();
+
+  const [error, setError] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -29,8 +36,73 @@ function ProfileMenu() {
     setrole(Cookies.get("role"));
     setname(Cookies.get("name"));
   }, []);
+
+
+    useEffect(() => {
+      const fetchUserData = async () => {
+        try {
+          const token = localStorage.getItem("authToken");
+  
+          if (!token) {
+            alert("No token found in localStorage");
+            return;
+          }
+          let urlImage = ""
+          const decodedToken = jwtDecode(token);
+          const userEmail = decodedToken.user_email;
+  
+          const response = await axios.post(
+            `${process.env.REACT_APP_API_BASE_URL}/getUser`,
+            {
+              email: userEmail,
+            }
+          );
+  
+          if (response.data.error) {
+            setError("User not found");
+          } else {
+            setname(response.data.user.user_name);
+            setrole(response.data.user.type_register);
+  
+            if (decodedToken.user_id) {
+              await axios
+                .get(`${process.env.REACT_APP_API_BASE_URL}/images/${decodedToken.user_id}`)
+                .then((response) => {
+                  urlImage = response.data[response.data.length - 1].image_url
+                })
+                .catch((error) => {
+                  console.error("Error fetching images:", error);
+                });
+            }
+  
+            dispatch(
+              setUser({
+                name: response.data.user.user_name,
+                role: response.data.user.type_register,
+                phone: response.data.user.phone_number,
+                dateOfBirth: response.data.user.date_of_birth,
+                gender: response.data.user.gender,
+                idUser: decodedToken.user_id,
+                urlImage: urlImage
+              })
+            );
+  
+          }
+        } catch (err) {
+          if (err.response && err.response.data.error) {
+            setError(err.response.data.error);
+          } else {
+            setError("An error occurred while fetching user data.");
+          }
+        }
+      };
+  
+      fetchUserData();
+    }, [dispatch, user]);
+
   return (
     <li className="nav-item dropdown" style={{ marginLeft: "205px" }}>
+     {error && <div className="text-danger">{error}</div>}
       <a
         className="nav-link dropdown-toggle"
         href="#!"
