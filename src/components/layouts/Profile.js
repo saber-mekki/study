@@ -15,6 +15,7 @@ import Accueil from "../profileComponents/Accueil";
 import HeaderOne from "./HeaderOne";
 import Footer from "./FooterOne";
 import Mycourses from "../profileComponents/Mycourses";
+import CalendarSelector from "../profileComponents/CalendarSelector";
 
 import { useTranslation } from "react-i18next";
 
@@ -189,13 +190,21 @@ const UserProfile = () => {
                         {t("My Courses")}
                       </button>
                     </li>
-
+                    
                     <li className="list-group-item">
                       <button
-                        className="btn btn-link text-primary pb-0 px-2 "
+                        className="btn btn-link text-primary pb-0 px-4 "
                         onClick={() => handleSectionChange("password")}
                       >
                         {t("Change Password")}
+                      </button>
+                    </li>
+                    <li className="list-group-item">
+                      <button
+                        className="btn btn-link text-primary pb-0 px-4 "
+                        onClick={() => handleSectionChange("calendar")}
+                      >
+                        {t("Calendar")}
                       </button>
                     </li>
                     <li className="list-group-item">
@@ -229,11 +238,10 @@ const UserProfile = () => {
                 )}
 
                 {activeSection === "settings" && <Settings />}
-
                 {activeSection === "addcourse" && <AddCourse email={email} />}
                 {activeSection === "courses" && <Mycourses email={email} />}
-
                 {activeSection === "password" && <Password email={email} />}
+                {activeSection === "calendar" && <CalendarSelector  />}
               </div>
             </div>
           </div>
