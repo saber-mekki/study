@@ -44,15 +44,7 @@ export default function Accueil({ image, email }) {
   
     fetchUser();
   }, [email]);
-  
-/* 
-  useEffect(() => {
-    if (user.name) {
-      setBio(`Hi, I'm ${user.name} i love EduSkills`);
-    }
-    
-  }, [user.name]); */
-  
+
   const handleEditClick = () => {
     setIsEditing((prev) => !prev);
   };
