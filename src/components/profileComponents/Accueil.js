@@ -22,12 +22,37 @@ export default function Accueil({ image, email }) {
   const { t } = useTranslation();
 
   const [bio, setBio] = useState("Hi, I'm " + user.name + " i love EduSkills");
+  
+  useEffect(() => {
+    const fetchUser = async () => {
+      if (!email) return;
+  
+      try {
+        const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/getUser`, {
+          email,
+        });
+  
+        const user = response.data.user;
+        if (user?.bio) {
+          setBio(user.bio);
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+        alert("Error fetching user: " );
+      }
+    };
+  
+    fetchUser();
+  }, [email]);
+  
+/* 
   useEffect(() => {
     if (user.name) {
       setBio(`Hi, I'm ${user.name} i love EduSkills`);
     }
-  }, [user.name]);
-
+    
+  }, [user.name]); */
+  
   const handleEditClick = () => {
     setIsEditing((prev) => !prev);
   };
@@ -43,6 +68,8 @@ export default function Accueil({ image, email }) {
     }
     setIsEditing(false);
     setlengthMin(false);
+    updateUser()
+
   };
 
   const handleImageChange = (event) => {
@@ -56,7 +83,6 @@ export default function Accueil({ image, email }) {
   const onCropComplete = useCallback((_, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
-
   const handleCropConfirm = async () => {
     try {
       const blob = await getCroppedImage(selectedImage, croppedAreaPixels);
@@ -92,6 +118,27 @@ export default function Accueil({ image, email }) {
     } else if (event.key === "Escape") {
       handleEditClick();
     }
+  };
+
+
+  const updateUser = async () => {
+     
+    try {
+      await axios.post(
+         `${process.env.REACT_APP_API_BASE_URL}/updateAcceuil`,
+        {
+          email: email,
+          bio:bio
+        }
+      );
+    
+
+     
+      
+    } catch (err) {
+      console.error("Error during the update process:", err);
+    }
+
   };
 
   return (
