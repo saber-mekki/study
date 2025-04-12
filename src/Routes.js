@@ -19,8 +19,9 @@ import Profile from "./components/layouts/Profile";
 
 import { ProtectedRoute, ProtectedAdminRoute } from "./ProtectedRoute";
 import SignInModal from "./components/SignInModal";
- import AdminDashboard from "./dashboard";
- import Video from "./components/video";
+import AdminDashboard from "./dashboard";
+import Video from "./components/video";
+import Page404 from "./Page404";
 
 function Routes() {
 
@@ -29,7 +30,7 @@ function Routes() {
         <Router history={history}>
             <HashRouter basename="/">
                 <Switch>
-                <Route exact path={'/video'} render={(props) => (<Video {...props} />)} />
+                    <Route exact path={'/video'} render={(props) => (<Video {...props} />)} />
                     <Route exact path={'/'} render={(props) => (<HomeOne {...props} />)} />
                     <Route exact path={'/home-one'} render={(props) => (<HomeOne {...props} />)} />
                     <Route exact path={'/home-two'} render={(props) => (<HomeTwo {...props} />)} />
@@ -45,11 +46,20 @@ function Routes() {
                     <Route exact path={'/contact'} render={(props) => (<Contact {...props} />)} />
                     <Route exact path={'/profile'} render={(props) => (<Profile {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
+                    <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
+
+                    <Route exact path="/profile">
+                        <Redirect to="/profile/accueil" />
+                    </Route>
+
+                    <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
+
 
                     <ProtectedAdminRoute isAdmin={isAdmin} exact path="/dash/admin" component={AdminDashboard} />
                     <ProtectedRoute exact path="/dashboard" component={Courses} />
                     <ProtectedRoute exact path={'/blog'} component={Blog} />
-                    <Route render={() => <Redirect to="/login" />} />
+                    <Route component={Page404} />
+
                 </Switch>
             </HashRouter>
         </Router>

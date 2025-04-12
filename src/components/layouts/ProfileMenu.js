@@ -6,7 +6,11 @@ import {
   FaSignOutAlt,
   FaChalkboardTeacher,
   FaUserGraduate,
+
+
 } from "react-icons/fa";
+import { MdAccountCircle } from "react-icons/md";
+
 import { SlCalender } from "react-icons/sl";
 import Cookies from "js-cookie";
 import { useTranslation } from "react-i18next";
@@ -142,36 +146,40 @@ const dispatch = useDispatch();
         </Link>
 
         <div className="dropdown-divider"></div>
+        <Link to="/profile/account" className="dropdown-item">
+              <MdAccountCircle  style={{ marginRight: "10px" }} /> {t("Account")}
+            </Link>
 
         {role === "student" && (
           <>
-            <Link to="/courses" className="dropdown-item">
+            <Link to="/profile/courses" className="dropdown-item">
               <FaBookOpen style={{ marginRight: "10px" }} /> {t("My Courses")}
             </Link>
-            <Link to="/achievements" className="dropdown-item">
+            <Link to="/profile/achievements" className="dropdown-item">
               <FaUserGraduate style={{ marginRight: "10px" }} />{" "}
               {t("Achievements")}
             </Link>
-            <Link to="/calendar" className="dropdown-item">
-              <SlCalender style={{ marginRight: "10px" }} /> {t("Calendar")}
-            </Link>
+           
           </>
         )}
+         <Link to="/profile/calendar" className="dropdown-item">
+              <SlCalender style={{ marginRight: "10px" }} /> {t("Calendar")}
+            </Link>
 
         {role === "tutor" && (
           <>
-            <Link to="/my-classes" className="dropdown-item">
+            <Link to="/profile/courses" className="dropdown-item">
               <FaChalkboardTeacher style={{ marginRight: "10px" }} />{" "}
               {t("My Classes")}
             </Link>
-            <Link to="/courses" className="dropdown-item">
+            <Link to="/profile/addcourse" className="dropdown-item">
               <FaBookOpen style={{ marginRight: "10px" }} />{" "}
               {t("Create Course")}
             </Link>
           </>
         )}
 
-        <Link to="/settings" className="dropdown-item">
+        <Link to="/profile/settings" className="dropdown-item">
           <FaCog style={{ marginRight: "10px" }} /> {t("Settings")}
         </Link>
         <button className="dropdown-item" onClick={handleLogout}>
