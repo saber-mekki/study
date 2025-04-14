@@ -1,90 +1,84 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { React } from "react";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+
+import { setFilter } from "../../redux/TutorsSlice";
 
 function BannerOne() {
   const { t } = useTranslation();
-  const [tutors, setTutors] = useState([]);
-  const [filters, setFilters] = useState({
-    subject: "",
-    country: "",
-    language: "",
-    price: "",
-    gender: "",
-    type: ""
-  });
-
-  const [filteredTutors, setFilteredTutors] = useState([]);
+  const filters = useSelector((state) => state.searchFilters);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const customStyles = {
-    control: (base, state) => ({
-      ...base,
-      borderRadius: "9999px",
-      padding: "4px 8px",
-      borderColor: state.isFocused ? "#0d6efd" : "#ced4da",
-      boxShadow: state.isFocused ? "0 0 0 0.2rem rgba(13, 110, 253, 0.25)" : "none",
-      "&:hover": {
-        borderColor: "#0d6efd",
-      },
-    }),
-    menu: (base) => ({
-      ...base,
-      zIndex: 9999, 
-      borderRadius: "10px",
-      overflow: "hidden",
-    }),
+    control: (base, state) => {
+      const hasRealValue =
+        state.selectProps.value && state.selectProps.value.value !== "";
+      return {
+        ...base,
+        borderRadius: "9999px",
+        padding: "4px 8px",
+        borderColor: hasRealValue ? "#0d6efd" : "#ced4da",
+        backgroundColor: hasRealValue ? "#e7f1ff" : "white",
+        boxShadow: "none",
+        "&:hover": {
+          borderColor: "#0d6efd",
+        },
+        transition: "all 0.3s",
+      };
+    },
+    singleValue: (base, state) => {
+      const hasRealValue =
+        state.selectProps.value && state.selectProps.value.value !== "";
+      return {
+        ...base,
+        color: hasRealValue ? "#0d6efd" : base.color,
+        fontWeight: hasRealValue ? 500 : base.fontWeight,
+      };
+    },
+    placeholder: (base, state) => {
+      const hasRealValue =
+        state.selectProps.value && state.selectProps.value.value !== "";
+      return {
+        ...base,
+        color: hasRealValue ? "#0d6efd" : "#6c757d",
+      };
+    },
     option: (base, state) => ({
       ...base,
-      backgroundColor: state.isFocused ? "#e9ecef" : "white",
-      color: "black",
+      backgroundColor: state.isSelected
+        ? "#0d6efd"
+        : state.isFocused
+        ? "#e9ecef"
+        : "white",
+      color: state.isSelected ? "white" : "black",
       cursor: "pointer",
       padding: "10px",
     }),
+    menu: (base) => ({
+      ...base,
+      zIndex: 9999,
+      borderRadius: "10px",
+      overflow: "hidden",
+    }),
   };
-  
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/users`);
-        const users = response.data.result;
-        const onlyTutors = users.filter(user => user.type_register === "tutor");
-        setTutors(onlyTutors);
-      } catch (err) {
-        alert("Error fetching users: " + err.message);
-      }
-    };
-    fetchUsers();
-  }, []);
 
   const handleChange = (name, selectedOption) => {
-    setFilters(prev => ({ ...prev, [name]: selectedOption ? selectedOption.value : "" }));
+    dispatch(
+      setFilter({
+        ...filters,
+        [name]: selectedOption ? selectedOption.value : "",
+      })
+    );
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const results = tutors.filter((tutor) => {
-      const matchesSubject = filters.subject === "" || tutor.specialty?.toLowerCase() === filters.subject.toLowerCase();
-      const matchesCountry = filters.country === "" || tutor.country === filters.country;
-      const matchesLanguage = filters.language === "" || tutor.languages?.includes(filters.language);
-      const matchesGender = filters.gender === "" || tutor.gender === filters.gender;
-
-      let matchesPrice = true;
-      if (filters.price !== "") {
-        const [min, max] = filters.price.split("-").map(Number);
-        const tutorPrice = Number(tutor.price_per_hour);
-        matchesPrice = max
-          ? tutorPrice >= min && tutorPrice <= max
-          : tutorPrice >= min;
-      }
-
-      return matchesSubject && matchesCountry && matchesLanguage && matchesPrice && matchesGender;
-    });
-
-    setFilteredTutors(results);
+  const handlesubmit = (event) => {
+    event.preventDefault();
+    history.push("/tutors");
   };
 
-  
   const subjectOptions = [
     { value: "", label: t("selectSubject") },
     { value: "Development", label: t("development") },
@@ -94,7 +88,7 @@ function BannerOne() {
     { value: "IT & Software", label: t("itSoftware") },
     { value: "Personal", label: t("personal") },
     { value: "Business", label: t("business") },
-    { value: "Music", label: t("music") }
+    { value: "Music", label: t("music") },
   ];
 
   const countryOptions = [
@@ -102,7 +96,7 @@ function BannerOne() {
     { value: "Tunisia", label: t("tunisia") },
     { value: "Germany", label: t("germany") },
     { value: "USA", label: t("usa") },
-    { value: "UK", label: t("uk") }
+    { value: "UK", label: t("uk") },
   ];
 
   const languageOptions = [
@@ -110,7 +104,7 @@ function BannerOne() {
     { value: "English", label: t("english") },
     { value: "Detush", label: t("detush") },
     { value: "Arabic", label: t("arabic") },
-    { value: "French", label: t("french") }
+    { value: "French", label: t("french") },
   ];
 
   const priceOptions = [
@@ -119,19 +113,19 @@ function BannerOne() {
     { value: "10-20", label: "10 - 20 USD" },
     { value: "20-30", label: "20 - 30 USD" },
     { value: "30-50", label: "30 - 50 USD" },
-    { value: "50+", label: "50+ USD" }
+    { value: "50+", label: "50+ USD" },
   ];
 
   const genderOptions = [
     { value: "", label: t("selectGender") },
-    { value: "Male", label: t("male") },
-    { value: "Female", label: t("female") }
+    { value: "male", label: t("male") },
+    { value: "female", label: t("female") },
   ];
 
   const typeOptions = [
     { value: "", label: t("selectType") },
     { value: "courses", label: t("teachingCourses") },
-    { value: "meetings", label: t("onlineMeetings") }
+    { value: "meetings", label: t("onlineMeetings") },
   ];
 
   return (
@@ -145,23 +139,31 @@ function BannerOne() {
             <div className="text-white">
               <h2 className="text-lg mb-30">
                 {t("findThe")}{" "}
-                <span className="has-line line-primary">{t("perfectTutor")}</span>{" "}
+                <span className="has-line line-primary">
+                  {t("perfectTutor")}
+                </span>{" "}
                 {t("forOnline")} &{" "}
                 <span className="has-line">{t("offline")}</span>
+                <span className="">{t("Courses")}</span>
               </h2>
-              <p className="h4 px-2 bg-primary text-white rounded" style={{ width: "fit-content" }}>
+              <p
+                className="h4 px-2 bg-primary text-white rounded"
+                style={{ width: "fit-content" }}
+              >
                 {t("educationEasy")}
               </p>
             </div>
           </div>
           <div className="col-md-6 col-sm-10 mt-5 mt-md-0">
-            <form className="search-form rounded" onSubmit={handleSearch}>
+            <form className="search-form rounded">
               <div className="row">
                 <div className="col-lg-6 mb-3">
                   <Select
                     name="subject"
                     options={subjectOptions}
-                    value={subjectOptions.find(opt => opt.value === filters.subject)}
+                    value={subjectOptions.find(
+                      (opt) => opt.value === filters.subject
+                    )}
                     onChange={(opt) => handleChange("subject", opt)}
                     classNamePrefix="react-select"
                     styles={customStyles}
@@ -171,7 +173,9 @@ function BannerOne() {
                   <Select
                     name="country"
                     options={countryOptions}
-                    value={countryOptions.find(opt => opt.value === filters.country)}
+                    value={countryOptions.find(
+                      (opt) => opt.value === filters.country
+                    )}
                     onChange={(opt) => handleChange("country", opt)}
                     classNamePrefix="react-select"
                     styles={customStyles}
@@ -181,7 +185,9 @@ function BannerOne() {
                   <Select
                     name="language"
                     options={languageOptions}
-                    value={languageOptions.find(opt => opt.value === filters.language)}
+                    value={languageOptions.find(
+                      (opt) => opt.value === filters.language
+                    )}
                     onChange={(opt) => handleChange("language", opt)}
                     classNamePrefix="react-select"
                     styles={customStyles}
@@ -191,7 +197,9 @@ function BannerOne() {
                   <Select
                     name="price"
                     options={priceOptions}
-                    value={priceOptions.find(opt => opt.value === filters.price)}
+                    value={priceOptions.find(
+                      (opt) => opt.value === filters.price
+                    )}
                     onChange={(opt) => handleChange("price", opt)}
                     classNamePrefix="react-select"
                     styles={customStyles}
@@ -201,7 +209,9 @@ function BannerOne() {
                   <Select
                     name="gender"
                     options={genderOptions}
-                    value={genderOptions.find(opt => opt.value === filters.gender)}
+                    value={genderOptions.find(
+                      (opt) => opt.value === filters.gender
+                    )}
                     onChange={(opt) => handleChange("gender", opt)}
                     classNamePrefix="react-select"
                     styles={customStyles}
@@ -211,38 +221,27 @@ function BannerOne() {
                   <Select
                     name="type"
                     options={typeOptions}
-                    value={typeOptions.find(opt => opt.value === filters.type)}
+                    value={typeOptions.find(
+                      (opt) => opt.value === filters.type
+                    )}
                     onChange={(opt) => handleChange("type", opt)}
                     classNamePrefix="react-select"
                     styles={customStyles}
                   />
                 </div>
                 <div className="col-lg-12">
-                  <button type="submit" className="btn btn-primary rounded-pill w-100">
+                  <button
+                    type="submit"
+                    className="btn btn-primary rounded-pill w-100"
+                    onClick={handlesubmit}
+                  >
                     {t("searchTutor")}
                   </button>
                 </div>
               </div>
             </form>
-
           </div>
         </div>
-
-        {filteredTutors.length > 0 && (
-          <div className="row mt-4">
-            {filteredTutors.map((tutor) => (
-              <div key={tutor._id} className="col-md-4">
-                <div className="card p-3 mb-3">
-                  <h5>{tutor.user_name}</h5>
-                  <p>{t("country")}: {tutor.country}</p>
-                  <p>{t("spea")}: {tutor.specialty}</p>
-                  <p>{t("language")}: {tutor.languages}</p>
-                  <p>{t("pricePerHour")}: ${tutor.price_per_hour}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </section>
   );
