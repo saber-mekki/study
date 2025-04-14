@@ -48,7 +48,7 @@ function HeaderOne() {
               </li>
               <li className="nav-item">
                 <Link to={"/about-one"} className="nav-link">
-                  {t("About")}
+                  {t("About Us")}
                 </Link>
               </li>
               <li className="nav-item">
