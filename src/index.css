@@ -186,4 +186,100 @@ p {
     max-width: 60%;
   }
 }
-  
+.Mycard {
+
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.Mycard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #caf0f8;
+  border-radius: 0.5rem;
+  transform: translateY(-100%);
+  transition: transform 0.4s ease;
+  z-index: -1;
+}
+
+.Mycard:hover::after {
+  transform: translateY(0);
+}
+
+.Mycard-icon {
+  width: 64px;
+  height: 64px;
+  padding: 0.3rem;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.Mycard:hover .Mycard-icon {
+  background-color: #2d2d2d;
+  transform: translateY(-4px);
+}
+
+.Mycard-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #270679 !important;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+.Mycard:hover .Mycard-title {
+  color: #374151;
+}
+
+.Mycard-description {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-align: center;
+}
+
+.Mycard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.Mycard-price {
+  color: #abd373;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.Mycard:hover .Mycard-price {
+  color: #1f2937;
+}
+
+.Mycard-button {
+  background-color: #abd373;
+  box-shadow: 5px 5px 60px #ff9f0d;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.Mycard:hover .Mycard-button {
+  background-color: rgba(255, 255, 255, 0.1);
+}
