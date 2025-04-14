@@ -57,49 +57,23 @@ function HeaderOne() {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link to={"/tutors"} className="nav-link">
+                  {t("Tutors")}
+                </Link>
+              </li>
+              <li className="nav-item">
                 <Link to={"/blog"} className="nav-link">
                   {t("Blog")}
                 </Link>
               </li>
-              <li className="nav-item dropdown">
-                <Link
-                  className="nav-link dropdown-toggle"
-                  to={"/"}
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  {t("Pages")} <i className="fas fa-angle-down" />
-                </Link>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link to={"/job-board"} className="dropdown-item">
-                      Job Board
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={"/course-details-one"} className="dropdown-item">
-                      Course Details 01
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={"/course-details-two"} className="dropdown-item">
-                      Course Details 02
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to={"/blog-details"} className="dropdown-item">
-                      Blog Details
-                    </Link>
-                  </li>
-                </ul>
-              </li>
+            
               <li className="nav-item">
                 <Link to={"/contact"} className="nav-link">
                   {t("Contact Us")}
                 </Link>
               </li>
+           
+
 
               {!isAuthenticated && (
                 <>
