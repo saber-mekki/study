@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Calendar from 'react-calendar';
+
+ import { useSelector } from "react-redux";
+
+import CalendarBooking from './CalendarBooking'
+
 import 'react-calendar/dist/Calendar.css';
 import './calendarStyles.css'; 
 
-import CalendarBooking from './CalendarBooking'
 export default function TutorAvailabilityManager() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availability, setAvailability] = useState([]);
   const [status, setStatus] = useState('available');
-  const tutorId = "1";
-
+    const user = useSelector((state) => state.user);
+  const tutorId = user.idUser;
   useEffect(() => {
+    if(user.idUser !== undefined ){
     const fetchAvailability = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/${tutorId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/${user.idUser}`);
         setAvailability(response.data);
       } catch (error) {
         console.error('Error fetching availability:', error);
       }
     };
     fetchAvailability();
-  }, [tutorId]);
+  }
+  }, [user]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);

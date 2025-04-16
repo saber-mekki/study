@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
+
 import axios from 'axios';
 import Calendar from 'react-calendar';
 
-export default function CalendarBooking({ studentId, tutorId }) {
+import { useSelector } from "react-redux";
+
+export default function CalendarBooking({  tutorId }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
-
+ const user = useSelector((state) => state.user);
   useEffect(() => {
-    axios
+    if(tutorId !== undefined){ axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/${tutorId}`)
       .then((res) => {
+
       /*eslint-disable*/
         setAvailableDates(res.data.map((item) =>{if(item.status==="available") return  new Date(item.available_date)}));
-      });
+      });}
+   
   }, [tutorId]);
 
   const handleDateChange = (date) => {
@@ -22,8 +27,8 @@ export default function CalendarBooking({ studentId, tutorId }) {
   const handleSubmit = async () => {
     if (!selectedDate) return;
 
-    await axios.post('${process.env.REACT_APP_API_BASE_URL}/book', {
-      studentId,
+    await axios.post(`${process.env.REACT_APP_API_BASE_URL}/book`, {
+      studentId:user.idUser,
       tutorId,
       selectedDate: selectedDate.toISOString().split('T')[0],
     });

@@ -64,6 +64,7 @@ export default function TutorsSection() {
 
     setFilteredTutors(filtered);
   }, [tutors, subject, country, language, price, gender]);
+
   const subjectOptions = [
     { value: "", label: t("selectSubject") },
     { value: "Development", label: t("development") },
@@ -263,7 +264,7 @@ export default function TutorsSection() {
                 rating={tutor.rating}
                 bio={tutor.bio}
                 image={tutor.image}
-                id={tutor.id}
+                id={tutor.user_id}
               />
             ))
           ) : (
