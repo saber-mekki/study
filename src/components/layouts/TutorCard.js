@@ -59,7 +59,7 @@ export default function TutorCard({
       <div onClick={handleOpenTutorDetails} className="card shadow-sm border-0 rounded-4 p-4 position-relative text-center Mycard h-100">
         <div className="d-flex justify-content-center mb-3">
           {error ? <div className="text-danger">{error}</div> : <img
-            src={imageUrl}
+            src={imageUrl || "/assets/images/tutorprofil.png"} 
             alt={`${name} profile`}
             className="rounded-circle shadow "
             style={{
