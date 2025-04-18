@@ -47,10 +47,8 @@ const dispatch = useDispatch();
         try {
           const token = localStorage.getItem("authToken");
   
-          if (!token) {
-            alert("No token found in localStorage");
-            return;
-          }
+          if (token) {
+          
           let urlImage = ""
           const decodedToken = jwtDecode(token);
           const userEmail = decodedToken.user_email;
@@ -91,7 +89,7 @@ const dispatch = useDispatch();
               })
             );
   
-          }
+          }}
         } catch (err) {
           if (err.response && err.response.data.error) {
             setError(err.response.data.error);
