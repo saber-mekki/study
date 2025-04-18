@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 function SignUpModal() {
   const [email, setEmail] = useState("");
@@ -48,7 +50,21 @@ function SignUpModal() {
         gender,
       });
 
-      history.push("./succ");
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/login`,
+        { email, password, type }
+      );
+
+      const token = response.data.tokens.accessToken;
+      const decodedToken = jwtDecode(token);
+      const user_name = decodedToken.user_name;
+
+      Cookies.set("role", type);
+      Cookies.set("name", user_name);
+
+      localStorage.setItem("authToken", token);
+      window.location.reload();
+      history.push("./");
     } catch (err) {
       if (err.response && err.response.data.error) {
         setError(err.response.data.error);
@@ -68,6 +84,7 @@ function SignUpModal() {
     setPasswordError("");
     setEmailError("");
   };
+
   return (
     <div
       onClick={(e) => {
@@ -176,8 +193,6 @@ function SignUpModal() {
                       value="female"
                       onChange={(e) => setGender(e.target.value)}
                       checked={gender === "female"}
-                      
-
                     />
                     <label
                       className="custom-control-label"
@@ -188,8 +203,6 @@ function SignUpModal() {
                   </div>
                 </div>
               </div>
-
-         
 
               <div className="form-group mb-20 col-12">
                 <label className="text-secondary h6 mb-2" htmlFor="password">
