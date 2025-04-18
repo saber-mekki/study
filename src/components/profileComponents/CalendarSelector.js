@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Calendar from 'react-calendar';
-
- import { useSelector } from "react-redux";
-
-import CalendarBooking from './CalendarBooking'
-
+import { useSelector } from "react-redux";
 import 'react-calendar/dist/Calendar.css';
 import './calendarStyles.css'; 
 
@@ -13,21 +9,29 @@ export default function TutorAvailabilityManager() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availability, setAvailability] = useState([]);
   const [status, setStatus] = useState('available');
-    const user = useSelector((state) => state.user);
+  const [pendingBookings, setPendingBookings] = useState([]);
+
+  const user = useSelector((state) => state.user);
   const tutorId = user.idUser;
+
   useEffect(() => {
-    if(user.idUser !== undefined ){
-    const fetchAvailability = async () => {
+    if (!tutorId) return;
+
+    const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/${user.idUser}`);
-        setAvailability(response.data);
+        const [availabilityRes, bookingsRes] = await Promise.all([
+          axios.get(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/${tutorId}`),
+          axios.get(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/${tutorId}`),
+        ]);
+        setAvailability(availabilityRes.data);
+        setPendingBookings(bookingsRes.data);
       } catch (error) {
-        console.error('Error fetching availability:', error);
+        console.error('Error fetching data:', error);
       }
     };
-    fetchAvailability();
-  }
-  }, [user]);
+
+    fetchData();
+  }, [tutorId]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -42,7 +46,7 @@ export default function TutorAvailabilityManager() {
         });
         alert('Availability added');
         setAvailability([...availability, {
-          tutor_id: parseInt(tutorId),
+          tutor_id: tutorId,
           available_date: selectedDate.toISOString(),
           status: 'available'
         }]);
@@ -96,6 +100,39 @@ export default function TutorAvailabilityManager() {
     }
   };
 
+  const handleAccept = async (bookingId, date) => {
+   
+    try {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/accept`, { bookingId });
+      await axios.put(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/update`, {
+        tutorId,
+        availableDate: date,
+        status: 'booked',
+      });
+      alert('Booking accepted');
+      setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
+      setAvailability((prev) =>
+        prev.map((item) =>
+          new Date(item.available_date).toISOString().split('T')[0] === date
+            ? { ...item, status: 'booked' }
+            : item
+        )
+      );
+    } catch (error) {
+      alert('Error accepting booking');
+    }
+  };
+
+  const handleDecline = async (bookingId) => {
+    try {
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/decline`, { bookingId });
+      alert('Booking declined');
+      setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
+    } catch (error) {
+      alert('Error declining booking');
+    }
+  };
+
   const getStatus = (date) => {
     const dateStr = date.toISOString().split('T')[0];
     const found = availability.find((item) => {
@@ -127,7 +164,18 @@ export default function TutorAvailabilityManager() {
           <h3>Selected Date: {selectedDate.toDateString()}</h3>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
             <button onClick={handleAddAvailability}>Add</button>
-            <select onChange={(e) => setStatus(e.target.value)} value={status}>
+            <select
+              onChange={(e) => setStatus(e.target.value)}
+              value={status}
+              style={{
+                borderRadius: '8px',
+                padding: '6px 10px',
+                border: '1px solid #ccc',
+                zIndex: 1,
+                backgroundColor: '#fff',
+                cursor: 'pointer',
+              }}
+            >
               <option value="available">Available</option>
               <option value="booked">Booked</option>
               <option value="unavailable">Unavailable</option>
@@ -137,7 +185,59 @@ export default function TutorAvailabilityManager() {
           </div>
         </div>
       )}
-      <CalendarBooking studentId="0" tutorId={tutorId} />
+      <ul style={{ listStyle: 'none', padding: 0 }}>
+  {pendingBookings.map((request) => (
+    <li
+      key={request.id}
+      style={{
+        background: '#f9f9f9',
+        border: '1px solid #ddd',
+        borderRadius: '12px',
+        padding: '16px',
+        marginBottom: '12px',
+        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
+      }}
+    >
+      <div style={{ marginBottom: '8px', fontWeight: 'bold', fontSize: '16px' }}>
+        📅 {new Date(request.booking_date).toLocaleDateString()}
+      </div>
+      <div style={{ fontSize: '15px', color: '#333' }}>
+        <strong>👤 {request.name}</strong>
+      </div>
+      <div style={{ fontSize: '14px', color: '#555', marginTop: '6px' }}>
+        📝 {request.message}
+      </div>
+      <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+        <button
+          style={{
+            padding: '6px 12px',
+            borderRadius: '6px',
+            background: '#4CAF50',
+            color: '#fff',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          onClick={() => handleAccept(request.id, request.booking_date)}
+        >
+          Accept
+        </button>
+        <button
+          style={{
+            padding: '6px 12px',
+            borderRadius: '6px',
+            background: '#F44336',
+            color: '#fff',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          onClick={() => handleDecline(request.id)}
+        >
+          Decline
+        </button>
+      </div>
+    </li>
+  ))}
+</ul>
     </div>
   );
 }
