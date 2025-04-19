@@ -110,8 +110,8 @@ export default function TutorCard({
                   <div className="row  g-4">
                     <div className="col-md-4 text-center">
                       {error ? <div className="text-danger">{error}</div> : <img
-                        src={imageUrl}
-                        alt={name}
+                          src={imageUrl || "/assets/images/tutorprofil.png"}
+                          alt={name}
                         className="rounded-circle shadow"
                         style={{ width: '120px', height: '120px', objectFit: 'cover' }}
                       />}
