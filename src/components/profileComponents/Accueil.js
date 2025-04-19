@@ -139,7 +139,7 @@ export default function Accueil({ image, email }) {
         <label htmlFor="imageUpload">
           <img
             tabIndex="-1"
-            src={user.urlImage}
+            src={user.urlImage || "/assets/images/tutorprofil.png"}
             alt="Profile"
             className="rounded-circle p-1 bg-primary "
             width="80"

@@ -143,7 +143,7 @@ const UserProfile = () => {
                       <div className="d-flex flex-column align-items-center text-center">
                         <img
                           onClick={() => handleSectionChange("accueil")}
-                          src={user.urlImage}
+                          src={user.urlImage || "/assets/images/tutorprofil.png"}
                           alt="Admin"
                           className="rounded-circle p-1 bg-primary"
                           width="60"
