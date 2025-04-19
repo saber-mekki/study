@@ -226,6 +226,7 @@ export default function Accueil({ image, email }) {
       {isCropping && (
         <div
           style={{
+            zIndex:"4040",
             position: "fixed",
             top: "50%",
             left: "50%",
