@@ -104,7 +104,8 @@ function ProfileMenu() {
   }, [dispatch, user]);
 
   return (
-    <li className="nav-item dropdown" style={{ marginLeft: "205px" }}>
+<li className="nav-item dropdown ml-md-custom">
+
       {error && <div className="text-danger">{error}</div>}
       <a
         className="nav-link dropdown-toggle"
@@ -126,13 +127,15 @@ function ProfileMenu() {
             objectFit: "cover",
           }}
         />
+        <Link to="/profile">
         <span className="d-block d-lg-none">{t("Profile")}</span>
+        </Link>
       </a>
       <div className="dropdown-menu" aria-labelledby="profileDropdown">
         <Link to="/profile" className="dropdown-item d-flex m-0">
           <img
-          src={user.urlImage || "/assets/images/tutorprofil.png"}
-          alt={t("Profile")}
+            src={user.urlImage || "/assets/images/tutorprofil.png"}
+            alt={t("sProfile")}
             className="d-none d-lg-block mr-2 border border-primary"
             style={{
               width: "40px",
