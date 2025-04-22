@@ -1,12 +1,14 @@
-import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-class FooterOne extends Component {
-    render() {
-        return (
-            <footer>
-                <div className="container">
-                 {/*    <div className="row">
+function FooterOne() {
+  const { t } = useTranslation();
+
+  return (
+    <footer>
+      <div className="container">
+          {/*    <div className="row">
                         <div className="col-md-12">
                             <div className="py-5 px-3 px-sm-5 bg-light">
                                 <div className="row align-items-center">
@@ -34,59 +36,58 @@ class FooterOne extends Component {
                             </div>
                         </div>
                     </div> */}
-                    <div className="py-3">
-                        <div className="row align-items-center">
-                            <div className="col-lg-9 text-center text-lg-left mb-4 mb-lg-0">
-                                <ul className="list-unstyled list-inline font-weight-500">
-                                    <li className="list-inline-item">
-                                        <Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">HomeTutor</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">Online Class</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to={'/about-one'} className="p-2 d-block text-link initiate-scripts">About</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to={'/about-two'} className="p-2 d-block text-link initiate-scripts">Courses</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to={'/blog'} className="p-2 d-block text-link initiate-scripts">Blog</Link>
-                                    </li>
-                                    <li className="list-inline-item">
-                                        <Link to={'contact'} className="p-2 d-block text-link initiate-scripts">Contact us</Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="col-lg-3 text-center text-lg-right">
-                                <ul className="social-icons list-unstyled mr-2">
-                                    <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-facebook-f" /></Link></li>
-                                    <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-twitter" /></Link></li>
-                                    <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-instagram" /></Link></li>
-                                    <li><Link to={'/home-one'} className="text-link pr-0 initiate-scripts"><i className="fab fa-skype" /></Link></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="footer-bottom py-3 border-top">
-                    <div className="container">
-                        <div className="row align-items-center">
-                            <div className="col-lg-9 text-center text-lg-left mb-3 mb-lg-0">
-                                &copy; Copyright All Review <span className="text-primary">Edu</span>Skills
-                            </div>
-                            <div className="col-lg-3 text-center text-lg-right">
-                                <ul className="list-unstyled list-inline font-weight-500">
-                                    <li className="list-inline-item"><Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">Privacy</Link></li>
-                                    <li className="list-inline-item"><Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">Contact us</Link></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        );
-    }
+        <div className="py-3">
+          <div className="row align-items-center">
+            <div className="col-lg-9 text-center text-lg-left mb-4 mb-lg-0">
+              <ul className="list-unstyled list-inline font-weight-500">
+                <li className="list-inline-item">
+                  <Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">{t("Home")}</Link>
+                </li>
+                <li className="list-inline-item">
+                  <Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">{t("Online Class")}</Link>
+                </li>
+                <li className="list-inline-item">
+                  <Link to={'/about-one'} className="p-2 d-block text-link initiate-scripts">{t("About")}</Link>
+                </li>
+                <li className="list-inline-item">
+                  <Link to={'/about-two'} className="p-2 d-block text-link initiate-scripts">{t("Courses")}</Link>
+                </li>
+                <li className="list-inline-item">
+                  <Link to={'/blog'} className="p-2 d-block text-link initiate-scripts">{t("Blog")}</Link>
+                </li>
+                <li className="list-inline-item">
+                  <Link to={'/contact'} className="p-2 d-block text-link initiate-scripts">{t("Contact us")}</Link>
+                </li>
+              </ul>
+            </div>
+            <div className="col-lg-3 text-center text-lg-right">
+              <ul className="social-icons list-unstyled mr-2">
+                <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-facebook-f" /></Link></li>
+                <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-twitter" /></Link></li>
+                <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-instagram" /></Link></li>
+                <li><Link to={'/home-one'} className="text-link pr-0 initiate-scripts"><i className="fab fa-skype" /></Link></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="footer-bottom py-3 border-top">
+        <div className="container">
+          <div className="row align-items-center">
+            <div className="col-lg-9 text-center text-lg-left mb-3 mb-lg-0">
+              {t("Copyright")} <span className="text-primary">Edu</span>Skills&copy;
+            </div>
+            <div className="col-lg-3 text-center text-lg-right">
+              <ul className="list-unstyled list-inline font-weight-500">
+                <li className="list-inline-item"><Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">{t("Privacy")}</Link></li>
+                <li className="list-inline-item"><Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">{t("Contact us")}</Link></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
 }
 
 export default FooterOne;

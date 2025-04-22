@@ -270,4 +270,26 @@
     "teachingCourses": "الدورات التعليمية",
     "onlineMeetings": "الاجتماعات عبر الإنترنت",
     "searchTutor": "بحث عن معلم"
+    ,  "Tutors": "المدرسون",
+    "Loading": "جارٍ التحميل",
+    "No courses available in this category": "لا توجد دورات متاحة في هذه الفئة"
+,  "All": "الكل",
+"Development": "التطوير",
+"Design": "التصميم",
+"Marketing": "التسويق",
+"Lifestyle": "أسلوب الحياة",
+"IT & Software": "تكنولوجيا المعلومات والبرمجيات",
+"Personal": "شخصي",
+"Music": "الموسيقى",
+
+    "Online Class": "دورة عبر الإنترنت",
+  
+    "Contact us": "اتصل بنا",
+    "Privacy": "الخصوصية",
+    "Copyright": "حقوق الطبع والنشر جميع المراجعات"
+  
+  
+
+
+
 }

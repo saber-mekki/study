@@ -257,5 +257,22 @@
   "selectType": "Wählen Sie den Typ",
   "teachingCourses": "Lehrkurse",
   "onlineMeetings": "Online-Meetings",
-  "searchTutor": "Tutor suchen"
+  "searchTutor": "Tutor suchen",
+  "Tutors": "Tutoren",
+  "Loading": "Wird geladen",
+  "All": "Alle",
+  "Development": "Entwicklung",
+  "Design": "Design",
+  "Marketing": "Marketing",
+  "Lifestyle": "Lebensstil",
+  "IT & Software": "IT & Software",
+  "Personal": "Persönlichkeitsentwicklung",
+  "Music": "Musik"
+,
+"Online Class": "Online-Kurs",
+
+"Contact us": "Kontaktieren Sie uns",
+"Privacy": "Datenschutz",
+"Copyright": "Alle Rechte vorbehalten"
+
 }
