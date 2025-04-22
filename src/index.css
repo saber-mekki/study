@@ -285,6 +285,11 @@ p {
 }
 @media (min-width: 768px) {
   .ml-md-custom {
-    margin-left: 250px;
+    margin-left: 200px;
   }
+}
+
+html[lang="ar"] .ml-md-custom {
+  margin-right: 200px;
+  margin-left: 0; 
 }
