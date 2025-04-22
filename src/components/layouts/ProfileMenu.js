@@ -136,7 +136,7 @@ function ProfileMenu() {
           <img
             src={user.urlImage || "/assets/images/tutorprofil.png"}
             alt={t("sProfile")}
-            className="d-none d-lg-block mr-2 border border-primary"
+            className="d-none d-lg-block mx-2 border border-primary"
             style={{
               width: "40px",
               height: "40px",
