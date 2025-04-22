@@ -12,9 +12,9 @@ export default function Status() {
       const token = localStorage.getItem("authToken");
 
       const decodedToken = jwtDecode(token);
-      const userEmail = decodedToken.user_email;
+      const userId = decodedToken.user_id;
       const response = await axios.post("http://localhost:5000/api/v1/status", {
-        email: userEmail,
+        id: userId,
         status: "aproved",
       });
       setstatus(response.data.status);
@@ -26,12 +26,13 @@ export default function Status() {
       const token = localStorage.getItem("authToken");
       if (token) {
         const decodedToken = jwtDecode(token);
-        const userEmail = decodedToken.user_email;
+        const userId = decodedToken.user_id;
+
         try {
           const response = await axios.post(
             "http://localhost:5000/api/v1/showStatus",
             {
-              email: userEmail,
+              id: userId,
             }
           );
           setstatus(response.data.status);
@@ -39,14 +40,13 @@ export default function Status() {
             localStorage.removeItem("authToken");
             Cookies.remove("role");
             await axios.post("http://localhost:5000/api/v1/deleteUser", {
-              email: userEmail,
+              id: userId,
             });
             setrejected(true);
           }
         } catch (error) {}
       }
     };
-
     fetchStatus();
   }, [status]);
 
