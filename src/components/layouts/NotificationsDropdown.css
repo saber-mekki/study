@@ -47,3 +47,14 @@
     font-size: 0.75rem;
     margin-top: 3px;
 }
+.notif-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.notif-link:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+

@@ -6,7 +6,6 @@ import './NotificationsDropdown.css';
 export function NotificationsDropdown({ userId }) {
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
-
     useEffect(() => {
         const token = localStorage.getItem("authToken");
         if (token) {
@@ -54,19 +53,30 @@ export function NotificationsDropdown({ userId }) {
 
             <ul className="dropdown-menu dropdown-menu-end notif-dropdown" aria-labelledby="notificationDropdown">
                 <li className="dropdown-header fw-bold text-center">Notifications</li>
-                {notifications.length > 0 ? (
-                    notifications.map((note, index) => (
+                {notifications.map((note, index) => {
+                    let targetUrl = "#";
+
+                    if (note.type === "booking_accepted") {
+                        targetUrl = `#/profile/bookings`;
+                    } else if (note.type === "message") {
+                        targetUrl = `/messages/${note.reference_id}`;
+                    } else if (note.type === "profile") {
+                        targetUrl = `/profile`;
+                    }
+
+                    return (
                         <li key={index} className={`dropdown-item notif-item ${note.is_read ? '' : 'unread'}`}>
-                            <div className="notif-message">{note.message}</div>
-                            <div className="notif-date text-muted">
-                                <i className="far fa-clock me-1" />
-                                {new Date(note.created_at).toLocaleString()}
-                            </div>
+                            <a href={targetUrl} className="notif-link">
+                                <div className="notif-message">{note.message}</div>
+                                <div className="notif-date text-muted">
+                                    <i className="far fa-clock me-1" />
+                                    {new Date(note.created_at).toLocaleString()}
+                                </div>
+                            </a>
                         </li>
-                    ))
-                ) : (
-                    <li className="dropdown-item text-muted text-center">No notifications</li>
-                )}
+                    );
+                })}
+
             </ul>
         </li>
     );
