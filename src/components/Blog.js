@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import SectionTwo from "./layouts/SectionTwo";
+import React from "react";
 import {Link} from "react-router-dom";
+import SectionOne from "./layouts/SectionOne";
 
-class Blog extends Component {
-    render() {
+function Blog(){
+    
         return (
-            <SectionTwo title={'Blogs'}>
+            <SectionOne title={'Blogs'}>
                 <section className="section-padding pb-fix">
                     <div className="container">
                         <div className="row">
@@ -147,9 +147,9 @@ class Blog extends Component {
                         </div>
                     </div>
                 </section>
-            </SectionTwo>
+            </SectionOne>
         );
     }
-}
+
 
 export default Blog;

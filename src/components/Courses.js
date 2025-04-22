@@ -1,14 +1,14 @@
 import React from "react";
-import SectionTwo from "./layouts/SectionTwo";
 import CourseSection from "./layouts/CourseSection";
+import SectionOne from "./layouts/SectionOne";
 
 export default function Courses() {
 
  
 
   return (
-    <SectionTwo title={'Courses'}>
+    <SectionOne title={'Courses'}>
       <CourseSection  />
-    </SectionTwo>
+    </SectionOne>
   );
 }

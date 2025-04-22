@@ -1,14 +1,14 @@
 import React from "react";
-import SectionTwo from "./layouts/SectionTwo";
 import TutorsSection from "./layouts/TutorsSection";
+import SectionOne from "./layouts/SectionOne";
+import { useTranslation } from "react-i18next";
 
 export default function Courses() {
-
- 
+  const { t } = useTranslation();
 
   return (
-    <SectionTwo title={'Tutors'}>
+    <SectionOne title={t("Tutors")}>
       <TutorsSection />
-    </SectionTwo>
+    </SectionOne>
   );
 }
