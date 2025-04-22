@@ -17,6 +17,7 @@ import CalendarSelector from "../profileComponents/CalendarSelector";
 import { useTranslation } from "react-i18next";
 import Page404 from "../../Page404";
 import { IoArrowBack } from "react-icons/io5";
+import { AcceptedBookingsList } from "../profileComponents/AcceptedBookingsList";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -130,6 +131,7 @@ const UserProfile = () => {
     "courses",
     "password",
     "calendar",
+    "bookings"
   ];
 
   if (!validSections.includes(currentSection)) {
@@ -247,6 +249,14 @@ const UserProfile = () => {
                       <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
+                          onClick={() => handleSectionChange("bookings")}
+                        >
+                          {t("Bookings")}
+                        </button>
+                      </li>
+                      <li className="list-group-item">
+                        <button
+                          className="btn btn-link text-primary pb-0 px-4"
                           onClick={handleLogout}
                         >
                           {t("Logout")}
@@ -279,6 +289,7 @@ const UserProfile = () => {
                   {currentSection === "courses" && <Mycourses email={email} />}
                   {currentSection === "password" && <Password email={email} />}
                   {currentSection === "calendar" && <CalendarSelector />}
+                  {currentSection === "bookings" && <AcceptedBookingsList />}
                 </div>
               </div>
             </div>

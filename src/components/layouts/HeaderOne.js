@@ -5,6 +5,7 @@ import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 
 import LanguageDropdown from "../LanguageDropdown";
 import ProfileMenu from "./ProfileMenu";
+import { NotificationsDropdown } from "./NotificationDropdown";
 
 function HeaderOne() {
   const { t } = useTranslation();
@@ -125,6 +126,7 @@ function HeaderOne() {
 
               {isAuthenticated && <ProfileMenu />}
               <LanguageDropdown />
+              <NotificationsDropdown />
             </ul>
           </div>
         </nav>

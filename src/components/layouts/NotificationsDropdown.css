@@ -1,0 +1,60 @@
+.notifications-container {
+    position: relative;
+}
+
+.notif-badge {
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    line-height: 1;
+}
+
+.notif-dropdown {
+    min-width: 300px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    border-radius: 8px;
+}
+
+.notif-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.notif-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notif-message {
+    font-weight: 500;
+    color: #333;
+}
+
+.unread .notif-message {
+    font-weight: 700;
+    color: #212529;
+}
+
+.notif-date {
+    font-size: 0.75rem;
+    margin-top: 3px;
+}
+.notif-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.notif-link:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
