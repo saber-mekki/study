@@ -17,7 +17,7 @@ import BlogDetails from "./components/BlogDetails";
 import Contact from "./components/Contact";
 import Profile from "./components/layouts/Profile";
 import Tutors from "./components/Tutors";
-
+import { isAuthenticated } from "./helper";
 import { ProtectedRoute, ProtectedAdminRoute } from "./ProtectedRoute";
 import SignInModal from "./components/SignInModal";
 import AdminDashboard from "./dashboard";
@@ -43,20 +43,26 @@ function Routes() {
                     <Route exact path={'/job-board'} render={(props) => (<JobBoard {...props} />)} />
                     <Route exact path={'/course-details-one'} render={(props) => (<CourseDetailsOne {...props} />)} />
                     <Route exact path={'/course-details-two'} render={(props) => (<CourseDetailsTwo {...props} />)} />
+                   
+                    <Route exact path={'/blog'} render={(props) => (<Blog {...props} />)} />
                     <Route exact path={'/blog-details'} render={(props) => (<BlogDetails {...props} />)} />
                     <Route exact path={'/contact'} render={(props) => (<Contact {...props} />)} />
-                    <Route exact path={'/profile'} render={(props) => (<Profile {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
-                    
+
                     <Route exact path={'/tutors'} render={(props) => (<Tutors {...props} />)} />
 
-                    <Route exact path="/profile">
-                        <Redirect to="/profile/accueil" />
-                    </Route>
+                    {isAuthenticated() ? (
+                        <>
+                            <Route exact path="/profile">
+                                <Redirect to="/profile/accueil" />
+                            </Route>
 
-                    <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
-
+                            <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
+                        </>
+                    ) : (
+                        <Redirect to="/login" />
+                    )}
 
                     <ProtectedAdminRoute isAdmin={isAdmin} exact path="/dash/admin" component={AdminDashboard} />
                     <ProtectedRoute exact path="/dashboard" component={Courses} />
