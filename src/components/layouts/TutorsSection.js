@@ -172,9 +172,7 @@ export default function TutorsSection() {
     <section className="my-5">
       <div className="container">
         <div className="row">
-          <div className="col-12 h4 text-center mb-30">
-            <span className="section-title">Largest Selection Of Tutors</span>
-          </div>
+        
         
         </div>
 
