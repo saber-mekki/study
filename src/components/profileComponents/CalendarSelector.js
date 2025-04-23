@@ -149,8 +149,7 @@ export default function TutorAvailabilityManager() {
     if (status === 'unavailable') return 'unavailable';
     return null;
   };
-
-  return (
+ return (
     <div style={{ maxWidth: '600px', margin: 'auto' }}>
       <h2>Manage Tutor Availability</h2>
       <Calendar
@@ -199,7 +198,7 @@ export default function TutorAvailabilityManager() {
       }}
     >
       <div style={{ marginBottom: '8px', fontWeight: 'bold', fontSize: '16px' }}>
-        📅 {new Date(request.booking_date).toLocaleDateString()}
+       📅 {new Date(request.requested_date).toLocaleDateString()}
       </div>
       <div style={{ fontSize: '15px', color: '#333' }}>
         <strong>👤 {request.name}</strong>
@@ -217,7 +216,7 @@ export default function TutorAvailabilityManager() {
             border: 'none',
             cursor: 'pointer',
           }}
-          onClick={() => handleAccept(request.id, request.booking_date)}
+          onClick={() => handleAccept(request.id, request.requested_date)}
         >
           Accept
         </button>
