@@ -293,3 +293,7 @@ html[lang="ar"] .ml-md-custom {
   margin-right: 200px;
   margin-left: 0; 
 }
+html, body {
+  overflow-x: hidden;  
+  overflow-y: auto;    
+}
