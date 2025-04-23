@@ -43,12 +43,14 @@ function Routes() {
                     <Route exact path={'/job-board'} render={(props) => (<JobBoard {...props} />)} />
                     <Route exact path={'/course-details-one'} render={(props) => (<CourseDetailsOne {...props} />)} />
                     <Route exact path={'/course-details-two'} render={(props) => (<CourseDetailsTwo {...props} />)} />
-                   
+
                     <Route exact path={'/blog'} render={(props) => (<Blog {...props} />)} />
-                    <Route exact path={'/blog-details'} render={(props) => (<BlogDetails {...props} />)} />
                     <Route exact path={'/contact'} render={(props) => (<Contact {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
+                   
+                   
+                    <Route exact path="/blog-details/:id" component={BlogDetails} />
 
                     <Route exact path={'/tutors'} render={(props) => (<Tutors {...props} />)} />
 
