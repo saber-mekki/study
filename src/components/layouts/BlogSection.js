@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
 
-class BlogSection extends Component {
-    render() {
+function BlogSection() {
+
         return (
             <section className="section-padding pt-0 blog-half-bg-gray">
                 <div className="container">
@@ -78,6 +78,6 @@ class BlogSection extends Component {
             </section>
         );
     }
-}
+
 
 export default BlogSection;

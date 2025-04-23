@@ -1,155 +1,90 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import SectionOne from "./layouts/SectionOne";
+import axios from "axios";
+function Blog() {
+    const [blogs, setBlogs] = useState([]);
 
-function Blog(){
-    
-        return (
-            <SectionOne title={'Blogs'}>
-                <section className="section-padding pb-fix">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-4 col-md-6">
-                                <div className="card shadow border-0 mb-40 hover-grayscale">
-                                    <Link to={'/blog-details'} className="initiate-scripts">
-                                        <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/blogs/01.jpg'} alt="" />
-                                    </Link>
-                                    <div className="card-body border-top p-30">
-                                        <div className="post-meta font-weight-500 small mb-20">
-                                            <span className="mr-3"><i className="far fa-calendar-alt text-primary mr-2" /> 25/02/2023</span>
-                                            <span><i className="fas fa-user text-primary mr-2" /> Dispatched</span>
-                                        </div>
-                                        <h5 className="font-weight-600">
-                                            <Link to={'/blog-details'} className="text-blue initiate-scripts">
-                                                Dispatched Entreaties Boister ous Say Why Stimulated
-                                            </Link>
-                                        </h5>
-                                        <p className="mt-3">
-                                            She exposed painted fifteen are noisier mistake led waiting surprise.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-6">
-                                <div className="card shadow border-0 mb-40 hover-grayscale">
-                                    <Link to={'/blog-details'} className="initiate-scripts">
-                                        <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/blogs/02.jpg'} alt="" />
-                                    </Link>
-                                    <div className="card-body border-top p-30">
-                                        <div className="post-meta font-weight-500 small mb-20">
-                                            <span className="mr-3"><i className="far fa-calendar-alt text-primary mr-2" /> 25/02/2023</span>
-                                            <span><i className="fas fa-user text-primary mr-2" /> Dispatched</span>
-                                        </div>
-                                        <h5 className="font-weight-600">
-                                            <Link to={'/blog-details'} className="text-blue initiate-scripts">
-                                                Dispatched Entreaties Boister ous Say Why Stimulated
-                                            </Link>
-                                        </h5>
-                                        <p className="mt-3">
-                                            She exposed painted fifteen are noisier mistake led waiting surprise.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-6">
-                                <div className="card shadow border-0 mb-40 hover-grayscale">
-                                    <Link to={'/blog-details'} className="initiate-scripts">
-                                        <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/blogs/03.jpg'} alt="" />
-                                    </Link>
-                                    <div className="card-body border-top p-30">
-                                        <div className="post-meta font-weight-500 small mb-20">
-                                            <span className="mr-3"><i className="far fa-calendar-alt text-primary mr-2" /> 25/02/2023</span>
-                                            <span><i className="fas fa-user text-primary mr-2" /> Incidunt</span>
-                                        </div>
-                                        <h5 className="font-weight-600">
-                                            <Link to={'/'} className="text-blue">
-                                                Reiciendis incidunt obcaecati vitae quos enim volupt!
-                                            </Link>
-                                        </h5>
-                                        <p className="mt-3">She exposed painted fifteen are noisier mistake led waiting surprise.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-6">
-                                <div className="card shadow border-0 mb-40 hover-grayscale">
-                                    <Link to={'/blog-details'} className="initiate-scripts">
-                                        <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/blogs/02.jpg'} alt="" />
-                                    </Link>
-                                    <div className="card-body border-top p-30">
-                                        <div className="post-meta font-weight-500 small mb-20">
-                                            <span className="mr-3"><i className="far fa-calendar-alt text-primary mr-2" /> 25/02/2023</span>
-                                            <span><i className="fas fa-user text-primary mr-2" /> Repelle</span>
-                                        </div>
-                                        <h5 className="font-weight-600">
-                                            <Link to={'/blog-details'} className="text-blue initiate-scripts">
-                                                Dispatched Entreaties Boister ous Say Why Stimulated
-                                            </Link>
-                                        </h5>
-                                        <p className="mt-3">
-                                            She exposed painted fifteen are noisier mistake led waiting surprise.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-6">
-                                <div className="card shadow border-0 mb-40 hover-grayscale">
-                                    <Link to={'/blog-details'} className="initiate-scripts">
-                                        <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/blogs/03.jpg'} alt="" />
-                                    </Link>
-                                    <div className="card-body border-top p-30">
-                                        <div className="post-meta font-weight-500 small mb-20">
-                                            <span className="mr-3"><i className="far fa-calendar-alt text-primary mr-2" /> 25/02/2023</span>
-                                            <span><i className="fas fa-user text-primary mr-2" /> Incidunt</span>
-                                        </div>
-                                        <h5 className="font-weight-600">
-                                            <Link to={'/'} className="text-blue">
-                                                Reiciendis incidunt obcaecati vitae quos enim volupt!
-                                            </Link>
-                                        </h5>
-                                        <p className="mt-3">She exposed painted fifteen are noisier mistake led waiting
-                                            surprise.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-md-6">
-                                <div className="card shadow border-0 mb-40 hover-grayscale">
-                                    <Link to={'/blog-details'} className="initiate-scripts">
-                                        <img className="card-img-top" src={process.env.PUBLIC_URL + '/assets/images/blogs/01.jpg'} alt="" />
-                                    </Link>
-                                    <div className="card-body border-top p-30">
-                                        <div className="post-meta font-weight-500 small mb-20">
-                                            <span className="mr-3"><i className="far fa-calendar-alt text-primary mr-2" /> 25/02/2023</span>
-                                            <span><i className="fas fa-user text-primary mr-2" /> Dispatched</span>
-                                        </div>
-                                        <h5 className="font-weight-600">
-                                            <Link to={'/blog-details'} className="text-blue initiate-scripts">
-                                                Dispatched Entreaties Boister ous Say Why Stimulated
-                                            </Link>
-                                        </h5>
-                                        <p className="mt-3">
-                                            She exposed painted fifteen are noisier mistake led waiting surprise.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div className="col-12">
-                                <nav className="mt-20">
-                                    <ul className="pagination justify-content-center font-weight-600">
-                                        <li className="page-item"><Link to={'/'} className="page-link"><i className="fas fa-chevron-left" /></Link></li>
-                                        <li className="page-item"><Link to={'/'} className="page-link">01</Link></li>
-                                        <li className="page-item active"><Link to={'/'} className="page-link">02</Link></li>
-                                        <li className="page-item"><Link to={'/'} className="page-link">03</Link></li>
-                                        <li className="page-item"><Link to={'/'} className="page-link"><i className="fas fa-chevron-right" /></Link></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
+    useEffect(() => {
+        const fetchBlogs = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/v1/blogs");
+                const blogsData = response.data.blogs;
+                setBlogs(blogsData);
+
+            } catch (err) {
+                alert("Error fetching blogs");
+                console.error(err);
+            }
+        };
+
+        fetchBlogs();
+    }, []);
+
+
+
+
+    return (
+        <SectionOne title={'Blogs'}>
+            <section className="section-padding pb-fix">
+                <div className="container">
+                    <div className="row">
+
+
+
+                        {blogs.length > 0 ? (
+                            blogs.map((blog) => (
+                                <div key={blog.id} className="col-md-4 mb-4">
+                                    <div className="card shadow border-0 hover-grayscale">
+                                    <Link to={`/blog-details/${blog.id}`} className="initiate-scripts">
+                                    <img
+                                                className="card-img-top"
+                                                src={process.env.PUBLIC_URL + '/assets/images/blogs/01.jpg'}
+                                                alt={blog.title}
+                                            />
+                                        </Link>
+                                        <div className="card-body border-top p-30">
+                                            <div className="post-meta font-weight-500 small mb-20">
+                                                <span className="mr-3">
+                                                    <i className="far fa-calendar-alt text-primary mr-2" />
+                                                    {new Date(blog.created_at).toLocaleDateString()}
+                                                </span>
+                                                <span>
+                                                    <i className="fas fa-user text-primary mr-2" />
+                                                    {blog.user_name}
+                                                </span>
+                                            </div>
+                                            <h5 className="font-weight-600">
+                                            <Link to={`/blog-details/${blog.id}`} className="initiate-scripts">
+                                            {blog.title}
+                                                </Link>
+                                            </h5>
+                                            <p className="mt-3">
+                                                {blog.content.length > 100
+                                                    ? blog.content.substring(0, 50) + "..."
+                                                    : blog.content}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No blogs found.</p>
+                        )}
+
+
+
+
+
+
+
                     </div>
-                </section>
-            </SectionOne>
-        );
-    }
+                </div>
+            </section>
+        </SectionOne>
+    );
+}
 
 
 export default Blog;
