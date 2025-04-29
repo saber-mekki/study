@@ -75,7 +75,7 @@ function FooterOne() {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-9 text-center text-lg-left mb-3 mb-lg-0">
-              {t("Copyright")} <span className="text-primary">Edu</span>Skills&copy;
+              {t("Copyright")} <span className="text-primary">Digithage</span>&copy;
             </div>
             <div className="col-lg-3 text-center text-lg-right">
               <ul className="list-unstyled list-inline font-weight-500">

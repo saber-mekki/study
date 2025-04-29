@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import Page404 from "../../Page404";
 import { IoArrowBack } from "react-icons/io5";
 import { AcceptedBookingsList } from "../profileComponents/AcceptedBookingsList";
+import { CoursesLibrary } from "./myClasses/CoursesLibrary";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -45,6 +46,7 @@ const UserProfile = () => {
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
   }, []);
+
   const handleReturn = () => {
     setMenuOpen(true);
     history.push("/profile");
@@ -131,7 +133,8 @@ const UserProfile = () => {
     "courses",
     "password",
     "calendar",
-    "bookings"
+    "bookings",
+    "classes"
   ];
 
   if (!validSections.includes(currentSection)) {
@@ -233,27 +236,35 @@ const UserProfile = () => {
                       <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
+                          onClick={() => handleSectionChange("classes")}
+                        >
+                          {t("My Classes")}
+                        </button>
+                      </li>
+                      <li className="list-group-item">
+                        <button
+                          className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange("password")}
                         >
                           {t("Change Password")}
                         </button>
                       </li>
-                      <li className="list-group-item">
+                      {role === "tutor" && (     <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange("calendar")}
                         >
                           {t("Calendar")}
                         </button>
-                      </li>
-                      <li className="list-group-item">
+                      </li>)}
+                      {role === "student" && (     <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange("bookings")}
                         >
                           {t("Bookings")}
                         </button>
-                      </li>
+                      </li>)}
                       <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
@@ -290,6 +301,7 @@ const UserProfile = () => {
                   {currentSection === "password" && <Password email={email} />}
                   {currentSection === "calendar" && <CalendarSelector />}
                   {currentSection === "bookings" && <AcceptedBookingsList />}
+                  {currentSection === "classes" && <CoursesLibrary  />}
                 </div>
               </div>
             </div>

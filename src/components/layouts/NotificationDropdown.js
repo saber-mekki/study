@@ -40,7 +40,6 @@ export function NotificationsDropdown({ userId }) {
                 role="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                onClick={handleDropdownOpen}
             >
                 <i className="fas fa-bell fa-lg position-relative">
                     {unreadCount > 0 && (
@@ -65,7 +64,7 @@ export function NotificationsDropdown({ userId }) {
                     }
 
                     return (
-                        <li key={index} className={`dropdown-item notif-item ${note.is_read ? '' : 'unread'}`}>
+                        <li key={index} onClick={handleDropdownOpen} className={`dropdown-item notif-item ${note.is_read ? '' : 'unread'}`}>
                             <a href={targetUrl} className="notif-link">
                                 <div className="notif-message">{note.message}</div>
                                 <div className="notif-date text-muted">
