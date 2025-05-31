@@ -133,19 +133,7 @@ export default function TutorCard({
               </div>
 
               <div className="modal-footer bg-light">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={handleClose}
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                >
-                  Book for ${price}
-                </button>
+              
 
               </div>
             </div>

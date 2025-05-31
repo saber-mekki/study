@@ -15,6 +15,7 @@
 }
 
 .notif-dropdown {
+    margin: -70px;
     min-width: 300px;
     max-height: 400px;
     overflow-y: auto;

@@ -125,8 +125,8 @@ function HeaderOne() {
               )}
 
               {isAuthenticated && <ProfileMenu />}
-              <LanguageDropdown />
               {isAuthenticated &&<NotificationsDropdown/>}
+              <LanguageDropdown />
             </ul>
           </div>
         </nav>
