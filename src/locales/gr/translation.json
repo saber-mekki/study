@@ -274,5 +274,79 @@
 "Contact us": "Kontaktieren Sie uns",
 "Privacy": "Datenschutz",
 "Copyright": "Alle Rechte vorbehalten"
+,
+  "welcome": "Willkommen, Lernender!",
+  "explorePlatform": "Entdecken Sie unsere Plattform und erleben Sie erstklassige Lernangebote.",
+  "educationMadeEasy": "Bildung für alle einfach gemacht.",
+  "login": "Anmelden",
+  "signup": "Registrieren"
+,
+  "welcomeTutor": "Willkommen, Tutor!",
+  "appreciationMessage": "Ihre Anwesenheit wird sehr geschätzt und Ihre Bemühungen werden sicher anerkannt.",
+  "addClass": "Klasse hinzufügen",
+  "waitingMeetings": "Wartende Sitzungen",
+  "myCourses": "Meine Kurse",
+  "myClasses": "Meine Klassen"
+
+,
+  "loading": "Wird geladen...",
+  "error": "Fehler",
+  "adminPanel": "Admin-Bereich",
+  "dashboard": "Dashboard",
+  "allUsers": "Alle Benutzer",
+  "allTutors": "Alle Tutoren",
+  "allStudents": "Alle Studenten",
+  "waitingUsers": "Wartende Benutzer",
+  "formations": "Kurse",
+  "admins": "Admins",
+  "blogs": "Blogs",
+  "welcomeAdmin": "Willkommen Admin {{userName}}",
+  "overview": "Übersicht des Systems.",
+  "allAdmins": "Alle Admins"
+,
+  "welcomeAdmin2": "Willkommen, Admin!"
+
+,
+
+  "howItWorks_title_part1": "Wie",
+  "howItWorks_title_part2": "Es Funktioniert",
+  "howItWorks_title_part3": "Für Schüler/Eltern?",
+
+  "step1_heading_part1": "Sag Uns, Wo Du",
+  "step1_heading_part2": "Hilfe Brauchst",
+  "step1_description": "Teile uns deine Lernbedürfnisse und Ziele mit, damit wir den perfekten Tutor finden können.",
+
+  "step2_heading_part1": "Wähle Den Tutor",
+  "step2_heading_part2": "Den Du Möchtest",
+  "step2_description": "Durchsuche qualifizierte Tutoren und wähle den passenden für dich aus.",
+
+  "step3_heading_part1": "Buche Einen Tutor",
+  "step3_heading_part2": "Beginne Die Lektion",
+  "step3_description": "Plane deine Sitzungen einfach und starte das Lernen mit deinem gewählten Tutor."
+,
+  "trialSection_title_part1": "Fordern Sie eine Klasse an",
+  "trialSection_title_part2": "für eine kostenlose Probe",
+"trialSection_description": "Nutzen Sie eine kostenlose Probestunde, um unseren Unterrichtsansatz kennenzulernen. Sprechen Sie mit einem qualifizierten Tutor, bevor Sie sich festlegen."
+ , "trialSection_button": "Tutor suchen",
+  "trialSection_image_alt": "Kostenlose Klasse"
+
+  ,
+  "howItWorksTutors_title_part1": "Wie",
+  "howItWorksTutors_title_part2": "es für Tutoren funktioniert",
+
+  "howItWorksTutors_step1_heading_part1": "Erstelle dein",
+  "howItWorksTutors_step1_heading_part2": "Tutorprofil",
+  "howItWorksTutors_step1_description": "Registriere dich und erstelle ein ansprechendes Profil, um Schüler zu gewinnen.",
+
+  "howItWorksTutors_step2_heading_part1": "Lege deine",
+  "howItWorksTutors_step2_heading_part2": "Verfügbarkeit und Preise fest",
+  "howItWorksTutors_step2_description": "Wähle deine verfügbaren Zeiten und setze deinen Stundensatz.",
+
+  "howItWorksTutors_step3_heading_part1": "Beginne mit dem",
+  "howItWorksTutors_step3_heading_part2": "Unterrichten",
+  "howItWorksTutors_step3_description": "Nimm Buchungen an und starte deine Laufbahn als Online-Tutor."
+
 
 }
+
+

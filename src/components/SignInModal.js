@@ -38,13 +38,12 @@ function SignInModal() {
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, { email, password, type_register });
       type_register = response.data.result.type_register;
       localStorage.setItem('authToken', response.data.tokens.accessToken); 
-      
       if (role !== type_register&&type_register !=='admin') {
         setPasswordError(t("Role mismatch. Please login as the correct role."));
         return;
       }
       localStorage.setItem('role', type_register); 
-
+      
       type_register ==='admin'? history.push('/dash/admin'): history.push('/')
     } catch (err) {
       if (err.response) {

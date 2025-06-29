@@ -297,3 +297,55 @@ html, body {
   overflow-x: hidden;  
   overflow-y: auto;    
 }
+.pdf-chapters-container {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #bbb transparent;
+}
+
+.pdf-chapters-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.pdf-chapters-container::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 3px;
+}
+
+.pdf-chapters-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pdf-chapter-btn {
+  flex-shrink: 0;
+  padding: 8px 20px;
+  border: 2px solid #007bff;
+  border-radius: 50px;
+  background-color: transparent;
+  color: #007bff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.pdf-chapter-btn:hover {
+  background-color: #e6f0ff;
+  color: #0056b3;
+  box-shadow: 0 4px 8px rgb(0 91 187 / 0.3);
+}
+
+.pdf-chapter-btn.active {
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 6px 12px rgb(0 123 255 / 0.5);
+  border-color: #007bff;
+}
+
+.pdf-chapter-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}

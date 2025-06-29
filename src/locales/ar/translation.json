@@ -290,6 +290,170 @@
   
   
 
+,  "welcome": "أهلاً وسهلاً بالطالب!",
+  "explorePlatform": "استكشف منصتنا واكتشف تجارب تعليمية عالية الجودة.",
+  "educationMadeEasy": "التعليم أصبح سهلاً للجميع.",
+  "login": "تسجيل الدخول",
+  "signup": "إنشاء حساب"
+
+,
+  "welcomeTutor": "مرحبًا بك، مدرّسنا الكريم!!",
+  "appreciationMessage": "نحن نُقدّر وجودك كثيرًا وجهودك محل تقدير بالتأكيد.",
+  "addClass": "إضافة فصل",
+  "waitingMeetings": "الاجتماعات المنتظرة",
+  "myCourses": "دوراتي",
+  "myClasses": "فصولي"
+,
+  "loading": "جار التحميل...",
+  "error": "خطأ",
+  "adminPanel": "لوحة الإدارة",
+  "dashboard": "لوحة القيادة",
+  "allUsers": "جميع المستخدمين",
+  "allTutors": "جميع المدرّسين",
+  "allStudents": "جميع الطلاب",
+  "waitingUsers": "المستخدمون في الانتظار",
+  "formations": "الدورات",
+  "admins": "المسؤولون",
+  "blogs": "المدونات",
+  "welcomeAdmin": "مرحبًا بالمشرف {{userName}}",
+  "overview": "نظرة عامة على النظام.",
+  "allAdmins": "جميع المسؤولين"
+
+
+
+,
+  "adminGuidanceMessage": "توجيهك يضمن سير منصتنا بسلاسة، شكرًا لك على كل ما تبذله",
+  "waitingCourses": "الدورات في الانتظار"
+,  "welcomeAdmin2": "مرحباً بك في منصة الإدارة، مشرفنا العزيز!!"
+
+ ,
+  "what": "ماذا",
+  "weOffer": "نقدم",
+  "homeTutoring": "التدريس المنزلي",
+  "homeTutoringDesc": "دروس شخصية تُقدَّم في راحة منزلك، مع متابعة دقيقة لضمان فهم كل نقطة.",
+  "onlineTutoring": "التدريس عبر الإنترنت",
+  "onlineTutoringDesc": "تعلم مرن عن بُعد مع مدرسين محترفين باستخدام أحدث التقنيات التعليمية.",
+  "groupTutoring": "التدريس الجماعي",
+  "groupTutoringDesc": "جلسات تفاعلية مع مجموعات صغيرة لتعزيز التعلم التعاوني وتحفيز النقاشات.",
+  "packageTutoring": "التدريس بالحزمة",
+  "packageTutoringDesc": "برامج تعليمية متكاملة تغطي موضوعات متعددة بأسعار تنافسية وجلسات منظمة.",
+  "offlineTutoring": "التدريس غير المتصل",
+  "offlineTutoringDesc": "تعليم عملي وتقليدي في مراكزنا التعليمية، مع بيئة محفزة وداعمة للطلاب."
+
+
+,
+
+  "trialSection_title_part1": "اطلب درسًا",
+  "trialSection_title_part2": "لتجربة مجانية",
+"trialSection_description": "اطلب درسًا لتجربة مجانية واكتشف أسلوب التدريس الذي يناسبك. تواصل مع مدرس محترف وابدأ رحلتك التعليمية بثقة وبدون أي التزام."
+  ,"trialSection_button": "ابحث عن معلم",
+  "trialSection_image_alt": "درس مجاني"
+,
+  "findTutor_title_part1": "ابحث عن",
+  "findTutor_title_part2": "معلمين عبر الإنترنت",
+  "findTutor_title_part3": "في أي مادة",
+
+  "subject_math": "الرياضيات",
+  "subject_english": "اللغة الإنجليزية",
+  "subject_engineering": "الهندسة",
+  "subject_history": "التاريخ",
+  "subject_social_science": "العلوم الاجتماعية",
+  "subject_computer_science": "علوم الحاسوب",
+  "subject_data_science": "علم البيانات",
+  "subject_medical": "الطب",
+
+  "findTutor_button": "عرض جميع المواد"
+
+,
+  
+  "mobileApp_title_part1": "تطبيقنا",
+  "mobileApp_title_part2": "على الهاتف",
+  "mobileApp_description": "انتظروا تطبيقنا على الهاتف قريبًا.",
+  "mobileApp_button": "ابحث عن معلم",
+  "mobileApp_alt": "تطبيق الهاتف"
+
+,
+"examPrep": "التحضير للامتحانات",
+"examPrepDesc": "جلسات مركزة لمساعدة الطلاب على النجاح في الامتحانات المدرسية أو الجامعية أو امتحانات الشهادات."
+,
+"howItWorks_title_part1": "كيف",
+"howItWorks_title_part2": "يعمل",
+"howItWorks_title_part3": "للطلاب",
+
+"step1_heading_part1": "أنشئ حسابك",
+"step1_heading_part2": "كطالب",
+"step1_description": "سجّل وابدأ بإنشاء ملفك الشخصي كطالب في خطوات بسيطة.",
+
+"step2_heading_part1": "اختر المعلم",
+"step2_heading_part2": "المناسب لك",
+"step2_description": "تصفح قائمة المعلمين المعتمدين واختر من يناسبك.",
+
+"step3_heading_part1": "احجز",
+"step3_heading_part2": "درسًا تجريبيًا",
+"step3_description": "حدد موعدًا لدرس مجاني لتبدأ رحلتك التعليمية."
+,
+
+  "howItWorksTutors_title_part1": "كيف",
+  "howItWorksTutors_title_part2": "يعمل للنُخَب التعليمية",
+
+  "howItWorksTutors_step1_heading_part1": "أنشئ",
+  "howItWorksTutors_step1_heading_part2": "ملفك كمدرس",
+  "howItWorksTutors_step1_description": "قم بالتسجيل وأنشئ ملفًا جذابًا لجذب الطلاب.",
+
+  "howItWorksTutors_step2_heading_part1": "حدد",
+  "howItWorksTutors_step2_heading_part2": "توفرّك وسعرك",
+  "howItWorksTutors_step2_description": "اختر أوقاتك المناسبة وحدد السعر لكل ساعة بسهولة.",
+
+  "howItWorksTutors_step3_heading_part1": "ابدأ في",
+  "howItWorksTutors_step3_heading_part2": "تدريس الطلاب",
+  "howItWorksTutors_step3_description": "استقبل الحجوزات وابدأ رحلتك كمدرّس عبر الإنترنت."
+
+,
+  "recentTutors_title_part1": "المدرسون",
+  "recentTutors_title_part2": "المنضمون حديثًا"
+
+,
+  "Show More": "عرض المزيد"
+,
+"courses":"الدورات",
+  "courses_description": "استكشف مجموعة متنوعة من الدورات التي تغطي مواضيع متعددة. من الرياضيات إلى العلوم الاجتماعية، لدينا ما يناسب كل متعلم.",
+  "courses_button": "عرض الدورات",
+  "courses_altImage": "دورات عبر الإنترنت"
+
+,
+  "Quiz": "اختبار",
+  "Bookings": "حجز"
+,
+  "aboutUs_title": "من نحن",
+  "aboutUs_altImage": "نظام إدارة المدرسين",
+  "aboutUs_title_part1": "حول",
+  "aboutUs_title_part2": "نظام إدارة",
+  "aboutUs_title_part3": "المدرسين عبر الإنترنت",
+  "aboutUs_description": "تم تصميم نظام إدارة المدرسين لدينا لإحداث ثورة في التعلم عبر الإنترنت من خلال ربط الطلاب بالمدرسين الخبراء في بيئة مرنة وشخصية. سواء كنت تستعد للامتحانات أو تتعلم مهارة جديدة، تسهل منصتنا جدولة الجلسات وتتبع التقدم والحصول على الشهادات.",
+  "aboutUs_feature1": "تجربة تدريس شخصية مع خبراء معتمدين.",
+  "aboutUs_feature2": "جدولة مرنة وأدوات تواصل في الوقت الحقيقي.",
+  "aboutUs_feature3": "مسارات تعليمية معتمدة لإثبات مهاراتك.",
+  "aboutUs_authorAlt": "سهيل",
+  "aboutUs_authorName": "سهيل",
+  "aboutUs_authorDate": "تاريخ الإصدار: ٢/٥/٢٠٢٣",
+  "aboutUs_counter1": "المتعلمون النشطون",
+  "aboutUs_counter2": "الجوائز والتكريمات",
+  "aboutUs_counter3": "المدرسون المؤهلون",
+  "aboutUs_counter4": "الطلاب الحاصلون على شهادات",
+  "aboutUs_certificate_title": "احصل على شهادتك مع التعلم عبر الإنترنت",
+  "aboutUs_certificate_description": "تتيح منصتنا للمتعلمين الوصول إلى تعليم عالي الجودة في أي وقت وأي مكان. أكمل تدريبك، واجتاز التقييم الخاص بك، واحصل على شهادة رسمية تثبت خبرتك.",
+  "aboutUs_getStarted": "ابدأ الآن",
+  "aboutUs_certificate_alt": "شهادة عبر الإنترنت",
+  "aboutUs_team_title": "فريق الإدارة لدينا",
+  "aboutUs_team_member1_alt": "سهيل بن حامد",
+  "aboutUs_team_member1_name": "سهيل بن حامد",
+  "aboutUs_team_member1_role": "مطور",
+  "aboutUs_team_member2_alt": "صابر مكي",
+  "aboutUs_team_member2_name": "صابر مكي",
+  "aboutUs_team_member2_role": "مدرس أول ومستشار",
+  "aboutUs_team_member3_alt": "سامح حبييب",
+  "aboutUs_team_member3_name": "سامح حبييب",
+  "aboutUs_team_member3_role": "مدير البرنامج"
 
 
 }

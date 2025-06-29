@@ -96,7 +96,7 @@ function BlogDetails() {
                 <img
                   className="img-fluid rounded"
                   src={
-                    process.env.PUBLIC_URL + "/assets/images/blog-single.jpg"
+                    process.env.PUBLIC_URL + "/assets/images/blog.jpg"
                   }
                   alt=""
                 />
@@ -143,7 +143,7 @@ function BlogDetails() {
                           to={"/"}
                           className="h4 d-inline-block font-weight-600 mb-10 text-secondary"
                         >
-                          {reply.email_user}
+                          Souhail
                         </Link>
                         <p>
                           <span className="text-black-300 mr-3">

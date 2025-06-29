@@ -8,7 +8,7 @@ function FooterOne() {
   return (
     <footer>
       <div className="container">
-          {/*    <div className="row">
+        {/*    <div className="row">
                         <div className="col-md-12">
                             <div className="py-5 px-3 px-sm-5 bg-light">
                                 <div className="row align-items-center">
@@ -41,31 +41,80 @@ function FooterOne() {
             <div className="col-lg-9 text-center text-lg-left mb-4 mb-lg-0">
               <ul className="list-unstyled list-inline font-weight-500">
                 <li className="list-inline-item">
-                  <Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">{t("Home")}</Link>
+                  <Link
+                    to={"/home-one"}
+                    className="p-2 d-block text-link initiate-scripts"
+                                          onClick={() => window.scrollTo(0, 0)}
+
+                  >
+                    {t("Home")}
+                  </Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">{t("Online Class")}</Link>
+                  <Link
+                    to={"/home-one"}
+                    className="p-2 d-block text-link initiate-scripts"
+                  >
+                    {t("Online Class")}
+                  </Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link to={'/about-one'} className="p-2 d-block text-link initiate-scripts">{t("About")}</Link>
+                  <Link
+                    to={"/about-one"}
+                                          onClick={() => window.scrollTo(0, 0)}
+
+                    className="p-2 d-block text-link initiate-scripts"
+                  >
+                    {t("About")}
+                  </Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link to={'/about-two'} className="p-2 d-block text-link initiate-scripts">{t("Courses")}</Link>
+                  <Link
+                    to={"/about-two"}
+                    className="p-2 d-block text-link initiate-scripts"
+                  >
+                    {t("Courses")}
+                  </Link>
                 </li>
                 <li className="list-inline-item">
-                  <Link to={'/blog'} className="p-2 d-block text-link initiate-scripts">{t("Blog")}</Link>
+                  <Link
+                    to={"/blog"}
+                    className="p-2 d-block text-link initiate-scripts"
+                    onClick={() => window.scrollTo(0, 0)}
+
+                  >
+                    {t("Blog")}
+                  </Link>
                 </li>
-                <li className="list-inline-item">
-                  <Link to={'/contact'} className="p-2 d-block text-link initiate-scripts">{t("Contact us")}</Link>
-                </li>
+             
               </ul>
             </div>
             <div className="col-lg-3 text-center text-lg-right">
               <ul className="social-icons list-unstyled mr-2">
-                <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-facebook-f" /></Link></li>
-                <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-twitter" /></Link></li>
-                <li><Link to={'/home-one'} className="text-link initiate-scripts"><i className="fab fa-instagram" /></Link></li>
-                <li><Link to={'/home-one'} className="text-link pr-0 initiate-scripts"><i className="fab fa-skype" /></Link></li>
+                <li>
+                  <Link to={"/home-one"} onClick={() => window.scrollTo(0, 0)}
+                    className="text-link initiate-scripts">
+                    <i className="fab fa-facebook-f" />
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/home-one"} className="text-link initiate-scripts">
+                    <i className="fab fa-twitter" />
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/home-one"} className="text-link initiate-scripts">
+                    <i className="fab fa-instagram" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to={"/home-one"}
+                    className="text-link pr-0 initiate-scripts"
+                  >
+                    <i className="fab fa-skype" />
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -75,12 +124,34 @@ function FooterOne() {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-9 text-center text-lg-left mb-3 mb-lg-0">
-              {t("Copyright")} <span className="text-primary">Digithage</span>&copy;
+              {t("Copyright")} <span className="text-primary">Souhail</span>
+              &copy;
             </div>
             <div className="col-lg-3 text-center text-lg-right">
               <ul className="list-unstyled list-inline font-weight-500">
-                <li className="list-inline-item"><Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">{t("Privacy")}</Link></li>
-                <li className="list-inline-item"><Link to={'/home-one'} className="p-2 d-block text-link initiate-scripts">{t("Contact us")}</Link></li>
+                <li className="list-inline-item">
+                  <Link
+                    to={"/home-one"}
+                    className="p-2 d-block text-link initiate-scripts"
+                  >
+                    {t("Privacy")}
+                  </Link>
+                </li>
+                <li
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                  }
+                  className="list-inline-item"
+                >
+                  <Link
+                    to={"/contact"}
+
+                    className="p-2 d-block text-link initiate-scripts"
+                  >
+                    {t("Contact us")}
+
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>

@@ -3,13 +3,14 @@ import React from "react";
 import SectionOne from "./layouts/SectionOne";
 
 import { useTranslation } from "react-i18next";
+import SectionTwo from "./layouts/SectionTwo";
 
 function Contact() {
     const { t } = useTranslation();
 
 
         return (
-            <SectionOne title={t("Contact")}>
+            <SectionTwo title={t("Contact")}>
                 <section className="section-padding bg-gray">
                     <div className="container">
                         <div className="row justify-content-between">
@@ -28,7 +29,7 @@ function Contact() {
                                                     type="text"
                                                     className="form-control rounded-sm"
                                                     id="name"
-                                                    placeholder="Ben Hamed souhail" />
+                                                    placeholder="Apprenant" />
                                             </div>
                                         </div>
                                         <div className="col-md-6">
@@ -38,7 +39,7 @@ function Contact() {
                                                     type="email"
                                                     className="form-control rounded-sm"
                                                     id="emailL"
-                                                    placeholder="souhail@email.com" />
+                                                    placeholder="Eduskills@gmail.com" />
                                             </div>
                                         </div>
                                         <div className="col-md-12">
@@ -75,27 +76,19 @@ function Contact() {
                                     <i className="fas fa-phone fa-2x text-primary" />
                                     <div className="ml-sm-4 mt-3 mt-sm-0">
                                         <h4 className="text-secondary font-weight-600 mb-1">{t("contact_details")}</h4>
-                                        <p>{t("phone")} <a href="tel:+7800123452" className="text-dark">+780 123 452</a> </p>
-                                        <p>{t("mail")} <a href="mailto:contact@eduskill.com" className="text-dark">contact@eduskill.com</a></p>
+                                        <p>{t("phone")} <a href="tel:+21629438905" className="text-dark">+216 29 438 905</a> </p>
+                                        <p>{t("mail")} <a href="mailto:contact@eduskill.com" className="text-dark">Eduskills@gmail.com</a></p>
                                     </div>
                                 </div>
                                 <div
                                     className="shadow-sm p-20 mt-4 rounded-sm bg-white d-block d-sm-flex align-items-center">
                                     <i className="fas fa-map-marked-alt fa-2x text-primary" />
-                                    <div className="ml-sm-4 mt-3 mt-sm-0">
+                                    <div className="ml-sm-4 mr-2 mt-3 mt-sm-0">
                                         <h4 className="text-secondary font-weight-600 mb-1">{t("location")}</h4>
-                                        <p>PO Box 97845 Baker st. 567, Los Angeles, California, US.</p>
+                                        <p>    Douz</p>
                                     </div>
                                 </div>
-                                <div
-                                    className="shadow-sm p-20 mt-4 rounded-sm bg-white d-block d-sm-flex align-items-center">
-                                    <i className="fas fa-user-clock fa-2x text-primary" />
-                                    <div className="ml-sm-4 mt-3 mt-sm-0">
-                                        <h4 className="text-secondary font-weight-600 mb-1">{t("opening_hours")}</h4>
-                                        <p>{t("work_days")}</p>
-                                        <p>{t("work_time")}</p>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -119,7 +112,7 @@ function Contact() {
                         </div>
                     </div>
                 </section>
-            </SectionOne>
+            </SectionTwo>
         );
     }
 

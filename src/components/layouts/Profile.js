@@ -19,6 +19,7 @@ import Page404 from "../../Page404";
 import { IoArrowBack } from "react-icons/io5";
 import { AcceptedBookingsList } from "../profileComponents/AcceptedBookingsList";
 import { CoursesLibrary } from "./myClasses/CoursesLibrary";
+import { Quiz } from "./myClasses/Quiz";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -134,7 +135,8 @@ const UserProfile = () => {
     "password",
     "calendar",
     "bookings",
-    "classes"
+    "classes",
+    "Quiz"
   ];
 
   if (!validSections.includes(currentSection)) {
@@ -225,7 +227,8 @@ const UserProfile = () => {
                           </button>
                         </li>
                       )}
-                      <li className="list-group-item">
+                   {  role!=="admin" && ( <>
+                  <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange("courses")}
@@ -239,6 +242,14 @@ const UserProfile = () => {
                           onClick={() => handleSectionChange("classes")}
                         >
                           {t("My Classes")}
+                        </button>
+                      </li>   </>) } 
+                      <li className="list-group-item">
+                        <button
+                          className="btn btn-link text-primary pb-0 px-4"
+                          onClick={() => handleSectionChange("Quiz")}
+                        >
+                          {t("Quiz")}
                         </button>
                       </li>
                       <li className="list-group-item">
@@ -260,7 +271,7 @@ const UserProfile = () => {
                       {role === "student" && (     <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
-                          onClick={() => handleSectionChange("bookings")}
+                          onClick={() => handleSectionChange(t("bookings"))}
                         >
                           {t("Bookings")}
                         </button>
@@ -302,6 +313,8 @@ const UserProfile = () => {
                   {currentSection === "calendar" && <CalendarSelector />}
                   {currentSection === "bookings" && <AcceptedBookingsList />}
                   {currentSection === "classes" && <CoursesLibrary  />}
+                  {currentSection === "Quiz" && <Quiz  />}
+
                 </div>
               </div>
             </div>

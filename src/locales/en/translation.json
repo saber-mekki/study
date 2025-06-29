@@ -261,9 +261,172 @@
     
       
 
-      
-  
-  
+      ,  "welcome": "Welcome, Learner!",
+  "explorePlatform": "Explore our platform and discover top-quality learning experiences.",
+  "educationMadeEasy": "Education made easy for everyone.",
+  "login": "Login",
+  "signup": "Sign Up"
+
+
+  ,
+  "welcomeTutor": "Welcome, Tutor!",
+  "appreciationMessage": "Your presence is highly appreciated and your efforts are surely recognized.",
+  "addClass": "Add Class",
+  "waitingMeetings": "Waiting Meetings",
+  "myCourses": "My Courses",
+  "myClasses": "My Classes"
+,
+  "loading": "Loading...",
+  "error": "Error",
+  "adminPanel": "Admin Panel",
+  "dashboard": "Dashboard",
+  "allUsers": "All Users",
+  "allTutors": "All Tutors",
+  "allStudents": "All Students",
+  "waitingUsers": "Waiting Users",
+  "formations": "Formations",
+  "admins": "Admins",
+  "blogs": "Blogs",
+  "welcomeAdmin": "Welcome Admin {{userName}}",
+  "overview": "Overview of the system.",
+  "allAdmins": "All Admins"
+,
+  "adminGuidanceMessage": "Your guidance ensures our platform runs smoothly, thank you for all you do",
+  "waitingCourses": "Waiting Courses"
+
+,
+
+  "welcomeAdmin2": "Welcome, Admin!"
+
+
+
+ 
+,
+  "trialSection_title_part1": "Request A Class",
+  "trialSection_title_part2": "for FREE Trial",
+"trialSection_title": "Fordern Sie eine kostenlose Probestunde an",
+
+"trialSection_description": "Try a free lesson to discover our teaching style. Connect with a qualified tutor before making any commitment."
+
+,"trialSection_button": "Search Tutor",
+  "trialSection_image_alt": "Free class"
+
+,
+"mobileApp_title_part1": "Our",
+  "mobileApp_title_part2": "Mobile App",
+  "mobileApp_description": "Wait for our mobile application soon.",
+  "mobileApp_button": "Search Tutor",
+  "mobileApp_alt": "Mobile app"
+
+
+
+,
+  "findTutor_title_part1": "Find",
+  "findTutor_title_part2": "Online Tutors",
+  "findTutor_title_part3": "In Any Subject",
+
+  "subject_math": "Math",
+  "subject_english": "English",
+  "subject_engineering": "Engineering",
+  "subject_history": "History",
+  "subject_social_science": "Social Science",
+  "subject_computer_science": "Computer Science",
+  "subject_data_science": "Data Science",
+  "subject_medical": "Medical",
+
+  "findTutor_button": "See all Subjects"
+,
+
+  "what": "What",
+  "weOffer": "We Offer",
+
+  "homeTutoring": "Home Tutoring",
+  "homeTutoringDesc": "Personalized lessons delivered at your home to ensure comfort and focused learning.",
+
+  "onlineTutoring": "Online Tutoring",
+  "onlineTutoringDesc": "Interactive sessions with expert tutors from anywhere using our virtual classroom tools.",
+
+  "groupTutoring": "Group Tutoring",
+  "groupTutoringDesc": "Collaborative learning in small groups to promote teamwork and knowledge sharing.",
+
+  "packageTutoring": "Package Tutoring",
+  "packageTutoringDesc": "Affordable bundled sessions tailored to match your long-term learning goals.",
+
+  "offlineTutoring": "Offline Tutoring",
+  "offlineTutoringDesc": "In-person sessions at centers for structured, distraction-free education environments."
+
+,
+  "examPrep": "Exam Preparation",
+  "examPrepDesc": "Focused sessions to help students succeed in school, university, or certification exams."
+
+,
+"howItWorks_title_part1": "How",
+"howItWorks_title_part2": "it works",
+"howItWorks_title_part3": "for students",
+
+"step1_heading_part1": "Create your",
+"step1_heading_part2": "student account",
+"step1_description": "Sign up and create your student profile in just a few steps.",
+
+"step2_heading_part1": "Choose your",
+"step2_heading_part2": "perfect tutor",
+"step2_description": "Browse our list of verified tutors and select the one that fits your needs.",
+
+"step3_heading_part1": "Book your",
+"step3_heading_part2": "trial lesson",
+"step3_description": "Schedule a free lesson to get started with your learning journey."
+
+,
+  "howItWorksTutors_title_part1": "How",
+  "howItWorksTutors_title_part2": "it works for tutors",
+
+  "howItWorksTutors_step1_heading_part1": "Create your",
+  "howItWorksTutors_step1_heading_part2": "tutor profile",
+  "howItWorksTutors_step1_description": "Sign up and build a compelling tutor profile to attract students.",
+
+  "howItWorksTutors_step2_heading_part1": "Set your",
+  "howItWorksTutors_step2_heading_part2": "availability and price",
+  "howItWorksTutors_step2_description": "Choose when you’re available and set your hourly rate easily.",
+
+  "howItWorksTutors_step3_heading_part1": "Start",
+  "howItWorksTutors_step3_heading_part2": "teaching students",
+  "howItWorksTutors_step3_description": "Accept bookings and begin your journey as an online tutor."
+
+,
+  "recentTutors_title_part1": "Tutors",
+  "recentTutors_title_part2": "Joined Recently"
+,
+  "aboutUs_title": "About Us",
+  "aboutUs_altImage": "Tutor Management System",
+  "aboutUs_title_part1": "About Our",
+  "aboutUs_title_part2": "Tutor Management",
+  "aboutUs_title_part3": "System Online",
+  "aboutUs_description": "Our Tutor Management System is designed to revolutionize online learning by connecting students with expert tutors in a flexible and personalized environment. Whether you're preparing for exams or learning a new skill, our platform makes it easier to schedule sessions, track progress, and earn certifications.",
+  "aboutUs_feature1": "Personalized tutoring experience with verified experts.",
+  "aboutUs_feature2": "Flexible scheduling and real-time communication tools.",
+  "aboutUs_feature3": "Certificate-based learning paths to validate your skills.",
+  "aboutUs_authorAlt": "Souhail",
+  "aboutUs_authorName": "Souhail",
+  "aboutUs_authorDate": "Released: 2/5/2023",
+  "aboutUs_counter1": "Active Learners",
+  "aboutUs_counter2": "Awards & Recognitions",
+  "aboutUs_counter3": "Qualified Tutors",
+  "aboutUs_counter4": "Certified Students",
+  "aboutUs_certificate_title": "Earn Your Certificate with Online Learning",
+  "aboutUs_certificate_description": "Our platform allows learners to access high-quality education anytime, anywhere. Complete your training, pass your assessment, and receive an official certificate that proves your expertise.",
+  "aboutUs_getStarted": "Get Started Now",
+  "aboutUs_certificate_alt": "Online Certificate",
+  "aboutUs_team_title": "Our Management Team",
+  "aboutUs_team_member1_alt": "Souhail Ben Hamed",
+  "aboutUs_team_member1_name": "Souhail Ben Hamed",
+  "aboutUs_team_member1_role": "Developer",
+  "aboutUs_team_member2_alt": "Saber Mekki",
+  "aboutUs_team_member2_name": "Saber Mekki",
+  "aboutUs_team_member2_role": "Senior Tutor & Advisor",
+  "aboutUs_team_member3_alt": "Sameh Hbaieb",
+  "aboutUs_team_member3_name": "Sameh Hbaieb",
+  "aboutUs_team_member3_role": "Program Director"
+
 
 
 }

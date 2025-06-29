@@ -84,7 +84,7 @@ export function AcceptedBookingsList() {
 
     return (
         <div className="container mt-4">
-            <h3 className="mb-3">Accepted Courses</h3>
+            <h3 className="mb-3">Accepted Meetings</h3>
             {loading ? (
                 <p>Loading...</p>
             ) : bookings.length > 0 ? (
@@ -95,7 +95,7 @@ export function AcceptedBookingsList() {
 
                         return (
                             <div key={i} className="list-group-item">
-                                <h5 className="mb-1">Course with :  <div className="btn btn-outline-primary btn-sm" onClick={handleOpenTutorDetails} > {tutorsDetails.user_name}</div></h5>
+                                <h5 className="mb-1">Meeting  with Mr:  <div className="btn btn-outline-primary btn-sm" onClick={handleOpenTutorDetails} > {tutorsDetails.user_name}</div></h5>
                                 <p className="mb-1">Date: {new Date(booking.booking_date).toLocaleString()}</p>
                                 <div className="d-flex justify-content-between">
                                     {isToday ? (

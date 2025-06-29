@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import TutorCard from "./TutorCard";
 import { useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function RecentTutorSection() {
+    const { t } = useTranslation();
+  
   const [tutors, setTutors] = useState([]);
   const history = useHistory();
   const handleNavigate = () => {
@@ -40,9 +43,11 @@ function RecentTutorSection() {
       <div className="container">
         <div className="row align-items-center mb-30">
           <div className="col-lg-9 text-center text-lg-left">
-            <h2 className="section-title mb-0">
-              Tutors <span className="has-line">Joined Recently</span>
-            </h2>
+           <h2 className="section-title mb-0">
+  {t("recentTutors_title_part1")}{" "}
+  <span className="has-line">{t("recentTutors_title_part2")}</span>
+</h2>
+
           </div>
           <div className="col-lg-3 mt-4 mt-lg-0 text-center text-lg-right">
             <span
@@ -50,7 +55,7 @@ function RecentTutorSection() {
               className="text-primary font-weight-600 initiate-scripts"
               style={{ cursor: "pointer" }}
             >
-              Show More
+              {t("Show More")}
             </span>
           </div>
         </div>

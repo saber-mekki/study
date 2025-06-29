@@ -18,6 +18,11 @@ function SignUpTutor() {
   const [subjectError, setSubjectError] = useState("");
   const [phone_number, setPhone] = useState("");
 
+  const [tutorEmail, setTutorEmail] = useState("");
+const [country, setCountry] = useState("");
+const [pricePerHour, setPricePerHour] = useState("");
+const [languages, setLanguages] = useState("");
+
   const subjects = [
     "English",
     "Physics",
@@ -84,19 +89,75 @@ function SignUpTutor() {
     handleStepChange(2);
   };
 
-  const handleSubmitStep2 = (e) => {
-    e.preventDefault();
+// Add this state variable with your other useState hooks
+const [isLoading, setIsLoading] = useState(false);
+const [apiError, setApiError] = useState("");
 
-    if (selectedSubject.length === 0) {
-      setSubjectError(t("pleaseSelectSubject"));
-      return;
+const handleSubmitStep2 = async () => {
+  // Validation
+  if (selectedSubject.length === 0) {
+    setSubjectError(t("pleaseSelectSubject"));
+    return;
+  }
+  
+  if (!country.trim()) {
+    setApiError(t("Please enter your country"));
+    return;
+  }
+  
+  if (!pricePerHour || pricePerHour <= 0) {
+    setApiError(t("Please enter a valid price per hour"));
+    return;
+  }
+  
+  if (!degree) {
+    setApiError(t("Please select your degree"));
+    return;
+  }
+
+  // Clear previous errors
+  setSubjectError("");
+  setApiError("");
+  setIsLoading(true);
+
+  try {
+    const tutorData = {
+      email: email, 
+      country: country.trim(),
+      price_per_hour: parseFloat(pricePerHour),
+      specialty: selectedSubject[0], 
+      degree: degree,
+      languages: languages ? languages.split(',').map(lang => lang.trim()).filter(lang => lang) : [],
+      availability: "available" 
+    };
+
+    console.log("Sending tutor data:", tutorData); // Debug log
+
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/addTutor",
+      tutorData
+    );
+
+    console.log("Response received:", response.data); // Debug log
+
+    if (!response.data.error) {
+      console.log("Success! Moving to next step"); // Debug log
+      setcheck(""); 
+      handleStepChange(formIndex + 1);
     } else {
-      setSubjectError("");
+      console.log("API Error:", response.data.message); // Debug log
+      setApiError(response.data.message || t("Failed to save tutor details"));
     }
+  } catch (error) {
+    console.error('Error submitting tutor details:', error);
+    console.error('Error response:', error.response?.data); // Debug log
+    setApiError(error.response?.data?.message || t("Network error. Please try again."));
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-    // Move to step 3 after successful validation
-    handleStepChange(3);
-  };
+// Add error display in your JSX - place this after the languages input
 
   const handleClose = (e) => {
     setFormIndex(1);
@@ -326,109 +387,140 @@ function SignUpTutor() {
                 </div>
               </form>
             </div>
-          )}
+  
+  
+  )}
 
-          {formIndex === 2 && (
-            <div className="modal-body p-0">
-              <form
-                method="POST"
-                className="SignUptutorForm d-flex gap-5"
-                onSubmit={handleSubmitStep2}
-              >
-                <div
-                  className="d-flex flex-column p-0 Inputs"
-                  style={{ height: "auto", gap: "24px" }}
-                >
-                  <p>{t("messagesubject")}</p>
-                  <div className="d-flex flex-wrap gap-4 justify-content-center align-items-center">
-                    {subjects.map((subject) => (
-                      <label
-                        key={subject}
-                        className="d-flex align-items-center gap-3"
-                        style={{ width: "240px", maxWidth: "100%" }}
-                      >
-                        <input
-                          type="checkbox"
-                          name="subject"
-                          value={subject}
-                          checked={selectedSubject.includes(subject)}
-                          onChange={(e) => {
-                            setSubjectError("");
-                            setcheck("");
-                            const value = e.target.value;
-                            if (selectedSubject.includes(value)) {
-                              setSelectedSubject(
-                                selectedSubject.filter((item) => item !== value)
-                              );
-                              setcheck("");
-                            } else {
-                              if (selectedSubject.length < 3) {
-                                setSelectedSubject([...selectedSubject, value]);
-                              } else {
-                                setcheck(t("subjectLimitError"));
-                              }
-                            }
-                          }}
-                          className="form-check-input"
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            margin: "5px",
-                          }}
-                        />
-                        <span
-                          className={
-                            document.documentElement.dir === "rtl"
-                              ? "mr-5"
-                              : "ml-5"
-                          }
-                        >
-                          {t(subject)}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                  <div
-                    className="d-flex flex-column"
-                    style={{ width: "100%", height: "40px" }}
-                  >
-                    {subjectError && (
-                      <div className="text-danger m-0">{subjectError}</div>
-                    )}
-                    {check && <div className="text-danger m-0">{check}</div>}
-                  </div>
-                </div>
-                <div
-                  className="d-flex justify-content-between w-100"
-                  style={{ direction: "ltr" }}
-                >
-                  <button
-                    className="btn btn-primary w-20 rounded-sm ml-5"
-                    type="button"
-                    onClick={() => handleStepChange(formIndex - 1)}
-                    style={{ direction: "ltr" }}
-                  >
-                    <i className="fas fa-arrow-left mr-2"></i>
-                    {t("back")}
-                  </button>
-                  <button
-                    className="btn btn-primary w-20 rounded-sm"
-                    type="button"
-                    onClick={() => {
-                      if (selectedSubject.length === 0) {
-                        setSubjectError(t("pleaseSelectSubject"));
-                      } else {
-                        handleStepChange(formIndex + 1);
-                      }
-                    }}
-                    style={{ direction: "ltr" }}
-                  >
-                    {t("next")} <i className="fas fa-arrow-right ml-2"></i>
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
+{formIndex === 2 && (
+  <div className="modal-body">
+    <form
+      method="POST"
+      className="SignUptutorForm"
+      onSubmit={(e) => e.preventDefault()}
+    >
+      <div className="Inputs">
+        <div className="signForm">
+          <div className="form-group mb-2 col-12">
+            <label className="text-secondary h6 mb-2">{t("Subject")}</label>
+            <select
+              value={selectedSubject.length > 0 ? selectedSubject[0] : ""}
+              onChange={(e) =>
+                setSelectedSubject(e.target.value ? [e.target.value] : [])
+              }
+              className="form-control shadow-none rounded-sm"
+              required
+            >
+              <option value="">{t("Select your subject")}</option>
+              {subjects.map((subject) => (
+                <option key={subject} value={subject}>
+                  {t(subject)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group mb-2 col-12">
+            <label htmlFor="country" className="text-secondary h6 mb-2">
+              {t("Country")}
+            </label>
+            <input
+              type="text"
+              id="country"
+              placeholder={t("Enter country")}
+              className="form-control shadow-none rounded-sm"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group mb-2 col-12">
+            <label
+              htmlFor="pricePerHour"
+              className="text-secondary h6 mb-2"
+            >
+              {t("Price per hour")}
+            </label>
+            <input
+              type="number"
+              id="pricePerHour"
+              placeholder={t("Enter price")}
+              className="form-control shadow-none rounded-sm"
+              value={pricePerHour}
+              onChange={(e) => setPricePerHour(e.target.value)}
+              min="0"
+              step="0.01"
+              required
+            />
+          </div>
+        </div>
+
+        <div className="signForm">
+          <div className="form-group mb-2 col-12">
+            <label className="text-secondary h6 mb-2">
+              {t("University Degree")}
+            </label>
+            <select
+              value={degree}
+              onChange={(e) => setDegree(e.target.value)}
+              className="form-control shadow-none rounded-sm"
+              required
+            >
+              <option value="">{t("Select your degree")}</option>
+              <option value="bachelor">{t("Bachelor's")}</option>
+              <option value="master">{t("Master's")}</option>
+              <option value="phd">{t("PhD")}</option>
+              <option value="other">{t("Other")}</option>
+            </select>
+          </div>
+
+          <div className="form-group mb-2 col-12">
+            <label htmlFor="languages" className="text-secondary h6 mb-2">
+              {t("Languages (comma separated)")}
+            </label>
+            <input
+              type="text"
+              id="languages"
+              placeholder={t("e.g. English, French")}
+              className="form-control shadow-none rounded-sm"
+              value={languages}
+              onChange={(e) => setLanguages(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-between w-100" style={{ direction: "ltr" }}>
+        <button
+          className="btn btn-outline-primary rounded-sm"
+          type="button"
+          onClick={() => handleStepChange(formIndex - 1)}
+        >
+          <i className="fas fa-arrow-left me-2"></i>
+          {t("back")}
+        </button>
+        <button
+          className="btn btn-primary w-20 rounded-sm mr-5"
+          type="button"
+          style={{ direction: "ltr" }}
+          onClick={() => {
+            if (selectedSubject.length === 0) {
+              setSubjectError(t("pleaseSelectSubject"));
+            } else {
+              setSubjectError("");
+              setcheck("");
+              handleStepChange(formIndex + 1);
+            }
+          }}
+        >
+          {t("next")} <i className="fas fa-arrow-right ml-2"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+)}
+
+
 
 {formIndex === 3 && (
   <div className="container mt-1 p-3 bg-white shadow rounded">

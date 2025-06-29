@@ -108,11 +108,7 @@ export default function TutorsSection() {
     { value: "female", label: t("female") }
   ];
 
-  const typeOptions = [
-    { value: "", label: t("selectType") },
-    { value: "courses", label: t("teachingCourses") },
-    { value: "meetings", label: t("onlineMeetings") }
-  ];
+  
    const handleChange = (name, selectedOption) => {
       dispatch(setFilter({ ...filters, [name]: selectedOption ? selectedOption.value : "" }));
     };
@@ -178,7 +174,7 @@ export default function TutorsSection() {
 
 
         <form className="mb-4">
-  <div className="row">
+  <div className="row justify-content-center">
     <div className="col-md-2 mb-2">
       <Select
         name="subject"
@@ -234,17 +230,7 @@ export default function TutorsSection() {
 
       />
     </div>
-    <div className="col-md-2 mb-2">
-      <Select
-        name="type"
-        options={typeOptions}
-        value={typeOptions.find(opt => opt.value === filters.type)}
-        onChange={(opt) => handleChange("type", opt)}
-        classNamePrefix="react-select"
-        styles={customStyles}
-
-      />
-    </div>
+   
   </div>
 </form>
 

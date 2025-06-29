@@ -53,7 +53,7 @@ export function NotificationsDropdown({ userId }) {
             <ul className="dropdown-menu dropdown-menu-end notif-dropdown" aria-labelledby="notificationDropdown">
                 <li className="dropdown-header fw-bold text-center">Notifications</li>
                 {notifications.map((note, index) => {
-                    let targetUrl = "#";
+                    let targetUrl = "/#/profile/calendar";
 
                     if (note.type === "booking_accepted") {
                         targetUrl = `#/profile/bookings`;

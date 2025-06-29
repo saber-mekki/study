@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import SectionOne from "./layouts/SectionOne";
 import axios from "axios";
+import SectionTwo from "./layouts/SectionTwo";
 function Blog() {
     const [blogs, setBlogs] = useState([]);
 
@@ -26,7 +27,7 @@ function Blog() {
 
 
     return (
-        <SectionOne title={'Blogs'}>
+        <SectionTwo title={'Blogs'}>
             <section className="section-padding pb-fix">
                 <div className="container">
                     <div className="row">
@@ -40,7 +41,7 @@ function Blog() {
                                     <Link to={`/blog-details/${blog.id}`} className="initiate-scripts">
                                     <img
                                                 className="card-img-top"
-                                                src={process.env.PUBLIC_URL + '/assets/images/blogs/01.jpg'}
+                                                src={process.env.PUBLIC_URL + '/assets/images/blog.jpg'}
                                                 alt={blog.title}
                                             />
                                         </Link>
@@ -82,7 +83,7 @@ function Blog() {
                     </div>
                 </div>
             </section>
-        </SectionOne>
+        </SectionTwo>
     );
 }
 

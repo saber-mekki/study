@@ -42,7 +42,7 @@ export default function TutorAvailabilityManager() {
       try {
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability`, {
           tutorId,
-          availableDate: selectedDate.toISOString().split('T')[0],
+  availableDate: selectedDate.toLocaleDateString('en-CA')
         });
         alert('Availability added');
         setAvailability([...availability, {
@@ -61,8 +61,7 @@ export default function TutorAvailabilityManager() {
       try {
         await axios.put(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/update`, {
           tutorId,
-          availableDate: selectedDate.toISOString().split('T')[0],
-          status,
+    availableDate: selectedDate.toLocaleDateString('en-CA'), 
         });
         alert('Status updated');
         setAvailability((prev) =>
@@ -84,7 +83,7 @@ export default function TutorAvailabilityManager() {
         await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/remove`, {
           data: {
             tutorId,
-            availableDate: selectedDate.toISOString().split('T')[0],
+    availableDate: selectedDate.toLocaleDateString('en-CA'), // 'YYYY-MM-DD'
           },
         });
         alert('Availability removed');
@@ -113,7 +112,7 @@ export default function TutorAvailabilityManager() {
       setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
       setAvailability((prev) =>
         prev.map((item) =>
-          new Date(item.available_date).toISOString().split('T')[0] === date
+      new Date(item.available_date).toLocaleDateString('en-CA') === new Date(date).toLocaleDateString('en-CA')
             ? { ...item, status: 'booked' }
             : item
         )
@@ -198,7 +197,7 @@ export default function TutorAvailabilityManager() {
       }}
     >
       <div style={{ marginBottom: '8px', fontWeight: 'bold', fontSize: '16px' }}>
-       📅 {new Date(request.requested_date).toLocaleDateString()}
+       📅 23/06/205
       </div>
       <div style={{ fontSize: '15px', color: '#333' }}>
         <strong>👤 {request.name}</strong>

@@ -4,6 +4,11 @@ import ForgetPassword from "./layouts/ForgetPassword";
 import SignInModal from "./layouts/SignInModal";
 import HeaderOne from "./layouts/HeaderOne";
 import BannerOne from "./layouts/BannerOne";
+import BannerAdmin from "./layouts/BannerAdmin";
+import BannerDefault from "./layouts/BannerDefault";
+
+
+
 import WeOfferSection from "./layouts/WeOfferSection";
 import VideoPopup from "./layouts/VideoPopup";
 import HowItWorks from "./layouts/HowItWorks";
@@ -11,14 +16,17 @@ import TrialSection from "./layouts/TrialSection";
 import FindTutorSection from "./layouts/FindTutorSection";
 import RecentTutorSection from "./layouts/RecentTutorSection";
 import HowItWorksTutors from "./layouts/HowItWorksTutors";
-import TutorsCarouselOne from "./layouts/TutorsCarouselOne";
 import MobileAppSection from "./layouts/MobileAppSection";
 import FooterOne from "./layouts/FooterOne";
 import BackToTop from "./layouts/BackToTop";
 import SignUpTutor from "./layouts/SignUpTutor";
+import { isAdmin, isStudent, isTutor } from "../helper";
+import BannerTutor from "./BannerTutor";
+
 
 class HomeOne extends Component {
     render() {
+           
         return (
             <>
                 <SignUpTutor />
@@ -26,7 +34,21 @@ class HomeOne extends Component {
                 <SignUpModal />
                 <SignInModal />
                 <HeaderOne />
-                <BannerOne />
+                {isAdmin() ? (
+                    <BannerAdmin />
+                ) : isStudent() ? (
+                    <BannerOne />
+                ) : isTutor() ? (
+                    <BannerTutor />
+                ) : (
+                    <BannerDefault />
+                )}
+
+
+          
+
+
+
                 <WeOfferSection />
                 <VideoPopup />
                 <HowItWorks />
@@ -34,8 +56,8 @@ class HomeOne extends Component {
                 <FindTutorSection />
                 <RecentTutorSection />
                 <HowItWorksTutors />
-                <TutorsCarouselOne />
-                <MobileAppSection />
+{/*                 <TutorsCarouselOne />
+ */}                <MobileAppSection />
                 <FooterOne />
                 <BackToTop />
             </>

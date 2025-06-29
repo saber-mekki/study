@@ -20,7 +20,7 @@ import Tutors from "./components/Tutors";
 import { isAuthenticated } from "./helper";
 import { ProtectedRoute, ProtectedAdminRoute } from "./ProtectedRoute";
 import SignInModal from "./components/SignInModal";
-import AdminDashboard from "./dashboard";
+import AdminDashboard from "./dashboard/AdminDashboard";
 import Video from "./components/video";
 import Page404 from "./Page404";
 
@@ -48,8 +48,12 @@ function Routes() {
                     <Route exact path={'/contact'} render={(props) => (<Contact {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
-                   
-                   
+                  
+                  
+                  
+                  <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
+
+
                     <Route exact path="/blog-details/:id" component={BlogDetails} />
 
                     <Route exact path={'/tutors'} render={(props) => (<Tutors {...props} />)} />
@@ -66,8 +70,8 @@ function Routes() {
                         <Redirect to="/login" />
                     )}
 
-                    <ProtectedAdminRoute isAdmin={isAdmin} exact path="/dash/admin" component={AdminDashboard} />
-                    <ProtectedRoute exact path="/dashboard" component={Courses} />
+{/*                     <ProtectedAdminRoute isAdmin={isAdmin} exact path="/dash/admin" component={AdminDashboard} />
+ */}                    <ProtectedRoute exact path="/dashboard" component={Courses} />
                     <ProtectedRoute exact path={'/blog'} component={Blog} />
                     <Route component={Page404} />
 

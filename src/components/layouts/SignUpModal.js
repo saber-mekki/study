@@ -61,6 +61,8 @@ function SignUpModal() {
 
       Cookies.set("role", type);
       Cookies.set("name", user_name);
+localStorage.setItem("role", type);
+localStorage.setItem("name", user_name);
 
       localStorage.setItem("authToken", token);
       window.location.reload();

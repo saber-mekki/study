@@ -31,6 +31,8 @@ function ProfileMenu() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+        localStorage.removeItem("role");
+
     Cookies.remove("role");
     window.location.href = "/";
   };

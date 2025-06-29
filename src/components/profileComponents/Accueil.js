@@ -142,7 +142,7 @@ export default function Accueil({ image, email }) {
             src={user.urlImage || "/assets/images/tutorprofil.png"}
             alt="Profile"
             className="rounded-circle p-1 bg-primary "
-            width="80"
+            width="200"
             style={{ cursor: "pointer" }}
           />
           <div

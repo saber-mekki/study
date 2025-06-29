@@ -13,7 +13,7 @@ function VideoPopup()  {
                             <div className="text-center">
                                 <a
                                     target="_blank" rel="noopener noreferrer"
-                                    href="https://www.youtube.com/watch?v=yD7b6R0-LQw"
+                                    href="https://www.youtube.com/watch?v=iH3NjP98qqU"
                                     className="d-block has-overlay has-video-popup tansform-none">
                                     <img
                                         className="img-fluid rounded"

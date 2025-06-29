@@ -39,9 +39,9 @@ function SignInModal() {
       const token = response.data.tokens.accessToken;
       const decodedToken = jwtDecode(token);
       const user_name = decodedToken.user_name;
-
-      Cookies.set("role", role);
-      Cookies.set("name", user_name);
+    
+      localStorage.setItem('role', response.data.result.type_register); 
+      localStorage.setItem('name', user_name); 
 
       localStorage.setItem("authToken", token);
 
@@ -59,10 +59,9 @@ function SignInModal() {
       document.body.style.backdropFilter = "none";
       document.body.style.filter = "none";
 
-      setTimeout(() => {
-        window.location.href =
-          response.data.result.type_register === "admin" ? "/dash/admin" : "/s";
-      }, 100);
+     window.location.reload();
+
+      
     } catch (err) {
       if (err.response) {
         if (err.response.status === 404) {

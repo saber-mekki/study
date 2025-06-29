@@ -1,0 +1,118 @@
+import React, { useState } from 'react';
+
+const sampleQuiz = {
+  title: '🧠 ReactJS Basics Quiz',
+  questions: [
+    {
+      question: 'What is the purpose of the useState hook in React?',
+      options: [
+        'To manage routing in a React app',
+        'To fetch data from an API',
+        'To create and manage component state',
+      ],
+      correctIndex: 2,
+    },
+    {
+      question: 'What does JSX stand for?',
+      options: [
+        'Java Syntax Extension',
+        'JavaScript XML',
+        'JavaScript Extra',
+      ],
+      correctIndex: 1,
+    },
+  ],
+};
+
+export const Quiz = () => {
+  const [answers, setAnswers] = useState(Array(sampleQuiz.questions.length).fill(null));
+  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState(0);
+
+  const handleChange = (qIndex, value) => {
+    const newAnswers = [...answers];
+    newAnswers[qIndex] = parseInt(value);
+    setAnswers(newAnswers);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let totalScore = 0;
+    sampleQuiz.questions.forEach((q, i) => {
+      if (answers[i] === q.correctIndex) totalScore++;
+    });
+    setScore(totalScore);
+    setSubmitted(true);
+  };
+
+  return (
+    <div className="container py-5">
+      <div className="card shadow-lg border-0">
+        <div className="card-body">
+          <h2 className="text-center mb-4">{sampleQuiz.title}</h2>
+
+          <form onSubmit={handleSubmit}>
+            {sampleQuiz.questions.map((q, qIndex) => (
+              <div key={qIndex} className="mb-4 p-3 border rounded">
+                <h5 className="mb-3">
+                  {qIndex + 1}. {q.question}
+                </h5>
+
+                {q.options.map((opt, optIndex) => (
+                  <div className="form-check" key={optIndex}>
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name={`q-${qIndex}`}
+                      value={optIndex}
+                      id={`q-${qIndex}-opt-${optIndex}`}
+                      checked={answers[qIndex] === optIndex}
+                      onChange={(e) => handleChange(qIndex, e.target.value)}
+                      required
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor={`q-${qIndex}-opt-${optIndex}`}
+                    >
+                      {opt}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            ))}
+
+            {!submitted && (
+              <div className="d-grid">
+                <button type="submit" className="btn btn-success btn-lg mt-3">
+                  ✅ Soumettre mes réponses
+                </button>
+              </div>
+            )}
+          </form>
+
+          {submitted && (
+            <div className="alert alert-info mt-4 text-center">
+              <h4 className="mb-2">🎉 Résultat</h4>
+              <p>
+                Vous avez obtenu <strong>{score}</strong> sur{' '}
+                <strong>{sampleQuiz.questions.length}</strong>
+              </p>
+              <div className="progress" style={{ height: '20px' }}>
+                <div
+                  className="progress-bar progress-bar-striped bg-success"
+                  role="progressbar"
+                  style={{
+                    width: `${(score / sampleQuiz.questions.length) * 100}%`,
+                  }}
+                >
+                  {Math.round((score / sampleQuiz.questions.length) * 100)}%
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
