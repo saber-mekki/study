@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PdfViewer } from "./PDFViewer";
 import { useSelector } from "react-redux";
 
+
 export function CourseDetailStudent({ course_Id }) {
 
   const [ratings, setRatings] = useState([]);
@@ -70,6 +71,8 @@ export function CourseDetailStudent({ course_Id }) {
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
 
   return (
+    <>
+    
     <div className="container mt-5">
       <h2 className="mb-3">{course.title}</h2>
       <p className="text-muted">{course.description}</p>
@@ -188,5 +191,8 @@ export function CourseDetailStudent({ course_Id }) {
       </ul>
     </div>
     </div>
+
+</>
+
   );
 }

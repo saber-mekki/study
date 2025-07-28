@@ -27,6 +27,8 @@ import UserProfile from "./components/profileComponents/UserProfile";
 import GroupDetails from "./components/profileComponents/MyGroups/GroupDetails";
 import StreamingDashboard from "./components/profileComponents/MyGroups/StreamingDashboard";
 
+import { CoursesLibrary } from "./components/layouts/myClasses/CoursesLibrary";
+import { CourseDetailStudent } from "./components/layouts/myClasses/CourseDetailStudent";
 function Routes() {
 
 
@@ -56,6 +58,13 @@ function Routes() {
                     <ProtectedRoute path="/user/:id" component={UserProfile} />
 
                     <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
+                  
+                          <Route exact path="/courses" component={CoursesLibrary} />
+
+                   <Route path="/course/:id" component={CourseDetailStudent} />
+
+                  
+                  <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
 
 
                     <Route exact path="/blog-details/:id" component={BlogDetails} />

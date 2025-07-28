@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 
-import { CourseDetailStudent } from "./CourseDetailStudent";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 export function CoursesLibrary() {
-  const [selectedCourseId, setSelectedCourseId] = useState("");
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
  
   const CurrentUser = useSelector((state) => state.user);
 
+  const history = useHistory();
 
   useEffect(() => {
     const fetchPurchases = async () => {
@@ -26,17 +26,6 @@ export function CoursesLibrary() {
     };
     fetchPurchases();
   }, [CurrentUser.idUser]);
-
-  if (selectedCourseId) {
-    return (
-      <div className="container mt-4">
-        <button className="btn btn-secondary mb-4" onClick={() => setSelectedCourseId("")}>
-          ← Retour à la liste des cours
-        </button>
-        <CourseDetailStudent course_Id={selectedCourseId} />
-      </div>
-    );
-  }
 
   return (
     <div className="container mt-5">
@@ -60,7 +49,7 @@ export function CoursesLibrary() {
                 <div className="card-body d-flex flex-column justify-content-between">
                   <h5 className="card-title">{course.title}</h5>
                   <button
-                    onClick={() => setSelectedCourseId(course.id)}
+                    onClick={() => history.push(`/course/${course.id}`)}
                     className="btn btn-primary mt-3"
                   >
                     Voir le cours
