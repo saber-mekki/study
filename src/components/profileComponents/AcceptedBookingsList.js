@@ -1,28 +1,55 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 export function AcceptedBookingsList() {
+    const role = localStorage.getItem("role");
+
     const [bookings, setBookings] = useState([]);
+    const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [tutorsDetails, setTutorsDetails] = useState({});
-    const [tutorDetails, setTutorDetails] = useState(false)
+    const [usersDetails, setUsersDetails] = useState({});
+    const [tutorDetailsIsOpen, setTutorDetailsIsOpen] = useState(false)
     const [error, setError] = useState("");
     const [imageUrl, setImageUrl] = useState("");
-    const handleOpenTutorDetails = () => {
-        setTutorDetails(true)
+
+    const history = useHistory();
+
+    const handleOpenTutorDetailsIsOpen = (user) => {
+        setTutorDetailsIsOpen(true)
+        if (user !== undefined) {
+            setUsersDetails(user)
+        }
 
     }
     const handleClose = () => {
-        setTutorDetails(false);
+        setTutorDetailsIsOpen(false);
     };
+
+
+    const startLiveSession = async (bookingId, roomId) => {
+
+        try {
+            await axios.put(`${process.env.REACT_APP_API_BASE_URL}/booking/update`, {
+                bookingId,
+                liveLink: roomId
+            })
+
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour du lien live :", error);
+        }
+    };
+
     useEffect(() => {
         const token = localStorage.getItem("authToken");
         if (token) {
             const decoded = jwtDecode(token);
             if (decoded.user_id) {
-                axios.get(`${process.env.REACT_APP_API_BASE_URL}/bookings/student/${decoded.user_id}`)
+                axios.get(`${process.env.REACT_APP_API_BASE_URL}/bookings/student/${decoded.user_id}?itsTutor=${role === "tutor"}`)
                     .then(res => {
+
                         const accepted = res.data.filter(b => b.status === "accepted");
                         setBookings(accepted);
                     })
@@ -30,36 +57,46 @@ export function AcceptedBookingsList() {
                     .finally(() => setLoading(false));
             }
         }
-    }, []);
+    }, [role]);
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/users`);
                 const users = response.data.result;
-                const onlyTutors = users.filter(user => user.type_register === "tutor");
-                onlyTutors.forEach((tuto) => {
+
+                // const onlyTutors = users.filter(user => user.type_register === "tutor");
+                users.forEach((user) => {
                     bookings.forEach((book) => {
-                        if (book.tutor_id === tuto.user_id) {
-                            setTutorsDetails(tuto)
+
+                        setUsers(users)
+                        if (role === "tutor" && book.tutor_id === user.user_id) {
+                            setUsersDetails(user)
+
+                        }
+
+                        if (role !== "tutor" && book.user_id === user.user_id) {
+                            setUsersDetails(user)
                         }
                     })
-
                 })
+
+
+
             } catch (err) {
                 alert("Error fetching users: " + err.message);
             }
         };
 
         fetchUsers();
-    }, [bookings]);
+    }, [bookings, role]);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                if (tutorsDetails.user_id) {
+                if (usersDetails.user_id) {
                     await axios
-                        .get(`${process.env.REACT_APP_API_BASE_URL}/images/${tutorsDetails.user_id}`)
+                        .get(`${process.env.REACT_APP_API_BASE_URL}/images/${usersDetails.user_id}`)
                         .then((response) => {
                             setImageUrl(response.data[response.data.length - 1].image_url)
                         })
@@ -78,7 +115,7 @@ export function AcceptedBookingsList() {
         };
 
         fetchUserData();
-    }, [tutorsDetails]);
+    }, [usersDetails]);
 
     const today = new Date().toISOString().split("T")[0];
 
@@ -92,21 +129,32 @@ export function AcceptedBookingsList() {
                     {bookings.map((booking, i) => {
                         const bookingDate = new Date(booking.booking_date).toISOString().split("T")[0];
                         const isToday = bookingDate === today;
-
+                        const bookingsForTutor = users.filter(user => booking.tutor_id === user.user_id);
+                        const bookingsForUser = users.filter(user => booking.user_id === user.user_id);
+                        const usersDetails = role === "tutor" ? bookingsForUser[0] : bookingsForTutor[0]
                         return (
                             <div key={i} className="list-group-item">
-                                <h5 className="mb-1">Meeting  with Mr:  <div className="btn btn-outline-primary btn-sm" onClick={handleOpenTutorDetails} > {tutorsDetails.user_name}</div></h5>
+                                <h5 className="mb-1">Meeting  with Mr:  <div className="btn btn-outline-primary btn-sm" onClick={() => handleOpenTutorDetailsIsOpen(usersDetails)} >{role === "tutor" ? booking.name : bookingsForTutor[0] !== undefined ? bookingsForTutor[0].user_name : ""}</div></h5>
                                 <p className="mb-1">Date: {new Date(booking.booking_date).toLocaleString()}</p>
                                 <div className="d-flex justify-content-between">
-                                    {isToday ? (
-                                        <a href={`/room/${booking.room_id}`} className="btn btn-success btn-sm">
+                                    {role !== "tutor" && booking.live_link !== "" && booking.live_link !== null && (
+                                        <Link to={`/room/${booking.live_link}`} className="btn btn-success btn-sm">
                                             Enter Room
-                                        </a>
-                                    ) : (
-                                        <a href={`/course/${booking.id}`} className="btn btn-outline-primary btn-sm">
-                                            View Details
-                                        </a>
+                                        </Link>)}
+                                    {role === "tutor" && (<button
+                                        onClick={() => {
+                                            const roomId = `live-${Date.now()}-${booking.id}`;
+                                            startLiveSession(booking.id, roomId)
+                                            history.push(`/room/${roomId}`);
+                                        }}
+                                    >
+                                        Démarrer une session live
+                                    </button>
                                     )}
+                                    <a href={`/course/${booking.id}`} className="btn btn-outline-primary btn-sm">
+                                        View Details
+                                    </a>
+
                                 </div>
                             </div>
                         );
@@ -116,12 +164,12 @@ export function AcceptedBookingsList() {
                 <p className="text-muted">No accepted courses found.</p>
             )}
 
-            {tutorDetails && (
+            {tutorDetailsIsOpen && (
                 <div className="modal fade show d-flex align-items-center justify-content-center" tabIndex="-1" role="dialog" style={{ display: 'flex', backgroundColor: 'rgba(0,0,0,0.7)' }}>
                     <div className="modal-dialog modal-xl	 modal-dialog-centered" role="document">
                         <div className="modal-content rounded-4 shadow-lg">
                             <div className="modal-header bg-primary text-white">
-                                <h5 className="modal-title">{tutorsDetails.user_name}'s Profile</h5>
+                                <h5 className="modal-title">{usersDetails.user_name}'s Profile</h5>
                                 <button
                                     type="button"
                                     className="btn-close"
@@ -131,27 +179,25 @@ export function AcceptedBookingsList() {
                             </div>
                             <div className="d-flex flex-row gap-4 align-items-start">
 
-
-
                                 <div className="modal-body p-4 my-5 d-flex gap-4">
                                     <div className="row  g-4">
                                         <div className="col-md-4 text-center">
                                             {error ? <div className="text-danger">{error}</div> : <img
                                                 src={imageUrl || "/assets/images/tutorprofil.png"}
-                                                alt={tutorsDetails.user_name}
+                                                alt={usersDetails.user_name}
                                                 className="rounded-circle shadow"
                                                 style={{ width: '120px', height: '120px', objectFit: 'cover' }}
                                             />}
-                                            <h5 className="mt-3 fw-bold">{tutorsDetails.user_name}</h5>
-                                            <p className="text-muted">{tutorsDetails.specialty}</p>
-                                            <p><i className="fas fa-map-marker-alt text-danger me-1" />{tutorsDetails.country}</p>
+                                            <h5 className="mt-3 fw-bold">{usersDetails.user_name}</h5>
+                                            <p className="text-muted">{usersDetails.specialty}</p>
+                                            <p><i className="fas fa-map-marker-alt text-danger me-1" />{usersDetails.country}</p>
                                         </div>
 
                                         <div className="col-md-8  p-2">
-                                            <p className="text-muted"><strong>Bio:</strong> {tutorsDetails.bio}</p>
-                                            <p className="text-muted"><strong>Languages:</strong> {tutorsDetails.languages?.join(', ') || 'Not specified'}</p>
-                                            <p className="text-muted"><strong>Rating:</strong> <i className="fas fa-star text-warning" /> {tutorsDetails.rating}</p>
-                                            <p className="text-muted"><strong>Price:</strong> <span className="text-success">${tutorsDetails.price} / session</span></p>
+                                            <p className="text-muted"><strong>Bio:</strong> {usersDetails.bio}</p>
+                                            <p className="text-muted"><strong>Languages:</strong> {usersDetails.languages?.join(', ') || 'Not specified'}</p>
+                                            <p className="text-muted"><strong>Rating:</strong> <i className="fas fa-star text-warning" /> {usersDetails.rating}</p>
+                                            <p className="text-muted"><strong>Price:</strong> <span className="text-success">${usersDetails.price} / session</span></p>
                                         </div>
                                     </div>
                                 </div>

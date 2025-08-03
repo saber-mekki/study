@@ -18,7 +18,7 @@ import Contact from "./components/Contact";
 import Profile from "./components/layouts/Profile";
 import Tutors from "./components/Tutors";
 import { isAuthenticated } from "./helper";
-import { ProtectedRoute, ProtectedAdminRoute } from "./ProtectedRoute";
+import { ProtectedRoute } from "./ProtectedRoute";
 import SignInModal from "./components/SignInModal";
 import AdminDashboard from "./dashboard/AdminDashboard";
 import Video from "./components/video";
@@ -26,12 +26,11 @@ import Page404 from "./Page404";
 
 function Routes() {
 
-    const isAdmin = localStorage.getItem("role") === "admin";
+   
     return (
         <Router history={history}>
             <HashRouter basename="/">
                 <Switch>
-                    <Route exact path={'/video'} render={(props) => (<Video {...props} />)} />
                     <Route exact path={'/'} render={(props) => (<HomeOne {...props} />)} />
                     <Route exact path={'/home-one'} render={(props) => (<HomeOne {...props} />)} />
                     <Route exact path={'/home-two'} render={(props) => (<HomeTwo {...props} />)} />
@@ -48,8 +47,8 @@ function Routes() {
                     <Route exact path={'/contact'} render={(props) => (<Contact {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
-                  
-                  
+                    <ProtectedRoute exact path="/room/:roomId" component={Video} />
+                    <ProtectedRoute exact path={'/video'} component={Video} />
                   
                   <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
 
@@ -70,11 +69,12 @@ function Routes() {
                         <Redirect to="/login" />
                     )}
 
-{/*                     <ProtectedAdminRoute isAdmin={isAdmin} exact path="/dash/admin" component={AdminDashboard} />
- */}                    <ProtectedRoute exact path="/dashboard" component={Courses} />
+                     <ProtectedRoute  exact path="/dash/admin" component={AdminDashboard} />
+                 <ProtectedRoute exact path="/dashboard" component={Courses} />
                     <ProtectedRoute exact path={'/blog'} component={Blog} />
                     <Route component={Page404} />
-
+                    <ProtectedRoute exact path={'/video'} component={Video} />
+                    <Route render={() => <Redirect to="/login" />} />
                 </Switch>
             </HashRouter>
         </Router>

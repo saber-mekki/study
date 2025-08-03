@@ -6,6 +6,7 @@ import './NotificationsDropdown.css';
 export function NotificationsDropdown({ userId }) {
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
+    
     useEffect(() => {
         const token = localStorage.getItem("authToken");
         if (token) {
@@ -54,13 +55,17 @@ export function NotificationsDropdown({ userId }) {
                 <li className="dropdown-header fw-bold text-center">Notifications</li>
                 {notifications.map((note, index) => {
                     let targetUrl = "/#/profile/calendar";
-
+                    
                     if (note.type === "booking_accepted") {
                         targetUrl = `#/profile/bookings`;
                     } else if (note.type === "message") {
                         targetUrl = `/messages/${note.reference_id}`;
                     } else if (note.type === "profile") {
                         targetUrl = `/profile`;
+                    } else if (note.type === "live_started") {
+                        targetUrl = `#/profile/bookings`;
+                    } else if (note.type === "live_stopped") {
+                        targetUrl = `#/profile/bookings`;
                     }
 
                     return (

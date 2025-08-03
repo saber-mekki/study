@@ -1,42 +1,21 @@
 import React from "react";
 import HeaderOne from "../layouts/HeaderOne";
-import StudentJoin from "./StudentJoin";
-import TutorDashboard from "./TutorDashboard"; // Assume this handles creating a session
+import { useParams } from "react-router-dom";
+import JitsiMeeting from "../Jitsi/JitsiMeeting";
 
 function StreamingDashboard() {
   const role = localStorage.getItem("role");
+  const { roomId } = useParams()
+  const userName = localStorage.getItem("userName") || "Invité";
+
+  const parts = roomId.split("-");
+  const lastNumber = parts[parts.length - 1];
+  const bookingId = Number(lastNumber);
 
   return (
     <>
-      <HeaderOne />
-      <div className="streaming-dashboard">
-        <header className="header">
-          <h1>📡 Espace de Streaming en Direct</h1>
-
-          {role === "tutor"
-            ? "Créez une session en direct pour vos apprenants."
-            : "Rejoignez une session en direct avec un code fourni par votre tuteur."}
-
-        </header>
-
-        <main className="main-content">
-          {role === "tutor" && (
-            <section className="card d-flex justify-content-center align-items-center  large-card">
-              <h2>🎥 Créer une session en direct</h2>
-              <TutorDashboard />
-            </section>
-          )}
-
-          {role === "student" && (
-            <section className="card large-card">
-              <h2>🔗 Rejoindre une session en direct</h2>
-              <StudentJoin />
-            </section>
-          )}
-        </main>
-      </div>
-
-      <style jsx>{`
+     <style jsx>
+      {`
         .streaming-dashboard {
           background: #f7f9fc;
           padding: 40px 20px;
@@ -90,8 +69,23 @@ function StreamingDashboard() {
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
       `}</style>
+
+      <HeaderOne />
+        <header className="header">
+          <h1> Espace de Streaming en Direct</h1>
+
+          {role === "tutor"
+            ? "Créez une session en direct pour vos apprenants."
+            : "Rejoignez une session en direct avec un code fourni par votre tuteur."}
+
+        </header>
+         <div className="container mt-4">
+       <h2> Vous êtes connecté à la session</h2>
+       <p className="text-muted">Session interactive avec votre tuteur</p>
+ 
+       <JitsiMeeting roomName={roomId} userName={userName} bookingId={bookingId}/>
+     </div>
     </>
   );
 }
-
 export default StreamingDashboard;
