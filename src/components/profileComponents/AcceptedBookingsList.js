@@ -3,19 +3,46 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { BookingCountdown } from "./BookingCountdown";
 
 export function AcceptedBookingsList() {
     const role = localStorage.getItem("role");
 
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [isCourseDetailsOpen, setIsCourseDetailsOpen] = useState(false);
+
     const [bookings, setBookings] = useState([]);
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isDeleted, setIsDeleted] = useState(true);
     const [usersDetails, setUsersDetails] = useState({});
     const [tutorDetailsIsOpen, setTutorDetailsIsOpen] = useState(false)
     const [error, setError] = useState("");
     const [imageUrl, setImageUrl] = useState("");
 
     const history = useHistory();
+
+    const handleOpenCourseDetails = (booking) => {
+
+        setSelectedCourse(booking);
+        setIsCourseDetailsOpen(true);
+    }
+
+    const handleCloseCourseDetails = () => {
+        setIsCourseDetailsOpen(false);
+        setSelectedCourse(null);
+    };
+
+    const canStartLiveSession = (bookingDate) => {
+        const now = new Date();
+        const startDate = new Date(bookingDate);
+
+        const isSameDay = now.toDateString() === startDate.toDateString();
+        const diffInMs = startDate - now;
+        const diffInHours = diffInMs / (1000 * 60 * 60);
+
+        return isSameDay && diffInHours <= 1 && diffInMs > 0;
+    };
 
     const handleOpenTutorDetailsIsOpen = (user) => {
         setTutorDetailsIsOpen(true)
@@ -27,7 +54,6 @@ export function AcceptedBookingsList() {
     const handleClose = () => {
         setTutorDetailsIsOpen(false);
     };
-
 
     const startLiveSession = async (bookingId, roomId) => {
 
@@ -41,6 +67,29 @@ export function AcceptedBookingsList() {
             console.error("Erreur lors de la mise à jour du lien live :", error);
         }
     };
+
+    const handleDelete = async (bookingId) => {
+        const confirmed = window.confirm("Are you sure you want to delete this booking?");
+        if (!confirmed) return;
+        try {
+            const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/delete`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ bookingId }),
+            });
+
+            if (!res.ok) throw new Error("Failed to delete booking");
+
+
+            alert("Booking deleted successfully");
+            setIsDeleted(!isDeleted)
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Failed to delete booking");
+        }
+    }
 
     useEffect(() => {
         const token = localStorage.getItem("authToken");
@@ -57,7 +106,7 @@ export function AcceptedBookingsList() {
                     .finally(() => setLoading(false));
             }
         }
-    }, [role]);
+    }, [role, isDeleted]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -117,7 +166,7 @@ export function AcceptedBookingsList() {
         fetchUserData();
     }, [usersDetails]);
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date();
 
     return (
         <div className="container mt-4">
@@ -127,33 +176,52 @@ export function AcceptedBookingsList() {
             ) : bookings.length > 0 ? (
                 <div className="list-group">
                     {bookings.map((booking, i) => {
-                        const bookingDate = new Date(booking.booking_date).toISOString().split("T")[0];
-                        const isToday = bookingDate === today;
+                        const bookingDate = new Date(booking.booking_date);
+                        const isPast = bookingDate < today;
                         const bookingsForTutor = users.filter(user => booking.tutor_id === user.user_id);
                         const bookingsForUser = users.filter(user => booking.user_id === user.user_id);
                         const usersDetails = role === "tutor" ? bookingsForUser[0] : bookingsForTutor[0]
+                        console.log({i,isPast,bookingDate,today})
                         return (
                             <div key={i} className="list-group-item">
-                                <h5 className="mb-1">Meeting  with Mr:  <div className="btn btn-outline-primary btn-sm" onClick={() => handleOpenTutorDetailsIsOpen(usersDetails)} >{role === "tutor" ? booking.name : bookingsForTutor[0] !== undefined ? bookingsForTutor[0].user_name : ""}</div></h5>
+                                <h5 className="mb-1">Meeting  with :  <div className="btn btn-outline-primary btn-sm" onClick={() => handleOpenTutorDetailsIsOpen(usersDetails)} >{role === "tutor" ? booking.name : bookingsForTutor[0] !== undefined ? bookingsForTutor[0].user_name : ""}</div></h5>
                                 <p className="mb-1">Date: {new Date(booking.booking_date).toLocaleString()}</p>
+                                <BookingCountdown bookingDate={booking.booking_date} />
                                 <div className="d-flex justify-content-between">
                                     {role !== "tutor" && booking.live_link !== "" && booking.live_link !== null && (
                                         <Link to={`/room/${booking.live_link}`} className="btn btn-success btn-sm">
                                             Enter Room
                                         </Link>)}
-                                    {role === "tutor" && (<button
-                                        onClick={() => {
-                                            const roomId = `live-${Date.now()}-${booking.id}`;
-                                            startLiveSession(booking.id, roomId)
-                                            history.push(`/room/${roomId}`);
-                                        }}
-                                    >
-                                        Démarrer une session live
-                                    </button>
+                                    {role === "tutor" && (
+                                        isPast ? (
+                                            <button className="btn btn-secondary btn-sm" disabled>
+                                                Session expirée
+                                            </button>
+                                        ) : canStartLiveSession(booking.booking_date) ? (
+                                            <button
+                                                className="btn btn-primary btn-sm"
+                                                onClick={() => {
+                                                    const roomId = `live-${Date.now()}-${booking.id}`;
+                                                    startLiveSession(booking.id, roomId);
+                                                    history.push(`/room/${roomId}`);
+                                                }}
+                                            >
+                                                Démarrer une session live
+                                            </button>
+                                        ) : <button className="btn btn-secondary" disabled>
+                                            La session live pas encore disponible
+                                        </button>
                                     )}
-                                    <a href={`/course/${booking.id}`} className="btn btn-outline-primary btn-sm">
+
+                                    {role === "tutor" && <button onClick={() => handleDelete(booking.id)} style={{ color: "white", background: "red", padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+                                        Delete Booking
+                                    </button>}
+                                    <button
+                                        onClick={() => handleOpenCourseDetails(booking)}
+                                        className="btn btn-outline-primary btn-sm"
+                                    >
                                         View Details
-                                    </a>
+                                    </button>
 
                                 </div>
                             </div>
@@ -209,6 +277,42 @@ export function AcceptedBookingsList() {
                                     className="btn btn-secondary"
                                     onClick={handleClose}
                                 >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isCourseDetailsOpen && selectedCourse && (
+                <div className="modal fade show d-flex align-items-center justify-content-center"
+                    tabIndex="-1"
+                    role="dialog"
+                    style={{ display: 'flex', backgroundColor: 'rgba(0,0,0,0.6)' }}>
+                    <div className="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div className="modal-content rounded-4 shadow-lg">
+                            <div className="modal-header bg-primary text-white">
+                                <h5 className="modal-title">Meeting Details  </h5>
+
+                                <button type="button" className="btn-close" onClick={handleCloseCourseDetails}></button>
+                            </div>
+                            <div className="modal-body">
+                                <h5> <BookingCountdown bookingDate={selectedCourse.booking_date} /></h5>
+                                <p><strong>Date:</strong> {new Date(selectedCourse.booking_date).toLocaleString()}</p>
+                                <p><strong>Status:</strong> {selectedCourse.status}</p>
+                                <p><strong>Live Link:</strong> {selectedCourse.live_link || "Not available"}</p>
+                                <p><strong>Student:</strong> {selectedCourse.name}</p>
+                                <p><strong>Message:</strong> {selectedCourse.message}</p>
+                                {!canStartLiveSession(selectedCourse.booking_date) && (
+                                    <p className="text-sm text-red-600 mt-2">
+                                       Vous pouvez démarrer la session uniquement 1h avant l'heure prévue le jour du rendez-vous.
+                                    </p>
+                                )}
+
+                                {/* Ajoute d'autres champs ici */}
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={handleCloseCourseDetails}>
                                     Close
                                 </button>
                             </div>

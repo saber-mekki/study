@@ -1,35 +1,18 @@
-.available-day {
-    background-color: #c8f7c5 !important;
-  }
-  
-  .partial-day {
-    background-color: #fdfd96 !important;
-  }
-  
-  .full-day {
-    background-color: #ff6f69 !important;
-    color: white !important;
-  }
-  .big-calendar {
-    transform: scale(2,2); /* Adjust the scale as needed */
-    transform-origin: top left;
-  }
 
-/* Styles for status-based calendar tiles */
 .available {
-  background-color: #d4edda !important; /* Green for available */
+  background-color: #01ee38 !important; 
   border-radius: 50%;
   color: black;
 }
 
 .booked {
-  background-color: #f8d7da !important; /* Red for booked */
+  background-color: #0b28ce !important; 
   border-radius: 50%;
   color: black;
 }
 
 .unavailable {
-  background-color: #fff3cd !important; /* Yellow for unavailable */
+  background-color: #f80707 !important;
   border-radius: 50%;
   color: black;
 }

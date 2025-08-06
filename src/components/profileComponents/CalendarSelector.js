@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Calendar from 'react-calendar';
+import DatePicker from 'react-datepicker';
+import {  toast } from 'react-toastify';
+
+
 import { useSelector } from "react-redux";
 import 'react-calendar/dist/Calendar.css';
-import './calendarStyles.css'; 
-
+import './calendarStyles.css';
+import 'react-datepicker/dist/react-datepicker.css';
 export default function TutorAvailabilityManager() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availability, setAvailability] = useState([]);
@@ -42,28 +45,31 @@ export default function TutorAvailabilityManager() {
       try {
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability`, {
           tutorId,
-  availableDate: selectedDate.toLocaleDateString('en-CA')
+          availableDate: selectedDate.toISOString()
         });
-        alert('Availability added');
+        toast.success('Availability added');    
         setAvailability([...availability, {
           tutor_id: tutorId,
           available_date: selectedDate.toISOString(),
           status: 'available'
         }]);
       } catch (error) {
-        alert('Error adding availability');
+     
+        toast.error('Error adding availability');
       }
     }
   };
+
 
   const handleUpdateStatus = async () => {
     if (selectedDate) {
       try {
         await axios.put(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/update`, {
           tutorId,
-    availableDate: selectedDate.toLocaleDateString('en-CA'), 
+          availableDate: selectedDate.toLocaleDateString('en-CA'),
         });
-        alert('Status updated');
+       
+        toast.success('Status updated');    
         setAvailability((prev) =>
           prev.map((item) =>
             new Date(item.available_date).toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]
@@ -72,7 +78,7 @@ export default function TutorAvailabilityManager() {
           )
         );
       } catch (error) {
-        alert('Error updating status');
+        toast.error('Error updating status');
       }
     }
   };
@@ -83,10 +89,13 @@ export default function TutorAvailabilityManager() {
         await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/remove`, {
           data: {
             tutorId,
-    availableDate: selectedDate.toLocaleDateString('en-CA'), // 'YYYY-MM-DD'
+            availableDate: selectedDate.toLocaleDateString('en-CA'), // 'YYYY-MM-DD'
           },
         });
-        alert('Availability removed');
+        
+ 
+        toast.success('Availability removed');  
+
         setAvailability((prev) =>
           prev.filter(
             (item) =>
@@ -94,13 +103,13 @@ export default function TutorAvailabilityManager() {
           )
         );
       } catch (error) {
-        alert('Error removing availability');
+        toast.error('Error removing availability');
       }
     }
   };
 
   const handleAccept = async (bookingId, date) => {
-   
+
     try {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/accept`, { bookingId });
       await axios.put(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/update`, {
@@ -108,32 +117,35 @@ export default function TutorAvailabilityManager() {
         availableDate: date,
         status: 'booked',
       });
-      alert('Booking accepted');
+      
+      toast.success('Booking accepted');  
       setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
       setAvailability((prev) =>
         prev.map((item) =>
-      new Date(item.available_date).toLocaleDateString('en-CA') === new Date(date).toLocaleDateString('en-CA')
+          new Date(item.available_date).toLocaleDateString('en-CA') === new Date(date).toLocaleDateString('en-CA')
             ? { ...item, status: 'booked' }
             : item
         )
       );
     } catch (error) {
-      alert('Error accepting booking');
+      toast.error('Error accepting booking');
     }
   };
 
   const handleDecline = async (bookingId) => {
     try {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/decline`, { bookingId });
-      alert('Booking declined');
+ 
+      toast.success('Booking declined');  
       setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
     } catch (error) {
-      alert('Error declining booking');
+   
+      toast.error('Error declining booking');
     }
   };
 
   const getStatus = (date) => {
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD
     const found = availability.find((item) => {
       const itemDateStr = new Date(item.available_date).toISOString().split('T')[0];
       return itemDateStr === dateStr;
@@ -141,20 +153,26 @@ export default function TutorAvailabilityManager() {
     return found ? found.status : null;
   };
 
-  const tileClassName = ({ date }) => {
-    const status = getStatus(date);
-    if (status === 'available') return 'available';
-    if (status === 'booked') return 'booked';
-    if (status === 'unavailable') return 'unavailable';
-    return null;
-  };
- return (
+  return (
     <div style={{ maxWidth: '600px', margin: 'auto' }}>
       <h2>Manage Tutor Availability</h2>
-      <Calendar
+
+      <DatePicker
+        selected={selectedDate}
         onChange={handleDateChange}
-        value={selectedDate}
-        tileClassName={tileClassName}
+        showTimeSelect
+        timeIntervals={30}
+        dateFormat="Pp"
+        inline
+        dayClassName={(date) => {
+
+          const status = getStatus(date);
+
+          if (status === 'available') return 'available';
+          if (status === 'booked') return 'booked';
+          if (status === 'unavailable') return 'unavailable';
+          return '';
+        }}
       />
 
       {selectedDate && (
@@ -184,58 +202,62 @@ export default function TutorAvailabilityManager() {
         </div>
       )}
       <ul style={{ listStyle: 'none', padding: 0 }}>
-  {pendingBookings.map((request) => (
-    <li
-      key={request.id}
-      style={{
-        background: '#f9f9f9',
-        border: '1px solid #ddd',
-        borderRadius: '12px',
-        padding: '16px',
-        marginBottom: '12px',
-        boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
-      }}
-    >
-      <div style={{ marginBottom: '8px', fontWeight: 'bold', fontSize: '16px' }}>
-       📅 23/06/205
-      </div>
-      <div style={{ fontSize: '15px', color: '#333' }}>
-        <strong>👤 {request.name}</strong>
-      </div>
-      <div style={{ fontSize: '14px', color: '#555', marginTop: '6px' }}>
-        📝 {request.message}
-      </div>
-      <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
-        <button
-          style={{
-            padding: '6px 12px',
-            borderRadius: '6px',
-            background: '#4CAF50',
-            color: '#fff',
-            border: 'none',
-            cursor: 'pointer',
-          }}
-          onClick={() => handleAccept(request.id, request.requested_date)}
-        >
-          Accept
-        </button>
-        <button
-          style={{
-            padding: '6px 12px',
-            borderRadius: '6px',
-            background: '#F44336',
-            color: '#fff',
-            border: 'none',
-            cursor: 'pointer',
-          }}
-          onClick={() => handleDecline(request.id)}
-        >
-          Decline
-        </button>
-      </div>
-    </li>
-  ))}
-</ul>
+        {pendingBookings.map((request) => (
+          <li
+            key={request.id}
+            style={{
+              background: '#f9f9f9',
+              border: '1px solid #ddd',
+              borderRadius: '12px',
+              padding: '16px',
+              marginBottom: '12px',
+              boxShadow: '0 2px 6px rgba(0, 0, 0, 0.05)',
+            }}
+          >
+            <div style={{ marginBottom: '8px', fontWeight: 'bold', fontSize: '16px' }}>
+              {new Date(request.booking_date).toLocaleString("fr-FR", {
+                timeZone: 'UTC',
+                dateStyle: "medium",
+                timeStyle: "short",
+              })}
+            </div>
+            <div style={{ fontSize: '15px', color: '#333' }}>
+              <strong>👤 {request.name}</strong>
+            </div>
+            <div style={{ fontSize: '14px', color: '#555', marginTop: '6px' }}>
+              📝 {request.message}
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+              <button
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  background: '#4CAF50',
+                  color: '#fff',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+                onClick={() => handleAccept(request.id, request.requested_date)}
+              >
+                Accept
+              </button>
+              <button
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  background: '#F44336',
+                  color: '#fff',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+                onClick={() => handleDecline(request.id)}
+              >
+                Decline
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
