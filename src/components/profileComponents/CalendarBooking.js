@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import {  toast } from 'react-toastify';
 
 export default function DateListBooking({ tutorId }) {
   const [availableDates, setAvailableDates] = useState([]);
@@ -31,12 +32,12 @@ export default function DateListBooking({ tutorId }) {
         name: user.name,
         message,
       });
-      alert('Date booked!');
+          toast.success('Date booked!');  
       setMessage('');
       setSelectedDate(null);
     } catch (err) {
       console.error('Booking error:', err);
-      alert('Error booking date');
+         toast.error('Error booking date');
     }
   };
 

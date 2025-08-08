@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-
 import CalendarBooking from '../profileComponents/CalendarBooking';
+import { Link } from "react-router-dom";
 
 export default function TutorCard({
   specialty,
@@ -59,7 +59,7 @@ export default function TutorCard({
       <div onClick={handleOpenTutorDetails} className="card shadow-sm border-0 rounded-4 p-4 position-relative text-center Mycard h-100">
         <div className="d-flex justify-content-center mb-3">
           {error ? <div className="text-danger">{error}</div> : <img
-            src={imageUrl || "/assets/images/tutorprofil.png"} 
+            src={imageUrl || "/assets/images/tutorprofil.png"}
             alt={`${name} profile`}
             className="rounded-circle shadow "
             style={{
@@ -109,13 +109,14 @@ export default function TutorCard({
                 <div className="modal-body p-4 my-5 d-flex gap-4">
                   <div className="row  g-4">
                     <div className="col-md-4 text-center">
-                      {error ? <div className="text-danger">{error}</div> : <img
-                          src={imageUrl || "/assets/images/tutorprofil.png"}
-                          alt={name}
+                      {error ? <div className="text-danger">{error}</div> :   <Link to={`/user/${id}`}><img
+                        src={imageUrl || "/assets/images/tutorprofil.png"}
+                        alt={name}
                         className="rounded-circle shadow"
                         style={{ width: '120px', height: '120px', objectFit: 'cover' }}
-                      />}
-                      <h5 className="mt-3 fw-bold">{name}</h5>
+                      /></Link>}
+                  
+                      <Link to={`/user/${id}`}>    <h5 className="mt-3 fw-bold">{name}</h5></Link>
                       <p className="text-muted">{specialty}</p>
                       <p><i className="fas fa-map-marker-alt text-danger me-1" />{country}</p>
                     </div>
@@ -133,7 +134,6 @@ export default function TutorCard({
               </div>
 
               <div className="modal-footer bg-light">
-              
 
               </div>
             </div>

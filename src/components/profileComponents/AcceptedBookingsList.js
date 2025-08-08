@@ -19,7 +19,12 @@ export function AcceptedBookingsList() {
     const [tutorDetailsIsOpen, setTutorDetailsIsOpen] = useState(false)
     const [error, setError] = useState("");
     const [imageUrl, setImageUrl] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const bookingsPerPage = 3;
 
+    const indexOfLastBooking = currentPage * bookingsPerPage;
+    const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+    const currentBookings = bookings.slice(indexOfFirstBooking, indexOfLastBooking);
     const history = useHistory();
 
     const handleOpenCourseDetails = (booking) => {
@@ -175,13 +180,13 @@ export function AcceptedBookingsList() {
                 <p>Loading...</p>
             ) : bookings.length > 0 ? (
                 <div className="list-group">
-                    {bookings.map((booking, i) => {
+                    {currentBookings.map((booking, i) => {
                         const bookingDate = new Date(booking.booking_date);
                         const isPast = bookingDate < today;
                         const bookingsForTutor = users.filter(user => booking.tutor_id === user.user_id);
                         const bookingsForUser = users.filter(user => booking.user_id === user.user_id);
                         const usersDetails = role === "tutor" ? bookingsForUser[0] : bookingsForTutor[0]
-                        console.log({i,isPast,bookingDate,today})
+
                         return (
                             <div key={i} className="list-group-item">
                                 <h5 className="mb-1">Meeting  with :  <div className="btn btn-outline-primary btn-sm" onClick={() => handleOpenTutorDetailsIsOpen(usersDetails)} >{role === "tutor" ? booking.name : bookingsForTutor[0] !== undefined ? bookingsForTutor[0].user_name : ""}</div></h5>
@@ -227,6 +232,15 @@ export function AcceptedBookingsList() {
                             </div>
                         );
                     })}
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                        <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
+                            Previous
+                        </button>
+                        <button onClick={() => setCurrentPage((p) => (indexOfLastBooking < bookings.length ? p + 1 : p))}
+                            disabled={indexOfLastBooking >= bookings.length}>
+                            Next
+                        </button>
+                    </div>
                 </div>
             ) : (
                 <p className="text-muted">No accepted courses found.</p>
@@ -250,13 +264,15 @@ export function AcceptedBookingsList() {
                                 <div className="modal-body p-4 my-5 d-flex gap-4">
                                     <div className="row  g-4">
                                         <div className="col-md-4 text-center">
-                                            {error ? <div className="text-danger">{error}</div> : <img
-                                                src={imageUrl || "/assets/images/tutorprofil.png"}
-                                                alt={usersDetails.user_name}
-                                                className="rounded-circle shadow"
-                                                style={{ width: '120px', height: '120px', objectFit: 'cover' }}
-                                            />}
-                                            <h5 className="mt-3 fw-bold">{usersDetails.user_name}</h5>
+                                            {error ? <div className="text-danger">{error}</div> : <Link to={`/user/${usersDetails.user_id}`}>
+                                                <img
+                                                    src={imageUrl || "/assets/images/tutorprofil.png"}
+                                                    alt={usersDetails.user_name}
+                                                    className="rounded-circle shadow"
+                                                    style={{ width: '120px', height: '120px', objectFit: 'cover', cursor: 'pointer' }}
+                                                />
+                                            </Link>}
+                                            <Link to={`/user/${usersDetails.user_id}`}>  <h5 className="mt-3 fw-bold">{usersDetails.user_name}</h5></Link>
                                             <p className="text-muted">{usersDetails.specialty}</p>
                                             <p><i className="fas fa-map-marker-alt text-danger me-1" />{usersDetails.country}</p>
                                         </div>
@@ -305,7 +321,7 @@ export function AcceptedBookingsList() {
                                 <p><strong>Message:</strong> {selectedCourse.message}</p>
                                 {!canStartLiveSession(selectedCourse.booking_date) && (
                                     <p className="text-sm text-red-600 mt-2">
-                                       Vous pouvez démarrer la session uniquement 1h avant l'heure prévue le jour du rendez-vous.
+                                        Vous pouvez démarrer la session uniquement 1h avant l'heure prévue le jour du rendez-vous.
                                     </p>
                                 )}
 

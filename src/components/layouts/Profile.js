@@ -268,14 +268,14 @@ const UserProfile = () => {
                           {t("Calendar")}
                         </button>
                       </li>)}
-                      {role === "student" && (     <li className="list-group-item">
+                       <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange(t("bookings"))}
                         >
                           {t("Bookings")}
                         </button>
-                      </li>)}
+                      </li>
                       <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"

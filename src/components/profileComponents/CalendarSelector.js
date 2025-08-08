@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import {  toast } from 'react-toastify';
-
-
+import { toast } from 'react-toastify';
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 import 'react-calendar/dist/Calendar.css';
 import './calendarStyles.css';
 import 'react-datepicker/dist/react-datepicker.css';
+
 export default function TutorAvailabilityManager() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availability, setAvailability] = useState([]);
   const [status, setStatus] = useState('available');
   const [pendingBookings, setPendingBookings] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const bookingsPerPage = 3;
 
+  const indexOfLastBooking = currentPage * bookingsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+  const currentBookings = pendingBookings.slice(indexOfFirstBooking, indexOfLastBooking);
   const user = useSelector((state) => state.user);
   const tutorId = user.idUser;
 
@@ -47,14 +53,14 @@ export default function TutorAvailabilityManager() {
           tutorId,
           availableDate: selectedDate.toISOString()
         });
-        toast.success('Availability added');    
+        toast.success('Availability added');
         setAvailability([...availability, {
           tutor_id: tutorId,
           available_date: selectedDate.toISOString(),
           status: 'available'
         }]);
       } catch (error) {
-     
+
         toast.error('Error adding availability');
       }
     }
@@ -68,8 +74,8 @@ export default function TutorAvailabilityManager() {
           tutorId,
           availableDate: selectedDate.toLocaleDateString('en-CA'),
         });
-       
-        toast.success('Status updated');    
+
+        toast.success('Status updated');
         setAvailability((prev) =>
           prev.map((item) =>
             new Date(item.available_date).toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]
@@ -92,9 +98,9 @@ export default function TutorAvailabilityManager() {
             availableDate: selectedDate.toLocaleDateString('en-CA'), // 'YYYY-MM-DD'
           },
         });
-        
- 
-        toast.success('Availability removed');  
+
+
+        toast.success('Availability removed');
 
         setAvailability((prev) =>
           prev.filter(
@@ -117,8 +123,8 @@ export default function TutorAvailabilityManager() {
         availableDate: date,
         status: 'booked',
       });
-      
-      toast.success('Booking accepted');  
+
+      toast.success('Booking accepted');
       setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
       setAvailability((prev) =>
         prev.map((item) =>
@@ -135,11 +141,11 @@ export default function TutorAvailabilityManager() {
   const handleDecline = async (bookingId) => {
     try {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/decline`, { bookingId });
- 
-      toast.success('Booking declined');  
+
+      toast.success('Booking declined');
       setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
     } catch (error) {
-   
+
       toast.error('Error declining booking');
     }
   };
@@ -202,7 +208,7 @@ export default function TutorAvailabilityManager() {
         </div>
       )}
       <ul style={{ listStyle: 'none', padding: 0 }}>
-        {pendingBookings.map((request) => (
+        {currentBookings.map((request) => (
           <li
             key={request.id}
             style={{
@@ -222,7 +228,8 @@ export default function TutorAvailabilityManager() {
               })}
             </div>
             <div style={{ fontSize: '15px', color: '#333' }}>
-              <strong>👤 {request.name}</strong>
+            
+               <Link to={`/user/${request.user_id}`}>  <h5 className="mt-3 fw-bold">  <strong>👤 {request.name}</strong></h5></Link>
             </div>
             <div style={{ fontSize: '14px', color: '#555', marginTop: '6px' }}>
               📝 {request.message}
@@ -257,6 +264,15 @@ export default function TutorAvailabilityManager() {
             </div>
           </li>
         ))}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <button onClick={() => setCurrentPage((p) => (indexOfLastBooking < pendingBookings.length ? p + 1 : p))}
+            disabled={indexOfLastBooking >= pendingBookings.length}>
+            Next
+          </button>
+        </div>
       </ul>
     </div>
   );

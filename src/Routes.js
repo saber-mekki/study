@@ -23,6 +23,7 @@ import SignInModal from "./components/SignInModal";
 import AdminDashboard from "./dashboard/AdminDashboard";
 import Video from "./components/video";
 import Page404 from "./Page404";
+import UserProfile from "./components/profileComponents/UserProfile";
 
 function Routes() {
 
@@ -49,6 +50,7 @@ function Routes() {
                     <Route exact path={'/login'} render={(props) => (<SignInModal {...props} />)} />
                     <ProtectedRoute exact path="/room/:roomId" component={Video} />
                     <ProtectedRoute exact path={'/video'} component={Video} />
+                    <ProtectedRoute path="/user/:id" component= {UserProfile} />
                   
                   <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
 
@@ -64,6 +66,7 @@ function Routes() {
                             </Route>
 
                             <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
+                           
                         </>
                     ) : (
                         <Redirect to="/login" />
