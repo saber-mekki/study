@@ -20,6 +20,8 @@ import { IoArrowBack } from "react-icons/io5";
 import { AcceptedBookingsList } from "../profileComponents/AcceptedBookingsList";
 import { CoursesLibrary } from "./myClasses/CoursesLibrary";
 import { Quiz } from "./myClasses/Quiz";
+import  MyGroups  from "../profileComponents/MyGroups/index";
+import  CreateGroup  from "../profileComponents/MyGroups/CreateGroup";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -127,10 +129,12 @@ const UserProfile = () => {
   }, [dispatch]);
 
   const validSections = [
+    "groups",
     "accueil",
     "account",
     "settings",
     "addcourse",
+    "addGroups",
     "courses",
     "password",
     "calendar",
@@ -227,6 +231,22 @@ const UserProfile = () => {
                           </button>
                         </li>
                       )}
+                         {role === "tutor" && (    <li className="list-group-item">
+                        <button
+                          className="btn btn-link text-primary pb-0 px-4"
+                          onClick={() => handleSectionChange("addGroups")}
+                        >
+                          {t("Add Groups")}
+                        </button>
+                      </li>)}
+                      <li className="list-group-item">
+                        <button
+                          className="btn btn-link text-primary pb-0 px-4"
+                          onClick={() => handleSectionChange("groups")}
+                        >
+                          {t("My Groups")}
+                        </button>
+                      </li>
                    {  role!=="admin" && ( <>
                   <li className="list-group-item">
                         <button
@@ -308,6 +328,8 @@ const UserProfile = () => {
                   {currentSection === "addcourse" && (
                     <AddCourse email={email} />
                   )}
+                    {currentSection === "addGroups" && <CreateGroup />}
+                   {currentSection === "groups" && <MyGroups />}
                   {currentSection === "courses" && <Mycourses email={email} />}
                   {currentSection === "password" && <Password email={email} />}
                   {currentSection === "calendar" && <CalendarSelector />}

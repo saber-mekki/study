@@ -31,7 +31,7 @@ function ProfileMenu() {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-        localStorage.removeItem("role");
+    localStorage.removeItem("role");
 
     Cookies.remove("role");
     window.location.href = "/";
@@ -106,7 +106,7 @@ function ProfileMenu() {
   }, [dispatch, user]);
 
   return (
-<li className="nav-item dropdown ml-md-custom">
+    <li className="nav-item dropdown ml-md-custom">
 
       {error && <div className="text-danger">{error}</div>}
       <a
@@ -130,7 +130,7 @@ function ProfileMenu() {
           }}
         />
         <Link to="/profile">
-        <span className="d-block d-lg-none">{t("Profile")}</span>
+          <span className="d-block d-lg-none">{t("Profile")}</span>
         </Link>
       </a>
       <div className="dropdown-menu" aria-labelledby="profileDropdown">
@@ -176,13 +176,17 @@ function ProfileMenu() {
               <FaChalkboardTeacher style={{ marginRight: "10px" }} />{" "}
               {t("My Classes")}
             </Link>
+
             <Link to="/profile/addcourse" className="dropdown-item">
               <FaBookOpen style={{ marginRight: "10px" }} />{" "}
               {t("Create Course")}
             </Link>
           </>
         )}
-
+        <Link to="/profile/groups" className="dropdown-item">
+          <FaChalkboardTeacher style={{ marginRight: "10px" }} />{" "}
+          {t("My Groups")}
+        </Link>
         <Link to="/profile/settings" className="dropdown-item">
           <FaCog style={{ marginRight: "10px" }} /> {t("Settings")}
         </Link>
