@@ -2,26 +2,23 @@ import React from "react";
 import { useEffect } from "react";
 import axios from "axios";
 
-const JitsiMeeting = ({  userName,bookingId }) => {
+const JitsiMeeting = ({ role, userName, bookingId }) => {
 
   useEffect(() => {
-    const handleUnload = () => {
-      try {
-         axios.put(`${process.env.REACT_APP_API_BASE_URL}/booking/update`, {
-          bookingId,
-          liveLink: ""
-        })
-      } catch (error) {
-        console.error("Erreur lors de la mise à jour du lien live :", error);
+      return () => {
+        if (role === "tutor" ) {
+        const storedSessionId = localStorage.getItem("sessionId");
+        try {
+          axios.put(
+            `${process.env.REACT_APP_API_BASE_URL}/groups/sessions/${storedSessionId}/close`
+          );
+          localStorage.removeItem("sessionId");
+        } catch (error) {
+          console.error("Erreur lors de la fermeture de la session :", error);
+        }
       }
-    };
-    window.addEventListener("beforeunload",  handleUnload);
-
-    return () => {
-       handleUnload();
-      window.removeEventListener("beforeunload",  handleUnload);
-    };
-  }, [bookingId]);
+      };
+  }, [role]);
 
   return (
     <div style={{ height: "600px", width: "100%" }}>

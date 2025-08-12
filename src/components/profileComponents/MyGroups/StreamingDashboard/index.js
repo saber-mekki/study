@@ -79,7 +79,7 @@ function StreamingDashboard() {
        <h2> Vous êtes connecté à la session</h2>
        <p className="text-muted">Session interactive avec votre tuteur</p>
  
-       <JitsiMeeting  userName={userName} bookingId={roomId}/>
+       <JitsiMeeting  role={role} userName={userName} bookingId={roomId}/>
      </div>
     </>
   );
