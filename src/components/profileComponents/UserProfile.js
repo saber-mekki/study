@@ -105,18 +105,38 @@ export default function UserProfile() {
   };
 
   const handleSendMessage = async () => {
-    if (!messageText.trim()) return;
+    if (!messageText.trim()) {
+      alert("Please enter a message");
+      return;
+    }
+    //student can send to tutor /tutor can send to studens
+    const sendingMessage = CurrentUser.role === "tutor" ? {
+      tutorId: CurrentUser.idUser,
+      studentId: user.user_id,
+      senderId: CurrentUser.idUser,
+      message: messageText.trim(),
+    } : {
+      tutorId: user.user_id,
+      studentId: CurrentUser.idUser,
+      senderId: CurrentUser.idUser,
+      message: messageText.trim(),
+    }
     try {
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/messages`, {
-        tutorId: user.id,
-        studentId: CurrentUser.idUser,
-        message: messageText.trim(),
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/messages`,
+        sendingMessage,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}` // if you use JWT
+          }
+        }
+      );
       setMessageSent(true);
       setMessageText('');
       setMessageOpen(false);
+      console.log("Message sent:", response.data);
     } catch (error) {
-      alert('Failed to send message.');
+      console.error("Error sending message:", error);
     }
   };
 
@@ -144,6 +164,13 @@ export default function UserProfile() {
     );
   }
   const roleNumber = CurrentUser.role === 'student' ? 2 : 1
+  const table = user.type_register !== 'student' ? [
+    { icon: <MonetizationOnIcon color="success" fontSize="large" />, label: 'Price/hour', value: user.price_per_hour ? `${user.price_per_hour} €` : 'N/A' },
+
+    { icon: <CheckCircleIcon color={user.is_active ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.is_active ? 'Yes' : 'No' }
+  ] : [
+    { icon: <CheckCircleIcon color={user.is_active ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.is_active ? 'Yes' : 'No' }
+  ]
   return (
     <SectionTwo title={`${user.user_name}'s Profile`}>
       <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
@@ -235,12 +262,7 @@ export default function UserProfile() {
 
             {/* Stats */}
             <Grid container spacing={3} maxWidth="md" justifyContent="center">
-              {[
-                { icon: <StarRateIcon color="warning" fontSize="large" />, label: 'Rating', value: user.rating ?? 'No rating' },
-                { icon: <MonetizationOnIcon color="success" fontSize="large" />, label: 'Price/hour', value: user.price_per_hour ? `${user.price_per_hour} €` : 'N/A' },
-                { icon: <MenuBookIcon color="primary" fontSize="large" />, label: 'Courses', value: '5' },
-                { icon: <CheckCircleIcon color={user.is_active ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.is_active ? 'Yes' : 'No' },
-              ].map((stat, idx) => (
+              {table.map((stat, idx) => (
                 <Grid item xs={6} sm={3} key={idx}>
                   <Box
                     sx={{
@@ -309,9 +331,6 @@ export default function UserProfile() {
         )}
 
 
-
-
-        {/* Send Message Dialog */}
         <Dialog open={messageOpen} onClose={() => setMessageOpen(false)} fullWidth maxWidth="sm">
           <DialogTitle>Send a message to {user.user_name}</DialogTitle>
           <DialogContent>
