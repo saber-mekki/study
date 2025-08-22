@@ -195,6 +195,66 @@ const handleSubmitStep2 = async () => {
       setIdFile(null);
       setDegreeFile(null);
       setFormIndex(4);
+      if (selectedSubject.length === 0) {
+        setSubjectError(t("pleaseSelectSubject"));
+        return;
+      }
+      
+      if (!country.trim()) {
+        setApiError(t("Please enter your country"));
+        return;
+      }
+      
+      if (!pricePerHour || pricePerHour <= 0) {
+        setApiError(t("Please enter a valid price per hour"));
+        return;
+      }
+      
+      if (!degree) {
+        setApiError(t("Please select your degree"));
+        return;
+      }
+    
+      // Clear previous errors
+      setSubjectError("");
+      setApiError("");
+      setIsLoading(true);
+    
+      try {
+        const tutorData = {
+          email: email, 
+          country: country.trim(),
+          price_per_hour: parseFloat(pricePerHour),
+          specialty: selectedSubject[0], 
+          degree: degree,
+          languages: languages ? languages.split(',').map(lang => lang.trim()).filter(lang => lang) : [],
+          availability: "available" 
+        };
+    
+        console.log("Sending tutor data:", tutorData); // Debug log
+    
+        const response = await axios.post(
+          "http://localhost:5000/api/v1/addTutor",
+          tutorData
+        );
+    
+        console.log("Response received:", response.data); // Debug log
+    
+        if (!response.data.error) {
+          console.log("Success! Moving to next step"); // Debug log
+          setcheck(""); 
+          handleStepChange(formIndex + 1);
+        } else {
+          console.log("API Error:", response.data.message); // Debug log
+          setApiError(response.data.message || t("Failed to save tutor details"));
+        }
+      } catch (error) {
+        console.error('Error submitting tutor details:', error);
+        console.error('Error response:', error.response?.data); // Debug log
+        setApiError(error.response?.data?.message || t("Network error. Please try again."));
+      } finally {
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error("Error during user registration:", error);
       alert(t("registrationError"));

@@ -27,7 +27,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import GTranslateIcon from '@mui/icons-material/GTranslate';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import StarRateIcon from '@mui/icons-material/StarRate';
+
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useSelector } from "react-redux";
 
