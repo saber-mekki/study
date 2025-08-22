@@ -3,13 +3,16 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 
+import ChatBox from '../chatBox';
 import LanguageDropdown from "../LanguageDropdown";
 import ProfileMenu from "./ProfileMenu";
 import { NotificationsDropdown } from "./NotificationDropdown";
 
 function HeaderOne() {
   const { t } = useTranslation();
+
   const isAuthenticated = localStorage.getItem("authToken");
+
   useEffect(() => {
     document.querySelectorAll(".dropdown-toggle").forEach((dropdown) => {
       new bootstrap.Dropdown(dropdown);
@@ -67,13 +70,13 @@ function HeaderOne() {
                   {t("Blog")}
                 </Link>
               </li>
-            
+
               <li className="nav-item">
                 <Link to={"/contact"} className="nav-link">
                   {t("Contact Us")}
                 </Link>
               </li>
-           
+
 
 
               {!isAuthenticated && (
@@ -125,8 +128,11 @@ function HeaderOne() {
               )}
 
               {isAuthenticated && <ProfileMenu />}
-              {isAuthenticated &&<NotificationsDropdown/>}
+              {isAuthenticated && <NotificationsDropdown />}
               <LanguageDropdown />
+              {isAuthenticated && <ChatBox  />}
+   
+
             </ul>
           </div>
         </nav>

@@ -63,7 +63,7 @@ export default function UserProfile() {
       })
       .finally(() => setLoadingRate(false));
   };
-  console.log({ CurrentUser })
+ 
   useEffect(() => {
     fetchRating();
   }, [id]);
@@ -84,7 +84,7 @@ export default function UserProfile() {
     fetchUser();
   }, [id]);
 
-  useEffect(() => {
+   useEffect(() => {
     const fetchUserImage = async () => {
       try {
         if (id) {
@@ -109,25 +109,19 @@ export default function UserProfile() {
       alert("Please enter a message");
       return;
     }
-    //student can send to tutor /tutor can send to studens
-    const sendingMessage = CurrentUser.role === "tutor" ? {
-      tutorId: CurrentUser.idUser,
-      studentId: user.user_id,
+    const sendingMessage = {
       senderId: CurrentUser.idUser,
+      receiverId: user.user_id,
       message: messageText.trim(),
-    } : {
-      tutorId: user.user_id,
-      studentId: CurrentUser.idUser,
-      senderId: CurrentUser.idUser,
-      message: messageText.trim(),
-    }
+    };
+    
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/messages`,
         sendingMessage,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}` // if you use JWT
+            Authorization: `Bearer ${localStorage.getItem("token")}`
           }
         }
       );
@@ -140,6 +134,7 @@ export default function UserProfile() {
     }
   };
 
+  
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
