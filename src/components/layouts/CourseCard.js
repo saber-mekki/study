@@ -39,9 +39,9 @@ export default function CourseCard({
           />
           <div className="card-body p-30">
             <h5 className="font-weight-600">
-              <Link to={`/courses/${id}`} className="text-blue">
+            
                 {title}
-              </Link>
+         
             </h5>
             <p className="mt-2">{description}</p>
             <div className="d-flex justify-content-end w-100">

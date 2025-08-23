@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import PayPalModal from "../PayPalModal";
+import { useSelector } from "react-redux";
 
 const CourseDetails = ({
   show,
@@ -22,6 +24,10 @@ const CourseDetails = ({
     { user: "Charlie", comment: "Would recommend to beginners!", rating: 4.5 },
   ],
 }) => {
+
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const CurrentUser = useSelector((state) => state.user);
+
   if (!show) return null;
 
   return (
@@ -156,15 +162,19 @@ const CourseDetails = ({
             <button
               type="button"
               className="btn btn-primary"
-              style={{
-                backgroundColor: "#e1b28b",
-                color: "#fff",
-                borderRadius: "5px",
-                fontWeight: "bold",
-              }}
+              onClick={() => setCheckoutOpen(true)}
+              style={{ backgroundColor: "#e1b28b", color: "#fff" }}
             >
               Buy ${price}
             </button>
+            <PayPalModal
+              show={checkoutOpen}
+              onClose={() => setCheckoutOpen(false)}
+              title={title}
+              price={price}
+              courseId={id}
+              studentId={CurrentUser.idUser}
+            />
           </div>
         </div>
       </div>

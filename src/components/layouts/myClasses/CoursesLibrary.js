@@ -1,31 +1,31 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+
 import { CourseDetailStudent } from "./CourseDetailStudent";
+import { useSelector } from "react-redux";
 
 export function CoursesLibrary() {
   const [selectedCourseId, setSelectedCourseId] = useState("");
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+ 
+  const CurrentUser = useSelector((state) => state.user);
+
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/v1/GetAllCourses");
-        const formattedCourses = response.data.courses.map(course => ({
-          id: course.id,
-          title: course.title,
-          image: course.image || "/assets/default-course.jpg",
-        }));
-        setCourses(formattedCourses);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des cours :", error);
-      } finally {
-        setLoading(false);
-      }
+    const fetchPurchases = async () => {
+      const res = await fetch(`http://localhost:5000/api/v1/purchases/user/${CurrentUser.idUser}`);
+      const data = await res.json();
+      
+      const formattedCourses = data.purchases && data.purchases.map(course => ({
+        id: course.id,
+        title: course.title,
+        image: course.image || "/assets/default-course.jpg",
+      }));
+      setLoading(false)
+      setCourses(formattedCourses);
     };
-
-    fetchCourses();
-  }, []);
+    fetchPurchases();
+  }, [CurrentUser.idUser]);
 
   if (selectedCourseId) {
     return (
@@ -40,7 +40,7 @@ export function CoursesLibrary() {
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4">📚 Liste des formations disponibles</h2>
+      <h2 className="mb-4">Mes formations </h2>
 
       {loading ? (
         <p>Chargement des cours...</p>
