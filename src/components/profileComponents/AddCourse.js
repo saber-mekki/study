@@ -148,7 +148,7 @@ export default function AddCourse({ email }) {
         formData.append(`pdfs[${idx}][description]`, pdfObj.description);
       });
 
-      await axios.post("http://localhost:5000/api/v1/CreateCourse", formData
+      await axios.post(  `${process.env.REACT_APP_API_BASE_URL}/CreateCourse` , formData
       );
 
       setDetails(false);

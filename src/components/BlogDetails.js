@@ -18,7 +18,7 @@ function BlogDetails() {
     const fetchBlog = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/v1/blogs/${id}`
+         `${process.env.REACT_APP_API_BASE_URL}/blogs/${id}` 
         );
         setBlog(response.data.blog);
       } catch (error) {
@@ -32,7 +32,7 @@ function BlogDetails() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/blogs");
+        const response = await axios.get( `${process.env.REACT_APP_API_BASE_URL}/blogs` );
         const blogsData = response.data.blogs;
         setRecentBlogs(blogsData);
       } catch (err) {
@@ -48,7 +48,7 @@ function BlogDetails() {
     const fetchReplies = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/v1/replies",
+          `${process.env.REACT_APP_API_BASE_URL}/replies` ,
           { id }
         );
         const ReplisData = response.data.replies;
@@ -69,7 +69,7 @@ function BlogDetails() {
     const userEmail = decodedToken.user_email;
 
     try {
-      await axios.post("http://localhost:5000/api/v1/Createreply", {
+      await axios.post(  `${process.env.REACT_APP_API_BASE_URL}/Createreply`, {
         blog_id: blog.id,
         reply_text: comment,
         email_user: userEmail,

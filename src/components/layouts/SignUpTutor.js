@@ -64,7 +64,7 @@ const [languages, setLanguages] = useState("");
     // Check if email already exists
     try {
       const emailCheckResponse = await axios.post(
-        "http://localhost:5000/api/v1/checkEmail",
+        `${process.env.REACT_APP_API_BASE_URL}/checkEmail`,
         { email }
       );
       if (emailCheckResponse.data.exists) {
@@ -134,7 +134,7 @@ const handleSubmitStep2 = async () => {
     console.log("Sending tutor data:", tutorData); // Debug log
 
     const response = await axios.post(
-      "http://localhost:5000/api/v1/addTutor",
+        `${process.env.REACT_APP_API_BASE_URL}/addTutor` ,
       tutorData
     );
 
@@ -185,7 +185,7 @@ const handleSubmitStep2 = async () => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/v1/addUser", data);
+      await axios.post(  `${process.env.REACT_APP_API_BASE_URL}/addUser` , data);
       setName("");
       setEmail("");
       setPhone("");
@@ -234,7 +234,7 @@ const handleSubmitStep2 = async () => {
         console.log("Sending tutor data:", tutorData); // Debug log
     
         const response = await axios.post(
-          "http://localhost:5000/api/v1/addTutor",
+          `${process.env.REACT_APP_API_BASE_URL}/addTutor`,
           tutorData
         );
     

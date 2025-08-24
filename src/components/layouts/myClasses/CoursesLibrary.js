@@ -13,7 +13,7 @@ export function CoursesLibrary() {
 
   useEffect(() => {
     const fetchPurchases = async () => {
-      const res = await fetch(`http://localhost:5000/api/v1/purchases/user/${CurrentUser.idUser}`);
+      const res = await fetch(  `${process.env.REACT_APP_API_BASE_URL}/purchases/user/${CurrentUser.idUser}` );
       const data = await res.json();
       
       const formattedCourses = data.purchases && data.purchases.map(course => ({
@@ -42,7 +42,7 @@ export function CoursesLibrary() {
     <div className="container mt-5">
       <h2 className="mb-4">Mes formations </h2>
 
-      {loading ? (
+      {loading ||courses === undefined ? (
         <p>Chargement des cours...</p>
       ) : courses.length === 0 ? (
         <p className="text-muted">Aucune formation disponible pour le moment.</p>

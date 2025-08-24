@@ -35,7 +35,7 @@
      
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/v1/updateUser",
+          `${process.env.REACT_APP_API_BASE_URL}/updateUser` , 
           {
             name: fullName,
             email: prevEmail,

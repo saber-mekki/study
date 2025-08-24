@@ -10,7 +10,7 @@ export default function Mycourses({ email }) {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/v1/GetAllCourses");
+        const response = await axios.get(  `${process.env.REACT_APP_API_BASE_URL}/GetAllCourses` );
         setCourses(response.data.courses);
       } catch (error) {
         console.log("Error fetching courses:", error);

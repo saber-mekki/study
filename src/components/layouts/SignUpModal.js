@@ -27,7 +27,7 @@ function SignUpModal() {
 
     try {
       const emailCheckResponse = await axios.post(
-        "http://localhost:5000/api/v1/checkEmail",
+        `${process.env.REACT_APP_API_BASE_URL}/checkEmail`,
         { email }
       );
       if (emailCheckResponse.data.exists) {
@@ -41,7 +41,7 @@ function SignUpModal() {
         return;
       }
 
-      await axios.post("http://localhost:5000/api/v1/addUser", {
+      await axios.post(  `${process.env.REACT_APP_API_BASE_URL}/addUser` , {
         name,
         email,
         password,
