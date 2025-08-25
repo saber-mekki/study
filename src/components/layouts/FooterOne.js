@@ -52,15 +52,15 @@ function FooterOne() {
                 </li>
                 <li className="list-inline-item">
                   <Link
-                    to={"/home-one"}
+                    to={"/tutors"}
                     className="p-2 d-block text-link initiate-scripts"
                   >
-                    {t("Online Class")}
+                    {t("Tutors")}
                   </Link>
                 </li>
                 <li className="list-inline-item">
                   <Link
-                    to={"/about-one"}
+                    to={"/about-two"}
                                           onClick={() => window.scrollTo(0, 0)}
 
                     className="p-2 d-block text-link initiate-scripts"
@@ -70,7 +70,7 @@ function FooterOne() {
                 </li>
                 <li className="list-inline-item">
                   <Link
-                    to={"/about-two"}
+                    to={"courses"}
                     className="p-2 d-block text-link initiate-scripts"
                   >
                     {t("Courses")}
@@ -92,24 +92,24 @@ function FooterOne() {
             <div className="col-lg-3 text-center text-lg-right">
               <ul className="social-icons list-unstyled mr-2">
                 <li>
-                  <Link to={"/home-one"} onClick={() => window.scrollTo(0, 0)}
+                  <Link 
                     className="text-link initiate-scripts">
                     <i className="fab fa-facebook-f" />
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/home-one"} className="text-link initiate-scripts">
+                  <Link  className="text-link initiate-scripts">
                     <i className="fab fa-twitter" />
                   </Link>
                 </li>
                 <li>
-                  <Link to={"/home-one"} className="text-link initiate-scripts">
+                  <Link  className="text-link initiate-scripts">
                     <i className="fab fa-instagram" />
                   </Link>
                 </li>
                 <li>
                   <Link
-                    to={"/home-one"}
+                    
                     className="text-link pr-0 initiate-scripts"
                   >
                     <i className="fab fa-skype" />
@@ -124,19 +124,19 @@ function FooterOne() {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-9 text-center text-lg-left mb-3 mb-lg-0">
-              {t("Copyright")} <span className="text-primary">Souhail</span>
+              {t("Copyright")} <span className="text-primary">DigiThage</span>
               &copy;
             </div>
             <div className="col-lg-3 text-center text-lg-right">
               <ul className="list-unstyled list-inline font-weight-500">
-                <li className="list-inline-item">
+                {/* <li className="list-inline-item">
                   <Link
                     to={"/home-one"}
                     className="p-2 d-block text-link initiate-scripts"
                   >
                     {t("Privacy")}
                   </Link>
-                </li>
+                </li> */}
                 <li
                   onClick={() =>
                     window.scrollTo({ top: 0, behavior: "smooth" })

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
 import CourseDetails from "./CourseDetails";
 
 export default function CourseCard({
@@ -18,6 +18,26 @@ export default function CourseCard({
   requirements,
 }) {
   const [selectedCourse, setSelectedCourse] = useState(false);
+  const [ratings, setRatings] = useState([]);
+  const [rate, setRate] = useState(0);
+
+  useEffect(() => {
+    const fetchRatings = async () => {
+      const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/rating/course/${id}`);
+      const data = await res.json();
+      setRatings(data.ratings);
+      let rate = 0
+
+      data.ratings.length > 0 && data.ratings.forEach((el) => {
+
+        rate = rate + el.rating
+      })
+      setRate(data.ratings.length > 0 ? rate / data.ratings.length : 0)
+    };
+
+    fetchRatings();
+  }, [id]);
+
 
   const handleOpenModal = () => {
     setSelectedCourse(true);
@@ -39,9 +59,9 @@ export default function CourseCard({
           />
           <div className="card-body p-30">
             <h5 className="font-weight-600">
-            
-                {title}
-         
+
+              {title}
+
             </h5>
             <p className="mt-2">{description}</p>
             <div className="d-flex justify-content-end w-100">
@@ -54,12 +74,22 @@ export default function CourseCard({
           <div className="px-30">
             <div className="card-footer px-0 bg-transparent mb-10 d-flex justify-content-between align-items-center">
               <div className="rating text-primary">
-                <span className="font-weight-600">4.3</span>
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
-                <i className="fas fa-star" />
+                <span className="font-weight-600">{rate}</span>
+               
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    style={{
+                      color: rate >= star ? "gold" : "lightgray",
+                      fontSize: "1.2rem",
+                    }}
+                  >
+                    ★
+                  </span>
+                ))}
+              
               </div>
+            
               <p className="price h6">
                 <span style={{ color: "green" }}>${price}</span>
               </p>
@@ -85,6 +115,7 @@ export default function CourseCard({
           syllabus={syllabus}
           requirements={requirements}
           onClose={handleClose}
+          ratings={ratings}
         />
       )}
     </>

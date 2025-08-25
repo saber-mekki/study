@@ -1,6 +1,4 @@
 import React from "react";
-
-import SectionOne from "./layouts/SectionOne";
 import VideoPopup from "./layouts/VideoPopup";
 
 import { useTranslation } from "react-i18next";
@@ -54,7 +52,7 @@ const { t } = useTranslation();
                 {/* end of our vision section */}
 
                 {/* start of our map section */}
-                <section className="section-padding pt-0">
+                {/* <section className="section-padding pt-0">
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12 text-center">
@@ -72,7 +70,7 @@ const { t } = useTranslation();
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> */}
                 {/* end of our map section */}
             </SectionTwo>
         );

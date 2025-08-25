@@ -1,10 +1,38 @@
-import React from "react";
+import React , { useEffect, useState } from "react";
 import SectionTwo from "./layouts/SectionTwo";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 const AboutTwo = () => {
   const { t } = useTranslation();
+  const [Ntutors, setNtutors] = useState();
+  const [Nstudent, setNstudent] = useState();
+  
+    useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+          const response = await axios.get(
+            `${process.env.REACT_APP_API_BASE_URL}/users`
+          );
+          const users = response.data.result;
+  
+          const onlyTutors = users.filter(
+            (user) => user.type_register === "tutor"
+          );
+          const students = users.filter(
+            (user) => user.type_register !== "tutor"
+          );
+  
+        
+          setNtutors(onlyTutors?onlyTutors.length:"NA");
+          setNstudent(students?students.length:"NA")
+        } catch (err) {
+          alert("Error fetching users: " + err.message);
+        }
+      };
+  
+      fetchUsers();
+    }, []);
 
   return (
     <SectionTwo title={t('aboutUs_title')}>
@@ -42,6 +70,7 @@ const AboutTwo = () => {
                 />
                 <div className="ml-3">
                   <h5 className="text-blue font-weight-600 mb-1">{t('aboutUs_authorName')}</h5>
+                  <a href={'https://www.linkedin.com/DigiThage'} className="btn btn-outline-primary initiate-scripts">{t('aboutUs_authorName')}</a>
                   <p>{t('aboutUs_authorDate')}</p>
                 </div>
               </div>
@@ -57,21 +86,15 @@ const AboutTwo = () => {
               <div className="pt-60 pb-30 counter-section text-white text-center">
                 <div className="row">
                   <div className="col-lg-3 col-md-4 col-sm-6 mb-30">
-                    <h2 className="h1 font-weight-600 mb-2 text-primary jsCounter">9456</h2>
-                    <p className="h5 pl-5 font-weight-600 mb-2 text-primary jsCounter">{t('aboutUs_counter1')}</p>
+                    <h2 className="h1 font-weight-600 mb-2 text-primary ">{Nstudent}</h2>
+                    <p className="h5 pl-5 font-weight-600 mb-2 text-primary ">{t('Active Learners')}</p>
                   </div>
+                
                   <div className="col-lg-3 col-md-4 col-sm-6 mb-30">
-                    <h2 className="h1 font-weight-600 mb-2 text-primary jsCounter">154</h2>
-                    <p className="h5 pl-5 font-weight-600 mb-2 text-primary jsCounter">{t('aboutUs_counter2')}</p>
+                    <h2 className="h1 font-weight-600 mb-2 text-primary ">{Ntutors}</h2>
+                    <p className="h5 pl-5 font-weight-600 mb-2 text-primary ">{t('Qualified Tutors')}</p>
                   </div>
-                  <div className="col-lg-3 col-md-4 col-sm-6 mb-30">
-                    <h2 className="h1 font-weight-600 mb-2 text-primary jsCounter">2563</h2>
-                    <p className="h5 pl-5 font-weight-600 mb-2 text-primary jsCounter">{t('aboutUs_counter3')}</p>
-                  </div>
-                  <div className="col-lg-3 col-md-4 col-sm-6 mb-30">
-                    <h2 className="h1 font-weight-600 mb-2 text-primary jsCounter">2817</h2>
-                    <p className="h5 pl-5 font-weight-600 mb-2 text-primary jsCounter font-weight-600">{t('aboutUs_counter4')}</p>
-                  </div>
+               
                 </div>
               </div>
             </div>
@@ -79,7 +102,7 @@ const AboutTwo = () => {
         </div>
       </section>
 
-      <section className="section-padding">
+      {/* <section className="section-padding">
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6">
@@ -96,9 +119,9 @@ const AboutTwo = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className="section-padding">
+      {/* <section className="section-padding">
         <div className="container">
           <div className="row align-items-center mb-50">
             <div className="col-lg-12 text-center">
@@ -158,7 +181,7 @@ const AboutTwo = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </SectionTwo>
   );
 };

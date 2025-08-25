@@ -26,12 +26,12 @@ function VideoPopup()  {
                                 </a>
                                 <h2
                                     className="section-title mt-50 mb-25 ">
-                                    What Some Awesome Parent Says <span className="has-line">About Us  </span> 
+                                    {t("What Some Awesome Parent Says")}<span className="has-line">{t("About Us") } </span> 
                                 </h2>
                                 <p className="mb-40">                    
                                     {t("What Parents of Our Students Say About Us")}
                                 </p>
-                                <Link to={'/about-one'} className="btn btn-lg btn-secondary rounded-pill">{t("About Us")}</Link>
+                                <Link to={'/about-Two'} className="btn btn-lg btn-secondary rounded-pill">{t("About Us")}</Link>
                             </div>
                         </div>
                     </div>

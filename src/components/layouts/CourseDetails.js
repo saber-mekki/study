@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import PayPalModal from "../PayPalModal";
 import { useSelector } from "react-redux";
 
@@ -18,16 +18,12 @@ const CourseDetails = ({
   language,
   syllabus,
   requirements,
-  reviews = [
-    { user: "Alice", comment: "Loved this course! Very informative.", rating: 5 },
-    { user: "Bob", comment: "Well-structured and easy to follow.", rating: 4 },
-    { user: "Charlie", comment: "Would recommend to beginners!", rating: 4.5 },
-  ],
+  ratings
 }) => {
 
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const CurrentUser = useSelector((state) => state.user);
-
+  
   if (!show) return null;
 
   return (
@@ -124,10 +120,10 @@ const CourseDetails = ({
                 <h6 style={{ fontSize: "1.2rem", color: "#333", marginTop: "20px" }}>
                   <strong>Reviews</strong>
                 </h6>
-                {reviews.length > 0 ? (
-                  reviews.map((review, index) => (
+                {ratings.length > 0 ? (
+                  ratings.map((review, index) => (
                     <p key={index} style={{ fontSize: "1.1rem", color: "#555" }}>
-                      <strong>{review.user}:</strong> {review.comment} ({review.rating}★)
+                      <strong>{review.user_name}:</strong> {review.comment} ({review.rating}★)
                     </p>
                   ))
                 ) : (
