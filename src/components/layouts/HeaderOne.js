@@ -8,6 +8,8 @@ import LanguageDropdown from "../LanguageDropdown";
 import ProfileMenu from "./ProfileMenu";
 import { NotificationsDropdown } from "./NotificationDropdown";
 
+import "./HeaderOne.css";
+
 function HeaderOne() {
   const { t } = useTranslation();
 
@@ -24,11 +26,11 @@ function HeaderOne() {
       <div className="container-lg">
         <nav className="navbar navbar-expand-xl navbar-dark px-0">
           <Link to={"/home-one"} className="navbar-brand">
-            <img
-              src={process.env.PUBLIC_URL + "/assets/images/logo-2.png"}
-              alt=""
-              style={{ height: "49px" }}
-            />
+            <a href="/" class="text-logo stacked" aria-label="Edix Academy">
+              <span class="line top">Edix</span>
+              <span class="line bottom">Academy</span>
+            </a>
+
           </Link>
 
           <button
@@ -130,8 +132,8 @@ function HeaderOne() {
               {isAuthenticated && <ProfileMenu />}
               {isAuthenticated && <NotificationsDropdown />}
               <LanguageDropdown />
-              {isAuthenticated && <ChatBox  />}
-   
+              {isAuthenticated && <ChatBox />}
+
 
             </ul>
           </div>

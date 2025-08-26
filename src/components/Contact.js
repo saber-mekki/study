@@ -78,7 +78,7 @@ function Contact() {
                                     <div className="ml-sm-4 mt-3 mt-sm-0">
                                         <h4 className="text-secondary font-weight-600 mb-1">{t("contact_details")}</h4>
                                         <p>{t("phone")} <a href="tel:+21629438905" className="text-dark">+4915756380335</a> </p>
-                                        <p>{t("mail")} <a href="mailto:contact@eduskill.com" className="text-dark">saber.mekki6@gmail.com</a></p>
+                                        <p>{t("mail")} <a href="saber.mekki6@gmail.com" className="text-dark">saber.mekki6@gmail.com</a></p>
                                     </div>
                                 </div>
                                 <div

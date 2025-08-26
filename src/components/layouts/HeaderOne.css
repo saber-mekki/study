@@ -1,0 +1,29 @@
+.text-logo.stacked {
+    display: inline-flex;
+    flex-direction: column;
+    text-decoration: none;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 900;
+    line-height: 0.9;
+    text-align: left;
+  }
+  
+  .text-logo.stacked .line {
+    display: block;
+    font-size: 1.4rem;
+  }
+  
+  .text-logo.stacked .top {
+    color: #f16001; /* orange */
+  }
+  
+  .text-logo.stacked .bottom {
+    color: #001b61; /* navy */
+  }
+  
+  @media (min-width: 768px) {
+    .text-logo.stacked .line {
+      font-size: 1.5rem;
+    }
+  }
+  
