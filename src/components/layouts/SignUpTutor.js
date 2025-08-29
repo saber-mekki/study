@@ -13,12 +13,11 @@ function SignUpTutor() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("male");
-  const [check, setcheck] = useState("");
+  const [, setcheck] = useState("");
   const [EmailError, setEmailError] = useState("");
-  const [subjectError, setSubjectError] = useState("");
+  const [, setSubjectError] = useState("");
   const [phone_number, setPhone] = useState("");
 
-  const [tutorEmail, setTutorEmail] = useState("");
 const [country, setCountry] = useState("");
 const [pricePerHour, setPricePerHour] = useState("");
 const [languages, setLanguages] = useState("");
@@ -90,72 +89,10 @@ const [languages, setLanguages] = useState("");
   };
 
 // Add this state variable with your other useState hooks
-const [isLoading, setIsLoading] = useState(false);
-const [apiError, setApiError] = useState("");
+const [, setIsLoading] = useState(false);
+const [, setApiError] = useState("");
 
-const handleSubmitStep2 = async () => {
-  // Validation
-  if (selectedSubject.length === 0) {
-    setSubjectError(t("pleaseSelectSubject"));
-    return;
-  }
-  
-  if (!country.trim()) {
-    setApiError(t("Please enter your country"));
-    return;
-  }
-  
-  if (!pricePerHour || pricePerHour <= 0) {
-    setApiError(t("Please enter a valid price per hour"));
-    return;
-  }
-  
-  if (!degree) {
-    setApiError(t("Please select your degree"));
-    return;
-  }
 
-  // Clear previous errors
-  setSubjectError("");
-  setApiError("");
-  setIsLoading(true);
-
-  try {
-    const tutorData = {
-      email: email, 
-      country: country.trim(),
-      price_per_hour: parseFloat(pricePerHour),
-      specialty: selectedSubject[0], 
-      degree: degree,
-      languages: languages ? languages.split(',').map(lang => lang.trim()).filter(lang => lang) : [],
-      availability: "available" 
-    };
-
-    console.log("Sending tutor data:", tutorData); // Debug log
-
-    const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/addTutor` ,
-      tutorData
-    );
-
-    console.log("Response received:", response.data); // Debug log
-
-    if (!response.data.error) {
-      console.log("Success! Moving to next step"); // Debug log
-      setcheck(""); 
-      handleStepChange(formIndex + 1);
-    } else {
-      console.log("API Error:", response.data.message); // Debug log
-      setApiError(response.data.message || t("Failed to save tutor details"));
-    }
-  } catch (error) {
-    console.error('Error submitting tutor details:', error);
-    console.error('Error response:', error.response?.data); // Debug log
-    setApiError(error.response?.data?.message || t("Network error. Please try again."));
-  } finally {
-    setIsLoading(false);
-  }
-};
 
 // Add error display in your JSX - place this after the languages input
 

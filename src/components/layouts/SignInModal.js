@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
 function SignInModal() {
