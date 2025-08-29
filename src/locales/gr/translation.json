@@ -346,6 +346,28 @@
   "howItWorksTutors_step3_heading_part2": "Unterrichten",
   "howItWorksTutors_step3_description": "Nimm Buchungen an und starte deine Laufbahn als Online-Tutor."
 
+,
+  "Manage Tutor Availability": "Tutor-Verfügbarkeit verwalten",
+  "Selected Date": "Ausgewähltes Datum",
+  "Add": "Hinzufügen",
+  "Update": "Aktualisieren",
+  "Remove": "Entfernen",
+  "Available": "Verfügbar",
+  "Booked": "Gebucht",
+  "Unavailable": "Nicht verfügbar",
+  "Decline": "Ablehnen",
+  "Previous": "Zurück",
+  "availability_removed": "Verfügbarkeit entfernt",
+  "Booking accepted": "Buchung akzeptiert",
+  "Booking declined": "Buchung abgelehnt",
+  "Availability added": "Verfügbarkeit hinzugefügt",
+  "Status updated": "Status aktualisiert",
+  "Error adding availability": "Fehler beim Hinzufügen der Verfügbarkeit",
+  "Error updating status": "Fehler beim Aktualisieren des Status",
+  "Error removing availability": "Fehler beim Entfernen der Verfügbarkeit",
+  "Error accepting booking": "Fehler beim Akzeptieren der Buchung",
+  "Error declining booking": "Fehler beim Ablehnen der Buchung"
+
 
 }
 

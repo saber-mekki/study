@@ -8,8 +8,12 @@ import { Link } from "react-router-dom";
 import 'react-calendar/dist/Calendar.css';
 import './calendarStyles.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useTranslation } from "react-i18next";
+
+
 
 export default function TutorAvailabilityManager() {
+  const { t } = useTranslation();
   const [selectedDate, setSelectedDate] = useState(null);
   const [availability, setAvailability] = useState([]);
   const [status, setStatus] = useState('available');
@@ -53,7 +57,7 @@ export default function TutorAvailabilityManager() {
           tutorId,
           availableDate: selectedDate.toISOString()
         });
-        toast.success('Availability added');
+        toast.success(t('Availability added'));
         setAvailability([...availability, {
           tutor_id: tutorId,
           available_date: selectedDate.toISOString(),
@@ -61,7 +65,7 @@ export default function TutorAvailabilityManager() {
         }]);
       } catch (error) {
 
-        toast.error('Error adding availability');
+        toast.error(t('Error adding availability'));
       }
     }
   };
@@ -75,7 +79,7 @@ export default function TutorAvailabilityManager() {
           availableDate: selectedDate.toLocaleDateString('en-CA'),
         });
 
-        toast.success('Status updated');
+        toast.success(t('Status updated'));
         setAvailability((prev) =>
           prev.map((item) =>
             new Date(item.available_date).toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]
@@ -84,7 +88,7 @@ export default function TutorAvailabilityManager() {
           )
         );
       } catch (error) {
-        toast.error('Error updating status');
+        toast.error(t('Error updating status'));
       }
     }
   };
@@ -100,7 +104,7 @@ export default function TutorAvailabilityManager() {
         });
 
 
-        toast.success('Availability removed');
+        toast.success(t('availability_removed'));
 
         setAvailability((prev) =>
           prev.filter(
@@ -109,7 +113,7 @@ export default function TutorAvailabilityManager() {
           )
         );
       } catch (error) {
-        toast.error('Error removing availability');
+        toast.error(t('Error removing availability'));
       }
     }
   };
@@ -124,7 +128,7 @@ export default function TutorAvailabilityManager() {
         status: 'booked',
       });
 
-      toast.success('Booking accepted');
+      toast.success(t('Booking accepted'));
       setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
       setAvailability((prev) =>
         prev.map((item) =>
@@ -134,7 +138,7 @@ export default function TutorAvailabilityManager() {
         )
       );
     } catch (error) {
-      toast.error('Error accepting booking');
+      toast.error(t('Error accepting booking'));
     }
   };
 
@@ -142,11 +146,11 @@ export default function TutorAvailabilityManager() {
     try {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/decline`, { bookingId });
 
-      toast.success('Booking declined');
+      toast.success(t('Booking declined'));
       setPendingBookings((prev) => prev.filter(b => b.id !== bookingId));
     } catch (error) {
 
-      toast.error('Error declining booking');
+      toast.error(t('Error declining booking'));
     }
   };
 
@@ -161,7 +165,7 @@ export default function TutorAvailabilityManager() {
 
   return (
     <div style={{ maxWidth: '600px', margin: 'auto' }}>
-      <h2>Manage Tutor Availability</h2>
+      <h2 className='m-3'>{t('Manage Tutor Availability')}</h2>
 
       <DatePicker
         selected={selectedDate}
@@ -171,9 +175,7 @@ export default function TutorAvailabilityManager() {
         dateFormat="Pp"
         inline
         dayClassName={(date) => {
-
           const status = getStatus(date);
-
           if (status === 'available') return 'available';
           if (status === 'booked') return 'booked';
           if (status === 'unavailable') return 'unavailable';
@@ -183,9 +185,11 @@ export default function TutorAvailabilityManager() {
 
       {selectedDate && (
         <div style={{ marginTop: '20px' }}>
-          <h3>Selected Date: {selectedDate.toDateString()}</h3>
+          <h3>
+            {t('Selected Date')}: {selectedDate.toDateString()}
+          </h3>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-            <button onClick={handleAddAvailability}>Add</button>
+            <button onClick={handleAddAvailability}>{t('Add')}</button>
             <select
               onChange={(e) => setStatus(e.target.value)}
               value={status}
@@ -198,12 +202,12 @@ export default function TutorAvailabilityManager() {
                 cursor: 'pointer',
               }}
             >
-              <option value="available">Available</option>
-              <option value="booked">Booked</option>
-              <option value="unavailable">Unavailable</option>
+              <option value="available">{t('Available')}</option>
+              <option value="booked">{t('Booked')}</option>
+              <option value="unavailable">{t('Unavailable')}</option>
             </select>
-            <button onClick={handleUpdateStatus}>Update</button>
-            <button onClick={handleRemoveAvailability}>Remove</button>
+            <button onClick={handleUpdateStatus}>{t('Update')}</button>
+            <button onClick={handleRemoveAvailability}>{t('Remove')}</button>
           </div>
         </div>
       )}
@@ -228,8 +232,8 @@ export default function TutorAvailabilityManager() {
               })}
             </div>
             <div style={{ fontSize: '15px', color: '#333' }}>
-            
-               <Link to={`/user/${request.user_id}`}>  <h5 className="mt-3 fw-bold">  <strong>👤 {request.name}</strong></h5></Link>
+
+              <Link to={`/user/${request.user_id}`}>  <h5 className="mt-3 fw-bold">  <strong>👤 {request.name}</strong></h5></Link>
             </div>
             <div style={{ fontSize: '14px', color: '#555', marginTop: '6px' }}>
               📝 {request.message}
@@ -259,18 +263,18 @@ export default function TutorAvailabilityManager() {
                 }}
                 onClick={() => handleDecline(request.id)}
               >
-                Decline
+                {t('Decline')}
               </button>
             </div>
           </li>
         ))}
         <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
           <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
-            Previous
+            {t('Previous')}
           </button>
           <button onClick={() => setCurrentPage((p) => (indexOfLastBooking < pendingBookings.length ? p + 1 : p))}
             disabled={indexOfLastBooking >= pendingBookings.length}>
-            Next
+            {t('Next')}
           </button>
         </div>
       </ul>

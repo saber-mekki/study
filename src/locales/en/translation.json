@@ -428,5 +428,27 @@
   "aboutUs_team_member3_role": "Program Director"
 
 
+,
+  "Manage Tutor Availability": "Manage Tutor Availability",
+  "Selected Date": "Selected Date",
+  "Add": "Add",
+  "Update": "Update",
+  "Remove": "Remove",
+  "Available": "Available",
+  "Booked": "Booked",
+  "Unavailable": "Unavailable",
+  "Decline": "Decline",
+  "Previous": "Previous",
+  "availability_removed": "Availability removed",
+  "Booking accepted": "Booking accepted",
+  "Booking declined": "Booking declined",
+  "Availability added": "Availability added",
+  "Status updated": "Status updated",
+  "Error adding availability": "Error adding availability",
+  "Error updating status": "Error updating status",
+  "Error removing availability": "Error removing availability",
+  "Error accepting booking": "Error accepting booking",
+  "Error declining booking": "Error declining booking"
+
 
 }

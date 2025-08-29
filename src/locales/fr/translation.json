@@ -369,5 +369,27 @@
   "howItWorksTutors_step3_heading_part2": "enseigner aux étudiants",
   "howItWorksTutors_step3_description": "Acceptez des réservations et commencez votre aventure en tant que tuteur en ligne."
   ,"What Some Awesome Parent Says":""
+,
+  "Manage Tutor Availability": "Gérer la disponibilité du tuteur",
+  "Selected Date": "Date sélectionnée",
+  "Add": "Ajouter",
+  "Update": "Mettre à jour",
+  "Remove": "Supprimer",
+  "Available": "Disponible",
+  "Booked": "Réservé",
+  "Unavailable": "Indisponible",
+  "Decline": "Refuser",
+  "Previous": "Précédent",
+  "availability_removed": "Disponibilité supprimée",
+  "Booking accepted": "Réservation acceptée",
+  "Booking declined": "Réservation refusée",
+  "Availability added": "Disponibilité ajoutée",
+  "Status updated": "Statut mis à jour",
+  "Error adding availability": "Erreur lors de l'ajout de la disponibilité",
+  "Error updating status": "Erreur lors de la mise à jour du statut",
+  "Error removing availability": "Erreur lors de la suppression de la disponibilité",
+  "Error accepting booking": "Erreur lors de l'acceptation de la réservation",
+  "Error declining booking": "Erreur lors du refus de la réservation"
+
 
 }

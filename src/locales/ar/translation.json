@@ -454,6 +454,27 @@
   "aboutUs_team_member3_alt": "سامح حبييب",
   "aboutUs_team_member3_name": "سامح حبييب",
   "aboutUs_team_member3_role": "مدير البرنامج"
+,
+  "Manage Tutor Availability": "تنظيم جدول المدرس",
+  "Selected Date": "التاريخ المحدد",
+  "Add": "إضافة",
+  "Update": "تحديث",
+  "Remove": "إزالة",
+  "Available": "متاح",
+  "Booked": "محجوز",
+  "Unavailable": "غير متاح",
+  "Decline": "رفض",
+  "Previous": "السابق",
+  "availability_removed": "تم إزالة التوفر",
+  "Booking accepted": "تم قبول الحجز",
+  "Booking declined": "تم رفض الحجز",
+  "Availability added": "تمت إضافة التوفر",
+  "Status updated": "تم تحديث الحالة",
+  "Error adding availability": "حدث خطأ أثناء إضافة التوفر",
+  "Error updating status": "حدث خطأ أثناء تحديث الحالة",
+  "Error removing availability": "حدث خطأ أثناء إزالة التوفر",
+  "Error accepting booking": "حدث خطأ أثناء قبول الحجز",
+  "Error declining booking": "حدث خطأ أثناء رفض الحجز"
 
 
 }
