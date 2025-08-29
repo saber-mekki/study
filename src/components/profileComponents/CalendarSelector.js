@@ -55,7 +55,7 @@ export default function TutorAvailabilityManager() {
       try {
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability`, {
           tutorId,
-          availableDate: selectedDate.toISOString()
+availableDate: selectedDate.toLocaleDateString('en-CA') 
         });
         toast.success(t('Availability added'));
         setAvailability([...availability, {
