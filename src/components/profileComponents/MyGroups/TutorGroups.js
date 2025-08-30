@@ -22,12 +22,12 @@ export default function TutorGroups() {
                     start_time: startTime,
                     end_time: endTime,
                     meeting_link: `/room-meating/${roomId}`,
-                    status:'active'
+                    status: 'active'
                 }
             );
             const id = res.data.id;
             localStorage.setItem("sessionId", id);
-           
+
             history.push(`/room-meating/${roomId}`);
 
         } catch (error) {
@@ -61,7 +61,7 @@ export default function TutorGroups() {
             const updateTime = () => {
                 const now = new Date();
 
-                // Create today's start and end Date objects
+             
                 const startParts = daily_start.split(":");
                 const endParts = daily_end.split(":");
 
@@ -71,19 +71,17 @@ export default function TutorGroups() {
                 const endDate = new Date(now);
                 endDate.setHours(endParts[0], endParts[1], endParts[2], 0);
 
-                // If start time is already passed today → set to tomorrow
                 if (now > startDate) {
                     startDate.setDate(startDate.getDate() + 1);
                     endDate.setDate(endDate.getDate() + 1);
                 }
 
-                // Time until start
                 const diffMs = startDate - now;
                 const diffH = Math.floor(diffMs / (1000 * 60 * 60));
                 const diffM = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                 setTimeUntilStart(`${diffH}h ${diffM}m`);
 
-                // Duration
+     
                 let durationMs = endDate - startDate;
                 if (durationMs < 0) durationMs += 24 * 60 * 60 * 1000; // handle overnight
                 const durH = Math.floor(durationMs / (1000 * 60 * 60));
@@ -176,6 +174,13 @@ export default function TutorGroups() {
                             >
                                 View Details
                             </button>
+                            <button
+                                className="btn btn-outline-warning text-dark "
+                                onClick={() => history.push(`/sessions/${group.group_id}`)}
+                            >
+                              View Sessions
+                            </button>
+                        
                         </div>
                     </div>
                 </div>

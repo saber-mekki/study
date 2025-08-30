@@ -21,6 +21,7 @@ export default function GroupDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
+  
   useEffect(() => {
     setLoading(true);
     setError(null);

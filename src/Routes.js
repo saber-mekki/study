@@ -26,6 +26,8 @@ import Page404 from "./Page404";
 import UserProfile from "./components/profileComponents/UserProfile";
 import GroupDetails from "./components/profileComponents/MyGroups/GroupDetails";
 import StreamingDashboard from "./components/profileComponents/MyGroups/StreamingDashboard";
+import GroupSessions from "./components/profileComponents/session/index";
+import SessionAttendance from "./components/profileComponents/session/SessionAttendance";
 
 import { CoursesLibrary } from "./components/layouts/myClasses/CoursesLibrary";
 import { CourseDetailStudent } from "./components/layouts/myClasses/CourseDetailStudent";
@@ -66,6 +68,7 @@ function Routes() {
                   
                   <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
 
+                    
 
                     <Route exact path="/blog-details/:id" component={BlogDetails} />
 
@@ -79,6 +82,8 @@ function Routes() {
 
                             <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
                             <Route path="/groups/:groupId" component={GroupDetails} />
+                            <Route path="/sessions/:groupId" component={GroupSessions} />
+                            <Route path="/session-attendance/:sessionId" component={SessionAttendance} />
                         </>
                     ) : (
                         <Redirect to="/login" />

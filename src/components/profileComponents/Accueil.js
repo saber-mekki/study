@@ -21,7 +21,7 @@ export default function Accueil({ image, email }) {
   const [lengthMin, setlengthMin] = useState(false);
   const { t } = useTranslation();
 
-  const [bio, setBio] = useState("Hi, I'm " + user.name + " i love EduSkills");
+  const [bio, setBio] = useState("Hi, I'm " + user.name + " i love Edix");
   
   useEffect(() => {
     const fetchUser = async () => {

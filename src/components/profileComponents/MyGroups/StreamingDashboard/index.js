@@ -2,11 +2,13 @@ import React from "react";
 // import HeaderOne from "../../layouts/HeaderOne";
 import { useParams } from "react-router-dom";
 import JitsiMeeting from "./JitsiMeeting";
+import SessionAttendance from "./SessionAttendance";
 
 function StreamingDashboard() {
   const role = localStorage.getItem("role");
   const { roomId } = useParams()
   const userName = localStorage.getItem("userName") || "Invité";
+  const result = roomId.substring(5);
 
   return (
     <>
@@ -78,9 +80,10 @@ function StreamingDashboard() {
          <div className="container mt-4">
        <h2> Vous êtes connecté à la session</h2>
        <p className="text-muted">Session interactive avec votre tuteur</p>
- 
+       <SessionAttendance id={result} />
        <JitsiMeeting  role={role} userName={userName} bookingId={roomId}/>
      </div>
+     
     </>
   );
 }
