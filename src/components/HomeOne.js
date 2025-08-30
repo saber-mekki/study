@@ -37,7 +37,7 @@ class HomeOne extends Component {
                     <HeaderOne />
                 </div>
 
-                <div style={{ paddingTop: `80px` }}>
+                <div style={{ paddingTop: '45px' }}>
                     {isAdmin() ? (
                         <BannerAdmin />
                     ) : isStudent() ? (
