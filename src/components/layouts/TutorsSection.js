@@ -5,10 +5,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from "react-i18next";
 import { setFilter } from '../../redux/TutorsSlice';
 import Select from "react-select";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { useHistory } from "react-router-dom";
 
 export default function TutorsSection() {
   const [tutors, setTutors] = useState([]);
   const [filteredTutors, setFilteredTutors] = useState([]);
+  const history = useHistory();
 
   const { t } = useTranslation();
   const filters = useSelector((state) => state.searchFilters);
@@ -166,13 +169,18 @@ export default function TutorsSection() {
     
   return (
     <section className="my-5">
+
       <div className="container">
         <div className="row">
         
         
         </div>
 
-
+ <FaArrowLeftLong 
+      size={60}
+      style={{ color: "#003049", cursor: "pointer" }}
+      onClick={() => history.goBack()}
+    />
         <form className="mb-4">
   <div className="row justify-content-center">
     <div className="col-md-2 mb-2">
