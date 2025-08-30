@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import TutorCard from "./TutorCard";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { setFilter } from '../../redux/TutorsSlice';
+import { setFilter } from "../../redux/TutorsSlice";
 import Select from "react-select";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useHistory } from "react-router-dom";
@@ -12,18 +12,24 @@ export default function TutorsSection() {
   const [tutors, setTutors] = useState([]);
   const [filteredTutors, setFilteredTutors] = useState([]);
   const history = useHistory();
+  const [query, setQuery] = useState("");
 
   const { t } = useTranslation();
   const filters = useSelector((state) => state.searchFilters);
   const dispatch = useDispatch();
 
-  const { subject, country, language, price, gender/* , type */ } = useSelector((state) => state.searchFilters);
+  const { subject, country, language, price, gender /* , type */ } =
+    useSelector((state) => state.searchFilters);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/users`);
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/users`
+        );
         const users = response.data.result;
-        const onlyTutors = users.filter(user => user.type_register === "tutor");
+        const onlyTutors = users.filter(
+          (user) => user.type_register === "tutor"
+        );
         setTutors(onlyTutors);
       } catch (err) {
         alert("Error fetching users: " + err.message);
@@ -35,17 +41,28 @@ export default function TutorsSection() {
 
   useEffect(() => {
     const filtered = tutors.filter((tutor) => {
-      const matchesSubject =
-        subject === "" || tutor.specialty?.toLowerCase() === subject.toLowerCase();
+      const matchesName = tutor.user_name
+        .toLowerCase()
+        .includes(query.toLowerCase());
 
-      const matchesCountry =
-        country === "" || tutor.country === country;
+      const matchesCountrys = tutor.country
+        ? tutor.country.toLowerCase().includes(query.toLowerCase())
+        : false;
+
+      const matchesSubjects = tutor.specialty
+        ? tutor.specialty.toLowerCase().includes(query.toLowerCase())
+        : false;
+
+      const matchesSubject =
+        subject === "" ||
+        tutor.specialty?.toLowerCase() === subject.toLowerCase();
+
+      const matchesCountry = country === "" || tutor.country === country;
 
       const matchesLanguage =
         language === "" || tutor.languages?.includes(language);
 
-      const matchesGender =
-        gender === "" || tutor.gender === gender;
+      const matchesGender = gender === "" || tutor.gender === gender;
 
       let matchesPrice = true;
       if (price !== "") {
@@ -57,6 +74,7 @@ export default function TutorsSection() {
       }
 
       return (
+        (matchesName || matchesCountrys || matchesSubjects) &&
         matchesSubject &&
         matchesCountry &&
         matchesLanguage &&
@@ -66,7 +84,7 @@ export default function TutorsSection() {
     });
 
     setFilteredTutors(filtered);
-  }, [tutors, subject, country, language, price, gender]);
+  }, [tutors, query, subject, country, language, price, gender]);
 
   const subjectOptions = [
     { value: "", label: t("selectSubject") },
@@ -77,7 +95,7 @@ export default function TutorsSection() {
     { value: "IT & Software", label: t("itSoftware") },
     { value: "Personal", label: t("personal") },
     { value: "Business", label: t("business") },
-    { value: "Music", label: t("music") }
+    { value: "Music", label: t("music") },
   ];
 
   const countryOptions = [
@@ -85,7 +103,7 @@ export default function TutorsSection() {
     { value: "Tunisia", label: t("tunisia") },
     { value: "Germany", label: t("germany") },
     { value: "USA", label: t("usa") },
-    { value: "UK", label: t("uk") }
+    { value: "UK", label: t("uk") },
   ];
 
   const languageOptions = [
@@ -93,7 +111,7 @@ export default function TutorsSection() {
     { value: "English", label: t("english") },
     { value: "Detush", label: t("detush") },
     { value: "Arabic", label: t("arabic") },
-    { value: "French", label: t("french") }
+    { value: "French", label: t("french") },
   ];
 
   const priceOptions = [
@@ -102,146 +120,161 @@ export default function TutorsSection() {
     { value: "10-20", label: "10 - 20 USD" },
     { value: "20-30", label: "20 - 30 USD" },
     { value: "30-50", label: "30 - 50 USD" },
-    { value: "50+", label: "50+ USD" }
+    { value: "50+", label: "50+ USD" },
   ];
 
   const genderOptions = [
     { value: "", label: t("selectGender") },
     { value: "male", label: t("male") },
-    { value: "female", label: t("female") }
+    { value: "female", label: t("female") },
   ];
 
-  
-   const handleChange = (name, selectedOption) => {
-      dispatch(setFilter({ ...filters, [name]: selectedOption ? selectedOption.value : "" }));
-    };
-  
+  const handleChange = (name, selectedOption) => {
+    dispatch(
+      setFilter({
+        ...filters,
+        [name]: selectedOption ? selectedOption.value : "",
+      })
+    );
+  };
 
-    const customStyles = {
-      control: (base, state) => {
-        const hasRealValue = state.selectProps.value && state.selectProps.value.value !== "";
-        return {
-          ...base,
-          borderRadius: "9999px",
-          padding: "4px 8px",
-          borderColor: hasRealValue ? "#caf0f8" : "#ced4da",
-          backgroundColor: hasRealValue ? "#e7f1ff" : "white",
-          boxShadow: "none",
-          "&:hover": {
-            borderColor: "#0d6efd",
-          },
-          transition: "all 0.3s",
-        };
-      },
-      singleValue: (base, state) => {
-        const hasRealValue = state.selectProps.value && state.selectProps.value.value !== "";
-        return {
-          ...base,
-          color: hasRealValue ? "#0d6efd" : base.color,
-          fontWeight: hasRealValue ? 500 : base.fontWeight,
-        };
-      },
-      placeholder: (base, state) => {
-        const hasRealValue = state.selectProps.value && state.selectProps.value.value !== "";
-        return {
-          ...base,
-          color: hasRealValue ? "#0d6efd" : "#6c757d",
-        };
-      },
-      option: (base, state) => ({
+  const customStyles = {
+    control: (base, state) => {
+      const hasRealValue =
+        state.selectProps.value && state.selectProps.value.value !== "";
+      return {
         ...base,
-        backgroundColor: state.isSelected
-          ? "#0d6efd"
-          : state.isFocused
+        borderRadius: "9999px",
+        padding: "4px 8px",
+        borderColor: hasRealValue ? "#caf0f8" : "#ced4da",
+        backgroundColor: hasRealValue ? "#e7f1ff" : "white",
+        boxShadow: "none",
+        "&:hover": {
+          borderColor: "#0d6efd",
+        },
+        transition: "all 0.3s",
+      };
+    },
+    singleValue: (base, state) => {
+      const hasRealValue =
+        state.selectProps.value && state.selectProps.value.value !== "";
+      return {
+        ...base,
+        color: hasRealValue ? "#0d6efd" : base.color,
+        fontWeight: hasRealValue ? 500 : base.fontWeight,
+      };
+    },
+    placeholder: (base, state) => {
+      const hasRealValue =
+        state.selectProps.value && state.selectProps.value.value !== "";
+      return {
+        ...base,
+        color: hasRealValue ? "#0d6efd" : "#6c757d",
+      };
+    },
+    option: (base, state) => ({
+      ...base,
+      backgroundColor: state.isSelected
+        ? "#0d6efd"
+        : state.isFocused
           ? "#e9ecef"
           : "white",
-        color: state.isSelected ? "white" : "black",
-        cursor: "pointer",
-        padding: "10px",
-      }),
-      menu: (base) => ({
-        ...base,
-        zIndex: 9999,
-        borderRadius: "10px",
-        overflow: "hidden",
-      }),
-    };
-    
+      color: state.isSelected ? "white" : "black",
+      cursor: "pointer",
+      padding: "10px",
+    }),
+    menu: (base) => ({
+      ...base,
+      zIndex: 9999,
+      borderRadius: "10px",
+      overflow: "hidden",
+    }),
+  };
+
   return (
     <section className="my-5">
-
       <div className="container">
-        <div className="row">
-        
-        
+        <div className="row"></div>
+
+        <div className="d-flex justify-content-center my-4">
+          <div className="input-group" style={{ maxWidth: "700px" }}>
+            <input
+              type="text"
+              className="form-control"
+              placeholder={t("searchByNameCountrySubject")}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
         </div>
 
- <FaArrowLeftLong 
-      size={60}
-      style={{ color: "#003049", cursor: "pointer" }}
-      onClick={() => history.goBack()}
-    />
+        <FaArrowLeftLong
+          size={60}
+          style={{ color: "#003049", cursor: "pointer" }}
+          onClick={() => history.goBack()}
+        />
         <form className="mb-4">
-  <div className="row justify-content-center">
-    <div className="col-md-2 mb-2">
-      <Select
-        name="subject"
-        options={subjectOptions}
-        value={subjectOptions.find(opt => opt.value === filters.subject)}
-        onChange={(opt) => handleChange("subject", opt)}
-        classNamePrefix="react-select"
-        styles={customStyles}
-
-      />
-    </div>
-    <div className="col-md-2 mb-2">
-      <Select
-        name="country"
-        options={countryOptions}
-        value={countryOptions.find(opt => opt.value === filters.country)}
-        onChange={(opt) => handleChange("country", opt)}
-        classNamePrefix="react-select"
-        styles={customStyles}
-
-      />
-    </div>
-    <div className="col-md-2 mb-2">
-      <Select
-        name="language"
-        options={languageOptions}
-        value={languageOptions.find(opt => opt.value === filters.language)}
-        onChange={(opt) => handleChange("language", opt)}
-        classNamePrefix="react-select"
-        styles={customStyles}
-
-      />
-    </div>
-    <div className="col-md-2 mb-2">
-      <Select
-        name="price"
-        options={priceOptions}
-        value={priceOptions.find(opt => opt.value === filters.price)}
-        onChange={(opt) => handleChange("price", opt)}
-        classNamePrefix="react-select"
-        styles={customStyles}
-
-      />
-    </div>
-    <div className="col-md-2 mb-2">
-      <Select
-        name="gender"
-        options={genderOptions}
-        value={genderOptions.find(opt => opt.value === filters.gender)}
-        onChange={(opt) => handleChange("gender", opt)}
-        classNamePrefix="react-select"
-        styles={customStyles}
-
-      />
-    </div>
-   
-  </div>
-</form>
-
+          <div className="row justify-content-center">
+            <div className="col-md-2 mb-2">
+              <Select
+                name="subject"
+                options={subjectOptions}
+                value={subjectOptions.find(
+                  (opt) => opt.value === filters.subject
+                )}
+                onChange={(opt) => handleChange("subject", opt)}
+                classNamePrefix="react-select"
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-md-2 mb-2">
+              <Select
+                name="country"
+                options={countryOptions}
+                value={countryOptions.find(
+                  (opt) => opt.value === filters.country
+                )}
+                onChange={(opt) => handleChange("country", opt)}
+                classNamePrefix="react-select"
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-md-2 mb-2">
+              <Select
+                name="language"
+                options={languageOptions}
+                value={languageOptions.find(
+                  (opt) => opt.value === filters.language
+                )}
+                onChange={(opt) => handleChange("language", opt)}
+                classNamePrefix="react-select"
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-md-2 mb-2">
+              <Select
+                name="price"
+                options={priceOptions}
+                value={priceOptions.find((opt) => opt.value === filters.price)}
+                onChange={(opt) => handleChange("price", opt)}
+                classNamePrefix="react-select"
+                styles={customStyles}
+              />
+            </div>
+            <div className="col-md-2 mb-2">
+              <Select
+                name="gender"
+                options={genderOptions}
+                value={genderOptions.find(
+                  (opt) => opt.value === filters.gender
+                )}
+                onChange={(opt) => handleChange("gender", opt)}
+                classNamePrefix="react-select"
+                styles={customStyles}
+              />
+            </div>
+          </div>
+        </form>
 
         <div className="row justify-content-center m-5">
           {filteredTutors.length > 0 ? (
@@ -260,10 +293,11 @@ export default function TutorsSection() {
               />
             ))
           ) : (
-         
             <div className="col-12 h2 text-center mb-30">
-            <span className="d">Sorry, we couldn't find any tutors that match your search.</span>
-          </div>
+              <span className="d">
+                {t("noTutorsFound")}
+              </span>
+            </div>
           )}
         </div>
       </div>

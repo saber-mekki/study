@@ -258,39 +258,31 @@
   "teachingCourses": "Cours d'enseignement",
   "onlineMeetings": "Réunions en ligne",
   "searchTutor": "Chercher un tuteur",
-  "Tutors": "Tuteurs"  ,
-    "Loading": "Chargement",
-    "All": "Tous",
-    "Development": "Développement",
-    "Design": "Conception",
-    "Marketing": "Marketing",
-    "Lifestyle": "Style de vie",
-    "IT & Software": "Informatique et logiciels",
-    "Personal": " personnel",
-    "Music": "Musique",
-    
+  "Tutors": "Tuteurs",
+  "Loading": "Chargement",
+  "All": "Tous",
+  "Development": "Développement",
+  "Design": "Conception",
+  "Marketing": "Marketing",
+  "Lifestyle": "Style de vie",
+  "IT & Software": "Informatique et logiciels",
+  "Personal": " personnel",
+  "Music": "Musique",
   "Online Class": "Cours en ligne",
- 
   "Contact us": "Contactez-nous",
   "Privacy": "Confidentialité",
-  "Copyright": "Tous droits réservés"
-
-  
-,
+  "Copyright": "Tous droits réservés",
   "welcome": "Bienvenue, Apprenant !",
   "explorePlatform": "Découvrez notre plateforme et profitez d'expériences d'apprentissage de qualité.",
   "educationMadeEasy": "L'éducation rendue facile pour tous.",
   "login": "Connexion",
-  "signup": "Inscription"
-
-,
+  "signup": "Inscription",
   "welcomeTutor": "Bienvenue, Tuteur !",
   "appreciationMessage": "Votre présence est très appréciée et vos efforts sont assurément reconnus.",
   "addClass": "Ajouter un cours",
   "waitingMeetings": "Réunions en attente",
   "myCourses": "Mes cours",
-  "myClasses": "Mes classes"
-,
+  "myClasses": "Mes classes",
   "loading": "Chargement...",
   "error": "Erreur",
   "adminPanel": "Panneau d'administration",
@@ -304,11 +296,8 @@
   "blogs": "Blogs",
   "welcomeAdmin": "Bienvenue Admin {{userName}}",
   "overview": "Vue d'ensemble du système.",
-  "allAdmins": "Tous les admins"
-,
-  "welcomeAdmin2": "Bienvenue, Admin !"
-
-  ,
+  "allAdmins": "Tous les admins",
+  "welcomeAdmin2": "Bienvenue, Admin !",
   "what": "Ce que",
   "weOffer": "Nous offrons",
   "homeTutoring": "Cours à domicile",
@@ -320,56 +309,41 @@
   "packageTutoring": "Cours en forfait",
   "packageTutoringDesc": "Une éducation sincère et exquise, avec une attention personnelle sérieuse. Commence calmement et progressivement.",
   "offlineTutoring": "Cours hors ligne",
-  "offlineTutoringDesc": "Une éducation sincère et exquise, avec une attention personnelle sérieuse. Commence calmement et progressivement."
-
-,
+  "offlineTutoringDesc": "Une éducation sincère et exquise, avec une attention personnelle sérieuse. Commence calmement et progressivement.",
   "howItWorks_title_part1": "Comment",
   "howItWorks_title_part2": "Ça Marche",
   "howItWorks_title_part3": "Pour Étudiants/Parents ?",
-
   "step1_heading_part1": "Dites-nous Où",
   "step1_heading_part2": "Vous Avez Besoin d’Aide",
   "step1_description": "Partagez vos besoins et objectifs d’apprentissage pour trouver le tuteur idéal.",
-
   "step2_heading_part1": "Choisissez Le Tuteur",
   "step2_heading_part2": "Que Vous Voulez",
   "step2_description": "Parcourez les tuteurs qualifiés et sélectionnez celui qui correspond à vos préférences.",
-
   "step3_heading_part1": "Réservez Un Tuteur",
   "step3_heading_part2": "Commencez La Leçon",
-  "step3_description": "Planifiez facilement vos sessions et commencez à apprendre avec votre tuteur choisi."
-
-,
+  "step3_description": "Planifiez facilement vos sessions et commencez à apprendre avec votre tuteur choisi.",
   "trialSection_title_part1": "Demandez un cours",
   "trialSection_title_part2": "pour un essai gratuit",
-"trialSection_description": "Profitez d’un cours gratuit pour découvrir notre méthode d’apprentissage. Échangez avec un tuteur qualifié avant de vous engager."
-  ,"trialSection_button": "Chercher un tuteur",
-  "trialSection_image_alt": "Cours gratuit"
-
-,
+  "trialSection_description": "Profitez d’un cours gratuit pour découvrir notre méthode d’apprentissage. Échangez avec un tuteur qualifié avant de vous engager.",
+  "trialSection_button": "Chercher un tuteur",
+  "trialSection_image_alt": "Cours gratuit",
   "mobileApp_title_part1": "Notre",
   "mobileApp_title_part2": "application mobile",
   "mobileApp_description": "Attendez notre application mobile bientôt.",
   "mobileApp_button": "Chercher un tuteur",
-  "mobileApp_alt": "Application mobile"
-
-,
+  "mobileApp_alt": "Application mobile",
   "howItWorksTutors_title_part1": "Comment",
   "howItWorksTutors_title_part2": "ça fonctionne pour les tuteurs",
-
   "howItWorksTutors_step1_heading_part1": "Créez votre",
   "howItWorksTutors_step1_heading_part2": "profil de tuteur",
   "howItWorksTutors_step1_description": "Inscrivez-vous et créez un profil attrayant pour attirer les étudiants.",
-
   "howItWorksTutors_step2_heading_part1": "Définissez votre",
   "howItWorksTutors_step2_heading_part2": "disponibilité et tarif",
   "howItWorksTutors_step2_description": "Choisissez vos horaires et fixez facilement votre tarif horaire.",
-
   "howItWorksTutors_step3_heading_part1": "Commencez à",
   "howItWorksTutors_step3_heading_part2": "enseigner aux étudiants",
-  "howItWorksTutors_step3_description": "Acceptez des réservations et commencez votre aventure en tant que tuteur en ligne."
-  ,"What Some Awesome Parent Says":""
-,
+  "howItWorksTutors_step3_description": "Acceptez des réservations et commencez votre aventure en tant que tuteur en ligne.",
+  "What Some Awesome Parent Says": "",
   "Manage Tutor Availability": "Gérer la disponibilité du tuteur",
   "Selected Date": "Date sélectionnée",
   "Add": "Ajouter",
@@ -389,7 +363,7 @@
   "Error updating status": "Erreur lors de la mise à jour du statut",
   "Error removing availability": "Erreur lors de la suppression de la disponibilité",
   "Error accepting booking": "Erreur lors de l'acceptation de la réservation",
-  "Error declining booking": "Erreur lors du refus de la réservation"
-
-
+  "Error declining booking": "Erreur lors du refus de la réservation",
+  "searchByNameCountrySubject": "Rechercher par nom, pays ou matière",
+  "noTutorsFound": "Désolé, aucun tuteur ne correspond à votre recherche."
 }

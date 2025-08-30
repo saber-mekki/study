@@ -97,8 +97,6 @@
   "finish": "Finish",
   "pleaseSelectSubject": "Please select a subject.",
   "subjectLimitError": "You can only select up to 3 subjects.",
-
-
   "Error updating user": "Error updating user",
   "An error occurred while updating user details.": "An error occurred while updating user details.",
   "You must be at least 18 years old.": "You must be at least 18 years old.",
@@ -125,8 +123,6 @@
   "Enter email ID": "Enter email ID",
   "Enter phone number": "Enter phone number",
   "date_of_birth": "Date of Birth",
-
-
   "change_password": "Change Password",
   "change_password_instruction": "Enter your current password and a new one. Make sure it's strong and confirm it before saving.",
   "current_password": "Current Password",
@@ -159,7 +155,6 @@
   "changePassword.updateSuccessTitle": "Password Updated Successfully!",
   "changePassword.updateSuccessMessage": "Your password has been changed successfully.",
   "changePassword.submit": "Update Password",
-  
   "error.userEmailMissing": "User email is missing.",
   "error.incorrectCurrentPassword": "The current password is incorrect.",
   "error.passwordsDoNotMatch": "The passwords do not match.",
@@ -169,113 +164,99 @@
   "error.userNotFound": "User not found: ",
   "error.general": "An error occurred.",
   "error.network": "Network error. Please check your internet connection.",
-  
   "general.ok": "OK",
   "general.cancel": "Cancel",
-
-      "titleRequired": "Course title is required.",
-      "categoryRequired": "Category is required.",
-      "priceRequired": "Price is required.",
-      "descriptionRequired": "Course description is required.",
-      "imageRequired": "Course image is required.",
-      "levelRequired": "Course level is required.",
-      "durationRequired": "Course duration is required.",
-      "languageRequired": "Course language is required.",
-      "syllabusRequired": "Course content is required.",
-      "requirementsRequired": "Course requirements are required."
-    ,
-  
-      "uploadPDF": "An error occurred while uploading the PDF.",
-      "network": "Network error",
-      
-        "Course Title": "Course Title",
-        "Category": "Category",
-        "Price ($)": "Price ($)",
-        "Course Description": "Course Description",
-        "Course Image": "Course Image",
-        "Select a Category": "Select a Category",
-        "Next": "Next"
-      , "Add Course Details": "Add Course Details",
-      "Close": "Close",
-      "Course Level": "Course Level",
-      "Select Level": "Select Level",
-      "Beginner": "Beginner",
-      "Advanced": "Advanced",
-      "Middle": "Middle",
-      "Course Duration (in hours)": "Course Duration (in hours)",
-      "Course Language": "Course Language",
-      "Select Language": "Select Language",
-     
-      "German": "German",
-      "Arabic": "Arabic",
-      "Course Content": "Course Content",
-      "Enter the course content": "Enter the course content",
-      "Course Requirements": "Course Requirements",
-      "Enter the course requirements": "Enter the course requirements",
-      "Save Course": "Save Course",
-      "step3_title": "Step 3: Upload PDFs",
-      "pdfOne_label": "PDF One:",
-      "pdfTwo_label": "PDF Two:",
-      "preview_pdfOne": "Preview PDF One",
-      "preview_pdfTwo": "Preview PDF Two",
-      "close_preview": "Close Preview",
-      "close_modal": "Close Modal",
-      "next_button": "Next",
-      "preview_pdfOne_label": "Preview PDF One:",
-      "preview_pdfTwo_label": "Preview PDF Two:",
-      "no_courses_found": "No courses found",
-      "add_new_course": "Add a New Course",
-      "course": "Course",
-      
-        "findThe": "Find The",
-        "perfectTutor": "Perfect Tutor",
-        "forOnline": "for Online",
-        "offline": "Offline",
-        "educationEasy": "Education  is now  easier than before",
-        "selectSubject": "Select Subject",
-        "all": "All",
-        "development": "Development",
-        "design": "Design",
-        "marketing": "Marketing",
-        "lifestyle": "Lifestyle",
-        "itSoftware": "IT & Software",
-        "personal": "Personal",
-        "business": "Business",
-        "music": "Music",
-        "selectCountry": "Select Country",
-        "tunisia": "Tunisia",
-        "germany": "Germany",
-        "usa": "USA",
-        "uk": "UK",
-        "selectLanguage": "Select Language",
-        "english": "English",
-        "detush": "Detush",
-        "arabic": "Arabic",
-        "french": "French",
-        "pricePerHour": "Price per Hour",
-        "selectGender": "Select Gender",
-        "selectType": "Select Type",
-        "teachingCourses": "Teaching Courses",
-        "onlineMeetings": "Online Meetings",
-        "searchTutor": "Search Tutor"
-    
-      
-
-      ,  "welcome": "Welcome, Learner!",
+  "titleRequired": "Course title is required.",
+  "categoryRequired": "Category is required.",
+  "priceRequired": "Price is required.",
+  "descriptionRequired": "Course description is required.",
+  "imageRequired": "Course image is required.",
+  "levelRequired": "Course level is required.",
+  "durationRequired": "Course duration is required.",
+  "languageRequired": "Course language is required.",
+  "syllabusRequired": "Course content is required.",
+  "requirementsRequired": "Course requirements are required.",
+  "uploadPDF": "An error occurred while uploading the PDF.",
+  "network": "Network error",
+  "Course Title": "Course Title",
+  "Category": "Category",
+  "Price ($)": "Price ($)",
+  "Course Description": "Course Description",
+  "Course Image": "Course Image",
+  "Select a Category": "Select a Category",
+  "Next": "Next",
+  "Add Course Details": "Add Course Details",
+  "Close": "Close",
+  "Course Level": "Course Level",
+  "Select Level": "Select Level",
+  "Beginner": "Beginner",
+  "Advanced": "Advanced",
+  "Middle": "Middle",
+  "Course Duration (in hours)": "Course Duration (in hours)",
+  "Course Language": "Course Language",
+  "Select Language": "Select Language",
+  "German": "German",
+  "Arabic": "Arabic",
+  "Course Content": "Course Content",
+  "Enter the course content": "Enter the course content",
+  "Course Requirements": "Course Requirements",
+  "Enter the course requirements": "Enter the course requirements",
+  "Save Course": "Save Course",
+  "step3_title": "Step 3: Upload PDFs",
+  "pdfOne_label": "PDF One:",
+  "pdfTwo_label": "PDF Two:",
+  "preview_pdfOne": "Preview PDF One",
+  "preview_pdfTwo": "Preview PDF Two",
+  "close_preview": "Close Preview",
+  "close_modal": "Close Modal",
+  "next_button": "Next",
+  "preview_pdfOne_label": "Preview PDF One:",
+  "preview_pdfTwo_label": "Preview PDF Two:",
+  "no_courses_found": "No courses found",
+  "add_new_course": "Add a New Course",
+  "course": "Course",
+  "findThe": "Find The",
+  "perfectTutor": "Perfect Tutor",
+  "forOnline": "for Online",
+  "offline": "Offline",
+  "educationEasy": "Education  is now  easier than before",
+  "selectSubject": "Select Subject",
+  "all": "All",
+  "development": "Development",
+  "design": "Design",
+  "marketing": "Marketing",
+  "lifestyle": "Lifestyle",
+  "itSoftware": "IT & Software",
+  "personal": "Personal",
+  "business": "Business",
+  "music": "Music",
+  "selectCountry": "Select Country",
+  "tunisia": "Tunisia",
+  "germany": "Germany",
+  "usa": "USA",
+  "uk": "UK",
+  "selectLanguage": "Select Language",
+  "english": "English",
+  "detush": "Detush",
+  "arabic": "Arabic",
+  "french": "French",
+  "pricePerHour": "Price per Hour",
+  "selectGender": "Select Gender",
+  "selectType": "Select Type",
+  "teachingCourses": "Teaching Courses",
+  "onlineMeetings": "Online Meetings",
+  "searchTutor": "Search Tutor",
+  "welcome": "Welcome, Learner!",
   "explorePlatform": "Explore our platform and discover top-quality learning experiences.",
   "educationMadeEasy": "Education made easy for everyone.",
   "login": "Login",
-  "signup": "Sign Up"
-
-
-  ,
+  "signup": "Sign Up",
   "welcomeTutor": "Welcome, Tutor!",
   "appreciationMessage": "Your presence is highly appreciated and your efforts are surely recognized.",
   "addClass": "Add Class",
   "waitingMeetings": "Waiting Meetings",
   "myCourses": "My Courses",
-  "myClasses": "My Classes"
-,
+  "myClasses": "My Classes",
   "loading": "Loading...",
   "error": "Error",
   "adminPanel": "Admin Panel",
@@ -289,42 +270,24 @@
   "blogs": "Blogs",
   "welcomeAdmin": "Welcome Admin {{userName}}",
   "overview": "Overview of the system.",
-  "allAdmins": "All Admins"
-,
+  "allAdmins": "All Admins",
   "adminGuidanceMessage": "Your guidance ensures our platform runs smoothly, thank you for all you do",
-  "waitingCourses": "Waiting Courses"
-
-,
-
-  "welcomeAdmin2": "Welcome, Admin!"
-
-
-
- 
-,
+  "waitingCourses": "Waiting Courses",
+  "welcomeAdmin2": "Welcome, Admin!",
   "trialSection_title_part1": "Request A Class",
   "trialSection_title_part2": "for FREE Trial",
-"trialSection_title": "Fordern Sie eine kostenlose Probestunde an",
-
-"trialSection_description": "Try a free lesson to discover our teaching style. Connect with a qualified tutor before making any commitment."
-
-,"trialSection_button": "Search Tutor",
-  "trialSection_image_alt": "Free class"
-
-,
-"mobileApp_title_part1": "Our",
+  "trialSection_title": "Fordern Sie eine kostenlose Probestunde an",
+  "trialSection_description": "Try a free lesson to discover our teaching style. Connect with a qualified tutor before making any commitment.",
+  "trialSection_button": "Search Tutor",
+  "trialSection_image_alt": "Free class",
+  "mobileApp_title_part1": "Our",
   "mobileApp_title_part2": "Mobile App",
   "mobileApp_description": "Wait for our mobile application soon.",
   "mobileApp_button": "Search Tutor",
-  "mobileApp_alt": "Mobile app"
-
-
-
-,
+  "mobileApp_alt": "Mobile app",
   "findTutor_title_part1": "Find",
   "findTutor_title_part2": "Online Tutors",
   "findTutor_title_part3": "In Any Subject",
-
   "subject_math": "Math",
   "subject_english": "English",
   "subject_engineering": "Engineering",
@@ -333,69 +296,46 @@
   "subject_computer_science": "Computer Science",
   "subject_data_science": "Data Science",
   "subject_medical": "Medical",
-
-  "findTutor_button": "See all Subjects"
-,
-
+  "findTutor_button": "See all Subjects",
   "what": "What",
   "weOffer": "We Offer",
-
   "homeTutoring": "Home Tutoring",
   "homeTutoringDesc": "Personalized lessons delivered at your home to ensure comfort and focused learning.",
-
   "onlineTutoring": "Online Tutoring",
   "onlineTutoringDesc": "Interactive sessions with expert tutors from anywhere using our virtual classroom tools.",
-
   "groupTutoring": "Group Tutoring",
   "groupTutoringDesc": "Collaborative learning in small groups to promote teamwork and knowledge sharing.",
-
   "packageTutoring": "Package Tutoring",
   "packageTutoringDesc": "Affordable bundled sessions tailored to match your long-term learning goals.",
-
   "offlineTutoring": "Offline Tutoring",
-  "offlineTutoringDesc": "In-person sessions at centers for structured, distraction-free education environments."
-
-,
+  "offlineTutoringDesc": "In-person sessions at centers for structured, distraction-free education environments.",
   "examPrep": "Exam Preparation",
-  "examPrepDesc": "Focused sessions to help students succeed in school, university, or certification exams."
-
-,
-"howItWorks_title_part1": "How",
-"howItWorks_title_part2": "it works",
-"howItWorks_title_part3": "for students",
-
-"step1_heading_part1": "Create your",
-"step1_heading_part2": "student account",
-"step1_description": "Sign up and create your student profile in just a few steps.",
-
-"step2_heading_part1": "Choose your",
-"step2_heading_part2": "perfect tutor",
-"step2_description": "Browse our list of verified tutors and select the one that fits your needs.",
-
-"step3_heading_part1": "Book your",
-"step3_heading_part2": "trial lesson",
-"step3_description": "Schedule a free lesson to get started with your learning journey."
-
-,
+  "examPrepDesc": "Focused sessions to help students succeed in school, university, or certification exams.",
+  "howItWorks_title_part1": "How",
+  "howItWorks_title_part2": "it works",
+  "howItWorks_title_part3": "for students",
+  "step1_heading_part1": "Create your",
+  "step1_heading_part2": "student account",
+  "step1_description": "Sign up and create your student profile in just a few steps.",
+  "step2_heading_part1": "Choose your",
+  "step2_heading_part2": "perfect tutor",
+  "step2_description": "Browse our list of verified tutors and select the one that fits your needs.",
+  "step3_heading_part1": "Book your",
+  "step3_heading_part2": "trial lesson",
+  "step3_description": "Schedule a free lesson to get started with your learning journey.",
   "howItWorksTutors_title_part1": "How",
   "howItWorksTutors_title_part2": "it works for tutors",
-
   "howItWorksTutors_step1_heading_part1": "Create your",
   "howItWorksTutors_step1_heading_part2": "tutor profile",
   "howItWorksTutors_step1_description": "Sign up and build a compelling tutor profile to attract students.",
-
   "howItWorksTutors_step2_heading_part1": "Set your",
   "howItWorksTutors_step2_heading_part2": "availability and price",
   "howItWorksTutors_step2_description": "Choose when you’re available and set your hourly rate easily.",
-
   "howItWorksTutors_step3_heading_part1": "Start",
   "howItWorksTutors_step3_heading_part2": "teaching students",
-  "howItWorksTutors_step3_description": "Accept bookings and begin your journey as an online tutor."
-
-,
+  "howItWorksTutors_step3_description": "Accept bookings and begin your journey as an online tutor.",
   "recentTutors_title_part1": "Tutors",
-  "recentTutors_title_part2": "Joined Recently"
-,
+  "recentTutors_title_part2": "Joined Recently",
   "aboutUs_title": "About Us",
   "aboutUs_altImage": "Tutor Management System",
   "aboutUs_title_part1": "About Our",
@@ -425,10 +365,7 @@
   "aboutUs_team_member2_role": "Senior Tutor & Advisor",
   "aboutUs_team_member3_alt": "Sameh Hbaieb",
   "aboutUs_team_member3_name": "Sameh Hbaieb",
-  "aboutUs_team_member3_role": "Program Director"
-
-
-,
+  "aboutUs_team_member3_role": "Program Director",
   "Manage Tutor Availability": "Manage Tutor Availability",
   "Selected Date": "Selected Date",
   "Add": "Add",
@@ -448,7 +385,8 @@
   "Error updating status": "Error updating status",
   "Error removing availability": "Error removing availability",
   "Error accepting booking": "Error accepting booking",
-  "Error declining booking": "Error declining booking"
-
+  "Error declining booking": "Error declining booking",
+  "searchByNameCountrySubject": "Search by name, country, or subject",
+    "noTutorsFound": "Sorry, we couldn't find any tutors that match your search."
 
 }
