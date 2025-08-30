@@ -20,8 +20,8 @@ import { IoArrowBack } from "react-icons/io5";
 import { AcceptedBookingsList } from "../profileComponents/AcceptedBookingsList";
 import { CoursesLibrary } from "./myClasses/CoursesLibrary";
 import { Quiz } from "./myClasses/Quiz";
-import  MyGroups  from "../profileComponents/MyGroups/index";
-import  CreateGroup  from "../profileComponents/MyGroups/CreateGroup";
+import MyGroups from "../profileComponents/MyGroups/index";
+import CreateGroup from "../profileComponents/MyGroups/CreateGroup";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -149,18 +149,20 @@ const UserProfile = () => {
 
   return (
     <>
-      <HeaderOne />
-
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 999 }}>
+        <HeaderOne />
+      </div>
+      <div style={{ paddingTop: "90px" }}></div>
       <div>
         {error && <div className="text-danger">{error}</div>}
         <div className="row gutters">
           {!menuOpen && (
-        <button
-        onClick={handleReturn}
-        className="btn btn-link d-block d-md-none text-primary"
-      >
-        <IoArrowBack size={26} />
-      </button>
+            <button
+              onClick={handleReturn}
+              className="btn btn-link d-block d-md-none text-primary"
+            >
+              <IoArrowBack size={26} />
+            </button>
           )}
 
           {menuOpen && (
@@ -231,7 +233,7 @@ const UserProfile = () => {
                           </button>
                         </li>
                       )}
-                         {role === "tutor" && (    <li className="list-group-item">
+                      {role === "tutor" && (<li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange("addGroups")}
@@ -247,23 +249,23 @@ const UserProfile = () => {
                           {t("My Groups")}
                         </button>
                       </li>
-                   {  role!=="admin" && ( <>
-                  <li className="list-group-item">
-                        <button
-                          className="btn btn-link text-primary pb-0 px-4"
-                          onClick={() => handleSectionChange("courses")}
-                        >
-                          {t("My Courses")}
-                        </button>
-                      </li>
-                      <li className="list-group-item">
-                        <button
-                          className="btn btn-link text-primary pb-0 px-4"
-                          onClick={() => handleSectionChange("classes")}
-                        >
-                          {t("My Classes")}
-                        </button>
-                      </li>   </>) } 
+                      {role !== "admin" && (<>
+                        <li className="list-group-item">
+                          <button
+                            className="btn btn-link text-primary pb-0 px-4"
+                            onClick={() => handleSectionChange("courses")}
+                          >
+                            {t("My Courses")}
+                          </button>
+                        </li>
+                        <li className="list-group-item">
+                          <button
+                            className="btn btn-link text-primary pb-0 px-4"
+                            onClick={() => handleSectionChange("classes")}
+                          >
+                            {t("My Classes")}
+                          </button>
+                        </li>   </>)}
                       <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
@@ -280,7 +282,7 @@ const UserProfile = () => {
                           {t("Change Password")}
                         </button>
                       </li>
-                      {role === "tutor" && (     <li className="list-group-item">
+                      {role === "tutor" && (<li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange("calendar")}
@@ -288,7 +290,7 @@ const UserProfile = () => {
                           {t("Calendar")}
                         </button>
                       </li>)}
-                       <li className="list-group-item">
+                      <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange(t("bookings"))}
@@ -328,14 +330,14 @@ const UserProfile = () => {
                   {currentSection === "addcourse" && (
                     <AddCourse email={email} />
                   )}
-                    {currentSection === "addGroups" && <CreateGroup />}
-                   {currentSection === "groups" && <MyGroups />}
+                  {currentSection === "addGroups" && <CreateGroup />}
+                  {currentSection === "groups" && <MyGroups />}
                   {currentSection === "courses" && <Mycourses email={email} />}
                   {currentSection === "password" && <Password email={email} />}
                   {currentSection === "calendar" && <CalendarSelector />}
                   {currentSection === "bookings" && <AcceptedBookingsList />}
-                  {currentSection === "classes" && <CoursesLibrary  />}
-                  {currentSection === "Quiz" && <Quiz  />}
+                  {currentSection === "classes" && <CoursesLibrary />}
+                  {currentSection === "Quiz" && <Quiz />}
 
                 </div>
               </div>

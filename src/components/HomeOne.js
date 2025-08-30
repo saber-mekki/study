@@ -26,40 +26,45 @@ import BannerTutor from "./BannerTutor";
 
 class HomeOne extends Component {
     render() {
-           
+
         return (
             <>
                 <SignUpTutor />
                 <ForgetPassword />
                 <SignUpModal />
                 <SignInModal />
-                <HeaderOne />
-                {isAdmin() ? (
-                    <BannerAdmin />
-                ) : isStudent() ? (
-                    <BannerOne />
-                ) : isTutor() ? (
-                    <BannerTutor />
-                ) : (
-                    <BannerDefault />
-                )}
+                <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 999 }}>
+                    <HeaderOne />
+                </div>
+
+                <div style={{ paddingTop: `80px` }}>
+                    {isAdmin() ? (
+                        <BannerAdmin />
+                    ) : isStudent() ? (
+                        <BannerOne />
+                    ) : isTutor() ? (
+                        <BannerTutor />
+                    ) : (
+                        <BannerDefault />
+                    )}
 
 
-          
 
 
 
-                <WeOfferSection />
-                <VideoPopup />
-                <HowItWorks />
-                <TrialSection />
-                <FindTutorSection />
-                <RecentTutorSection />
-                <HowItWorksTutors />
-{/*                 <TutorsCarouselOne />
+
+                    <WeOfferSection />
+                    <VideoPopup />
+                    <HowItWorks />
+                    <TrialSection />
+                    <FindTutorSection />
+                    <RecentTutorSection />
+                    <HowItWorksTutors />
+                    {/*                 <TutorsCarouselOne />
  */}                <MobileAppSection />
-                <FooterOne />
-                <BackToTop />
+                    <FooterOne />
+                    <BackToTop />
+                </div>
             </>
         );
     }
