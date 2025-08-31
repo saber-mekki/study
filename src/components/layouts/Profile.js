@@ -152,7 +152,7 @@ const UserProfile = () => {
       <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 999 }}>
         <HeaderOne />
       </div>
-      <div style={{ paddingTop: "90px" }}></div>
+      <div style={{ paddingTop: "130px" }}></div>
       <div>
         {error && <div className="text-danger">{error}</div>}
         <div className="row gutters">
