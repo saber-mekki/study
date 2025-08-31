@@ -13,7 +13,7 @@ export default function Status() {
 
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.user_id;
-      const response = await axios.post("http://localhost:5000/api/v1/status", {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/status`, {
         id: userId,
         status: "aproved",
       });
@@ -30,7 +30,7 @@ export default function Status() {
 
         try {
           const response = await axios.post(
-            "http://localhost:5000/api/v1/showStatus",
+            `${process.env.REACT_APP_API_BASE_URL}/showStatus`,
             {
               id: userId,
             }
@@ -39,7 +39,7 @@ export default function Status() {
           if (status === "rejected") {
             localStorage.removeItem("authToken");
             Cookies.remove("role");
-            await axios.post("http://localhost:5000/api/v1/deleteUser", {
+            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/deleteUser`, {
               id: userId,
             });
             setrejected(true);
