@@ -162,9 +162,9 @@ export default function UserProfile() {
   const table = user.type_register !== 'student' ? [
     { icon: <MonetizationOnIcon color="success" fontSize="large" />, label: 'Price/hour', value: user.price_per_hour ? `${user.price_per_hour} €` : 'N/A' },
 
-    { icon: <CheckCircleIcon color={user.is_active ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.status!=="waiting" ? 'Yes' : 'No' }
+    { icon: <CheckCircleIcon color={user.status!=="waiting" ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.status!=="waiting" ? 'Yes' : 'No' }
   ] : [
-    { icon: <CheckCircleIcon color={user.is_active ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.status!=="waiting" ? 'Yes' : 'No' }
+    { icon: <CheckCircleIcon color={user.status!=="waiting" ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.status!=="waiting" ? 'Yes' : 'No' }
   ]
   return (
     <SectionTwo title={`${user.user_name}'s Profile`}>
