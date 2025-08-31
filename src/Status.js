@@ -52,8 +52,9 @@ export default function Status() {
 
   return (
     <>
+    
       {status === "waiting" && (
-        <div className="w-full bg-warning border-b border-yellow-400 text-black text-sm text-center py-2 px-4">
+        <div className="w-full bg-warning border-b border-yellow-400 text-black text-sm text-center py-2 px-3">
           ⏳ Your account is currently under review. We will notify you once the
           verification is complete. Thank you for your patience!
         </div>

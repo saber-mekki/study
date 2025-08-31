@@ -7,6 +7,7 @@ import ChatBox from '../chatBox';
 import LanguageDropdown from "../LanguageDropdown";
 import ProfileMenu from "./ProfileMenu";
 import { NotificationsDropdown } from "./NotificationDropdown";
+import Status from "../../Status";
 
 import "./HeaderOne.css";
 
@@ -23,6 +24,8 @@ function HeaderOne() {
 
   return (
     <header className="bg-white shadow">
+
+      <Status />
       <div className="container-lg">
         <nav className="navbar navbar-expand-xl navbar-dark px-0">
           <Link to={"/home-one"} className="navbar-brand">
