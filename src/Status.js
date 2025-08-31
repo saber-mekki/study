@@ -48,7 +48,7 @@ export default function Status() {
       }
     };
     fetchStatus();
-  }, [status]);
+  }, []);
 
   return (
     <>
