@@ -10,7 +10,6 @@ export default function Status() {
   const handleAccept = async () => {
     try {
       const token = localStorage.getItem("authToken");
-
       const decodedToken = jwtDecode(token);
       const userId = decodedToken.user_id;
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/status`, {
@@ -54,7 +53,7 @@ export default function Status() {
     <>
     
       {status === "waiting" && (
-        <div className="w-full bg-warning border-b border-yellow-400 text-black text-sm text-center py-2 px-3">
+        <div className="w-full bg-warning border-b border-yellow-400 text-black text-sm text-center py-2 px-2">
           ⏳ Your account is currently under review. We will notify you once the
           verification is complete. Thank you for your patience!
         </div>
@@ -100,7 +99,7 @@ export default function Status() {
               </div>
 
               <div className="modal-body">
-                <div className="w-full bg-light border h2 border-info text-dark text-center py-3 px-4">
+                <div className="w-full bg-light border h2 border-info text-dark text-center py-3 px-2">
                   <div>❌</div>
                   <strong>
                     {" "}
@@ -129,7 +128,7 @@ export default function Status() {
         </div>
       )}
       {status === "accepted" && (
-        <div className="w-full bg-success border-b border-yellow-400 text-black text-sm text-center py-2 px-4">
+        <div className="w-full bg-success border-b border-yellow-400 text-black text-sm text-center py-2 px-2">
           🎉 Congratulations! Your account has been approved. You can now start
           using all the features of the platform. shortly.
           <button onClick={handleAccept} type="button" class="btn btn-link">

@@ -18,14 +18,41 @@ import {
 
 export default function SessionAttendance() {
   const [students, setStudents] = useState([]);
-  const [sessionNote, setSessionNote] = useState(""); 
+  const [sessionNote, setSessionNote] = useState("");
   const sessionId = localStorage.getItem("sessionId");
+  const [sessionPDF, setSessionPDF] = useState(null);
+  const [pdfUrls, setPdfUrls] = useState([]); 
 
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_BASE_URL}/sessions/${sessionId}/pdfs`)
+      .then((res) => setPdfUrls(res.data)) 
+      .catch((err) => console.error(err));
+  }, [sessionId]);
+
+  const uploadSessionPDF = () => {
+    if (!sessionPDF) return;
+
+    const formData = new FormData();
+    formData.append("session_pdf", sessionPDF);
+    formData.append("session_id", sessionId);
+
+    axios
+      .post(`${process.env.REACT_APP_API_BASE_URL}/sessions/upload-pdf`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then((res) => {
+        setPdfUrls((prev) => [...prev, res.data]);
+        setSessionPDF(null);
+      })
+      .catch((err) => console.error("PDF upload error:", err));
+  };
+  
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_BASE_URL}/sessions/${sessionId}/attendance`)
       .then((res) => {
-        setStudents(res.data.students || res.data); 
+        setStudents(res.data.students || res.data);
         setSessionNote(res.data.sessionNote || "");
       })
       .catch((err) => console.error(err));
@@ -54,11 +81,11 @@ export default function SessionAttendance() {
           students.map((s) =>
             s.student_id === studentId
               ? {
-                  ...s,
-                  status,
-                  ...(payload.joinedAt ? { joined_at: payload.joinedAt } : {}),
-                  ...(payload.leftAt ? { left_at: payload.leftAt } : {}),
-                }
+                ...s,
+                status,
+                ...(payload.joinedAt ? { joined_at: payload.joinedAt } : {}),
+                ...(payload.leftAt ? { left_at: payload.leftAt } : {}),
+              }
               : s
           )
         );
@@ -83,13 +110,11 @@ export default function SessionAttendance() {
       .then(() => console.log(`Note saved for student ${studentId}`))
       .catch((err) => console.error(err));
   };
-  
-  
 
   const saveSessionNote = () => {
     axios
       .put(`${process.env.REACT_APP_API_BASE_URL}/sessions/${sessionId}/note`, {
-        
+
         session_note: sessionNote,
       })
       .then(() => console.log("Session note saved"))
@@ -103,7 +128,7 @@ export default function SessionAttendance() {
           Session Attendance
         </Typography>
 
-       
+
         <Box mb={3}>
           <Typography variant="subtitle1" fontWeight="bold">
             General Note:
@@ -124,8 +149,44 @@ export default function SessionAttendance() {
             Save Session Note
           </Button>
         </Box>
+        <Box mb={3}>
+          <Typography variant="subtitle1" fontWeight="bold">
+            Session PDFs:
+          </Typography>
 
-       
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setSessionPDF(e.target.files[0]);
+              }
+            }}
+          />
+          <Button
+            variant="contained"
+            sx={{ mt: 1 }}
+            onClick={uploadSessionPDF}
+            disabled={!sessionPDF}
+          >
+            Upload PDF
+          </Button>
+
+          {pdfUrls.length > 0 && (
+            <Box sx={{ mt: 2 }}>
+              {pdfUrls.map((pdf, i) => (
+                <Typography key={pdf.id || i} variant="body2">
+                  PDF {i + 1}:{" "}
+                  <a href={pdf.pdf_url} target="_blank" rel="noopener noreferrer">
+                    View
+                  </a>
+                </Typography>
+              ))}
+            </Box>
+          )}
+        </Box>
+
+
         <Table>
           <TableHead>
             <TableRow>

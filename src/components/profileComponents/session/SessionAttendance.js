@@ -22,6 +22,53 @@ export default function SessionAttendance() {
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [pdfs, setPdfs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sessionPDF, setSessionPDF] = useState(null);
+  const [newPdfUrls, setNewPdfUrls] = useState([]); 
+
+    const uploadSessionPDF = () => {
+      if (!sessionPDF) return;
+  
+      const formData = new FormData();
+      formData.append("session_pdf", sessionPDF);
+      formData.append("session_id", sessionId);
+  
+      axios
+        .post(`${process.env.REACT_APP_API_BASE_URL}/sessions/upload-pdf`, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          setNewPdfUrls((prev) => [...prev, res.data]); 
+          setSessionPDF(null);
+        })
+        .catch((err) => console.error("PDF upload error:", err));
+    };
+    const handleDeletePDF = async (pdfId) => {
+      try {
+        await axios.delete(
+          `${process.env.REACT_APP_API_BASE_URL}/sessions/${sessionId}/pdfs/${pdfId}`
+        );
+        setPdfs((prev) => prev.filter((pdf) => pdf.id !== pdfId));
+      } catch (err) {
+        console.error("Error deleting PDF:", err);
+      }
+    };
+    
+  useEffect(() => {
+    const fetchPDFs = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/sessions/${sessionId}/pdfs`);
+        setPdfs(response.data);
+      } catch (error) {
+        console.error("Error fetching PDFs:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPDFs();
+  }, [sessionId,newPdfUrls]);
 
   useEffect(() => {
     axios
@@ -65,7 +112,7 @@ export default function SessionAttendance() {
       .catch((err) => console.error(err));
   };
 
-  // Pagination handlers
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -87,6 +134,73 @@ export default function SessionAttendance() {
   >
     General Note: {students[0]&&students[0].session_note}
   </Typography>
+  {loading ? (
+  <p>Loading PDFs...</p>
+) : (
+  <div>
+    <h3>Session PDFs</h3>
+    {pdfs.length === 0 ? (
+      <p>No PDFs uploaded yet.</p>
+    ) : (
+      <ul>
+        {pdfs.map((pdf) => (
+          <li key={pdf.id}>
+            <a href={pdf.file_url} target="_blank" rel="noopener noreferrer">
+              PDF uploaded at {new Date(pdf.uploaded_at).toLocaleString()}
+            </a>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              sx={{ ml: 2 }}
+              onClick={() => handleDeletePDF(pdf.id)}
+            >
+              Delete
+            </Button>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+)}
+    <Box mb={3}>
+          <Typography variant="subtitle1" fontWeight="bold">
+            Add new PDFs:
+          </Typography>
+
+          <input
+            type="file"
+            accept="application/pdf"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setSessionPDF(e.target.files[0]);
+              }
+            }}
+          />
+          <Button
+            variant="contained"
+            sx={{ mt: 1 }}
+            onClick={uploadSessionPDF}
+            disabled={!sessionPDF}
+          >
+            Upload PDF
+          </Button>
+
+          {newPdfUrls.length > 0 && (
+            <Box sx={{ mt: 2 }}>
+              {newPdfUrls.map((pdf, i) => (
+                <Typography key={pdf.id || i} variant="body2">
+                  PDF {i + 1}:{" "}
+                  <a href={pdf.pdf_url} target="_blank" rel="noopener noreferrer">
+                    View
+                  </a>
+                </Typography>
+              ))}
+            </Box>
+          )}
+        </Box>
+
+
         <Table>
           <TableHead>
             <TableRow>
@@ -157,7 +271,6 @@ export default function SessionAttendance() {
           </TableBody>
         </Table>
 
-        {/* Pagination */}
         <TablePagination
           component="div"
           count={students.length}
