@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
+import ReCAPTCHA from "react-google-recaptcha";
+
+
+const getPasswordStrength = (password) => {
+  let strength = 0;
+
+  if (password.length >= 8) strength++;
+  if (/[A-Z]/.test(password)) strength++;
+  if (/[a-z]/.test(password)) strength++;
+  if (/\d/.test(password)) strength++;
+  if (/[@$!%*?&]/.test(password)) strength++;
+
+  if (strength <= 2) return { label: "Weak", color: "red", percent: 33 };
+  if (strength === 3 || strength === 4)
+    return { label: "Medium", color: "orange", percent: 66 };
+  if (strength === 5) return { label: "Strong", color: "green", percent: 100 };
+  return { label: "", color: "", percent: 0 };
+};
 
 function SignUpModal() {
   const [email, setEmail] = useState("");
@@ -15,66 +31,13 @@ function SignUpModal() {
   const [passwordError, setPasswordError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [Error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [gender, setGender] = useState("male");
-  const history = useHistory();
   const { t } = useTranslation();
+  const [captchaToken, setCaptchaToken] = useState(null);
+  const recaptchaRef = useRef(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    setEmailError("");
-    setPasswordError("");
-
-    try {
-      const emailCheckResponse = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/checkEmail`,
-        { email }
-      );
-      if (emailCheckResponse.data.exists) {
-        setEmailError(t("emailError"));
-        return;
-      }
-
-      if (password !== repassword) {
-        setPasswordError(t("passwordMismatch"));
-
-        return;
-      }
-
-      await axios.post(  `${process.env.REACT_APP_API_BASE_URL}/addUser` , {
-        name,
-        email,
-        password,
-        type_register: type,
-        phone_number,
-        gender,
-      });
-
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/login`,
-        { email, password, type }
-      );
-
-      const token = response.data.tokens.accessToken;
-      const decodedToken = jwtDecode(token);
-      const user_name = decodedToken.user_name;
-
-      Cookies.set("role", type);
-      Cookies.set("name", user_name);
-localStorage.setItem("role", type);
-localStorage.setItem("name", user_name);
-
-      localStorage.setItem("authToken", token);
-      window.location.reload();
-      history.push("./");
-    } catch (err) {
-      if (err.response && err.response.data.error) {
-        setError(err.response.data.error);
-      } else {
-        setError(t("errorOccurred"));
-      }
-    }
-  };
+  const [passwordStrength, setPasswordStrength] = useState({ label: "", color: "", percent: 0 });
 
   const resetForm = () => {
     setEmail("");
@@ -85,16 +48,84 @@ localStorage.setItem("name", user_name);
     setType("student");
     setPasswordError("");
     setEmailError("");
+    setMessage("")
+    setPasswordStrength({ label: "", color: "", percent: 0 });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setEmailError("");
+    setPasswordError("");
+
+    if (!captchaToken) {
+      setPasswordError("Please confirm you are not a robot.");
+      return;
+    }
+
+    if (passwordStrength.label !== "Strong") {
+      setPasswordError("Password must be strong (8+ chars, uppercase, lowercase, number, special char).");
+      return;
+    }
+
+    try {
+      const emailCheckResponse = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/checkEmail`,
+        { email }
+      );
+
+      if (emailCheckResponse.data.exists) {
+        setEmailError(t("emailError"));
+        return;
+      }
+      if (!emailCheckResponse.data.domainValid) {
+        setEmailError(t("Email not valid"));
+        return;
+      }
+      if (password !== repassword) {
+        setPasswordError(t("passwordMismatch"));
+        return;
+      }
+
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/addUser`,
+        {
+          name,
+          email,
+          password,
+          type_register: type,
+          phone_number,
+          gender,
+          captchaToken,
+        }
+      );
+
+      toast.success(response.data.message);
+      setMessage(response.data.message);
+      setCaptchaToken(null);
+      resetForm();
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset();
+        setCaptchaToken(null);
+      }
+    } catch (err) {
+      if (err.response && err.response.data.error) {
+        setError(err.response.data.error);
+      } else {
+        setError(t("errorOccurred"));
+      }
+    }
+  };
+
 
   return (
     <div
       onClick={(e) => {
-        if (e.target.id === "signup-modal") resetForm();
+        if ((e.target).id === "signup-modal") resetForm();
       }}
       className="modal fade rounded"
       id="signup-modal"
-      tabIndex="-1"
+      tabIndex={-1}
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
@@ -113,6 +144,7 @@ localStorage.setItem("name", user_name);
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
           <div className="modal-body p-3 p-sm-4">
             <form method="POST" className="row" onSubmit={handleSubmit}>
               <div className="form-group mb-20 col-12">
@@ -129,6 +161,7 @@ localStorage.setItem("name", user_name);
                   required
                 />
               </div>
+
               <div className="form-group mb-20 col-12">
                 <label className="text-secondary h6 mb-2" htmlFor="pnumber">
                   {t("phoneNumber")}
@@ -143,6 +176,7 @@ localStorage.setItem("name", user_name);
                   required
                 />
               </div>
+
               <div className="form-group mb-0 col-12">
                 <label className="text-secondary h6 mb-2" htmlFor="email2">
                   {t("emailAddress")}*
@@ -211,15 +245,46 @@ localStorage.setItem("name", user_name);
                   {t("password")}
                 </label>
                 <input
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setPassword(value);
+                    setPasswordStrength(getPasswordStrength(value));
+                  }}
                   value={password}
                   className="form-control shadow-none rounded-sm"
                   type="password"
                   id="password"
                   required
                 />
+
+                {password && (
+                  <div className="mt-2">
+                    <div
+                      style={{
+                        height: "6px",
+                        width: "100%",
+                        background: "#e0e0e0",
+                        borderRadius: "4px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: `${passwordStrength.percent}%`,
+                          height: "100%",
+                          background: passwordStrength.color,
+                          borderRadius: "4px",
+                          transition: "width 0.3s ease",
+                        }}
+                      ></div>
+                    </div>
+                    <small style={{ color: passwordStrength.color }}>
+                      {passwordStrength.label}
+                    </small>
+                  </div>
+                )}
               </div>
 
+              {/* Re-password */}
               <div className="form-group mb-0 col-12">
                 <label className="text-secondary h6 mb-" htmlFor="repassword">
                   {t("retypePassword")} *
@@ -235,12 +300,24 @@ localStorage.setItem("name", user_name);
                 />
               </div>
 
+              <div className="form-group col-12 mb-3">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                  onChange={(token) => setCaptchaToken(token)}
+                />
+              </div>
+
               {passwordError && (
                 <div className="center-error form-group mb-17">
                   <div className="text-danger">{passwordError}</div>
                 </div>
               )}
               {Error && <div className="text-danger mb-2">{Error}</div>}
+              {message.length !== 0 && (
+                <div className="text-success mb-2">{message}</div>
+              )}
+
               <div className="form-group col-12">
                 <button
                   className="btn btn-primary w-100 rounded-sm"

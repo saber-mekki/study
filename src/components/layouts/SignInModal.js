@@ -10,6 +10,7 @@ function SignInModal() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
 
+
   let type_register = "";
   const { t } = useTranslation();
   const resetForm = () => {
@@ -29,6 +30,7 @@ function SignInModal() {
     setEmailError("");
     setPasswordError("");
 
+    
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/login`,
@@ -67,6 +69,8 @@ function SignInModal() {
           setEmailError(t("Email not found. Please check."));
         } else if (err.response.status === 401) {
           setPasswordError(t("Invalid password. Please try again."));
+        } else if (err.response.status === 403) {
+          setPasswordError(t("Please verify your email before logging in."));
         } else {
           setPasswordError(t("An error occurred. Please try again."));
         }
@@ -200,7 +204,7 @@ function SignInModal() {
                   </div>
                 )}
               </div>
-
+          
               <button
                 type="button"
                 className="forgot-password"

@@ -46,12 +46,18 @@ function SignInModal() {
       
       type_register ==='admin'? history.push('/dash/admin'): history.push('/')
     } catch (err) {
+     
       if (err.response) {
+
+        
         if (err.response.status === 404) {
           setEmailError(t("Email not found. Please check."));
         } else if (err.response.status === 401) {
           setPasswordError(t("Invalid password. Please try again."));
-        } else {
+        } else if (err.response.status === 403) {
+          setPasswordError(t("Please verify your email before logging in."));
+        }
+        else {
           setPasswordError(t("An error occurred. Please try again."));
         }
       } else {

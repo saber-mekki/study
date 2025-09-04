@@ -28,7 +28,7 @@ import GroupDetails from "./components/profileComponents/MyGroups/GroupDetails";
 import StreamingDashboard from "./components/profileComponents/MyGroups/StreamingDashboard";
 import GroupSessions from "./components/profileComponents/session/index";
 import SessionAttendance from "./components/profileComponents/session/SessionAttendance";
-
+import VerifyAccount from "./components/layouts/VerifyAccount";
 import { CoursesLibrary } from "./components/layouts/myClasses/CoursesLibrary";
 import { CourseDetailStudent } from "./components/layouts/myClasses/CourseDetailStudent";
 function Routes() {
@@ -59,15 +59,13 @@ function Routes() {
 
                     <ProtectedRoute path="/user/:id" component={UserProfile} />
 
-                    <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
-                  
                           <Route exact path="/courses" component={CoursesLibrary} />
 
-                   <Route path="/course/:id" component={CourseDetailStudent} />
+                
 
                   
                   <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
-
+                  <Route path="/verify" component={VerifyAccount} />
                     
 
                     <Route exact path="/blog-details/:id" component={BlogDetails} />
@@ -79,6 +77,7 @@ function Routes() {
                             <Route exact path="/profile">
                                 <Redirect to="/profile/accueil" />
                             </Route>
+                            <Route path="/course/:id" component={CourseDetailStudent} />
 
                             <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
                             <Route path="/groups/:groupId" component={GroupDetails} />
