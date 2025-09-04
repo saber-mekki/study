@@ -48,7 +48,7 @@ function SignUpModal() {
     setType("student");
     setPasswordError("");
     setEmailError("");
-    setMessage("")
+    setError("")
     setPasswordStrength({ label: "", color: "", percent: 0 });
   };
 
@@ -121,7 +121,7 @@ function SignUpModal() {
   return (
     <div
       onClick={(e) => {
-        if ((e.target).id === "signup-modal") resetForm();
+        if ((e.target).id === "signup-modal"){ setMessage(""); resetForm()};
       }}
       className="modal fade rounded"
       id="signup-modal"
