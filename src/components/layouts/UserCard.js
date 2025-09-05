@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 export default function UserCard({
   id,
@@ -18,6 +19,7 @@ export default function UserCard({
   const [selectedStatus, setSelectedStatus] = useState("");
   const [securityCode, setSecurityCode] = useState("");
   const [modalTitle, setModalTitle] = useState("");
+const user = useSelector((state) => state.user);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -58,12 +60,24 @@ export default function UserCard({
   };
 
   const handleConfirm = async () => {
-    if (securityCode !== "0405") {
-      setErrorCode(true)
-      return;
-    }
-
-    try {
+    try {     
+      const token = localStorage.getItem("authToken");
+      const verifyRes = await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/verifyPassword`,
+        { 
+          password: securityCode, 
+          id: user.idUser  
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // optional but recommended
+          },
+        }
+      );
+      if (!verifyRes.data.valid) {
+        setErrorCode(true);
+        return;
+      } 
       if (modalAction === "makeAdmin") {
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/makeItAdmin`, { id });
         alert(`${name} is now an admin`);
@@ -76,7 +90,7 @@ export default function UserCard({
           status: selectedStatus,
         });
         alert(`User status updated to "${selectedStatus}"`);
-      }
+      } 
       window.location.reload();
     } catch (err) {
       console.error("Action failed:", err);
@@ -85,6 +99,7 @@ export default function UserCard({
       setShowModal(false);
     }
   };
+  
 
   return (
     <>

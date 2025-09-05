@@ -5,9 +5,10 @@ import AdminCourseCard from './AdminCourseCard';
 import { FiUsers, FiClock, FiUser, FiBook } from 'react-icons/fi';
 import { IoMan } from "react-icons/io5";
 import { RiAdminLine } from "react-icons/ri";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { useLocation, useHistory, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import Cookies from "js-cookie";
 
 const AdminDashboard = ({ section }) => {
   const { t } = useTranslation();
@@ -37,7 +38,6 @@ const AdminDashboard = ({ section }) => {
   const [admin, setAdmin] = useState(0);
   const [blogsList, setBlogsList] = useState([]);
   const [blogsCount, setBlogsCount] = useState(0);
-
   const [formationsList, setFormationsList] = useState([]);
   const [formations, setFormations] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -54,6 +54,14 @@ const AdminDashboard = ({ section }) => {
       console.error("Invalid token");
     }
   }
+
+  const handleLogout = () => {
+     localStorage.removeItem("authToken");
+       localStorage.removeItem("role");
+   
+       Cookies.remove("role");
+    history.push("/login"); // redirect to login
+  };
 
   useEffect(() => {
     if (section && section !== currentSection) {
@@ -148,21 +156,23 @@ const AdminDashboard = ({ section }) => {
           overflowY: "auto",
         }}
       >
-       <Link to="/home-one" className="text-decoration-none">
-      <h2
-        style={{
-          marginBottom: "2rem",
-          fontWeight: "bold",
-          fontSize: "1.5rem",
-          color: "inherit",
-        }}
-      >
-        {t("HOME")}
-      </h2>
-    </Link>
-            <h2 style={{ marginBottom: "2rem", fontWeight: "bold", fontSize: "1.5rem" }}>
+        <Link to="/home-one" className="text-decoration-none">
+          <h2
+            style={{
+              marginBottom: "2rem",
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+              color: "inherit",
+            }}
+          >
+            {t("HOME")}
+          </h2>
+        </Link>
+
+        <h2 style={{ marginBottom: "2rem", fontWeight: "bold", fontSize: "1.5rem" }}>
           {t("adminPanel")}
         </h2>
+
         <ul
           style={{
             listStyle: "none",
@@ -214,6 +224,25 @@ const AdminDashboard = ({ section }) => {
             );
           })}
         </ul>
+
+        <button
+          onClick={handleLogout}
+          style={{
+            marginTop: "auto",
+            backgroundColor: "#ff4d4d",
+            color: "#fff",
+            border: "none",
+            padding: "10px 15px",
+            cursor: "pointer",
+            fontSize: "1rem",
+            borderRadius: "4px",
+            transition: "background-color 0.3s ease",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#ff6666")}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#ff4d4d")}
+        >
+          {t("logout")}
+        </button>
       </nav>
 
       <main style={{ flexGrow: 1, padding: "30px" }}>
@@ -272,7 +301,6 @@ const AdminDashboard = ({ section }) => {
                   <div style={{ paddingBottom: "12px", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     {stat.icon}
                   </div>
-
                   <h3 style={{ fontSize: "1.1rem", color: "#333", marginBottom: "10px" }}>
                     {stat.title}
                   </h3>

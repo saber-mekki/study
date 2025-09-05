@@ -1,5 +1,6 @@
 import React from "react";
 import { Router, Route, Switch, HashRouter, Redirect } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 import history from "./History";
 import HomeOne from "./components/HomeOne";
@@ -33,6 +34,7 @@ import { CoursesLibrary } from "./components/layouts/myClasses/CoursesLibrary";
 import { CourseDetailStudent } from "./components/layouts/myClasses/CourseDetailStudent";
 function Routes() {
 
+    const user = useSelector((state) => state.user);
 
     return (
         <Router history={history}>
@@ -59,19 +61,15 @@ function Routes() {
 
                     <ProtectedRoute path="/user/:id" component={UserProfile} />
 
-                          <Route exact path="/courses" component={CoursesLibrary} />
+                    <Route exact path="/courses" component={CoursesLibrary} />
 
-                
+                    <Route path="/verify" component={VerifyAccount} />
 
-                  
-                  <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
-                  <Route path="/verify" component={VerifyAccount} />
-                    
 
                     <Route exact path="/blog-details/:id" component={BlogDetails} />
 
                     <Route exact path={'/tutors'} render={(props) => (<Tutors {...props} />)} />
-
+              
                     {isAuthenticated() ? (
                         <>
                             <Route exact path="/profile">
@@ -79,16 +77,18 @@ function Routes() {
                             </Route>
                             <Route path="/course/:id" component={CourseDetailStudent} />
 
+                            {user.role === "admin" &&
+                          <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />}
                             <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
                             <Route path="/groups/:groupId" component={GroupDetails} />
                             <Route path="/sessions/:groupId" component={GroupSessions} />
                             <Route path="/session-attendance/:sessionId" component={SessionAttendance} />
+                          
                         </>
                     ) : (
                         <Redirect to="/login" />
                     )}
 
-                    <ProtectedRoute exact path="/dash/admin" component={AdminDashboard} />
                     <ProtectedRoute exact path="/dashboard" component={Courses} />
                     <ProtectedRoute exact path={'/blog'} component={Blog} />
                     <Route component={Page404} />

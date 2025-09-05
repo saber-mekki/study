@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
+import { jwtDecode } from "jwt-decode";
 
 import SectionOne from "./layouts/SectionOne";
 
@@ -43,13 +44,18 @@ function SignInModal() {
         return;
       }
       localStorage.setItem('role', type_register); 
+          const token = response.data.tokens.accessToken;
+            const decodedToken = jwtDecode(token);
+            const user_name = decodedToken.user_name;
+          
+            localStorage.setItem('role', response.data.result.type_register); 
+            localStorage.setItem('name', user_name); 
       
-      type_register ==='admin'? history.push('/dash/admin'): history.push('/')
+            localStorage.setItem("authToken", token);
+      type_register ==='admin'? history.push('/dash'): history.push('/')
     } catch (err) {
      
-      if (err.response) {
-
-        
+      if (err.response) {       
         if (err.response.status === 404) {
           setEmailError(t("Email not found. Please check."));
         } else if (err.response.status === 401) {
