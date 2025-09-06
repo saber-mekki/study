@@ -134,35 +134,33 @@ function SignUpTutor() {
     setApiError("");
     setSubjectError("");
     setRobotMessage("");
-
-    // Validate BEFORE calling APIs
+  
     if (selectedSubject.length === 0) {
       setSubjectError(t("pleaseSelectSubject"));
       return;
     }
-
+  
     if (!country.trim()) {
       setApiError(t("Please enter your country"));
       return;
     }
-
+  
     const price = parseFloat(pricePerHour);
     if (Number.isNaN(price) || price <= 0) {
       setApiError(t("Please enter a valid price per hour"));
       return;
     }
-
+  
     if (!degree) {
       setApiError(t("Please select your degree"));
       return;
     }
-
+  
     if (!captchaToken) {
       setRobotMessage(t("Please confirm you are not a robot."));
       return;
     }
-
-    // Add user first
+  
     const userPayload = {
       name,
       email,
@@ -172,18 +170,17 @@ function SignUpTutor() {
       gender,
       captchaToken,
     };
-
+  
     try {
       setIsLoading(true);
+  
       const userRes = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/addUser`,
         userPayload
       );
-
       toast.success(userRes.data.message);
       setVerifMessage(userRes.data.message);
-
-      // Then add tutor-specific data
+  
       const tutorData = {
         email,
         country: country.trim(),
@@ -198,23 +195,40 @@ function SignUpTutor() {
           : [],
         availability: "available",
       };
-
+  
       const tutorRes = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/addTutor`,
         tutorData
       );
-
+  
       if (tutorRes.data?.error) {
         setApiError(tutorRes.data.message || t("Failed to save tutor details"));
         return;
       }
-
-      // Optionally upload files here (idFile, degreeFile) with FormData if your API supports it.
-
-      // Success → next step
+  
+      const uploadFiles = async (file, type) => {
+        if (!file) return null;
+  
+        const formData = new FormData();
+        formData.append("tutor_email", email);
+        formData.append("type", type); // "ID" or "Degree"
+        formData.append("file", file);
+  
+        const res = await axios.post(
+          `${process.env.REACT_APP_API_BASE_URL}/tutors/upload-pdf`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+  
+        return res.data;
+      };
+  
+      await uploadFiles(idFile, "ID");
+      await uploadFiles(degreeFile, "Degree");
+  
+  
       handleStepChange(4);
-
-      // Reset captcha
+  
       if (recaptchaRef.current) {
         recaptchaRef.current.reset();
         setCaptchaToken(null);
@@ -226,6 +240,7 @@ function SignUpTutor() {
       setIsLoading(false);
     }
   };
+  
 
   const handleClose = () => {
     setFormIndex(1);

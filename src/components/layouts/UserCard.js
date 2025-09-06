@@ -19,12 +19,26 @@ export default function UserCard({
   const [selectedStatus, setSelectedStatus] = useState("");
   const [securityCode, setSecurityCode] = useState("");
   const [modalTitle, setModalTitle] = useState("");
-const user = useSelector((state) => state.user);
+  const [tutorPDFs, setTutorPDFs] = useState([]);
+  const user = useSelector((state) => state.user);
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+  useEffect(() => {
+    const fetchTutorPDFs = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/tutors/${email}/pdfs`
+        );
+        setTutorPDFs(res.data);
+      } catch (err) {
+        console.error("Error fetching tutor PDFs:", err);
+      }
+    };
 
+    if (role === "tutor" && email) fetchTutorPDFs();
+  }, [email, role]);
   useEffect(() => {
     const fetchUserImage = async () => {
       try {
@@ -44,6 +58,25 @@ const user = useSelector((state) => state.user);
     if (id) fetchUserImage();
   }, [id]);
 
+  const handleDeletePDF = async (pdfId) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      await axios.delete(
+        `${process.env.REACT_APP_API_BASE_URL}/tutors/pdfs/${pdfId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setTutorPDFs(tutorPDFs.filter((pdf) => pdf.id !== pdfId));
+      alert("PDF deleted successfully.");
+    } catch (err) {
+      console.error("Failed to delete PDF:", err);
+      alert("Failed to delete PDF. See console for details.");
+    }
+  };
+
   const openModal = (action, status = "") => {
     setModalAction(action);
     setSelectedStatus(status);
@@ -51,8 +84,8 @@ const user = useSelector((state) => state.user);
       action === "makeAdmin"
         ? "Confirm Make Admin"
         : action === "delete"
-        ? "Confirm Delete"
-        : "Confirm Status Change"
+          ? "Confirm Delete"
+          : "Confirm Status Change"
     );
     setDropdownOpen(false);
     setShowModal(true);
@@ -60,13 +93,13 @@ const user = useSelector((state) => state.user);
   };
 
   const handleConfirm = async () => {
-    try {     
+    try {
       const token = localStorage.getItem("authToken");
       const verifyRes = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/verifyPassword`,
-        { 
-          password: securityCode, 
-          id: user.idUser  
+        {
+          password: securityCode,
+          id: user.idUser
         },
         {
           headers: {
@@ -77,7 +110,7 @@ const user = useSelector((state) => state.user);
       if (!verifyRes.data.valid) {
         setErrorCode(true);
         return;
-      } 
+      }
       if (modalAction === "makeAdmin") {
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/makeItAdmin`, { id });
         alert(`${name} is now an admin`);
@@ -90,7 +123,7 @@ const user = useSelector((state) => state.user);
           status: selectedStatus,
         });
         alert(`User status updated to "${selectedStatus}"`);
-      } 
+      }
       window.location.reload();
     } catch (err) {
       console.error("Action failed:", err);
@@ -99,7 +132,7 @@ const user = useSelector((state) => state.user);
       setShowModal(false);
     }
   };
-  
+
 
   return (
     <>
@@ -117,33 +150,33 @@ const user = useSelector((state) => state.user);
               {dropdownOpen && (
                 <ul className="dropdown-menu show shadow" style={{ right: 0, left: "auto", top: "100%" }}>
                   {role !== "admin" && (
-                   <>
-                   
-                   <li>
-                      <button className="dropdown-item" onClick={() => openModal("makeAdmin")}>
-                        <i className="fas fa-user-shield text-primary me-2"></i> Make Admin
-                      </button>
-                    </li>
-                 
+                    <>
+
+                      <li>
+                        <button className="dropdown-item" onClick={() => openModal("makeAdmin")}>
+                          <i className="fas fa-user-shield text-primary me-2"></i> Make Admin
+                        </button>
+                      </li>
+
+                      <li>
+                        <button className="dropdown-item" onClick={() => openModal("status", "accepted")}>
+                          <i className="fas fa-check-circle text-success me-2"></i> Accept User
+                        </button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" onClick={() => openModal("status", "waiting")}>
+                          <i className="fas fa-clock text-warning me-2"></i> Set to Waiting
+                        </button>
+                      </li>
+                      <li>
+                        <button className="dropdown-item" onClick={() => openModal("status", "rejected")}>
+                          <i className="fas fa-times-circle text-danger me-2"></i> Refuse User
+                        </button>
+                      </li>
+
+                    </>
+                  )}
                   <li>
-                    <button className="dropdown-item" onClick={() => openModal("status", "accepted")}>
-                      <i className="fas fa-check-circle text-success me-2"></i> Accept User
-                    </button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={() => openModal("status", "waiting")}>
-                      <i className="fas fa-clock text-warning me-2"></i> Set to Waiting
-                    </button>
-                  </li>
-                  <li>
-                    <button className="dropdown-item" onClick={() => openModal("status", "rejected")}>
-                      <i className="fas fa-times-circle text-danger me-2"></i> Refuse User
-                    </button>
-                  </li>
-                 
-               </>
-                )}
-                <li>
                     <button className="dropdown-item text-danger" onClick={() => openModal("delete")}>
                       <i className="fas  pr-2 fa-trash-alt me-2"></i>{role === "admin" ? "Delete Admin" : "Delete User"}
                     </button>
@@ -178,7 +211,7 @@ const user = useSelector((state) => state.user);
             <div>
               <strong>Role:</strong> <span >{role}</span>
             </div>
-            { role !== "admin" && (
+            {role !== "admin" && (
               <div>
                 <strong>Status:</strong> {status}
               </div>
@@ -191,6 +224,36 @@ const user = useSelector((state) => state.user);
             {role === "student" && (
               <div>
                 <strong>Courses Purchased: 0</strong>
+              </div>
+            )}
+            {role === "tutor" && tutorPDFs.length > 0 && (
+              <div className="mt-3 text-start">
+                <strong>Uploaded Documents:</strong>
+                <ul className="list-unstyled mt-1">
+                  {tutorPDFs.map((pdf) => (
+                    <li key={pdf.id} className="d-flex align-items-center justify-content-between mb-1">
+                      <a
+                        href={pdf.file_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary"
+                      >
+                        {pdf.type || "PDF"} 📄
+                      </a>
+                      <button
+                        className="btn btn-sm btn-danger ms-2"
+                        onClick={() => handleDeletePDF(pdf.id)}
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {role === "tutor" && tutorPDFs.length === 0 && (
+              <div className="mt-3 text-muted">
+                No documents uploaded yet.
               </div>
             )}
           </div>
@@ -223,7 +286,7 @@ const user = useSelector((state) => state.user);
                   <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
                     Cancel
                   </button>
-                  
+
                 </div>
               </div>
             </div>
