@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import UserCard from '../components/layouts/UserCard';
 import AdminCourseCard from './AdminCourseCard';
-import { FiUsers, FiClock, FiUser, FiBook } from 'react-icons/fi';
+import { FiUsers, FiClock, FiUser, FiBook, FiMenu } from 'react-icons/fi';
 import { IoMan } from "react-icons/io5";
 import { RiAdminLine } from "react-icons/ri";
 import { jwtDecode } from "jwt-decode";
@@ -10,10 +12,13 @@ import { useLocation, useHistory, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
 
+import "./AdminDashboard.css";
+
 const AdminDashboard = ({ section }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const history = useHistory();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const getQueryParam = (param) => {
     const searchParams = new URLSearchParams(location.search);
@@ -45,6 +50,14 @@ const AdminDashboard = ({ section }) => {
 
   const token = localStorage.getItem("authToken");
   let userName = "";
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+
+  const paginate = (list) => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return list.slice(start, start + itemsPerPage);
+  };
+
 
   if (token) {
     try {
@@ -56,11 +69,10 @@ const AdminDashboard = ({ section }) => {
   }
 
   const handleLogout = () => {
-     localStorage.removeItem("authToken");
-       localStorage.removeItem("role");
-   
-       Cookies.remove("role");
-    history.push("/login"); // redirect to login
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("role");
+    Cookies.remove("role");
+    history.push("/login");
   };
 
   useEffect(() => {
@@ -81,7 +93,6 @@ const AdminDashboard = ({ section }) => {
     const fetchData = async () => {
       try {
         const baseURL = process.env.REACT_APP_API_BASE_URL;
-
         const resUsers = await axios.get(`${baseURL}/users`);
         const allUsers = resUsers.data.result || [];
 
@@ -95,8 +106,7 @@ const AdminDashboard = ({ section }) => {
           const allFormations = resFormations.data.courses || [];
           setFormations(allFormations.length);
           setFormationsList(allFormations);
-        } catch (error) {
-          console.error("Failed to fetch courses:", error);
+        } catch {
           setFormations(0);
         }
 
@@ -105,8 +115,7 @@ const AdminDashboard = ({ section }) => {
           const allBlogs = resBlogs.data.result || [];
           setBlogsCount(allBlogs.length);
           setBlogsList(allBlogs);
-        } catch (error) {
-          console.error("Failed to fetch blogs:", error);
+        } catch {
           setBlogsCount(0);
         }
 
@@ -126,7 +135,6 @@ const AdminDashboard = ({ section }) => {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -138,52 +146,22 @@ const AdminDashboard = ({ section }) => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("section", section);
     history.push({ search: searchParams.toString() });
+    setSidebarOpen(false); // auto close on mobile
   };
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "Arial, sans-serif" }}>
-      <nav
-        style={{
-          maxWidth: "220px",
-          minWidth: "200px",
-          backgroundColor: "#222",
-          color: "#fff",
-          padding: "20px",
-          boxSizing: "border-box",
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          overflowY: "auto",
-        }}
-      >
-        <Link to="/home-one" className="text-decoration-none">
-          <h2
-            style={{
-              marginBottom: "2rem",
-              fontWeight: "bold",
-              fontSize: "1.5rem",
-              color: "inherit",
-            }}
-          >
-            {t("HOME")}
-          </h2>
-        </Link>
+    <div className="dashboard-container">
 
-        <h2 style={{ marginBottom: "2rem", fontWeight: "bold", fontSize: "1.5rem" }}>
-          {t("adminPanel")}
-        </h2>
+      <button className="menu-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+        <FiMenu size={24} />
+      </button>
 
-        <ul
-          style={{
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-            flexGrow: 1,
-          }}
-        >
+
+      <nav className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+        <Link to="/home-one" className="sidebar-home">{t("HOME")}</Link>
+        <h2 className="sidebar-title">{t("adminPanel")}</h2>
+
+        <ul className="sidebar-menu">
           {[
             { label: t("dashboard"), section: "dashboard" },
             { label: t("allUsers"), section: "All Users" },
@@ -193,138 +171,59 @@ const AdminDashboard = ({ section }) => {
             { label: t("formations"), section: "All Formations" },
             { label: t("admins"), section: "All Admins" },
             { label: t("blogs"), section: "All Blogs" },
-          ].map(({ label, section }) => {
-            const isActive = currentSection === section;
-            return (
-              <li key={section}>
-                <button
-                  onClick={() => handleSectionChange(section)}
-                  style={{
-                    width: "100%",
-                    backgroundColor: isActive ? "#ff4d4d" : "transparent",
-                    color: "#fff",
-                    border: "none",
-                    padding: "10px 15px",
-                    textAlign: "left",
-                    cursor: "pointer",
-                    fontSize: "1rem",
-                    borderRadius: "4px",
-                    transition: "background-color 0.3s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) e.currentTarget.style.backgroundColor = "#ff6666";
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) e.currentTarget.style.backgroundColor = "transparent";
-                  }}
-                >
-                  {label}
-                </button>
-              </li>
-            );
-          })}
+          ].map(({ label, section }) => (
+            <li key={section}>
+              <button
+                className={`sidebar-btn ${currentSection === section ? "active" : ""}`}
+                onClick={() => handleSectionChange(section)}
+              >
+                {label}
+              </button>
+            </li>
+          ))}
         </ul>
 
-        <button
-          onClick={handleLogout}
-          style={{
-            marginTop: "auto",
-            backgroundColor: "#ff4d4d",
-            color: "#fff",
-            border: "none",
-            padding: "10px 15px",
-            cursor: "pointer",
-            fontSize: "1rem",
-            borderRadius: "4px",
-            transition: "background-color 0.3s ease",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#ff6666")}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#ff4d4d")}
-        >
+        <button className="logout-btn" onClick={handleLogout}>
           {t("logout")}
         </button>
       </nav>
 
-      <main style={{ flexGrow: 1, padding: "30px" }}>
+      <main className="dashboard-main">
         {currentSection === "dashboard" && (
           <>
-            <h1 style={{ fontSize: "2rem", marginBottom: "10px" }}>
-              {t("welcomeAdmin", { userName })}
-            </h1>
-            <p style={{ color: "#555", marginBottom: "30px" }}>{t("overview")}</p>
+            <h1 className="mt-5">{t("welcomeAdmin", { userName })}</h1>
+            <p className="overview">{t("overview")}</p>
 
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                gap: "20px",
-                margin: "55px",
-              }}
-            >
+            <div className="stats-grid">
               {[
-                { title: t("allUsers"), value: users, icon: <FiUsers size={30} color="#007bff" /> },
-                { title: t("waitingUsers"), value: waitingUsers, icon: <FiClock size={30} color="#ffc107" /> },
-                { title: t("allTutors"), value: tutors, icon: <IoMan size={30} color="#28a745" /> },
-                { title: t("allStudents"), value: students, icon: <FiUser size={30} color="#dc3545" /> },
-                { title: t("allAdmins"), value: admin, icon: <RiAdminLine size={30} color="#6f42c1" /> },
-                { title: t("All Formations"), value: formations, icon: <FiBook size={30} color="#17a2b8" /> },
-                { title: t("blogs"), value: blogsCount, icon: <FiBook size={30} color="#17a2b8" /> },
+                { title: t("allUsers"), value: users, icon: <FiUsers size={30} /> },
+                { title: t("waitingUsers"), value: waitingUsers, icon: <FiClock size={30} /> },
+                { title: t("allTutors"), value: tutors, icon: <IoMan size={30} /> },
+                { title: t("allStudents"), value: students, icon: <FiUser size={30} /> },
+                { title: t("allAdmins"), value: admin, icon: <RiAdminLine size={30} /> },
+                { title: t("All Formations"), value: formations, icon: <FiBook size={30} /> },
+                { title: t("blogs"), value: blogsCount, icon: <FiBook size={30} /> },
               ].map((stat) => (
                 <div
-                  onClick={() => handleSectionChange(stat.title)}
                   key={stat.title}
-                  style={{
-                    backgroundColor: "#ffffff",
-                    borderRadius: "10px",
-                    padding: "25px",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.05)",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    border: "1px solid #ddd",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    textAlign: "center",
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = "0 0 15px 3px rgba(255, 0, 0, 0.7)";
-                    e.currentTarget.style.borderColor = "red";
-                    e.currentTarget.style.backgroundColor = "#ccc5b9";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = "0 4px 8px rgba(0,0,0,0.05)";
-                    e.currentTarget.style.borderColor = "#ddd";
-                    e.currentTarget.style.backgroundColor = "#ffffff";
-                  }}
+                  className="stat-card"
+                  onClick={() => handleSectionChange(stat.title)}
                 >
-                  <div style={{ paddingBottom: "12px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    {stat.icon}
-                  </div>
-                  <h3 style={{ fontSize: "1.1rem", color: "#333", marginBottom: "10px" }}>
-                    {stat.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontSize: "1.8rem",
-                      fontWeight: "bold",
-                      margin: 0,
-                      color: "#007bff",
-                    }}
-                  >
-                    {stat.value}
-                  </p>
+                  <div className="stat-icon">{stat.icon}</div>
+                  <h3>{stat.title}</h3>
+                  <p>{stat.value}</p>
                 </div>
               ))}
             </div>
           </>
         )}
 
+
         {currentSection === "All Users" && (
           <>
-            <h2>{t("allUsers")} ({users})</h2>
+            <h2 className="mt-5">{t("allUsers")} ({users})</h2>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {users0.map((user) => (
+              {paginate(users0).map((user) => (
                 <UserCard
                   key={user.user_id}
                   id={user.user_id}
@@ -335,15 +234,32 @@ const AdminDashboard = ({ section }) => {
                   image={user.photo}
                 />
               ))}
+              <Stack
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ marginTop: 3 }}
+              >
+                <Pagination
+                  count={Math.ceil(users0.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={(e, value) => setCurrentPage(value)}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                />
+              </Stack>
             </div>
           </>
         )}
 
         {currentSection === "All Tutors" && (
           <>
-            <h2>{t("allTutors")} ({tutors})</h2>
+            <h2 className="mt-5">{t("allTutors")} ({tutors})</h2>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {tutorsList.map((user) => (
+
+              {paginate(tutorsList).map((user) => (
                 <UserCard
                   key={user.user_id}
                   id={user.user_id}
@@ -354,15 +270,32 @@ const AdminDashboard = ({ section }) => {
                   image={user.photo}
                 />
               ))}
+              <Stack
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ marginTop: 3 }}
+              >
+                <Pagination
+                  count={Math.ceil(tutorsList.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={(e, value) => setCurrentPage(value)}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                />
+              </Stack>
             </div>
           </>
         )}
 
         {currentSection === "All Students" && (
           <>
-            <h2>{t("allStudents")} ({students})</h2>
+            <h2 className="mt-5">{t("allStudents")} ({students})</h2>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {studentsList.map((user) => (
+
+              {paginate(studentsList).map((user) => (
                 <UserCard
                   key={user.user_id}
                   id={user.user_id}
@@ -373,15 +306,32 @@ const AdminDashboard = ({ section }) => {
                   image={user.photo}
                 />
               ))}
+              <Stack
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ marginTop: 3 }}
+              >
+                <Pagination
+                  count={Math.ceil(studentsList.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={(e, value) => setCurrentPage(value)}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                />
+              </Stack>
             </div>
           </>
         )}
 
         {currentSection === "All Users waiting" && (
           <>
-            <h2>{t("waitingUsers")} ({waitingUsers})</h2>
+            <h2 className="mt-5">{t("waitingUsers")} ({waitingUsers})</h2>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {waitingUsersList.map((user) => (
+
+              {paginate(waitingUsersList).map((user) => (
                 <UserCard
                   key={user.user_id}
                   id={user.user_id}
@@ -392,15 +342,32 @@ const AdminDashboard = ({ section }) => {
                   image={user.photo}
                 />
               ))}
+              <Stack
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ marginTop: 3 }}
+              >
+                <Pagination
+                  count={Math.ceil(waitingUsersList.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={(e, value) => setCurrentPage(value)}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                />
+              </Stack>
             </div>
           </>
         )}
 
         {currentSection === "All Admins" && (
           <>
-            <h2>{t("admins")} ({admin})</h2>
+            <h2 className="mt-5">{t("admins")} ({admin})</h2>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {adminList.map((user) => (
+
+              {paginate(adminList).map((user) => (
                 <UserCard
                   key={user.user_id}
                   id={user.user_id}
@@ -411,28 +378,78 @@ const AdminDashboard = ({ section }) => {
                   image={user.photo}
                 />
               ))}
+              <Stack
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ marginTop: 3 }}
+              >
+                <Pagination
+                  count={Math.ceil(adminList.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={(e, value) => setCurrentPage(value)}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                />
+              </Stack>
             </div>
           </>
         )}
 
         {currentSection === "All Formations" && (
           <>
-            <h2>{t("formations")} ({formations})</h2>
+            <h2 className="mt-5">{t("formations")} ({formations})</h2>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-              {formationsList.map((course) => (
+
+              {paginate(formationsList).map((course) => (
                 <AdminCourseCard key={course.id} {...course} />
               ))}
+              <Stack
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ marginTop: 3 }}
+              >
+                <Pagination
+                  count={Math.ceil(formationsList.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={(e, value) => setCurrentPage(value)}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                />
+              </Stack>
             </div>
           </>
         )}
 
         {currentSection === "All Blogs" && (
           <>
-            <h2>{t("blogs")} ({blogsCount})</h2>
+            <h2 className="mt-5">{t("blogs")} ({blogsCount})</h2>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
-              {blogsList.map((blog) => (
+
+              {paginate(blogsList).map((blog) => (
                 <AdminCourseCard key={blog.id} {...blog} />
-              ))}
+              ))}   <Stack
+                spacing={2}
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                sx={{ marginTop: 3 }}
+              >
+                <Pagination
+                  count={Math.ceil(blogsList.length / itemsPerPage)}
+                  page={currentPage}
+                  onChange={(e, value) => setCurrentPage(value)}
+                  color="primary"
+                  variant="outlined"
+                  shape="rounded"
+                />
+              </Stack>
+
             </div>
           </>
         )}
