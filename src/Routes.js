@@ -32,6 +32,8 @@ import SessionAttendance from "./components/profileComponents/session/SessionAtt
 import VerifyAccount from "./components/layouts/VerifyAccount";
 import { CoursesLibrary } from "./components/layouts/myClasses/CoursesLibrary";
 import { CourseDetailStudent } from "./components/layouts/myClasses/CourseDetailStudent";
+import Cart from "./components/Cart";
+
 function Routes() {
 
     const user = useSelector((state) => state.user);
@@ -49,7 +51,7 @@ function Routes() {
                     <Route exact path={'/about-three'} render={(props) => (<AboutThree {...props} />)} />
                     <Route exact path={'/courses'} render={(props) => (<Courses {...props} />)} />
                     <Route exact path={'/job-board'} render={(props) => (<JobBoard {...props} />)} />
-                    <Route exact path={'/course-details-one'} render={(props) => (<CourseDetailsOne {...props} />)} />
+                    <Route exact path={'/course-details-one/:id'} render={(props) => (<CourseDetailsOne {...props} />)} />
                     <Route exact path={'/course-details-two'} render={(props) => (<CourseDetailsTwo {...props} />)} />
 
                     <Route exact path={'/blog'} render={(props) => (<Blog {...props} />)} />
@@ -81,7 +83,8 @@ function Routes() {
                             <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
                             <Route path="/groups/:groupId" component={GroupDetails} />
                             <Route path="/sessions/:groupId" component={GroupSessions} />
-                            <Route path="/session-attendance/:sessionId" component={SessionAttendance} />      
+                            <Route path="/session-attendance/:sessionId" component={SessionAttendance} />  
+                            <Route path="/cart" component={Cart} />    
                         </>
                     ) : (
                         <Redirect to="/login" />

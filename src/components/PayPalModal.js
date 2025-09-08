@@ -6,12 +6,13 @@ const PayPalModal = ({ show, onClose, title, price, courseId = "", studentId = "
 
   const handleApprove = async (data, actions) => {
     const order = await actions.order.capture();
+    const courseIds = Array.isArray(courseId) ? courseId : [courseId];
 
-    await fetch( `${process.env.REACT_APP_API_BASE_URL}/purchases`, {
+    await fetch(`${process.env.REACT_APP_API_BASE_URL}/purchases`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        courseId,
+        courseIds, 
         studentId,
         paypalOrderId: order.id,
         amount: order.purchase_units[0].amount.value,
@@ -39,7 +40,7 @@ const PayPalModal = ({ show, onClose, title, price, courseId = "", studentId = "
           </div>
           <div className="modal-body">
             <p>Amount: ${price}</p>
-            <PayPalScriptProvider options={{ "client-id": "AS-yWifWB7ymF9cYtAFxK9QyaGYvJ4XymiWcDH6HkJp2vtd3mZjdtq2Hlh9Oq45IE9CvVMjGU-lFuYmB"}}>
+            <PayPalScriptProvider options={{ "client-id": "AS-yWifWB7ymF9cYtAFxK9QyaGYvJ4XymiWcDH6HkJp2vtd3mZjdtq2Hlh9Oq45IE9CvVMjGU-lFuYmB" }}>
               <PayPalButtons
                 style={{ layout: "vertical" }}
                 createOrder={(data, actions) => {

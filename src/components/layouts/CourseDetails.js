@@ -1,6 +1,7 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import PayPalModal from "../PayPalModal";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const CourseDetails = ({
   show,
@@ -23,7 +24,7 @@ const CourseDetails = ({
 
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const CurrentUser = useSelector((state) => state.user);
-  
+
   if (!show) return null;
 
   return (
@@ -155,6 +156,13 @@ const CourseDetails = ({
             >
               Close
             </button>
+            <Link
+              to={`/course-details-one/${id}`} 
+              className="btn btn-primary btn-block"
+
+            >
+              See Details
+            </Link>
             <button
               type="button"
               className="btn btn-primary"

@@ -3,18 +3,21 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min";
 
-import ChatBox from '../chatBox';
+import ChatBox from "../chatBox";
 import LanguageDropdown from "../LanguageDropdown";
 import ProfileMenu from "./ProfileMenu";
 import { NotificationsDropdown } from "./NotificationDropdown";
 import Status from "../../Status";
 
+import { useCart } from "../context/CartContext"; 
+
 import "./HeaderOne.css";
 
 function HeaderOne() {
   const { t } = useTranslation();
-
   const isAuthenticated = localStorage.getItem("authToken");
+
+  const { cart } = useCart(); 
 
   useEffect(() => {
     document.querySelectorAll(".dropdown-toggle").forEach((dropdown) => {
@@ -24,16 +27,14 @@ function HeaderOne() {
 
   return (
     <header className="bg-white shadow">
-
       <Status />
       <div className="container-lg">
         <nav className="navbar navbar-expand-xl navbar-dark px-0">
           <Link to={"/home-one"} className="navbar-brand">
-            <a href="/" class="text-logo stacked" aria-label="Edix Academy">
-              <span class="line top">Edix</span>
-              <span class="line bottom">Academy</span>
-            </a>
-
+            <span className="text-logo stacked" aria-label="Edix Academy">
+              <span className="line top">Edix</span>
+              <span className="line bottom">Academy</span>
+            </span>
           </Link>
 
           <button
@@ -75,13 +76,11 @@ function HeaderOne() {
                   {t("Blog")}
                 </Link>
               </li>
-
               <li className="nav-item">
                 <Link to={"/contact"} className="nav-link">
                   {t("Contact Us")}
                 </Link>
               </li>
-
 
 
               {!isAuthenticated && (
@@ -137,7 +136,19 @@ function HeaderOne() {
               <LanguageDropdown />
               {isAuthenticated && <ChatBox />}
 
-
+              {isAuthenticated &&  <li className="nav-item">
+                <Link to={"/cart"} className="nav-link position-relative">
+                  <i className="fas fa-shopping-cart fa-lg"></i>
+                  {cart.length > 0 && (
+                    <span
+                      className="badge badge-danger position-absolute"
+                      style={{ top: "-5px", right: "-10px", fontSize: "12px" }}
+                    >
+                      {cart.length}
+                    </span>
+                  )}
+                </Link>
+              </li>}
             </ul>
           </div>
         </nav>

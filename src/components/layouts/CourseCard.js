@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { useHistory } from "react-router-dom";
 import CourseDetails from "./CourseDetails";
 
 export default function CourseCard({
@@ -17,10 +17,10 @@ export default function CourseCard({
   syllabus,
   requirements,
 }) {
-  const [selectedCourse, setSelectedCourse] = useState(false);
+
   const [ratings, setRatings] = useState([]);
   const [rate, setRate] = useState(0);
-
+  const history = useHistory();
   useEffect(() => {
     const fetchRatings = async () => {
       const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/rating/course/${id}`);
@@ -40,16 +40,17 @@ export default function CourseCard({
 
 
   const handleOpenModal = () => {
-    setSelectedCourse(true);
-  };
 
+        history.push(`/course-details-one/${id}`);
+
+  }
   const handleClose = () => {
-    setSelectedCourse(false);
+   
   };
 
   return (
     <>
-      <div onClick={handleOpenModal} className="col-lg-4 col-md-5 col-sm-6">
+      <div style={{ cursor: "pointer" }} onClick={handleOpenModal} className="col-lg-4 col-md-5 col-sm-6">
         <div className="card course-card shadow mt-40">
           <img
             className="card-img-top"
@@ -98,7 +99,7 @@ export default function CourseCard({
         </div>
       </div>
 
-      {selectedCourse && (
+      {/* {selectedCourse && (
         <CourseDetails
           show={selectedCourse !== null}
           key={id}
@@ -117,7 +118,7 @@ export default function CourseCard({
           onClose={handleClose}
           ratings={ratings}
         />
-      )}
+      )} */}
     </>
   );
 }
