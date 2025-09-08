@@ -4,7 +4,8 @@ import DatePicker from 'react-datepicker';
 import { toast } from 'react-toastify';
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import 'react-calendar/dist/Calendar.css';
 import './calendarStyles.css';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -27,6 +28,7 @@ export default function TutorAvailabilityManager() {
   const user = useSelector((state) => state.user);
   const tutorId = user.idUser;
 
+  const itemsPerPage = 5;
   useEffect(() => {
     if (!tutorId) return;
 
@@ -55,7 +57,7 @@ export default function TutorAvailabilityManager() {
       try {
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability`, {
           tutorId,
-availableDate: selectedDate.toLocaleDateString('en-CA') 
+          availableDate: selectedDate.toLocaleDateString('en-CA')
         });
         toast.success(t('Availability added'));
         setAvailability([...availability, {
@@ -163,6 +165,8 @@ availableDate: selectedDate.toLocaleDateString('en-CA')
     return found ? found.status : null;
   };
 
+
+  const totalPages = Math.ceil(pendingBookings.length / itemsPerPage);
   return (
     <div style={{ maxWidth: '600px', margin: 'auto' }}>
       <h2 className='m-3'>{t('Manage Tutor Availability')}</h2>
@@ -268,15 +272,18 @@ availableDate: selectedDate.toLocaleDateString('en-CA')
             </div>
           </li>
         ))}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
-          <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
-            {t('Previous')}
-          </button>
-          <button onClick={() => setCurrentPage((p) => (indexOfLastBooking < pendingBookings.length ? p + 1 : p))}
-            disabled={indexOfLastBooking >= pendingBookings.length}>
-            {t('Next')}
-          </button>
-        </div>
+        {pendingBookings.length !== 0 && <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <Stack spacing={2}>
+            <Pagination
+              count={totalPages}
+              page={currentPage}
+              onChange={(e, value) => setCurrentPage(value)}
+              color="primary"
+              variant="outlined"
+              shape="rounded"
+            />
+          </Stack>
+        </div>}
       </ul>
     </div>
   );

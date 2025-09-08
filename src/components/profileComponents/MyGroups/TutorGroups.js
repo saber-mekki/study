@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 
 export default function TutorGroups() {
     const [groups, setGroups] = useState([]);
@@ -61,7 +63,7 @@ export default function TutorGroups() {
             const updateTime = () => {
                 const now = new Date();
 
-             
+
                 const startParts = daily_start.split(":");
                 const endParts = daily_end.split(":");
 
@@ -81,7 +83,7 @@ export default function TutorGroups() {
                 const diffM = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                 setTimeUntilStart(`${diffH}h ${diffM}m`);
 
-     
+
                 let durationMs = endDate - startDate;
                 if (durationMs < 0) durationMs += 24 * 60 * 60 * 1000; // handle overnight
                 const durH = Math.floor(durationMs / (1000 * 60 * 60));
@@ -178,33 +180,24 @@ export default function TutorGroups() {
                                 className="btn btn-outline-warning text-dark "
                                 onClick={() => history.push(`/sessions/${group.group_id}`)}
                             >
-                              View Sessions
+                                View Sessions
                             </button>
-                        
+
                         </div>
                     </div>
                 </div>
             ))}
             <div className="d-flex justify-content-center mt-3">
-                <button
-                    onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="btn btn-secondary me-2"
-                >
-                    Prev
-                </button>
-
-                <span style={{ lineHeight: "2.5rem" }}>
-                    Page {currentPage} / {totalPages}
-                </span>
-
-                <button
-                    onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="btn btn-secondary ms-2"
-                >
-                    Next
-                </button>
+                <Stack spacing={2}>
+                    <Pagination
+                        count={totalPages}
+                        page={currentPage}
+                        onChange={(e, value) => setCurrentPage(value)}
+                        color="primary"
+                        variant="outlined"
+                        shape="rounded"
+                    />
+                </Stack>
             </div>
         </div>
     );

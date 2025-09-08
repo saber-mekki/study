@@ -22,6 +22,7 @@ import { CoursesLibrary } from "./myClasses/CoursesLibrary";
 import { Quiz } from "./myClasses/Quiz";
 import MyGroups from "../profileComponents/MyGroups/index";
 import CreateGroup from "../profileComponents/MyGroups/CreateGroup";
+import Announcements from "./announcements";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -29,7 +30,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const { section } = useParams();
   const history = useHistory();
-
+  const [announcementsCount, setAnnouncementsCount] = useState(0);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [name, setName] = useState("");
@@ -44,6 +45,7 @@ const UserProfile = () => {
     if (window.innerWidth < 768) {
       setMenuOpen(false);
     }
+
   };
 
   useEffect(() => {
@@ -64,6 +66,7 @@ const UserProfile = () => {
     Cookies.remove("role");
     window.location.href = "/";
   };
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -127,20 +130,26 @@ const UserProfile = () => {
 
     fetchUserData();
   }, [dispatch]);
+console.log({user})
+  useEffect(() => {
+    const fetchUnreadCount = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/announcements/${user.idUser}/unread/count?userType=${role}`
+        );
+        setAnnouncementsCount(response.data.count);
+      } catch (error) {
+        console.error("Error fetching unread count:", error);
+      }
+    };
+
+    fetchUnreadCount();
+  }, [user, role]);
 
   const validSections = [
-    "groups",
-    "accueil",
-    "account",
-    "settings",
-    "addcourse",
-    "addGroups",
-    "courses",
-    "password",
-    "calendar",
-    "bookings",
-    "classes",
-    "Quiz"
+    "groups", "accueil", "account", "settings", "addcourse",
+    "addGroups", "courses", "password", "calendar",
+    "bookings", "classes", "Quiz", "announcements"
   ];
 
   if (!validSections.includes(currentSection)) {
@@ -274,6 +283,19 @@ const UserProfile = () => {
                           {t("Quiz")}
                         </button>
                       </li>
+                      <li className="list-group-item d-flex align-items-center justify-content-between">
+                        <button
+                          className="btn btn-link text-primary pb-0 px-4"
+                          onClick={() => {handleSectionChange("announcements") }}
+                        >
+                          {t("Announcements")}
+                        </button>
+                        {announcementsCount > 0 && (
+                          <span className="badge bg-danger rounded-pill">
+                            {announcementsCount}
+                          </span>
+                        )}
+                      </li>
                       <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
@@ -338,7 +360,7 @@ const UserProfile = () => {
                   {currentSection === "bookings" && <AcceptedBookingsList />}
                   {currentSection === "classes" && <CoursesLibrary />}
                   {currentSection === "Quiz" && <Quiz />}
-
+                  {currentSection === "announcements" && <Announcements />}
                 </div>
               </div>
             </div>

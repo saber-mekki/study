@@ -69,21 +69,19 @@ function Routes() {
                     <Route exact path="/blog-details/:id" component={BlogDetails} />
 
                     <Route exact path={'/tutors'} render={(props) => (<Tutors {...props} />)} />
-              
+                    <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
                     {isAuthenticated() ? (
                         <>
                             <Route exact path="/profile">
-                                <Redirect to="/profile/accueil" />
+                            <Redirect to="/profile/accueil" />
                             </Route>
                             <Route path="/course/:id" component={CourseDetailStudent} />
-
                             {user.role === "admin" &&
-                          <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />}
+                            <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />}
                             <Route path="/profile/:section" render={(props) => <Profile {...props} />} />
                             <Route path="/groups/:groupId" component={GroupDetails} />
                             <Route path="/sessions/:groupId" component={GroupSessions} />
-                            <Route path="/session-attendance/:sessionId" component={SessionAttendance} />
-                          
+                            <Route path="/session-attendance/:sessionId" component={SessionAttendance} />      
                         </>
                     ) : (
                         <Redirect to="/login" />

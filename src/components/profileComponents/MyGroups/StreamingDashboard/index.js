@@ -80,7 +80,7 @@ function StreamingDashboard() {
          <div className="container mt-4">
        <h2> Vous êtes connecté à la session</h2>
        <p className="text-muted">Session interactive avec votre tuteur</p>
-       <SessionAttendance id={result} />
+      {role === "tutor" && <SessionAttendance id={result} />}
        <JitsiMeeting  role={role} userName={userName} bookingId={roomId}/>
      </div>
      

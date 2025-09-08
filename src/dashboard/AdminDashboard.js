@@ -4,6 +4,7 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import UserCard from '../components/layouts/UserCard';
 import AdminCourseCard from './AdminCourseCard';
+import Announcements from './Announcements';
 import { FiUsers, FiClock, FiUser, FiBook, FiMenu } from 'react-icons/fi';
 import { IoMan } from "react-icons/io5";
 import { RiAdminLine } from "react-icons/ri";
@@ -146,7 +147,7 @@ const AdminDashboard = ({ section }) => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("section", section);
     history.push({ search: searchParams.toString() });
-    setSidebarOpen(false); // auto close on mobile
+    setSidebarOpen(false); 
   };
 
   return (
@@ -171,6 +172,7 @@ const AdminDashboard = ({ section }) => {
             { label: t("formations"), section: "All Formations" },
             { label: t("admins"), section: "All Admins" },
             { label: t("blogs"), section: "All Blogs" },
+            { label: t("announcements"), section: "Announcements" }
           ].map(({ label, section }) => (
             <li key={section}>
               <button
@@ -218,7 +220,7 @@ const AdminDashboard = ({ section }) => {
           </>
         )}
 
-
+        {currentSection === "Announcements" && <Announcements />}
         {currentSection === "All Users" && (
           <>
             <h2 className="mt-5">{t("allUsers")} ({users})</h2>
@@ -425,7 +427,6 @@ const AdminDashboard = ({ section }) => {
             </div>
           </>
         )}
-
         {currentSection === "All Blogs" && (
           <>
             <h2 className="mt-5">{t("blogs")} ({blogsCount})</h2>
@@ -433,7 +434,8 @@ const AdminDashboard = ({ section }) => {
 
               {paginate(blogsList).map((blog) => (
                 <AdminCourseCard key={blog.id} {...blog} />
-              ))}   <Stack
+              ))}
+              <Stack
                 spacing={2}
                 direction="row"
                 justifyContent="center"
@@ -449,7 +451,6 @@ const AdminDashboard = ({ section }) => {
                   shape="rounded"
                 />
               </Stack>
-
             </div>
           </>
         )}
