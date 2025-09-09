@@ -14,7 +14,7 @@ export default function Status() {
       const userId = decodedToken.user_id;
       const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/status`, {
         id: userId,
-        status: "approved",
+        status: "aproved",
       });
       setstatus(response.data.status);
     } catch (error) {}
