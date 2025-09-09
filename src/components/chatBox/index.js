@@ -103,7 +103,7 @@ function ChatBox() {
     return (
       <li className="nav-item position-relative">
         <Link to="/message" className="nav-link">
-          💬 Chathh
+          💬 Chat
           {unreadCount > 0 && (
             <span className="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
               {unreadCount}
@@ -125,7 +125,7 @@ function ChatBox() {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        💬 Chathhh
+        💬 Chat
         {unreadCount > 0 && (
           <span className="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
             {unreadCount}
