@@ -33,6 +33,7 @@ import VerifyAccount from "./components/layouts/VerifyAccount";
 import { CoursesLibrary } from "./components/layouts/myClasses/CoursesLibrary";
 import { CourseDetailStudent } from "./components/layouts/myClasses/CourseDetailStudent";
 import Cart from "./components/Cart";
+import MessagesPage from "./components/chatBox/MessagesPage";
 
 function Routes() {
 
@@ -84,7 +85,8 @@ function Routes() {
                             <Route path="/groups/:groupId" component={GroupDetails} />
                             <Route path="/sessions/:groupId" component={GroupSessions} />
                             <Route path="/session-attendance/:sessionId" component={SessionAttendance} />  
-                            <Route path="/cart" component={Cart} />    
+                            <Route path="/cart" component={Cart} />   
+                            <Route path="/message" component={MessagesPage} />   
                         </>
                     ) : (
                         <Redirect to="/login" />

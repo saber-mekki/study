@@ -1,0 +1,49 @@
+.messages-page {
+    height: 100vh;
+  }
+  
+  .users-list {
+    width: 250px;
+    min-width: 200px;
+    max-height: 100vh;
+    overflow-y: auto;
+    background: #f8f9fa;
+  }
+  
+  .users-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-item {
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .user-item:hover {
+    background: #e2e6ea;
+  }
+  
+  .chat-window {
+    background: #fff;
+  }
+  
+  .chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .chat-input input {
+    flex-grow: 1;
+  }
+  
+  @media (max-width: 767px) {
+    .messages-page {
+      flex-direction: column;
+    }
+    .users-list {
+      width: 100%;
+      max-height: 200px;
+    }
+  }
+  
