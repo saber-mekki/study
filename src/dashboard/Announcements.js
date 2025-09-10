@@ -26,7 +26,6 @@ const SendAnnouncement = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Fetch all users (students & tutors)
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -85,7 +84,7 @@ const SendAnnouncement = () => {
   return (
     <div>
       <Typography variant="h5" gutterBottom>
-        📨 Send Announcement
+        📨 {t("Send Announcement")} 
       </Typography>
 
       <Stack spacing={2} sx={{ maxWidth: 500, mt: 2 }}>
@@ -108,21 +107,21 @@ const SendAnnouncement = () => {
         />
 
         <FormControl fullWidth>
-          <InputLabel>Recipients</InputLabel>
+          <InputLabel>{t("Recipients")} </InputLabel>
           <Select
             value={recipientType}
             onChange={(e) => setRecipientType(e.target.value)}
           >
-            <MenuItem value="all">All Users</MenuItem>
-            <MenuItem value="students">Students</MenuItem>
-            <MenuItem value="tutors">Tutors</MenuItem>
-            <MenuItem value="custom">Select Specific Users</MenuItem>
+            <MenuItem value="all">{t("All Users")} </MenuItem>
+            <MenuItem value="students">{t("Students")} </MenuItem>
+            <MenuItem value="tutors">{t("Tutors")} </MenuItem>
+            <MenuItem value="custom">{t("Select Specific Users")} </MenuItem>
           </Select>
         </FormControl>
 
         {recipientType === "custom" && (
           <FormControl fullWidth>
-            <InputLabel>Select Users</InputLabel>
+            <InputLabel>{t("Select Users")} </InputLabel>
             <Select
               multiple
               value={selectedUsers}
@@ -138,11 +137,11 @@ const SendAnnouncement = () => {
         )}
 
         <Button variant="contained" component="label">
-          Upload PDF (optional)
+           {t("Upload PDF")} ({t("optional")})
           <input type="file" hidden accept="application/pdf" onChange={handlePdfChange} />
         </Button>
 
-        {pdf && <Typography>Selected file: {pdf.name}</Typography>}
+        {pdf && <Typography>{t("Selected file")} : {pdf.name}</Typography>}
 
         <Button
           variant="contained"

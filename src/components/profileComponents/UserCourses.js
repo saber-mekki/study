@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { useTranslation } from "react-i18next";
 
 const UserCourses = ({ userId }) => {
+  const { t } = useTranslation();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
-  const itemsPerPage = 6; // nombre de cours par page
+  const itemsPerPage = 6; 
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -31,7 +33,6 @@ const UserCourses = ({ userId }) => {
     setPage(value);
   };
 
-  // Découpe les cours pour pagination
   const startIndex = (page - 1) * itemsPerPage;
   const paginatedCourses = courses.slice(startIndex, startIndex + itemsPerPage);
 
@@ -50,7 +51,7 @@ const UserCourses = ({ userId }) => {
       </h2>
 
       {courses.length === 0 ? (
-        <p className="text-center">No courses found.</p>
+        <p className="text-center">{t("No courses found")}.</p>
       ) : (
         <>
           <div className="row">
@@ -67,11 +68,11 @@ const UserCourses = ({ userId }) => {
                       {new Date(course.start_date).toLocaleDateString()}
                     </p>
                     <p className="mb-1">
-                      <strong>End:</strong>{" "}
+                      <strong>{t("End")}:</strong>{" "}
                       {new Date(course.end_date).toLocaleDateString()}
                     </p>
                     <p className="mb-1">
-                      <strong>Price:</strong> ${course.price}
+                      <strong>{t("Price")}:</strong> ${course.price}
                     </p>
                   </div>
                 </div>

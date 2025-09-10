@@ -165,8 +165,8 @@ function SignInModal() {
                   className="text-secondary h6 font-weight-600 mb-2"
                   htmlFor="email"
                 >
-                  {t("Email Address*")}
-                </label>
+                  {t("Email Address")}*
+                                  </label>
                 <input
                   placeholder={`${role}@gmail.com`}
                   className="form-control shadow-none rounded-sm"
@@ -188,7 +188,7 @@ function SignInModal() {
                   className="text-secondary h6 font-weight-600 mb-2"
                   htmlFor="passwordSignIn"
                 >
-                  {t("Password*")}
+                  {t("Password")}*
                 </label>
                 <input
                   className="form-control shadow-none rounded-sm"

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import {  toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 
 export default function DateListBooking({ tutorId }) {
+  const { t } = useTranslation();
   const [availableDates, setAvailableDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [message, setMessage] = useState('');
@@ -43,7 +45,7 @@ export default function DateListBooking({ tutorId }) {
 
   return (
     <div style={{ maxWidth: '400px', margin: 'auto' }}>
-      <h3 style={{ textAlign: 'center' }}>Choose an available slot</h3>
+      <h3 style={{ textAlign: 'center' }}>{t("Choose an available slot")}</h3>
 
       <div
         style={{
@@ -56,7 +58,7 @@ export default function DateListBooking({ tutorId }) {
         }}
       >
         {availableDates.length === 0 ? (
-          <p>No available slots</p>
+          <p>{t("No available slots")}</p>
         ) : (
           availableDates.map((date, index) => (
             <button
@@ -120,7 +122,7 @@ export default function DateListBooking({ tutorId }) {
           fontWeight: 'bold',
         }}
       >
-        Send Booking Request
+        {t("Send Booking Request")}
       </button>
     </div>
   );

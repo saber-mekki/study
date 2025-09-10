@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-
+import { useTranslation } from "react-i18next";
 import axios from "axios";
-export default function ShowGroup({groupStudent}) {
 
+export default function ShowGroup({groupStudent}) {
+  const { t } = useTranslation();
     const [sessionActive, setSessionActive] = useState(false);
   const [link, setLink] = useState("");
 
@@ -37,7 +38,6 @@ export default function ShowGroup({groupStudent}) {
             const updateTime = () => {
                 const now = new Date();
 
-                // Create today's start and end Date objects
                 const startParts = daily_start.split(":");
                 const endParts = daily_end.split(":");
 
@@ -58,7 +58,7 @@ export default function ShowGroup({groupStudent}) {
                 setTimeUntilStart(`${diffH}h ${diffM}m`);
 
                 let durationMs = endDate - startDate;
-                if (durationMs < 0) durationMs += 24 * 60 * 60 * 1000; // handle overnight
+                if (durationMs < 0) durationMs += 24 * 60 * 60 * 1000; 
                 const durH = Math.floor(durationMs / (1000 * 60 * 60));
                 const durM = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
                 setDuration(`${durH}h ${durM}m`);
@@ -67,17 +67,17 @@ export default function ShowGroup({groupStudent}) {
             };
 
             updateTime();
-            const interval = setInterval(updateTime, 60 * 1000); // update every minute
+            const interval = setInterval(updateTime, 60 * 1000); 
             return () => clearInterval(interval);
         }, [daily_start, daily_end]);
 
         return (
             <div style={{ fontFamily: "sans-serif", padding: "10px", border: "1px solid #ccc" }}>
-                <h3>Live Info</h3>
+                <h3>{t("Live Info")}</h3>
                 <p>  🕒 {daily_start} - {daily_end}</p>
 
-                <p>⏳ Time until live starts: {timeUntilStart}</p>
-                <p>🕒 Live duration: {duration}</p>
+                <p>⏳ {t("Time until live starts")}: {timeUntilStart}</p>
+                <p>🕒 {t("Live duration")}: {duration}</p>
 
             </div>
         );
@@ -97,18 +97,18 @@ export default function ShowGroup({groupStudent}) {
 
     return (
         <div className="container mt-4">
-            <h3>My Groups</h3>
+            <h3>{t("My Groups")}</h3>
 
                 <div key={groupStudent.group_id} className="card mb-3 shadow-sm p-3">
                     <div className="d-flex justify-content-between align-items-center">
                         <div>
                             <h5>{groupStudent.name}</h5>
-                            <p>👥 {groupStudent.student_count} students</p>
+                            <p>👥 {groupStudent.student_count} {t("students")}</p>
 
                             {groupStudent.daily_start && groupStudent.daily_end && !groupStudent.range_start_date && (
                                 <p>
 
-                                    Daily
+                                    {t("Daily")}
                                     <LiveSchedule daily_start={groupStudent.daily_start} daily_end={groupStudent.daily_end} />
                                 </p>
                             )}
@@ -140,13 +140,13 @@ export default function ShowGroup({groupStudent}) {
                                     history.push(link);
                                 }}
                             >
-                               Entrer en Live
+                               {t("Entrer en Live")}
                             </button>
                             <button
                                 className="btn btn-outline-warning text-dark"
                                 onClick={() => history.push(`/groups/${groupStudent.id}`)}
                             >
-                                View Details
+                               {t("View Details")}
                             </button>
                         </div>
                     </div>

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { PdfViewer } from "./PDFViewer";
 import { useSelector } from "react-redux";
-
+import { useTranslation } from "react-i18next";
 
 export function CourseDetailStudent({ course_Id }) {
-
+ const { t } = useTranslation();
   const [ratings, setRatings] = useState([]);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -24,7 +24,7 @@ export function CourseDetailStudent({ course_Id }) {
 
   const submitRating = async () => {
     if (rating === 0) {
-      alert("Veuillez choisir une note ⭐");
+      alert(`${t("Veuillez choisir une note")} ⭐`)
       return;
     }
 
@@ -79,7 +79,7 @@ export function CourseDetailStudent({ course_Id }) {
 
       <hr />
 
-      <h4 className="mt-4 mb-3">📄 Documents PDF</h4>
+      <h4 className="mt-4 mb-3">📄 {t("Documents PDF")} </h4>
 
       <div className="pdf-chapters-container mb-4">
         {course.pdfs.map((pdf, index) => (
@@ -99,7 +99,7 @@ export function CourseDetailStudent({ course_Id }) {
 
       <hr />
 
-      <h4 className="mt-5 mb-3">🎥 Vidéos</h4>
+      <h4 className="mt-5 mb-3">🎥 {t("Vidéos")}</h4>
 
       <div className="pdf-chapters-container mb-4">
         {course.videos.map((video, index) => (
@@ -117,7 +117,7 @@ export function CourseDetailStudent({ course_Id }) {
         <>
           <video controls width="100%" className="mt-2 mb-2 rounded">
             <source src={course.videos[selectedVideoIndex].file} type="video/mp4" />
-            Votre navigateur ne prend pas en charge la lecture vidéo.
+            {t("Votre navigateur ne prend pas en charge la lecture vidéo.")}
           </video>
           <br />
           <a
@@ -125,17 +125,16 @@ export function CourseDetailStudent({ course_Id }) {
             download
             className="btn btn-outline-success btn-sm"
           >
-            Télécharger la vidéo
+            {t("Télécharger la vidéo")}
           </a>
         </>
       )}
 
 <div>
-      <h3 className="mb-3">Avis et notes</h3>
+      <h3 className="mb-3"> {t("Avis et notes")}</h3>
 
-      {/* Rating Form */}
       <div className="mb-3">
-        <label className="form-label">Votre note :</label>
+        <label className="form-label">{t("Votre note")} :</label>
         <div>
           {[1, 2, 3, 4, 5].map((star) => (
             <span
@@ -154,18 +153,17 @@ export function CourseDetailStudent({ course_Id }) {
           ))}
         </div>
 
-        <label className="form-label mt-2">Commentaire :</label>
+        <label className="form-label mt-2"> {t("Commentaire")}:</label>
         <textarea
           className="form-control"
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
         <button className="btn btn-primary mt-3" onClick={submitRating}>
-          Envoyer
+          {t("Envoyer")}
         </button>
       </div>
 
-      {/* Ratings List */}
       <ul className="list-group">
         {ratings&&ratings.map((r) => (
           <li key={r.id} className="list-group-item">

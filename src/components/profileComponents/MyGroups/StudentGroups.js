@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
+
 import ShowGroup from "./ShowGroup";
 
 export default function StudentGroups() {
+    const { t } = useTranslation();
     const [groups, setGroups] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -28,7 +31,7 @@ export default function StudentGroups() {
 
     return (
         <div className="container mt-4">
-            <h3>My Groups</h3>
+            <h3> {t("My Groups")}</h3>
             {currentGroups.map(group => (
                 <ShowGroup groupStudent={group} />
             ))}
@@ -38,10 +41,10 @@ export default function StudentGroups() {
                     disabled={currentPage === 1}
                     className="btn btn-secondary me-2"
                 >
-                    Prev
+                     {t("Prev")}
                 </button>
                 <span style={{ lineHeight: "2.5rem" }}>
-                    Page {currentPage} / {totalPages}
+                      {t("Page")}{currentPage} / {totalPages}
                 </span>
 
                 <button
@@ -49,7 +52,7 @@ export default function StudentGroups() {
                     disabled={currentPage === totalPages}
                     className="btn btn-secondary ms-2"
                 >
-                    Next
+                     {t("Next")}
                 </button>
             </div>
         </div>

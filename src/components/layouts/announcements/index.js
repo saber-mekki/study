@@ -11,14 +11,16 @@ import {
   IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useTranslation } from "react-i18next";
 
 const Announcements = () => {
+  const { t } = useTranslation();
   const user = useSelector((state) => state.user);
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [pageSize] = useState(5);
-  const [showInfo, setShowInfo] = useState(true); // 👈 state pour cacher/montrer l'info
+  const [showInfo, setShowInfo] = useState(true); 
 
   useEffect(() => {
     if (user?.idUser) {
@@ -53,10 +55,9 @@ const Announcements = () => {
   return (
     <div>
       <Typography variant="h5" gutterBottom>
-        📩 Messages & Results
+        📩{t("Chat")}
       </Typography>
 
-      {/* ℹ️ Info dismissible */}
       {showInfo && (
         <Alert
           severity="info"
@@ -71,13 +72,12 @@ const Announcements = () => {
             </IconButton>
           }
         >
-          Ici vous trouverez les <strong>messages de l’administrateur</strong> ainsi que vos <strong>résultats</strong>.
+          {t("Ici vous trouverez les")}<strong>{t("messages de l’administrateur")}</strong> {t("ainsi que vos")} <strong>{t("résultats")}</strong>.
         </Alert>
       )}
 
-      {messages.length === 0 && <p>Aucun message pour le moment.</p>}
+      {messages.length === 0 && <p>{t("Aucun message pour le moment.")}</p>}
 
-      {/* Liste des annonces */}
       {selectedIndex === null &&
         currentMessages.map((msg, idx) => (
           <Card
@@ -98,7 +98,6 @@ const Announcements = () => {
           </Card>
         ))}
 
-      {/* Détail */}
       {selectedIndex !== null && (
         <Card className="p-3">
           <CardContent>
@@ -116,7 +115,7 @@ const Announcements = () => {
                 size="small"
                 className="mt-2"
               >
-                📄 Voir le PDF
+                📄 {t("Voir le PDF")}
               </Button>
             )}
             <Typography
@@ -130,7 +129,7 @@ const Announcements = () => {
 
             <div className="mt-3 d-flex justify-content-between">
               <Button variant="contained" onClick={() => setSelectedIndex(null)}>
-                Retour à la liste
+                {t("Retour à la liste")}
               </Button>
               <div>
                 <Button
@@ -139,14 +138,14 @@ const Announcements = () => {
                   onClick={() => setSelectedIndex((prev) => prev - 1)}
                   style={{ marginRight: "8px" }}
                 >
-                  Précédent
+                  {t("Précédent")}
                 </Button>
                 <Button
                   variant="outlined"
                   disabled={selectedIndex === messages.length - 1}
                   onClick={() => setSelectedIndex((prev) => prev + 1)}
                 >
-                  Suivant
+                  {t("Suivant")}
                 </Button>
               </div>
             </div>
@@ -154,7 +153,7 @@ const Announcements = () => {
         </Card>
       )}
 
-      {/* Pagination */}
+
       {selectedIndex === null && messages.length > pageSize && (
         <div className="mt-3 d-flex justify-content-center">
           <Pagination

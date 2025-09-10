@@ -130,7 +130,7 @@ const UserProfile = () => {
 
     fetchUserData();
   }, [dispatch]);
-console.log({user})
+
   useEffect(() => {
     const fetchUnreadCount = async () => {
       try {

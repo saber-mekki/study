@@ -6,11 +6,11 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { useTranslation } from "react-i18next";
+
 import 'react-calendar/dist/Calendar.css';
 import './calendarStyles.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useTranslation } from "react-i18next";
-
 
 
 export default function TutorAvailabilityManager() {
@@ -254,7 +254,7 @@ export default function TutorAvailabilityManager() {
                 }}
                 onClick={() => handleAccept(request.id, request.requested_date)}
               >
-                Accept
+                 {t("Accept")}
               </button>
               <button
                 style={{

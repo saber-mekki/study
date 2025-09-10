@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import "./MessagesPage.css"; // We'll create this CSS for styling
+import { useTranslation } from "react-i18next";
+
+import "./MessagesPage.css"; 
 
 function MessagesPage() {
+  const { t } = useTranslation();
   const CurrentUser = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -11,7 +14,7 @@ function MessagesPage() {
   const [messageText, setMessageText] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch users
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -26,7 +29,6 @@ function MessagesPage() {
     fetchUsers();
   }, [CurrentUser.idUser]);
 
-  // Fetch conversation when selectedUser changes
   useEffect(() => {
     const fetchConversation = async () => {
       if (!selectedUser) return;
@@ -45,7 +47,6 @@ function MessagesPage() {
 
   const handleSendMessage = async () => {
     if (!messageText.trim() || !selectedUser) return;
-
     const newMsg = {
       senderId: CurrentUser.idUser,
       receiverId: selectedUser.user_id,
@@ -73,7 +74,6 @@ function MessagesPage() {
 
   return (
     <div className="messages-page d-flex flex-column flex-md-row">
-      {/* Users list */}
       <div className="users-list border-end p-2">
         <h5>Chats</h5>
         <input
@@ -108,7 +108,6 @@ function MessagesPage() {
         </div>
       </div>
 
-      {/* Chat window */}
       <div className="chat-window flex-grow-1 d-flex flex-column p-2">
         {selectedUser ? (
           <>
@@ -121,7 +120,7 @@ function MessagesPage() {
                   setMessages([]);
                 }}
               >
-                ← Back
+                ← {t("Back")}
               </button>
             </div>
             <div className="chat-messages flex-grow-1 overflow-auto mb-2">
@@ -148,13 +147,13 @@ function MessagesPage() {
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
               />
               <button className="btn btn-primary ms-2" onClick={handleSendMessage}>
-                Send
+                 {t("Send")}
               </button>
             </div>
           </>
         ) : (
           <div className="flex-grow-1 d-flex align-items-center justify-content-center text-muted">
-            Select a user to start chatting
+             {t("Select a user to start chatting ")}
           </div>
         )}
       </div>

@@ -16,8 +16,10 @@ import {
   TablePagination,
 } from "@mui/material";
 import GetImage from "../GetImage";
+import { useTranslation } from "react-i18next";
 
 export default function SessionAttendance() {
+  const { t } = useTranslation();
   const { sessionId } = useParams();
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState(0);
@@ -125,28 +127,28 @@ export default function SessionAttendance() {
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
         <Typography variant="h5" fontWeight="bold" gutterBottom>
-          Session Attendance
+            {t("Session Attendance")}
         </Typography>
         <Typography
     variant="subtitle1"
     color="text.secondary"
     sx={{ mb: 2, fontStyle: "italic" }}
   >
-    General Note: {students[0]&&students[0].session_note}
+    {t("General Note")}: {students[0]&&students[0].session_note}
   </Typography>
   {loading ? (
-  <p>Loading PDFs...</p>
+  <p>{t("Loading PDFs")}:...</p>
 ) : (
   <div>
-    <h3>Session PDFs</h3>
+    <h3>Session PDFs{t("Loading PDFs")}</h3>
     {pdfs.length === 0 ? (
-      <p>No PDFs uploaded yet.</p>
+      <p>{t("No PDFs uploaded yet")}.</p>
     ) : (
       <ul>
         {pdfs.map((pdf) => (
           <li key={pdf.id}>
             <a href={pdf.file_url} target="_blank" rel="noopener noreferrer">
-              PDF uploaded at {new Date(pdf.uploaded_at).toLocaleString()}
+               {t("PDF uploaded at")}{new Date(pdf.uploaded_at).toLocaleString()}
             </a>
             <Button
               variant="outlined"
@@ -155,7 +157,7 @@ export default function SessionAttendance() {
               sx={{ ml: 2 }}
               onClick={() => handleDeletePDF(pdf.id)}
             >
-              Delete
+              {t("Delete")}
             </Button>
           </li>
         ))}
@@ -165,7 +167,7 @@ export default function SessionAttendance() {
 )}
     <Box mb={3}>
           <Typography variant="subtitle1" fontWeight="bold">
-            Add new PDFs:
+            {t("Add new PDFs")}:
           </Typography>
 
           <input
@@ -183,16 +185,16 @@ export default function SessionAttendance() {
             onClick={uploadSessionPDF}
             disabled={!sessionPDF}
           >
-            Upload PDF
+            {t("Upload PDF")}
           </Button>
 
           {newPdfUrls.length > 0 && (
             <Box sx={{ mt: 2 }}>
               {newPdfUrls.map((pdf, i) => (
                 <Typography key={pdf.id || i} variant="body2">
-                  PDF {i + 1}:{" "}
+                  PDF{t("PDF")} {i + 1}:{" "}
                   <a href={pdf.pdf_url} target="_blank" rel="noopener noreferrer">
-                    View
+                    {t("View")}
                   </a>
                 </Typography>
               ))}
@@ -204,10 +206,10 @@ export default function SessionAttendance() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell><strong>Student</strong></TableCell>
-              <TableCell><strong>Status</strong></TableCell>
-                <TableCell><strong>Note</strong></TableCell>
-              <TableCell align="right"><strong>Actions</strong></TableCell>
+              <TableCell><strong>{t("Student")}</strong></TableCell>
+              <TableCell><strong>{t("Status")}</strong></TableCell>
+                <TableCell><strong>{t("Note")}</strong></TableCell>
+              <TableCell align="right"><strong>{t("Actions")}</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -253,7 +255,7 @@ export default function SessionAttendance() {
                           handleMark(s.student_id, "present", s.start_time)
                         }
                       >
-                        Present
+                        {t("Present")}
                       </Button>
                       <Button
                         variant="contained"
@@ -262,7 +264,7 @@ export default function SessionAttendance() {
                           handleMark(s.student_id, "absent", s.start_time)
                         }
                       >
-                        Absent
+                        {t("Absent")}
                       </Button>
                     </Box>
                   </TableCell>

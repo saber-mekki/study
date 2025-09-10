@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as pdfjsLib from "pdfjs-dist/build/pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import { useTranslation } from "react-i18next";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
@@ -10,8 +11,8 @@ export function PdfViewer({ file }) {
   const [pageNumber, setPageNumber] = useState(1);
   const [numPages, setNumPages] = useState(0);
   const [error, setError] = useState(null);
+  const { t } = useTranslation();
 
-  // Load PDF document
   useEffect(() => {
     if (!file) return;
 
@@ -26,11 +27,10 @@ export function PdfViewer({ file }) {
       })
       .catch(err => {
         console.error("Error loading PDF: ", err);
-        setError("Impossible de charger le PDF.");
+        setError(t("Impossible de charger le PDF."));
       });
   }, [file]);
 
-  // Render the current page
   useEffect(() => {
     if (!pdf) return;
 
@@ -74,17 +74,17 @@ export function PdfViewer({ file }) {
           disabled={pageNumber <= 1}
           className="btn btn-secondary me-2"
         >
-          ← Page précédente
+          ←   {t("Page précédente")}
         </button>
         <button
           onClick={goNextPage}
           disabled={pageNumber >= numPages}
           className="btn btn-secondary"
         >
-          Page suivante →
+        {t("Page suivante")} →
         </button>
         <span className="ms-3">
-          Page {pageNumber} sur {numPages}
+        {t("Page")} {pageNumber} {t("sur")} {numPages}
         </span>
       </div>
     </div>

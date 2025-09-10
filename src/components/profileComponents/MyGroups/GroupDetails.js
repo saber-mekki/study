@@ -13,9 +13,10 @@ import {
   Alert,
 } from "@mui/material";
 import GetImage from "../GetImage";
-
+import { useTranslation } from "react-i18next";
 
 export default function GroupDetails() {
+  const { t } = useTranslation();
   const { groupId } = useParams();
   const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -72,31 +73,31 @@ export default function GroupDetails() {
         )}
 
         <Typography>
-          <b>Tutor:</b> {group.tutor_name}
+          <b>{t("Tutor")}:</b> {group.tutor_name}
         </Typography>
         <Typography>
-          <b>Schedule Mode:</b> {group.schedule_mode}
+          <b>{t("Schedule Mode")}:</b> {group.schedule_mode}
         </Typography>
 
         {group.schedule_mode === "daily" && (
           <Typography>
-            Daily: {group.daily_start} - {group.daily_end}
+            {t("Daily")}: {group.daily_start} - {group.daily_end}
           </Typography>
         )}
 
         {group.schedule_mode === "ranged" && (
           <Typography>
-            From {new Date(group.range_start_date).toLocaleDateString()} to{" "}
+             {t("From")}{new Date(group.range_start_date).toLocaleDateString()}{t("to")} {" "}
             {new Date(group.range_end_date).toLocaleDateString()}
           </Typography>
         )}
 
         <Typography variant="h5" mt={3} gutterBottom>
-          Students:
+          {t("Students")}:
         </Typography>
 
         {group.students.length === 0 ? (
-          <Typography>No students in this group.</Typography>
+          <Typography>{t("No students in this group")}.</Typography>
         ) : (
           <Grid container spacing={3}>
             {group.students.map((student) => (

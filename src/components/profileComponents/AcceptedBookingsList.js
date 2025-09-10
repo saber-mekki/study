@@ -3,9 +3,11 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { BookingCountdown } from "./BookingCountdown";
 
 export function AcceptedBookingsList() {
+    const { t } = useTranslation();
     const role = localStorage.getItem("role");
 
     const [selectedCourse, setSelectedCourse] = useState(null);
@@ -175,9 +177,9 @@ export function AcceptedBookingsList() {
 
     return (
         <div className="container mt-4">
-            <h3 className="mb-3">Accepted Meetings</h3>
+            <h3 className="mb-3">{t("Accepted Meetings")}</h3>
             {loading ? (
-                <p>Loading...</p>
+                <p>{t("Loading")}...</p>
             ) : bookings.length > 0 ? (
                 <div className="list-group">
                     {currentBookings.map((booking, i) => {
@@ -189,18 +191,18 @@ export function AcceptedBookingsList() {
 
                         return (
                             <div key={i} className="list-group-item">
-                                <h5 className="mb-1">Meeting  with :  <div className="btn btn-outline-primary btn-sm" onClick={() => handleOpenTutorDetailsIsOpen(usersDetails)} >{role === "tutor" ? booking.name : bookingsForTutor[0] !== undefined ? bookingsForTutor[0].user_name : ""}</div></h5>
-                                <p className="mb-1">Date: {new Date(booking.booking_date).toLocaleString()}</p>
+                                <h5 className="mb-1"> {t("Meeting with")}:  <div className="btn btn-outline-primary btn-sm" onClick={() => handleOpenTutorDetailsIsOpen(usersDetails)} >{role === "tutor" ? booking.name : bookingsForTutor[0] !== undefined ? bookingsForTutor[0].user_name : ""}</div></h5>
+                                <p className="mb-1">{t("Date")}: {new Date(booking.booking_date).toLocaleString()}</p>
                                 <BookingCountdown bookingDate={booking.booking_date} />
                                 <div className="d-flex justify-content-between">
                                     {role !== "tutor" && booking.live_link !== "" && booking.live_link !== null && (
                                         <Link to={`/room/${booking.live_link}`} className="btn btn-success btn-sm">
-                                            Enter Room
+                                             {t("Enter Room")}
                                         </Link>)}
                                     {role === "tutor" && (
                                         isPast ? (
                                             <button className="btn btn-secondary btn-sm" disabled>
-                                                Session expirée
+                                                 {t("Session expirée")}
                                             </button>
                                         ) : canStartLiveSession(booking.booking_date) ? (
                                             <button
@@ -211,21 +213,21 @@ export function AcceptedBookingsList() {
                                                     history.push(`/room/${roomId}`);
                                                 }}
                                             >
-                                                Démarrer une session live
+                                                 {t("Démarrer une session live")}
                                             </button>
                                         ) : <button className="btn btn-secondary" disabled>
-                                            La session live pas encore disponible
+                                             {t("La session live pas encore disponible")}
                                         </button>
                                     )}
 
                                     {role === "tutor" && <button onClick={() => handleDelete(booking.id)} style={{ color: "white", background: "red", padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer" }}>
-                                        Delete Booking
+                                         {t("Delete Booking")}
                                     </button>}
                                     <button
                                         onClick={() => handleOpenCourseDetails(booking)}
                                         className="btn btn-outline-primary btn-sm"
                                     >
-                                        View Details
+                                        {t("View Details")}
                                     </button>
 
                                 </div>

@@ -1,6 +1,8 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const { t } = useTranslation();
   const pages = [];
   for (let i = 1; i <= totalPages; i++) {
     pages.push(i);
@@ -12,7 +14,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         disabled={currentPage === 1}
         onClick={() => onPageChange(currentPage - 1)}
       >
-        « Prev
+        « {t("Prev")} 
       </button>
 
       {pages.map((page) => (
@@ -29,7 +31,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         disabled={currentPage === totalPages}
         onClick={() => onPageChange(currentPage + 1)}
       >
-        Next »
+        {t("Next")} »
       </button>
     </div>
   );

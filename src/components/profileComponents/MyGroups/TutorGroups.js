@@ -4,8 +4,10 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { useTranslation } from "react-i18next";
 
 export default function TutorGroups() {
+    const { t } = useTranslation();
     const [groups, setGroups] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
@@ -85,7 +87,7 @@ export default function TutorGroups() {
 
 
                 let durationMs = endDate - startDate;
-                if (durationMs < 0) durationMs += 24 * 60 * 60 * 1000; // handle overnight
+                if (durationMs < 0) durationMs += 24 * 60 * 60 * 1000; 
                 const durH = Math.floor(durationMs / (1000 * 60 * 60));
                 const durM = Math.floor((durationMs % (1000 * 60 * 60)) / (1000 * 60));
                 setDuration(`${durH}h ${durM}m`);
@@ -93,17 +95,17 @@ export default function TutorGroups() {
             };
 
             updateTime();
-            const interval = setInterval(updateTime, 60 * 1000); // update every minute
+            const interval = setInterval(updateTime, 60 * 1000); 
             return () => clearInterval(interval);
         }, [daily_start, daily_end]);
 
         return (
             <div style={{ fontFamily: "sans-serif", padding: "10px", border: "1px solid #ccc" }}>
-                <h3>Live Info</h3>
+                <h3> {t("Live Info")}</h3>
                 <p>  🕒 {daily_start} - {daily_end}</p>
 
-                <p>⏳ Time until live starts: {timeUntilStart}</p>
-                <p>🕒 Live duration: {duration}</p>
+                <p>⏳ {t("Time until live starts")}: {timeUntilStart}</p>
+                <p>🕒 {t("Live duration")}: {duration}</p>
 
             </div>
         );
@@ -126,18 +128,18 @@ export default function TutorGroups() {
 
     return (
         <div className="container mt-4">
-            <h3>My Groups</h3>
+            <h3>{t("My Groups")}</h3>
             {currentGroups.map(group => (
                 <div key={group.group_id} className="card mb-3 shadow-sm p-3">
                     <div className="d-flex justify-content-between align-items-center">
                         <div>
                             <h5>{group.name}</h5>
-                            <p>👥 {group.student_count} students</p>
+                            <p>👥 {group.student_count} students {t("Prev")}</p>
 
                             {group.daily_start && group.daily_end && !group.range_start_date && (
                                 <p>
 
-                                    Daily
+                                     {t("Daily")}
                                     <LiveSchedule daily_start={group.daily_start} daily_end={group.daily_end} />
                                 </p>
                             )}
@@ -162,25 +164,25 @@ export default function TutorGroups() {
 
                                 }}
                             >
-                                Start Live
+                                 {t("Start Live")}
                             </button>
                             <button
                                 className="btn btn-outline-danger text-dark"
                                 onClick={() => deleteGroup(group.group_id)}
                             >
-                                Delete
+                                 {t("Delete")}
                             </button>
                             <button
                                 className="btn btn-outline-warning text-dark"
                                 onClick={() => history.push(`/groups/${group.group_id}`)}
                             >
-                                View Details
+                                 {t("View Details")}
                             </button>
                             <button
                                 className="btn btn-outline-warning text-dark "
                                 onClick={() => history.push(`/sessions/${group.group_id}`)}
                             >
-                                View Sessions
+                                 {t("View Sessions")}
                             </button>
 
                         </div>

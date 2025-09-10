@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 export default function AdminCourseCard({
   id,
@@ -16,6 +17,7 @@ export default function AdminCourseCard({
   syllabus,
   requirements,
 }) {
+  const { t } = useTranslation();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -31,11 +33,11 @@ const onDelete = async (courseId) => {
     const response = await axios.delete(url);
 
     if (response.status === 200) {
-      alert("Course deleted successfully.");
+      alert(t("Course deleted successfully"));
       window.location.reload(); 
     } else {
       console.error("Failed to delete course:", response.data.message);
-      alert("Failed to delete course.");
+      alert(t("Failed to delete course"));
     }
   } catch (error) {
     console.error("Error deleting course:", error);
@@ -77,16 +79,16 @@ const onDelete = async (courseId) => {
         <h3 style={{ marginTop: 0 }}>{title}</h3>
       
         <p>
-          <strong>Tutor:</strong> {tutor}
+          <strong>{t("Tutor")}:</strong> {tutor}
         </p>
         <p>
-          <strong>Date:</strong> {new Date(date).toLocaleDateString()}
+          <strong>{t("Date")}:</strong> {new Date(date).toLocaleDateString()}
         </p>
         <p>
-          <strong>Duration:</strong> {duration}
+          <strong>{t("Duration")}:</strong> {duration}
         </p>
         <p style={{ fontWeight: "bold", fontSize: 18, color: "green" }}>
-          Price: ${price}
+          {t("Price")}: ${price}
         </p>
 
         {!showConfirm && (
@@ -104,14 +106,13 @@ const onDelete = async (courseId) => {
               fontWeight: "bold",
             }}
           >
-            {isDeleting ? "Deleting..." : "Delete Course"}
+            {isDeleting ? `${t("Deleting")}...`  : t("Delete Course")}
           </button>
         )}
 
-        {/* Confirm delete */}
         {showConfirm && (
           <div style={{ marginTop: 15 }}>
-            <p>Are you sure you want to delete this course?</p>
+            <p>{t("Are you sure you want to delete this course")}?</p>
             <button
               onClick={confirmDelete}
               style={{
@@ -125,7 +126,7 @@ const onDelete = async (courseId) => {
                 fontWeight: "bold",
               }}
             >
-              Yes, delete
+              {t("Yes, delete")}
             </button>
             <button
               onClick={cancelDelete}
@@ -139,7 +140,7 @@ const onDelete = async (courseId) => {
                 fontWeight: "bold",
               }}
             >
-              Cancel
+              {t("Cancel")}
             </button>
           </div>
         )}

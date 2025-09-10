@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "./context/CartContext";
 import SectionTwo from "./layouts/SectionTwo";
-import PayPalModal from "./PayPalModal"; // ✅ import your PayPal modal
+import PayPalModal from "./PayPalModal"; 
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const Cart = () => {
+  const { t } = useTranslation();
   const { cart, removeFromCart, clearCart } = useCart();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
 
@@ -19,7 +21,7 @@ const Cart = () => {
           <div className="container text-center">
             <h3 className="mb-4">Your cart is empty 🛒</h3>
             <Link to="/courses" className="btn btn-primary">
-              Browse Courses
+              {t("Browse Courses")}
             </Link>
           </div>
         </section>
@@ -31,7 +33,7 @@ const Cart = () => {
     <SectionTwo title={"Cart"}>
       <section className="section-padding">
         <div className="container">
-          <h2 className="text-secondary font-weight-bold mb-4">Your Cart</h2>
+          <h2 className="text-secondary font-weight-bold mb-4">{t("Your Cart")}</h2>
           <div className="row">
             {/* Cart items */}
             <div className="col-lg-8">
@@ -68,7 +70,7 @@ const Cart = () => {
                     className="btn btn-sm btn-danger ml-auto"
                     onClick={() => removeFromCart(item.id)}
                   >
-                    Remove
+                    {t("Remove")}
                   </button>
                 </div>
               ))}
@@ -79,27 +81,27 @@ const Cart = () => {
               <div className="widget p-3 shadow-sm">
                 <h4 className="widget-title">Order Summary</h4>
                 <p className="font-weight-600">
-                  Total: <span className="text-blue">${total.toFixed(2)}</span>
+                  {t("Total")}: <span className="text-blue">${total.toFixed(2)}</span>
                 </p>
 
                 <button
                   className="btn btn-warning btn-block mb-2"
                   onClick={() => setCheckoutOpen(true)}
                 >
-                  Checkout with PayPal
+                  {t("Checkout with PayPal")}
                 </button>
 
                 <button
                   className="btn btn-danger btn-block"
                   onClick={clearCart}
                 >
-                  Clear Cart
+                  {t("Clear Cart")}
                 </button>
                 <Link
                   to="/courses"
                   className="btn btn-outline-primary btn-block mt-2"
                 >
-                  Continue Shopping
+                  {t("Continue Shopping")}
                 </Link>
               </div>
             </div>

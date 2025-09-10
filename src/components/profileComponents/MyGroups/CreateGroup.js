@@ -4,8 +4,11 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import GetImage from "../GetImage";
 import Pagination from "@mui/material/Pagination"; 
+import { useTranslation } from "react-i18next";
 
 export default function CreateGroup() {
+  const { t } = useTranslation();
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [scheduleMode, setScheduleMode] = useState("daily");
@@ -118,7 +121,7 @@ export default function CreateGroup() {
       <h3>Create Group</h3>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label className="form-label">Group Name</label>
+          <label className="form-label">{t("Group Name")}</label>
           <input
             type="text"
             className="form-control"
@@ -129,7 +132,7 @@ export default function CreateGroup() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Description</label>
+          <label className="form-label">{t("Description")}</label>
           <textarea
             className="form-control"
             value={description}
@@ -138,21 +141,21 @@ export default function CreateGroup() {
         </div>
 
         <div className="mb-3">
-          <label className="form-label">Schedule Mode</label>
+          <label className="form-label">{t("Schedule Mode")}</label>
           <select
             className="form-control"
             value={scheduleMode}
             onChange={(e) => setScheduleMode(e.target.value)}
           >
-            <option value="daily">Daily (fixed hours)</option>
-            <option value="ranged">Date Range with hours</option>
+            <option value="daily">{t("Daily")} (fixed hours)</option>
+            <option value="ranged">{t("Date Range with hours")}</option>
           </select>
         </div>
 
         {scheduleMode === "daily" && (
           <>
             <div className="mb-3">
-              <label>Start Time</label>
+              <label>{t("Start Time")}</label>
               <input
                 type="time"
                 className="form-control"
@@ -161,7 +164,7 @@ export default function CreateGroup() {
               />
             </div>
             <div className="mb-3">
-              <label>End Time</label>
+              <label>{t("End Time")}</label>
               <input
                 type="time"
                 className="form-control"
@@ -175,7 +178,7 @@ export default function CreateGroup() {
         {scheduleMode === "ranged" && (
           <>
             <div className="mb-3">
-              <label>Start Date</label>
+              <label>{t("Start Date")}</label>
               <input
                 type="date"
                 className="form-control"
@@ -184,7 +187,7 @@ export default function CreateGroup() {
               />
             </div>
             <div className="mb-3">
-              <label>End Date</label>
+              <label>{t("End Date")}</label>
               <input
                 type="date"
                 className="form-control"
@@ -193,7 +196,7 @@ export default function CreateGroup() {
               />
             </div>
             <div className="mb-3">
-              <label>Daily Start Time</label>
+              <label>{t("Daily Start Time")}</label>
               <input
                 type="time"
                 className="form-control"
@@ -202,7 +205,7 @@ export default function CreateGroup() {
               />
             </div>
             <div className="mb-3">
-              <label>Daily End Time</label>
+              <label>{t("Daily End Time")}</label>
               <input
                 type="time"
                 className="form-control"
@@ -214,7 +217,7 @@ export default function CreateGroup() {
         )}
 
         <div className="mb-3">
-          <label className="form-label">Search Students</label>
+          <label className="form-label">{t("Search Students")}</label>
           <input
             type="text"
             className="form-control"
@@ -222,7 +225,7 @@ export default function CreateGroup() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setPage(1); // reset to first page when searching
+              setPage(1); 
             }}
           />
         </div>
@@ -239,7 +242,7 @@ export default function CreateGroup() {
               }
               onChange={toggleSelectAll}
             />
-            <label className="form-check-label">Select All (This Page)</label>
+            <label className="form-check-label">{t("Select All ")} (This Page)</label>
           </div>
         )}
 
@@ -272,7 +275,7 @@ export default function CreateGroup() {
         )}
 
         <button type="submit" className="btn btn-success mt-3">
-          Create Group
+        {t("Create Group")} 
         </button>
       </form>
     </div>

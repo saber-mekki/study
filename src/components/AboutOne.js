@@ -17,7 +17,7 @@ const { t } = useTranslation();
                                 <img className="img-fluid rounded" src={process.env.PUBLIC_URL + '/assets/images/about-img.jpg'} alt="" />
                             </div>
                             <div className="col-lg-5 mt-5 mt-lg-0">
-                                <h2 className="section-title mb-30">Who <span className="has-line">We Are</span></h2>
+                                <h2 className="section-title mb-30"> {t("Who")}<span className="has-line">{t("We Are")}</span></h2>
                                 <p className="mb-3">
                                    {t("welcome_message")}
                                 </p>

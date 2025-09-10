@@ -1,7 +1,9 @@
 import React from "react";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { useTranslation } from "react-i18next";
 
 const PayPalModal = ({ show, onClose, title, price, courseId = "", studentId = "" }) => {
+   const { t } = useTranslation();
   if (!show) return null;
 
   const handleApprove = async (data, actions) => {
@@ -39,7 +41,7 @@ const PayPalModal = ({ show, onClose, title, price, courseId = "", studentId = "
             <button type="button" className="btn-close" onClick={onClose}></button>
           </div>
           <div className="modal-body">
-            <p>Amount: ${price}</p>
+            <p>{t("Amount")}: ${price}</p>
             <PayPalScriptProvider options={{ "client-id": "AS-yWifWB7ymF9cYtAFxK9QyaGYvJ4XymiWcDH6HkJp2vtd3mZjdtq2Hlh9Oq45IE9CvVMjGU-lFuYmB" }}>
               <PayPalButtons
                 style={{ layout: "vertical" }}

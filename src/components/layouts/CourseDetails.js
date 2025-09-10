@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PayPalModal from "../PayPalModal";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CourseDetails = ({
   show,
@@ -21,7 +22,7 @@ const CourseDetails = ({
   requirements,
   ratings
 }) => {
-
+  const { t } = useTranslation();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const CurrentUser = useSelector((state) => state.user);
 
@@ -78,48 +79,48 @@ const CourseDetails = ({
             <div className="row">
               <div className="col-md-6" style={{ padding: "10px" }}>
                 <p style={{ fontSize: "1.1rem", color: "#555" }}>
-                  <strong>Category:</strong> {category}
+                  <strong>{t("Category")}:</strong> {category}
                 </p>
                 <p style={{ fontSize: "1.1rem", color: "#555" }}>
-                  <strong>Description:</strong> {description}
+                  <strong>{t("Description")}:</strong> {description}
                 </p>
                 <p style={{ fontSize: "1.1rem", color: "#555" }}>
-                  <strong>Price:</strong> ${price}
+                  <strong>{t("Price")}:</strong> ${price}
                 </p>
                 <p style={{ fontSize: "1.1rem", color: "#555" }}>
-                  <strong>Tutor:</strong> {tutor}
+                  <strong>{t("Tutor")}:</strong> {tutor}
                 </p>
                 <p style={{ fontSize: "1.1rem", color: "#555" }}>
-                  <strong>Date:</strong> {new Date(date).toLocaleDateString("en-GB")}
+                  <strong>{t("Date")}:</strong> {new Date(date).toLocaleDateString("en-GB")}
                 </p>
                 <p style={{ fontSize: "1.1rem", color: "#555" }}>
-                  <strong>Level:</strong> {level}
+                  <strong>{t("Level")}:</strong> {level}
                 </p>
                 <p style={{ fontSize: "1.1rem", color: "#555" }}>
-                  <strong>Duration:</strong> {duration} hours
+                  <strong>{t("Duration")}:</strong> {duration} hours
                 </p>
                 <p style={{ fontSize: "1.1rem", color: "#555" }}>
-                  <strong>Language:</strong> {language}
+                  <strong>{t("Language")}:</strong> {language}
                 </p>
               </div>
 
               <div className="col-md-6" style={{ padding: "10px" }}>
                 <h6 style={{ fontSize: "1.2rem", color: "#333", marginBottom: "10px" }}>
-                  <strong>Course Content</strong>
+                  <strong>{t("Course Content")}:</strong>
                 </h6>
                 <ul style={{ paddingLeft: "20px", listStyleType: "disc" }}>
                   {syllabus}
                 </ul>
 
                 <h6 style={{ fontSize: "1.2rem", color: "#333", marginTop: "20px" }}>
-                  <strong>Requirements</strong>
+                  <strong>{t("Requirements")}</strong>
                 </h6>
                 <ul style={{ paddingLeft: "20px", listStyleType: "disc" }}>
                   {requirements}
                 </ul>
 
                 <h6 style={{ fontSize: "1.2rem", color: "#333", marginTop: "20px" }}>
-                  <strong>Reviews</strong>
+                  <strong>{t("Reviews")}</strong>
                 </h6>
                 {ratings.length > 0 ? (
                   ratings.map((review, index) => (
@@ -154,14 +155,14 @@ const CourseDetails = ({
                 fontWeight: "bold",
               }}
             >
-              Close
+              {t("Close")}
             </button>
             <Link
               to={`/course-details-one/${id}`} 
               className="btn btn-primary btn-block"
 
             >
-              See Details
+              {t("See Details")}
             </Link>
             <button
               type="button"
@@ -169,7 +170,7 @@ const CourseDetails = ({
               onClick={() => setCheckoutOpen(true)}
               style={{ backgroundColor: "#e1b28b", color: "#fff" }}
             >
-              Buy ${price}
+             {t("Buy")} ${price}
             </button>
             <PayPalModal
               show={checkoutOpen}

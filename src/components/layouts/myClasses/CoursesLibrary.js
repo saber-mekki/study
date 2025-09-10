@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-
+import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 export function CoursesLibrary() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
- 
+ const { t } = useTranslation();
   const CurrentUser = useSelector((state) => state.user);
 
   const history = useHistory();
@@ -29,12 +29,12 @@ export function CoursesLibrary() {
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4">Mes formations </h2>
+      <h2 className="mb-4"> {t("Mes formations")}</h2>
 
       {loading ||courses === undefined ? (
         <p>Chargement des cours...</p>
       ) : courses.length === 0 ? (
-        <p className="text-muted">Aucune formation disponible pour le moment.</p>
+        <p className="text-muted">{t("Aucune formation disponible pour le moment.")}</p>
       ) : (
         <div className="row">
           {courses.map(course => (
@@ -52,7 +52,7 @@ export function CoursesLibrary() {
                     onClick={() => history.push(`/course/${course.id}`)}
                     className="btn btn-primary mt-3"
                   >
-                    Voir le cours
+                    {t("Voir le cours")}
                   </button>
                 </div>
               </div>

@@ -18,14 +18,14 @@ export default function CourseCard({
   requirements,
 }) {
 
-  const [ratings, setRatings] = useState([]);
+
   const [rate, setRate] = useState(0);
   const history = useHistory();
+  
   useEffect(() => {
     const fetchRatings = async () => {
       const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/rating/course/${id}`);
       const data = await res.json();
-      setRatings(data.ratings);
       let rate = 0
 
       data.ratings.length > 0 && data.ratings.forEach((el) => {
@@ -44,9 +44,6 @@ export default function CourseCard({
         history.push(`/course-details-one/${id}`);
 
   }
-  const handleClose = () => {
-   
-  };
 
   return (
     <>

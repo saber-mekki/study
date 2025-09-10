@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 export default function UserCard({
   id,
@@ -10,6 +11,7 @@ export default function UserCard({
   image,
   status,
 }) {
+     const { t } = useTranslation();
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -103,7 +105,7 @@ export default function UserCard({
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // optional but recommended
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
@@ -154,23 +156,23 @@ export default function UserCard({
 
                       <li>
                         <button className="dropdown-item" onClick={() => openModal("makeAdmin")}>
-                          <i className="fas fa-user-shield text-primary me-2"></i> Make Admin
+                          <i className="fas fa-user-shield text-primary me-2"></i> {t("Make Admin")}
                         </button>
                       </li>
 
                       <li>
                         <button className="dropdown-item" onClick={() => openModal("status", "accepted")}>
-                          <i className="fas fa-check-circle text-success me-2"></i> Accept User
+                          <i className="fas fa-check-circle text-success me-2"></i>  {t("Accept User")}
                         </button>
                       </li>
                       <li>
                         <button className="dropdown-item" onClick={() => openModal("status", "waiting")}>
-                          <i className="fas fa-clock text-warning me-2"></i> Set to Waiting
+                          <i className="fas fa-clock text-warning me-2"></i>  {t("Set to Waiting")}
                         </button>
                       </li>
                       <li>
                         <button className="dropdown-item" onClick={() => openModal("status", "rejected")}>
-                          <i className="fas fa-times-circle text-danger me-2"></i> Refuse User
+                          <i className="fas fa-times-circle text-danger me-2"></i>   {t("Refuse User")}
                         </button>
                       </li>
 
@@ -178,7 +180,7 @@ export default function UserCard({
                   )}
                   <li>
                     <button className="dropdown-item text-danger" onClick={() => openModal("delete")}>
-                      <i className="fas  pr-2 fa-trash-alt me-2"></i>{role === "admin" ? "Delete Admin" : "Delete User"}
+                      <i className="fas  pr-2 fa-trash-alt me-2"></i>{role === "admin" ?  t("Delete Admin") : t("Delete User")}
                     </button>
                   </li>
                 </ul>
@@ -207,28 +209,28 @@ export default function UserCard({
           <h5 className="text-primary fw-bold mb-1">{name}</h5>
 
           <div className={role === "admin" ? "text-danger h5" : "h5"}>
-            <div><strong>Email:</strong> {email}</div>
+            <div><strong>{t("Email")}:</strong> {email}</div>
             <div>
-              <strong>Role:</strong> <span >{role}</span>
+              <strong>{t("Role")}:</strong> <span >{role}</span>
             </div>
             {role !== "admin" && (
               <div>
-                <strong>Status:</strong> {status}
+                <strong>{t("Status")}:</strong> {status}
               </div>
             )}
             {role === "tutor" && (
               <div>
-                <strong>Courses Created: 0</strong>
+                <strong>{t("Courses Created")}: 0</strong>
               </div>
             )}
             {role === "student" && (
               <div>
-                <strong>Courses Purchased: 0</strong>
+                <strong>{t("Courses Purchased")}: 0</strong>
               </div>
             )}
             {role === "tutor" && tutorPDFs.length > 0 && (
               <div className="mt-3 text-start">
-                <strong>Uploaded Documents:</strong>
+                <strong>{t("Uploaded Documents")}:</strong>
                 <ul className="list-unstyled mt-1">
                   {tutorPDFs.map((pdf) => (
                     <li key={pdf.id} className="d-flex align-items-center justify-content-between mb-1">
@@ -244,7 +246,7 @@ export default function UserCard({
                         className="btn btn-sm btn-danger ms-2"
                         onClick={() => handleDeletePDF(pdf.id)}
                       >
-                        Delete
+                      {t("Delete")}  
                       </button>
                     </li>
                   ))}
@@ -253,7 +255,7 @@ export default function UserCard({
             )}
             {role === "tutor" && tutorPDFs.length === 0 && (
               <div className="mt-3 text-muted">
-                No documents uploaded yet.
+               {t("No documents uploaded yet")}.
               </div>
             )}
           </div>
@@ -266,7 +268,7 @@ export default function UserCard({
             <div className="modal-content p-4">
               <div className="modal-body text-center">
                 <h5 className="mb-3">{modalTitle}</h5>
-                <p className="mb-2">Please enter the security code to proceed:</p>
+                <p className="mb-2">{t("Please enter the security code to proceed")}:</p>
                 <input
                   type="password"
                   className="form-control mb-3"
@@ -276,15 +278,15 @@ export default function UserCard({
                 />
                 {errorCode && (
                   <div className="text-danger mb-2">
-                    Error: Incorrect security code.
+                    Error: {t("Incorrect security code")}.
                   </div>
                 )}
                 <div className="d-flex justify-content-center gap-3">
                   <button className="btn btn-primary" onClick={handleConfirm}>
-                    Confirm
+                    {t("Confirm")}
                   </button>
                   <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
-                    Cancel
+                    {t("Cancel")}
                   </button>
 
                 </div>

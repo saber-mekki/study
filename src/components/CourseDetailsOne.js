@@ -3,8 +3,10 @@ import { useParams, Link } from "react-router-dom";
 import SectionTwo from "./layouts/SectionTwo";
 import { useCart } from "./context/CartContext";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const CourseDetailsOne = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [course, setCourse] = useState(null);
   const [relatedCourses, setRelatedCourses] = useState([]);
@@ -70,7 +72,7 @@ const CourseDetailsOne = () => {
     return (
       <SectionTwo title={"Loading..."}>
         <div className="container">
-          <p>Loading course details...</p>
+          <p>{t("Loading course details")}...</p>
         </div>
       </SectionTwo>
     );
@@ -81,7 +83,7 @@ const CourseDetailsOne = () => {
       <section className="section-padding">
         <div className="container">
           <div className="row">
-            {/* Left Side: Course info */}
+
             <div className="col-lg-8">
               <h2 className="text-secondary font-weight-bold mb-4">
                 {course.title}
@@ -94,47 +96,45 @@ const CourseDetailsOne = () => {
                 />
               </div>
 
-              {/* Tabs */}
+           
               <ul className="nav nav-pills mb-4 bg-gray tab-nav nav-justified">
                 <li className="nav-item">
                   <a className="nav-link active" data-toggle="pill" href="#overview">
-                    Overview
+                    {t("Overview")}
                   </a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" data-toggle="pill" href="#syllabus">
-                    Syllabus
+                     {t("Syllabus")}
                   </a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" data-toggle="pill" href="#requirements">
-                    Requirements
+                     {t("Requirements")}
                   </a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link" data-toggle="pill" href="#reviews">
-                    Reviews
+                     {t("Reviews")}
                   </a>
                 </li>
               </ul>
 
               <div className="tab-content">
-                {/* Overview */}
                 <div className="tab-pane fade show active" id="overview">
                   <p>{course.description}</p>
-                  <p><strong>Category:</strong> {course.category}</p>
+                  <p><strong> {t("Category")}:</strong> {course.category}</p>
                   <p>
-                    <strong>Level:</strong> {course.level} |{" "}
-                    <strong>Duration:</strong> {course.duration} hours |{" "}
-                    <strong>Language:</strong> {course.language}
+                    <strong> {t("Level")}:</strong> {course.level} |{" "}
+                    <strong> {t("Duration")}:</strong> {course.duration} hours |{" "}
+                    <strong> {t("Language")}:</strong> {course.language}
                   </p>
-                  <p><strong>Tutor:</strong> {course.tutor}</p>
+                  <p><strong> {t("Tutor")}:</strong> {course.tutor}</p>
                   <p>
-                    <strong>Date:</strong> {new Date(course.date).toLocaleDateString("en-GB")}
+                    <strong> {t("Date")}:</strong> {new Date(course.date).toLocaleDateString("en-GB")}
                   </p>
                 </div>
 
-                {/* Syllabus */}
                 <div className="tab-pane fade" id="syllabus">
                   {course.syllabus.length > 0 ? (
                     <ul>
@@ -143,11 +143,10 @@ const CourseDetailsOne = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>No syllabus provided.</p>
+                    <p> {t("No syllabus provided")}.</p>
                   )}
                 </div>
 
-                {/* Requirements */}
                 <div className="tab-pane fade" id="requirements">
                   {course.requirements.length > 0 ? (
                     <ul>
@@ -156,11 +155,10 @@ const CourseDetailsOne = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>No requirements provided.</p>
+                    <p> {t("No requirements provided")}.</p>
                   )}
                 </div>
 
-                {/* Reviews */}
                 <div className="tab-pane fade" id="reviews">
                   {course.ratings?.length > 0 ? (
                     course.ratings.map((review, idx) => (
@@ -170,13 +168,12 @@ const CourseDetailsOne = () => {
                       </div>
                     ))
                   ) : (
-                    <p>No reviews yet.</p>
+                    <p>{t("No reviews yet")}.</p>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Right Side: Price + actions + curriculum + related courses */}
             <div className="col-lg-4 mt-5 mt-lg-0">
               <div className="widget p-3 shadow-sm">
                 <h2 className="text-blue font-weight-600">${course.price}</h2>
@@ -194,13 +191,12 @@ const CourseDetailsOne = () => {
                   className="btn btn-sm btn-secondary ml-2"
                   onClick={handleAddToCart}
                 >
-                  Add to Cart
+                   {t("Add to Cart")}
                 </Link>
               </div>
 
-              {/* Curriculum */}
               <div className="widget shadow mt-4">
-                <h4 className="widget-title">Course Curriculum</h4>
+                <h4 className="widget-title"> {t("Course Curriculum")}</h4>
                 <ul className="list-unstyled">
                   {course.syllabus.length > 0 ? (
                     course.syllabus.map((s, idx) => (
@@ -209,15 +205,14 @@ const CourseDetailsOne = () => {
                       </li>
                     ))
                   ) : (
-                    <p>No curriculum provided.</p>
+                    <p> {t("No curriculum provided")}.</p>
                   )}
                 </ul>
               </div>
 
-              {/* Related Courses */}
               {relatedCourses.length > 0 && (
                 <div className="widget shadow mt-4">
-                  <h4 className="widget-title">Related Courses</h4>
+                  <h4 className="widget-title"> {t("Related Courses")}</h4>
                   {relatedCourses.map((c) => (
                     <div key={c.id} className="card mb-3 shadow-sm">
                       <img

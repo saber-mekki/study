@@ -12,6 +12,7 @@ import {
   Chip,
   Pagination,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 import {
   Chart as ChartJS,
@@ -36,6 +37,7 @@ ChartJS.register(
 );
 
 export default function GroupSessions() {
+  const { t } = useTranslation();
   const { groupId } = useParams();
   const [sessions, setSessions] = useState([]);
   const [attendance, setAttendance] = useState([]);
@@ -90,7 +92,6 @@ export default function GroupSessions() {
     }
   };
 
-  // Pagination
   const startIndex = (page - 1) * sessionsPerPage;
   const paginatedSessions = sessions.slice(
     startIndex,
@@ -98,7 +99,6 @@ export default function GroupSessions() {
   );
   const pageCount = Math.ceil(sessions.length / sessionsPerPage);
 
-  // Chart Data
   const barData = {
     labels: attendance.map((s) => s.name),
     datasets: [
@@ -126,17 +126,17 @@ export default function GroupSessions() {
     <Box maxWidth="lg" sx={{ mx: "auto", p: 4 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
         <Typography variant="h4" fontWeight="bold">
-          Group Sessions
+          {t("Group Sessions")}
         </Typography>
         <Button variant="contained" color="primary" onClick={handleNewSession}>
-          + Start New Session
+          + {t("Start New Session")}
         </Button>
       </Box>
 
       {/* Sessions List */}
       {sessions.length === 0 ? (
         <Box textAlign="center" py={8} sx={{ bgcolor: "grey.100", borderRadius: 3 }}>
-          <Typography>No sessions yet. Start one!</Typography>
+          <Typography>{t("No sessions yet. Start one")}!</Typography>
         </Box>
       ) : (
         <>
@@ -145,8 +145,8 @@ export default function GroupSessions() {
               <Grid item xs={12} sm={6} md={4} key={s.id}>
                 <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
                   <CardContent>
-                    <Typography variant="h6">Session: {s.start_time}-{s.end_time}</Typography>
-                    <Typography>Date: {s.session_date}</Typography>
+                    <Typography variant="h6"> {t("Session")}: {s.start_time}-{s.end_time}</Typography>
+                    <Typography>{t("Date")}: {s.session_date}</Typography>
                     <Chip
                       label={s.status}
                       color={s.status === "active" ? "success" : "default"}
@@ -161,7 +161,7 @@ export default function GroupSessions() {
                       fullWidth
                       onClick={() => history.push(`/session-attendance/${s.id}`)}
                     >
-                      Manage Attendance
+                      {t("Manage Attendance")}
                     </Button>
                   </CardActions>
                 </Card>
@@ -183,11 +183,10 @@ export default function GroupSessions() {
         </>
       )}
 
-      {/* Attendance Charts */}
       {attendance.length > 0 && (
         <Box mt={9}>
           <Typography variant="h3" fontWeight="bold" gutterBottom>
-            Attendance Statistics
+            {t("Attendance Statistics")}
           </Typography>
 
         
@@ -195,7 +194,7 @@ export default function GroupSessions() {
               <Bar data={barData} options={{ responsive: true, plugins: { legend: { position: "top" } } }} />
             </Grid>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
-            For all
+            {t("For all")}
           </Typography>
             <Grid item xs={12} md={7} sx={{ height: "700px" }}>
               <Bar data={pieData} options={{ responsive: true, plugins: { legend: { position: "bottom" } } }} />

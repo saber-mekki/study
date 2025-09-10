@@ -62,7 +62,6 @@ function SignUpTutor() {
     if (newStep >= 1 && newStep <= 4) setFormIndex(newStep);
   };
 
-  // ---------- File helpers ----------
   const handleFileChange = (
     e,
     setFile
@@ -119,7 +118,6 @@ function SignUpTutor() {
       return;
     }
 
-    // Password match
     if (password !== rePassword) {
       setPasswordError(t("passwordError"));
       return;
@@ -128,7 +126,6 @@ function SignUpTutor() {
     handleStepChange(2);
   };
 
-  // ---------- Step 3 finish ----------
   const handleFinish = async (e) => {
     e.preventDefault();
     setApiError("");
@@ -289,7 +286,7 @@ function SignUpTutor() {
             </button>
           </div>
 
-          {/* STEP 1 */}
+
           {formIndex === 1 && (
             <div className="modal-body">
               <form method="POST" className="SignUptutorForm" onSubmit={handleSubmitStep1}>
@@ -318,7 +315,7 @@ function SignUpTutor() {
 
                     <div className="form-group mb-2 col-12">
                       <label className="text-secondary h6 mb-2" htmlFor="password">
-                        {t("Password*")}
+                        {t("Password")}*
                       </label>
                       <input
                         className="form-control shadow-none rounded-sm"
@@ -433,7 +430,6 @@ function SignUpTutor() {
             </div>
           )}
 
-          {/* STEP 2 */}
           {formIndex === 2 && (
             <div className="modal-body">
               <form method="POST" className="SignUptutorForm" onSubmit={(e) => e.preventDefault()}>
@@ -555,7 +551,6 @@ function SignUpTutor() {
             </div>
           )}
 
-          {/* STEP 3 */}
           {formIndex === 3 && (
             <div className="container mt-1 p-3 bg-white shadow rounded">
               <h4 className="mb-3">{t("Identity & Education")}</h4>
@@ -565,9 +560,8 @@ function SignUpTutor() {
 
               <form onSubmit={handleFinish}>
                 <div className="row">
-                  {/* ID / Passport */}
                   <div className="col-12 col-md-6 mb-3">
-                    <label className="form-label text-dark">{t("ID or Passport:")}</label>
+                    <label className="form-label text-dark">{t("ID or Passport")}:</label>
 
                     <div
                       className={`upload-zone border rounded-3 p-4 text-center ${
@@ -600,16 +594,15 @@ function SignUpTutor() {
                       <div className="mt-3 p-2 border rounded bg-light d-flex align-items-center">
                         <i className="bi bi-check-circle-fill text-success me-2"></i>
                         <span className="text-muted small">
-                          {t("Uploaded:")} <strong>{idFile.name}</strong>
+                          {t("Uploaded")}: <strong>{idFile.name}</strong>
                         </span>
                       </div>
                     )}
                   </div>
 
-                  {/* Degree certificate */}
                   <div className="col-12 col-md-6 mb-3">
                     <label className="form-label text-dark">
-                      {t("Upload Degree Certificate:")}
+                      {t("Upload Degree Certificate")}:
                     </label>
 
                     <div
@@ -669,7 +662,7 @@ function SignUpTutor() {
 
                   <div className="col-12 mb-3">
                     <label htmlFor="message" className="form-label text-dark">
-                      {t("Send a cover letter:")}
+                      {t("Send a cover letter")}:
                     </label>
                     <textarea
                       id="message"
@@ -683,7 +676,6 @@ function SignUpTutor() {
                   </div>
                 </div>
 
-                {/* Captcha */}
                 <div className="form-group col-12 mb-3">
                   <ReCAPTCHA
                     ref={recaptchaRef}
@@ -718,7 +710,6 @@ function SignUpTutor() {
             </div>
           )}
 
-          {/* STEP 4 */}
           {formIndex === 4 && (
             <div className="d-flex flex-column align-items-center p-4">
               <div className="mb-4 text-center">
@@ -729,7 +720,7 @@ function SignUpTutor() {
                   )}
                 </p>
                 <p className="mb-4 text-secondary">
-                  {t("Thank you for joining us and for your patience!")}
+                  {t("Thank you for joining us and for your patience")}!
                 </p>
                 <button
                   onClick={handleClose}
@@ -738,7 +729,7 @@ function SignUpTutor() {
                   data-dismiss="modal"
                   aria-label="Close"
                 >
-                  {t("Got it!")}
+                  {t("Got it")}!
                 </button>
               </div>
             </div>
@@ -746,7 +737,6 @@ function SignUpTutor() {
         </div>
       </div>
 
-      {/* Styles for upload zone */}
       <style>{`
         .upload-zone {
           transition: all 0.2s ease;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export const BookingCountdown = ({ bookingDate }) => {
+  const { t } = useTranslation();
     const getTimeRemaining = (targetDate) => {
         const total = new Date(targetDate) - new Date();
         if (total <= 0) return null;
@@ -24,12 +26,11 @@ export const BookingCountdown = ({ bookingDate }) => {
       }, [bookingDate]);
     
       if (!timeLeft) {
-        return <span className="text-red-600 font-semibold">Session expirée</span>;
+        return <span className="text-red-600 font-semibold">{t("Session expirée")}</span>;
       }
     
       const { days, hours, minutes, seconds } = timeLeft;
     
-      // 💡 Déterminer la classe couleur selon le temps restant
       let colorClass = "text-green-600";
       if (days === 0 && hours === 0 && minutes < 5) {
         colorClass = "text-yellow-500";
@@ -37,7 +38,7 @@ export const BookingCountdown = ({ bookingDate }) => {
     
       return (
         <span className={`${colorClass} font-medium`}>
-          Commence dans :{" "}
+           {t("Commence dans")}:{" "}
           {days > 0 ? `${days}j ` : ""}
           {hours > 0 || days > 0 ? `${hours}h ` : ""}
           {minutes}m {seconds}s

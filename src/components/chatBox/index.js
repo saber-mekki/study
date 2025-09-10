@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function ChatBox() {
+  const { t } = useTranslation();
   const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -13,14 +15,12 @@ function ChatBox() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1200);
 
-  // Handle window resize
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1200);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Fetch unread count
   useEffect(() => {
     const fetchUnreadCount = async () => {
       try {
@@ -38,7 +38,6 @@ function ChatBox() {
     return () => clearInterval(interval);
   }, [CurrentUser.idUser]);
 
-  // Fetch users
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -53,7 +52,6 @@ function ChatBox() {
     fetchUsers();
   }, [CurrentUser.idUser]);
 
-  // Fetch conversation
   useEffect(() => {
     const fetchConversation = async () => {
       if (!selectedUser) return;
@@ -98,12 +96,11 @@ function ChatBox() {
       u.user_email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Mobile click: navigate to /message
   if (isMobile) {
     return (
       <li className="nav-item position-relative">
         <Link to="/message" className="nav-link">
-          💬 Chat
+          💬 {t("Chat")}
           {unreadCount > 0 && (
             <span className="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
               {unreadCount}
@@ -114,7 +111,6 @@ function ChatBox() {
     );
   }
 
-  // Desktop dropdown
   return (
     <li className="nav-item dropdown position-relative">
       <a
@@ -125,7 +121,7 @@ function ChatBox() {
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        💬 Chat
+        💬 {t("Chat")}
         {unreadCount > 0 && (
           <span className="badge bg-danger rounded-pill position-absolute top-0 start-100 translate-middle">
             {unreadCount}
@@ -139,7 +135,7 @@ function ChatBox() {
       >
         {!selectedUser ? (
           <>
-            <h6 className="dropdown-header">Chats</h6>
+            <h6 className="dropdown-header">{t("Chats")}</h6>
             <input
               type="text"
               className="form-control form-control-sm mb-2"
@@ -165,7 +161,7 @@ function ChatBox() {
                   </button>
                 ))
               ) : (
-                <div className="text-muted px-2">No users found</div>
+                <div className="text-muted px-2">{t("No users found")}</div>
               )}
             </div>
           </>
@@ -180,7 +176,7 @@ function ChatBox() {
                   setMessages([]);
                 }}
               >
-                ← Back
+                ← {t("Back")}
               </button>
             </div>
             <div className="overflow-auto mb-2" style={{ maxHeight: "40vh" }}>
@@ -210,7 +206,7 @@ function ChatBox() {
                 className="btn btn-sm btn-primary ms-1"
                 onClick={handleSendMessage}
               >
-                Send
+                {t("Send")}
               </button>
             </div>
           </>

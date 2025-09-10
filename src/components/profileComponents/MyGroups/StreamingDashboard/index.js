@@ -1,10 +1,12 @@
 import React from "react";
-// import HeaderOne from "../../layouts/HeaderOne";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+
 import JitsiMeeting from "./JitsiMeeting";
 import SessionAttendance from "./SessionAttendance";
 
 function StreamingDashboard() {
+  const { t } = useTranslation();
   const role = localStorage.getItem("role");
   const { roomId } = useParams()
   const userName = localStorage.getItem("userName") || "Invité";
@@ -68,9 +70,8 @@ function StreamingDashboard() {
         }
       `}</style>
 
-      {/* <HeaderOne /> */}
         <header className="header">
-          <h1> Espace de Streaming en Direct</h1>
+          <h1> {t("Espace de Streaming en Direct")}:</h1>
 
           {role === "tutor"
             ? "Créez une session en direct pour vos apprenants."
@@ -78,8 +79,8 @@ function StreamingDashboard() {
 
         </header>
          <div className="container mt-4">
-       <h2> Vous êtes connecté à la session</h2>
-       <p className="text-muted">Session interactive avec votre tuteur</p>
+       <h2> {t("Vous êtes connecté à la session")}</h2>
+       <p className="text-muted">{t("Session interactive avec votre tuteur")}</p>
       {role === "tutor" && <SessionAttendance id={result} />}
        <JitsiMeeting  role={role} userName={userName} bookingId={roomId}/>
      </div>

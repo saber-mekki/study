@@ -186,7 +186,7 @@ const AdminDashboard = ({ section }) => {
         </ul>
 
         <button className="logout-btn" onClick={handleLogout}>
-          {t("logout")}
+          {t("Logout")}
         </button>
       </nav>
 

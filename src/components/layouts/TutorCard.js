@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import {
   Rating,
 } from '@mui/material';
+import { useTranslation } from "react-i18next";
+
 export default function TutorCard({
   specialty,
   country,
@@ -16,6 +18,7 @@ export default function TutorCard({
   bio,
   id
 }) {
+   const { t } = useTranslation();
   const [averageRating, setAverageRating] = useState(null);
 
   const [TutorDetails, setTutorDetails] = useState(false)
@@ -123,7 +126,7 @@ export default function TutorCard({
           <div className="modal-dialog modal-xl	 modal-dialog-centered" role="document">
             <div className="modal-content rounded-4 shadow-lg">
               <div className="modal-header bg-primary text-white">
-                <h5 className="modal-title">{name}'s Profile</h5>
+                <h5 className="modal-title">{name}{t("'s Profile")}:</h5>
                 <button
                   type="button"
                   className="btn-close"
@@ -151,11 +154,11 @@ export default function TutorCard({
                     </div>
 
                     <div className="col-md-8  p-2">
-                      <p className="text-muted"><strong>Bio:</strong> {bio}</p>
-                      <p className="text-muted"><strong>Languages:</strong> {languages?.join(', ') || 'Not specified'}</p>
+                      <p className="text-muted"><strong>{t("Bio")}:</strong> {bio}</p>
+                      <p className="text-muted"><strong>{t("Languages")}:</strong> {languages?.join(', ') || 'Not specified'}</p>
 
 
-                      <p className="text-muted"><strong>Price:</strong> <span className="text-success">${price} / session</span></p>
+                      <p className="text-muted"><strong>{t("Price")}:</strong> <span className="text-success">${price} / session</span></p>
                       <Rating
                         value={averageRating || 0}
                         precision={0.5}

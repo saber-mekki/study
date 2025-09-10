@@ -27,7 +27,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import GTranslateIcon from '@mui/icons-material/GTranslate';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-
+import { useTranslation } from "react-i18next";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useSelector } from "react-redux";
 
@@ -36,6 +36,7 @@ import UserCourses from "./UserCourses";
 import RatingUser from './RatingUser';
 
 export default function UserProfile() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const history = useHistory();
   const [user, setUser] = useState(null);
@@ -154,7 +155,7 @@ export default function UserProfile() {
   if (!user) {
     return (
       <Box display="flex" justifyContent="center" mt={8}>
-        <Typography variant="h6">User not found.</Typography>
+        <Typography variant="h6">{t("User not found")}.</Typography>
       </Box>
     );
   }
@@ -167,10 +168,9 @@ export default function UserProfile() {
     { icon: <CheckCircleIcon color={user.status!=="waiting" ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.status!=="waiting" ? 'Yes' : 'No' }
   ]
   return (
-    <SectionTwo title={`${user.user_name}'s Profile`}>
+    <SectionTwo title={`${user.user_name}${t("'s Profile")}`}>
       <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
 
-        {/* Cover Photo */}
         <Box sx={{
           height: 200,
           backgroundImage: `url('https://source.unsplash.com/1600x400/?education,workspace')`,
@@ -188,9 +188,9 @@ export default function UserProfile() {
               backgroundColor: 'rgba(255,255,255,0.8)'
             }}
           >
-            Back
+            {t("Back")}
           </Button>
-          {/* Profile Avatar */}
+
           <Avatar
             src={imageUrl || "/assets/images/tutorprofil.png"}
             sx={{
@@ -205,7 +205,6 @@ export default function UserProfile() {
           />
         </Box>
 
-        {/* Name & Action Buttons */}
         <Box textAlign="center" mt={10}>
           <Typography variant="h4" fontWeight="bold">{user.user_name}</Typography>
           <Typography textAlign="center" color="text.secondary">{user.type_register}</Typography>
@@ -224,19 +223,13 @@ export default function UserProfile() {
 
           <Box mt={2} display="flex" justifyContent="center" gap={2}>
             {(
-              <Button variant="contained" onClick={() => setMessageOpen(true)}>Message</Button>
+              <Button variant="contained" onClick={() => setMessageOpen(true)}>{t("Message")}</Button>
             )}
 
-            <Button variant="outlined" href={`mailto:${user.user_email}`}>Email</Button>
+            <Button variant="outlined" href={`mailto:${user.user_email}`}>{t("Email")}</Button>
           </Box>
-          {/* Rating by Student  urrentUser.role=== 'student' */}
 
         </Box>
-
-        {/* Quick Stats */}
-
-
-
 
         <Tabs
           value={tabValue}
@@ -251,11 +244,9 @@ export default function UserProfile() {
           }
 
         </Tabs>
-        {/* About */}
         {tabValue === 0 && (
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 4 }}>
 
-            {/* Stats */}
             <Grid container spacing={3} maxWidth="md" justifyContent="center">
               {table.map((stat, idx) => (
                 <Grid item xs={6} sm={3} key={idx}>
@@ -281,26 +272,24 @@ export default function UserProfile() {
               ))}
             </Grid>
 
-            {/* Details */}
             <Grid container spacing={3} mt={4} maxWidth="md" justifyContent="center">
-              {/* About */}
+
               <Grid item xs={12} md={6}>
                 <Box sx={{ backgroundColor: '#fff', p: 3, borderRadius: 3, boxShadow: 3 }}>
-                  <Typography variant="h6" gutterBottom>About</Typography>
-                  <Typography><CakeIcon fontSize="small" sx={{ mr: 1 }} /> DOB: {user.date_of_birth ? new Date(user.date_of_birth).toLocaleDateString() : 'N/A'}</Typography>
-                  <Typography><WcIcon fontSize="small" sx={{ mr: 1 }} /> Gender: {user.gender || 'N/A'}</Typography>
-                  <Typography><PublicIcon fontSize="small" sx={{ mr: 1 }} /> Country: {user.country || 'N/A'}</Typography>
-                  <Typography><GTranslateIcon fontSize="small" sx={{ mr: 1 }} /> Languages: {user.languages || 'N/A'}</Typography>
+                  <Typography variant="h6" gutterBottom> {t("About")}</Typography>
+                  <Typography><CakeIcon fontSize="small" sx={{ mr: 1 }} />  {t("Date of birth")}: {user.date_of_birth ? new Date(user.date_of_birth).toLocaleDateString() : 'N/A'}</Typography>
+                  <Typography><WcIcon fontSize="small" sx={{ mr: 1 }} />  {t("Gender")}: {user.gender || 'N/A'}</Typography>
+                  <Typography><PublicIcon fontSize="small" sx={{ mr: 1 }} />  {t("Country")}: {user.country || 'N/A'}</Typography>
+                  <Typography><GTranslateIcon fontSize="small" sx={{ mr: 1 }} />  {t("Languages")}: {user.languages || 'N/A'}</Typography>
                 </Box>
               </Grid>
 
-              {/* Professional Details */}
               <Grid item xs={12} md={6}>
                 <Box sx={{ backgroundColor: '#fff', p: 3, borderRadius: 3, boxShadow: 3 }}>
-                  <Typography variant="h6" gutterBottom>Professional Details</Typography>
-                  <Typography><SchoolIcon fontSize="small" sx={{ mr: 1 }} /> Degree: {user.degree || 'N/A'}</Typography>
-                  <Typography><MenuBookIcon fontSize="small" sx={{ mr: 1 }} /> Specialty: {user.specialty || 'N/A'}</Typography>
-                  <Typography><AccessTimeIcon fontSize="small" sx={{ mr: 1 }} /> Availability: {user.availability || 'N/A'}</Typography>
+                  <Typography variant="h6" gutterBottom> {t("Professional Details")}</Typography>
+                  <Typography><SchoolIcon fontSize="small" sx={{ mr: 1 }} />  {t("Degree")}: {user.degree || 'N/A'}</Typography>
+                  <Typography><MenuBookIcon fontSize="small" sx={{ mr: 1 }} />  {t("Specialty")}: {user.specialty || 'N/A'}</Typography>
+                  <Typography><AccessTimeIcon fontSize="small" sx={{ mr: 1 }} />  {t("Availability")}: {user.availability || 'N/A'}</Typography>
                 </Box>
               </Grid>
             </Grid>
@@ -308,7 +297,7 @@ export default function UserProfile() {
           </Box>
         )}
 
-        {/* Course*/}
+ 
         {tabValue === roleNumber && user.type_register !== 'student' && (
           <div >
 
@@ -316,7 +305,7 @@ export default function UserProfile() {
           </div>
         )}
 
-        {/* rating*/}
+    
         {tabValue === 1 && CurrentUser.role === 'student' && (
 
           <Box mt={4} px={4} textAlign="center">
@@ -327,7 +316,7 @@ export default function UserProfile() {
 
 
         <Dialog open={messageOpen} onClose={() => setMessageOpen(false)} fullWidth maxWidth="sm">
-          <DialogTitle>Send a message to {user.user_name}</DialogTitle>
+          <DialogTitle> {t("Send a message to")}{user.user_name}</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -348,7 +337,6 @@ export default function UserProfile() {
           </DialogActions>
         </Dialog>
 
-        {/* Confirmation Snackbar */}
         <Snackbar
           open={messageSent}
           autoHideDuration={4000}
@@ -356,7 +344,7 @@ export default function UserProfile() {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
           <Alert onClose={() => setMessageSent(false)} severity="success" sx={{ width: '100%' }}>
-            Message sent successfully!
+             {t("Message sent successfully")}!
           </Alert>
         </Snackbar>
 

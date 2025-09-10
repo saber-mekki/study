@@ -442,7 +442,7 @@ export default function AddCourse({ email }) {
                     <h5>{t("Add Videos")}</h5>
 
                     <div className="mb-3">
-                      <label htmlFor="videoFile" className="form-label">Upload Video</label>
+                      <label htmlFor="videoFile" className="form-label">{t("Upload Video")}</label>
                       <input
                         type="file"
                         accept="video/*"
@@ -458,7 +458,7 @@ export default function AddCourse({ email }) {
                     </div>
 
                     <div className="mb-3">
-                      <label htmlFor="videoDescription" className="form-label">Video Description</label>
+                      <label htmlFor="videoDescription" className="form-label">{t('Video Description')}</label>
                       <input
                         type="text"
                         id="videoDescription"
@@ -469,14 +469,14 @@ export default function AddCourse({ email }) {
                     </div>
 
                     <button type="button" className="btn btn-success" onClick={handleAddVideo}>
-                      Add Video
+                        {t('Add Video')}
                     </button>
 
                     <ul className="mt-2">
                       {course.videos.map((v, idx) => (
                         <li key={idx} className="mb-2">
-                          <strong>File:</strong> {v.file?.name} <br />
-                          <strong>Description:</strong> {v.description} <br />
+                          <strong> {t('File')}:</strong> {v.file?.name} <br />
+                          <strong> {t('Description')}:</strong> {v.description} <br />
 
                           <div className="mt-1">
                             <button
@@ -488,14 +488,14 @@ export default function AddCourse({ email }) {
                                 window.open(fileURL, "_blank");
                               }}
                             >
-                              View
+                               {t('View')}
                             </button>
 
                             <button
                               className="btn btn-sm btn-outline-danger"
                               onClick={() => handleDeleteVideo(idx)}
                             >
-                              Delete
+                               {t('Delete')}
                             </button>
                           </div>
                         </li>

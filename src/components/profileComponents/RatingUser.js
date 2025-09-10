@@ -9,9 +9,10 @@ import {
   Button,
   CircularProgress,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export default function RatingUser({ tutorId, studentId ,loading}) {
-
+ const { t } = useTranslation();
   const [userRating, setUserRating] = useState(null);
   const [comment, setComment] = useState("");
 
@@ -61,7 +62,7 @@ export default function RatingUser({ tutorId, studentId ,loading}) {
       />
 
       <Typography variant="subtitle1" fontWeight="bold">
-        Rate this tutor
+       {t("Rate this tutor")}
       </Typography>
 
       <Rating
@@ -89,7 +90,7 @@ export default function RatingUser({ tutorId, studentId ,loading}) {
         onClick={handleSubmitRating}
         disabled={submitting}
       >
-        {submitting ? "Submitting..." : "Submit Rating"}
+        {submitting ? `${t("Submitting")}...` :  t("Submit Rating")}
       </Button>
     </Box>
   );

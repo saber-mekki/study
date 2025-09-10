@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 import {
   Container,
@@ -17,6 +18,7 @@ import {
 } from "@mui/material";
 
 export default function SessionAttendance() {
+  const { t } = useTranslation();
   const [students, setStudents] = useState([]);
   const [sessionNote, setSessionNote] = useState("");
   const sessionId = localStorage.getItem("sessionId");
@@ -125,13 +127,13 @@ export default function SessionAttendance() {
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
         <Typography variant="h5" fontWeight="bold" gutterBottom>
-          Session Attendance
+          {t("Session Attendance")}
         </Typography>
 
 
         <Box mb={3}>
           <Typography variant="subtitle1" fontWeight="bold">
-            General Note:
+           {t("General Note")}:
           </Typography>
           <TextField
             fullWidth
@@ -146,12 +148,12 @@ export default function SessionAttendance() {
             sx={{ mt: 1 }}
             onClick={saveSessionNote}
           >
-            Save Session Note
+            {t("Save Session Note")}
           </Button>
         </Box>
         <Box mb={3}>
           <Typography variant="subtitle1" fontWeight="bold">
-            Session PDFs:
+            {t("Session PDFs")}:
           </Typography>
 
           <input
@@ -169,16 +171,16 @@ export default function SessionAttendance() {
             onClick={uploadSessionPDF}
             disabled={!sessionPDF}
           >
-            Upload PDF
+            {t("Upload PDF")}
           </Button>
 
           {pdfUrls.length > 0 && (
             <Box sx={{ mt: 2 }}>
               {pdfUrls.map((pdf, i) => (
                 <Typography key={pdf.id || i} variant="body2">
-                  PDF {i + 1}:{" "}
+                  {t("PDF")}  {i + 1}:{" "}
                   <a href={pdf.pdf_url} target="_blank" rel="noopener noreferrer">
-                    View
+                     {t("View")}
                   </a>
                 </Typography>
               ))}
@@ -190,10 +192,10 @@ export default function SessionAttendance() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell><strong>Student</strong></TableCell>
-              <TableCell><strong>Status</strong></TableCell>
-              <TableCell><strong>Note</strong></TableCell>
-              <TableCell align="right"><strong>Actions</strong></TableCell>
+              <TableCell><strong>{t("Student")}</strong></TableCell>
+              <TableCell><strong>{t("Status")}</strong></TableCell>
+              <TableCell><strong>{t("Note")}</strong></TableCell>
+              <TableCell align="right"><strong>{t("Actions")}</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -231,7 +233,7 @@ export default function SessionAttendance() {
                         handleMark(s.student_id, "present", s.start_time)
                       }
                     >
-                      Present
+                      {t("Present")}
                     </Button>
                     <Button
                       variant="contained"
@@ -240,7 +242,7 @@ export default function SessionAttendance() {
                         handleMark(s.student_id, "absent", s.start_time)
                       }
                     >
-                      Absent
+                      {t("Absent")}
                     </Button>
                   </Box>
                 </TableCell>

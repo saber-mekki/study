@@ -1,14 +1,16 @@
-import React, {Component} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-class CourseCarousel extends Component {
-    render() {
+ const CourseCarousel=()=>  {
+    const { t } = useTranslation();
+
         return (
             <section className="section-padding pb-fix">
                 <div className="container">
                     <div className="row align-items-center mb-30">
                         <div className="col-lg-9 text-center text-lg-left">
-                            <h2 className="section-title mb-0">Top Course Categories</h2>
+                            <h2 className="section-title mb-0">{t("Top Course Categories")}</h2>
                         </div>
                         <div className="col-lg-3 mt-4 mt-lg-0 text-center text-lg-right">
                             <div className="nav-arrows">
@@ -25,7 +27,7 @@ class CourseCarousel extends Component {
                                         className="img-fluid border mb-15"
                                         src={process.env.PUBLIC_URL + '/assets/images/course-categories/001.png'}
                                         alt="" />
-                                    <span>Design</span>
+                                    <span>{t("Design")}</span>
                                 </Link>
 
                                 <Link className="h5 font-weight-600 text-blue text-center d-block mt-30 initiate-scripts" to={'/'}>
@@ -33,7 +35,7 @@ class CourseCarousel extends Component {
                                         className="img-fluid border mb-15"
                                         src={process.env.PUBLIC_URL + '/assets/images/course-categories/002.png'}
                                         alt="" />
-                                    <span>Development</span>
+                                    <span>{t("Development")}</span>
                                 </Link>
 
                                 <Link className="h5 font-weight-600 text-blue text-center d-block mt-30 initiate-scripts" to={'/'}>
@@ -41,7 +43,7 @@ class CourseCarousel extends Component {
                                         className="img-fluid border mb-15"
                                         src={process.env.PUBLIC_URL + '/assets/images/course-categories/003.png'}
                                         alt="" />
-                                    <span>Personal Development</span>
+                                    <span>{t("Personal Development")}</span>
                                 </Link>
 
                                 <Link className="h5 font-weight-600 text-blue text-center d-block mt-30 initiate-scripts" to={'/'}>
@@ -49,7 +51,7 @@ class CourseCarousel extends Component {
                                         className="img-fluid border mb-15"
                                         src={process.env.PUBLIC_URL + '/assets/images/course-categories/004.png'}
                                         alt="" />
-                                    <span>IT & Software</span>
+                                    <span>{t("IT & Software")}</span>
                                 </Link>
 
                                 <Link className="h5 font-weight-600 text-blue text-center d-block mt-30 initiate-scripts" to={'/'}>
@@ -57,7 +59,7 @@ class CourseCarousel extends Component {
                                         className="img-fluid border mb-15"
                                         src={process.env.PUBLIC_URL + '/assets/images/course-categories/005.png'}
                                         alt="" />
-                                    <span>Marketing</span>
+                                    <span>{t("Marketing")}</span>
                                 </Link>
 
                                 <Link className="h5 font-weight-600 text-blue text-center d-block mt-30 initiate-scripts" to={'/'}>
@@ -65,7 +67,7 @@ class CourseCarousel extends Component {
                                         className="img-fluid border mb-15"
                                         src={process.env.PUBLIC_URL + '/assets/images/course-categories/006.png'}
                                         alt="" />
-                                    <span>Photography</span>
+                                    <span>{t("Photography")}</span>
                                 </Link>
 
                                 <Link className="h5 font-weight-600 text-blue text-center d-block mt-30 initiate-scripts" to={'/'}>
@@ -73,7 +75,7 @@ class CourseCarousel extends Component {
                                         className="img-fluid border mb-15"
                                         src={process.env.PUBLIC_URL + '/assets/images/course-categories/007.png'}
                                         alt="" />
-                                    <span>Lifestyle</span>
+                                    <span>{t("Lifestyle")}</span>
                                 </Link>
 
                                 <Link className="h5 font-weight-600 text-blue text-center d-block mt-30 initiate-scripts" to={'/'}>
@@ -81,7 +83,7 @@ class CourseCarousel extends Component {
                                         className="img-fluid border mb-15"
                                         src={process.env.PUBLIC_URL + '/assets/images/course-categories/008.png'}
                                         alt="" />
-                                    <span>Business</span>
+                                    <span>{t("Business")}</span>
                                 </Link>
                             </div>
                         </div>
@@ -90,6 +92,6 @@ class CourseCarousel extends Component {
             </section>
         );
     }
-}
+
 
 export default CourseCarousel;
