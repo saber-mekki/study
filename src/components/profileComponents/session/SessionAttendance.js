@@ -147,7 +147,7 @@ export default function SessionAttendance() {
       <ul>
         {pdfs.map((pdf) => (
           <li key={pdf.id}>
-            <a href={pdf.file_url} target="_blank" rel="noopener noreferrer">
+            <a href={pdf.signed_url} target="_blank" rel="noopener noreferrer">
                {t("PDF uploaded at")}{new Date(pdf.uploaded_at).toLocaleString()}
             </a>
             <Button

@@ -235,7 +235,7 @@ export default function UserCard({
                   {tutorPDFs.map((pdf) => (
                     <li key={pdf.id} className="d-flex align-items-center justify-content-between mb-1">
                       <a
-                        href={pdf.file_url}
+                        href={pdf.signed_url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-primary"

@@ -105,9 +105,9 @@ const Announcements = () => {
             <Typography variant="body1" className="mt-2">
               {messages[selectedIndex].content}
             </Typography>
-            {messages[selectedIndex].pdf_url && (
+            {messages[selectedIndex].signed_url && (
               <Button
-                href={messages[selectedIndex].pdf_url}
+                href={messages[selectedIndex].signed_url}
                 target="_blank"
                 rel="noopener noreferrer"
                 variant="outlined"

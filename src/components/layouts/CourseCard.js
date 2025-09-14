@@ -21,7 +21,7 @@ export default function CourseCard({
 
   const [rate, setRate] = useState(0);
   const history = useHistory();
-  
+
   useEffect(() => {
     const fetchRatings = async () => {
       const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/rating/course/${id}`);
@@ -40,9 +40,11 @@ export default function CourseCard({
 
 
   const handleOpenModal = () => {
-
-        history.push(`/course-details-one/${id}`);
-
+    if (price === '0.00' ) {
+      history.push(`/course/${id}`);
+    } else {
+      history.push(`/course-details-one/${id}`);
+    }
   }
 
   return (
@@ -57,9 +59,7 @@ export default function CourseCard({
           />
           <div className="card-body p-30">
             <h5 className="font-weight-600">
-
               {title}
-
             </h5>
             <p className="mt-2">{description}</p>
             <div className="d-flex justify-content-end w-100">
@@ -73,7 +73,6 @@ export default function CourseCard({
             <div className="card-footer px-0 bg-transparent mb-10 d-flex justify-content-between align-items-center">
               <div className="rating text-primary">
                 <span className="font-weight-600">{rate}</span>
-               
                 {[1, 2, 3, 4, 5].map((star) => (
                   <span
                     key={star}
@@ -85,9 +84,7 @@ export default function CourseCard({
                     ★
                   </span>
                 ))}
-              
               </div>
-            
               <p className="price h6">
                 <span style={{ color: "green" }}>${price}</span>
               </p>

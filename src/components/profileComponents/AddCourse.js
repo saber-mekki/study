@@ -22,8 +22,8 @@ export default function AddCourse({ email }) {
     language: "",
     syllabus: "",
     requirements: "",
-    videos: [], // New
-    pdfs: []    // New
+    videos: [],
+    pdfs: []
   });
 
   const [newVideo, setNewVideo] = useState({ url: "", description: "" });
@@ -35,6 +35,7 @@ export default function AddCourse({ email }) {
   const [details, setDetails] = useState(false);
 
   const handleAddPDF = () => {
+
     if (newPDF.file && newPDF.description) {
       setCourse(prev => ({
         ...prev,
@@ -63,7 +64,7 @@ export default function AddCourse({ email }) {
 
     if (!course.title) validationErrors.title = t("titleRequired");
     if (!course.category) validationErrors.category = t("categoryRequired");
-    if (!course.price) validationErrors.price = t("priceRequired");
+    if (!course.price && !course.isFree) validationErrors.price = t("priceRequired");
     if (!course.description) validationErrors.description = t("descriptionRequired");
     if (!course.image) validationErrors.image = t("imageRequired");
 
@@ -87,6 +88,7 @@ export default function AddCourse({ email }) {
   };
 
   const handleAddVideo = (e) => {
+
     if (newVideo.file) {
       setCourse({
         ...course,
@@ -148,7 +150,7 @@ export default function AddCourse({ email }) {
         formData.append(`pdfs[${idx}][description]`, pdfObj.description);
       });
 
-      await axios.post(  `${process.env.REACT_APP_API_BASE_URL}/CreateCourse` , formData
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/CreateCourse`, formData
       );
 
       setDetails(false);
@@ -207,21 +209,63 @@ export default function AddCourse({ email }) {
                   </select>
                   {errors.category && <div className="invalid-feedback">{errors.category}</div>}
                 </div>
-
                 <div className="col-md-4">
-                  <label htmlFor="price" className="form-label">
-                    {t("Price ($)")}
-                  </label>
-                  <input
-                    type="number"
-                    name="price"
-                    id="price"
-                    value={course.price}
-                    onChange={handleChange}
-                    className={`form-control ${errors.price ? "is-invalid" : ""}`}
-                    required
-                  />
-                  {errors.price && <div className="invalid-feedback">{errors.price}</div>}
+                  <label className="form-label d-block">{t("Price")}</label>
+
+                  {/* Choix du type de prix */}
+                  <div className="form-check form-check-inline">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="priceType"
+                      id="freeOption"
+                      value="free"
+                      checked={course.isFree === true}
+                      onChange={() =>
+                        setCourse({ ...course, isFree: true, price: 0 })
+                      }
+                    />
+                    <label className="form-check-label" htmlFor="freeOption">
+                      {t("Free")}
+                    </label>
+                  </div>
+
+                  <div className="form-check form-check-inline">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      name="priceType"
+                      id="paidOption"
+                      value="paid"
+                      checked={course.isFree === false}
+                      onChange={() =>
+                        setCourse({ ...course, isFree: false })
+                      }
+                    />
+                    <label className="form-check-label" htmlFor="paidOption">
+                      {t("Custom price")}
+                    </label>
+                  </div>
+
+                  {/* Champ de saisie uniquement si "Custom price" est choisi */}
+                  {!course.isFree && (
+                    <div className="mt-2">
+                      <input
+                        type="number"
+                        name="price"
+                        id="price"
+                        min="0"
+                        step="0.01"
+                        value={course.price}
+                        onChange={handleChange}
+                        className={`form-control ${errors.price ? "is-invalid" : ""}`}
+                        required
+                      />
+                      {errors.price && (
+                        <div className="invalid-feedback">{errors.price}</div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -249,7 +293,7 @@ export default function AddCourse({ email }) {
                 <input
                   type="file"
                   id="image"
-                  onChange={(e) => setCourse({ ...course, image: e.target.files[0] })} 
+                  onChange={(e) => setCourse({ ...course, image: e.target.files[0] })}
                   className={`form-control ${errors.image ? "is-invalid" : ""}`}
                   required
                 />
@@ -469,7 +513,7 @@ export default function AddCourse({ email }) {
                     </div>
 
                     <button type="button" className="btn btn-success" onClick={handleAddVideo}>
-                        {t('Add Video')}
+                      {t('Add Video')}
                     </button>
 
                     <ul className="mt-2">
@@ -488,14 +532,14 @@ export default function AddCourse({ email }) {
                                 window.open(fileURL, "_blank");
                               }}
                             >
-                               {t('View')}
+                              {t('View')}
                             </button>
 
                             <button
                               className="btn btn-sm btn-outline-danger"
                               onClick={() => handleDeleteVideo(idx)}
                             >
-                               {t('Delete')}
+                              {t('Delete')}
                             </button>
                           </div>
                         </li>

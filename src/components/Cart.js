@@ -114,7 +114,7 @@ const Cart = () => {
         onClose={() => setCheckoutOpen(false)}
         title={"Cart Checkout"}
         price={total.toFixed(2)}
-        courseId={"cart"} 
+        courseId={cart.map((item) => item.id)} 
         studentId={user.idUser} 
       />
     </SectionTwo>

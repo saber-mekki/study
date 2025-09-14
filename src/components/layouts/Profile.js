@@ -275,14 +275,14 @@ const UserProfile = () => {
                             {t("My Classes")}
                           </button>
                         </li>   </>)}
-                      <li className="list-group-item">
+                      {/* <li className="list-group-item">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
                           onClick={() => handleSectionChange("Quiz")}
                         >
                           {t("Quiz")}
                         </button>
-                      </li>
+                      </li> */}
                       <li className="list-group-item d-flex align-items-center justify-content-between">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"

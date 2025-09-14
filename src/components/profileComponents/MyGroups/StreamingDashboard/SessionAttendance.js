@@ -130,7 +130,6 @@ export default function SessionAttendance() {
           {t("Session Attendance")}
         </Typography>
 
-
         <Box mb={3}>
           <Typography variant="subtitle1" fontWeight="bold">
            {t("General Note")}:
@@ -179,7 +178,7 @@ export default function SessionAttendance() {
               {pdfUrls.map((pdf, i) => (
                 <Typography key={pdf.id || i} variant="body2">
                   {t("PDF")}  {i + 1}:{" "}
-                  <a href={pdf.pdf_url} target="_blank" rel="noopener noreferrer">
+                  <a href={pdf.signed_url} target="_blank" rel="noopener noreferrer">
                      {t("View")}
                   </a>
                 </Typography>

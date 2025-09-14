@@ -16,7 +16,7 @@ export function PdfViewer({ file }) {
   useEffect(() => {
     if (!file) return;
 
-    const loadingTask = pdfjsLib.getDocument(file);
+    const loadingTask = pdfjsLib.getDocument({ url: file });
 
     loadingTask.promise
       .then(loadedPdf => {
@@ -38,53 +38,36 @@ export function PdfViewer({ file }) {
       const viewport = page.getViewport({ scale: 1.5 });
       const canvas = canvasRef.current;
       const context = canvas.getContext("2d");
-
       canvas.height = viewport.height;
       canvas.width = viewport.width;
-
-      const renderContext = {
-        canvasContext: context,
-        viewport: viewport,
-      };
-
-      page.render(renderContext);
+      page.render({ canvasContext: context, viewport });
     });
   }, [pdf, pageNumber]);
 
-  const goPrevPage = () => {
-    if (pageNumber > 1) setPageNumber(pageNumber - 1);
-  };
-
-  const goNextPage = () => {
-    if (pageNumber < numPages) setPageNumber(pageNumber + 1);
-  };
-
-  if (error) {
-    return <div className="text-danger">{error}</div>;
-  }
-
-  return (
+  return error ? (
+    <div className="text-danger">{error}</div>
+  ) : (
     <div>
       <div style={{ border: "1px solid #ccc", display: "inline-block" }}>
         <canvas ref={canvasRef} />
       </div>
       <div className="mt-2">
         <button
-          onClick={goPrevPage}
+          onClick={() => setPageNumber(p => Math.max(1, p - 1))}
           disabled={pageNumber <= 1}
           className="btn btn-secondary me-2"
         >
-          ←   {t("Page précédente")}
+          ← {t("Page précédente")}
         </button>
         <button
-          onClick={goNextPage}
+          onClick={() => setPageNumber(p => Math.min(numPages, p + 1))}
           disabled={pageNumber >= numPages}
           className="btn btn-secondary"
         >
-        {t("Page suivante")} →
+          {t("Page suivante")} →
         </button>
         <span className="ms-3">
-        {t("Page")} {pageNumber} {t("sur")} {numPages}
+          {t("Page")} {pageNumber} {t("sur")} {numPages}
         </span>
       </div>
     </div>

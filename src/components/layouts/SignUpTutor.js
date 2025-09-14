@@ -208,7 +208,7 @@ function SignUpTutor() {
   
         const formData = new FormData();
         formData.append("tutor_email", email);
-        formData.append("type", type); // "ID" or "Degree"
+        formData.append("type", type); 
         formData.append("file", file);
   
         const res = await axios.post(

@@ -28,7 +28,6 @@ export default function AdminCourseCard({
 const onDelete = async (courseId) => {
   try {
     const url = `${process.env.REACT_APP_API_BASE_URL}/courses/${courseId}`;
-    console.log("Deleting course at:", url);
 
     const response = await axios.delete(url);
 
