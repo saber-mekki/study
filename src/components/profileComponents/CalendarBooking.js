@@ -30,7 +30,7 @@ export default function DateListBooking({ tutorId }) {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/book`, {
         studentId: user.idUser,
         tutorId,
-        selectedDate: selectedDate.toISOString(),
+        selectedDate:selectedDate.toLocaleString('sv-SE'),
         name: user.name,
         message,
       });

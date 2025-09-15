@@ -183,7 +183,10 @@ export function AcceptedBookingsList() {
             ) : bookings.length > 0 ? (
                 <div className="list-group">
                     {currentBookings.map((booking, i) => {
-                        const bookingDate = new Date(booking.booking_date);
+                        const bookingDate = new Date(booking.booking_date).toLocaleString('en-GB', {
+                            dateStyle: 'medium',
+                            timeStyle: 'short'
+                        });
                         const isPast = bookingDate < today;
                         const bookingsForTutor = users.filter(user => booking.tutor_id === user.user_id);
                         const bookingsForUser = users.filter(user => booking.user_id === user.user_id);
@@ -192,19 +195,28 @@ export function AcceptedBookingsList() {
                         return (
                             <div key={i} className="list-group-item">
                                 <h5 className="mb-1"> {t("Meeting with")}:  <div className="btn btn-outline-primary btn-sm" onClick={() => handleOpenTutorDetailsIsOpen(usersDetails)} >{role === "tutor" ? booking.name : bookingsForTutor[0] !== undefined ? bookingsForTutor[0].user_name : ""}</div></h5>
-                                <p className="mb-1">{t("Date")}: {new Date(booking.booking_date).toLocaleString()}</p>
-                                <BookingCountdown bookingDate={booking.booking_date} />
+                                <p className="mb-1">{t("Date")}: {new Date(booking.booking_date).toLocaleString('en-GB', {
+                                    dateStyle: 'medium',
+                                    timeStyle: 'short'
+                                })}</p>
+                                <BookingCountdown bookingDate={new Date(booking.booking_date).toLocaleString('en-GB', {
+                                    dateStyle: 'medium',
+                                    timeStyle: 'short'
+                                })} />
                                 <div className="d-flex justify-content-between">
                                     {role !== "tutor" && booking.live_link !== "" && booking.live_link !== null && (
                                         <Link to={`/room/${booking.live_link}`} className="btn btn-success btn-sm">
-                                             {t("Enter Room")}
+                                            {t("Enter Room")}
                                         </Link>)}
                                     {role === "tutor" && (
                                         isPast ? (
                                             <button className="btn btn-secondary btn-sm" disabled>
-                                                 {t("Session expirée")}
+                                                {t("Session expirée")}
                                             </button>
-                                        ) : canStartLiveSession(booking.booking_date) ? (
+                                        ) : canStartLiveSession(new Date(booking.booking_date).toLocaleString('en-GB', {
+                                            dateStyle: 'medium',
+                                            timeStyle: 'short'
+                                        })) ? (
                                             <button
                                                 className="btn btn-primary btn-sm"
                                                 onClick={() => {
@@ -213,15 +225,15 @@ export function AcceptedBookingsList() {
                                                     history.push(`/room/${roomId}`);
                                                 }}
                                             >
-                                                 {t("Démarrer une session live")}
+                                                {t("Démarrer une session live")}
                                             </button>
                                         ) : <button className="btn btn-secondary" disabled>
-                                             {t("La session live pas encore disponible")}
+                                            {t("La session live pas encore disponible")}
                                         </button>
                                     )}
 
                                     {role === "tutor" && <button onClick={() => handleDelete(booking.id)} style={{ color: "white", background: "red", padding: "6px 12px", border: "none", borderRadius: "4px", cursor: "pointer" }}>
-                                         {t("Delete Booking")}
+                                        {t("Delete Booking")}
                                     </button>}
                                     <button
                                         onClick={() => handleOpenCourseDetails(booking)}

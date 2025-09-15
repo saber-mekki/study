@@ -29,6 +29,7 @@ export default function TutorAvailabilityManager() {
   const tutorId = user.idUser;
 
   const itemsPerPage = 5;
+
   useEffect(() => {
     if (!tutorId) return;
 
@@ -50,19 +51,20 @@ export default function TutorAvailabilityManager() {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-  };
+  }
+
 
   const handleAddAvailability = async () => {
     if (selectedDate) {
       try {
         await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability`, {
           tutorId,
-          availableDate: selectedDate.toLocaleDateString('en-CA')
+          availableDate: selectedDate.toLocaleString('sv-SE')
         });
         toast.success(t('Availability added'));
         setAvailability([...availability, {
           tutor_id: tutorId,
-          available_date: selectedDate.toISOString(),
+          available_date: selectedDate,
           status: 'available'
         }]);
       } catch (error) {
@@ -78,13 +80,13 @@ export default function TutorAvailabilityManager() {
       try {
         await axios.put(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/update`, {
           tutorId,
-          availableDate: selectedDate.toLocaleDateString('en-CA'),
+          availableDate: selectedDate.toLocaleString('sv-SE'),
         });
 
         toast.success(t('Status updated'));
         setAvailability((prev) =>
           prev.map((item) =>
-            new Date(item.available_date).toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0]
+            new Date(item.available_date).toLocaleDateString() === selectedDate.toLocaleDateString()
               ? { ...item, status }
               : item
           )
@@ -101,7 +103,7 @@ export default function TutorAvailabilityManager() {
         await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/remove`, {
           data: {
             tutorId,
-            availableDate: selectedDate.toLocaleDateString('en-CA'), // 'YYYY-MM-DD'
+            availableDate: selectedDate.toLocaleString('sv-SE'), // 'YYYY-MM-DD'
           },
         });
 
@@ -126,7 +128,7 @@ export default function TutorAvailabilityManager() {
       await axios.post(`${process.env.REACT_APP_API_BASE_URL}/tutor/booking-requests/accept`, { bookingId });
       await axios.put(`${process.env.REACT_APP_API_BASE_URL}/tutor/availability/update`, {
         tutorId,
-        availableDate: date,
+        availableDate: new Date(date).toLocaleString('sv-SE'),
         status: 'booked',
       });
 
@@ -157,9 +159,9 @@ export default function TutorAvailabilityManager() {
   };
 
   const getStatus = (date) => {
-    const dateStr = date.toISOString().split('T')[0]; // YYYY-MM-DD
+    const dateStr = date.toLocaleDateString('en-CA'); // YYYY-MM-DD
     const found = availability.find((item) => {
-      const itemDateStr = new Date(item.available_date).toISOString().split('T')[0];
+      const itemDateStr = new Date(item.available_date).toLocaleDateString('en-CA');
       return itemDateStr === dateStr;
     });
     return found ? found.status : null;
@@ -175,7 +177,7 @@ export default function TutorAvailabilityManager() {
         selected={selectedDate}
         onChange={handleDateChange}
         showTimeSelect
-        timeIntervals={30}
+        timeIntervals={1}
         dateFormat="Pp"
         inline
         dayClassName={(date) => {
@@ -229,10 +231,9 @@ export default function TutorAvailabilityManager() {
             }}
           >
             <div style={{ marginBottom: '8px', fontWeight: 'bold', fontSize: '16px' }}>
-              {new Date(request.booking_date).toLocaleString("fr-FR", {
-                timeZone: 'UTC',
-                dateStyle: "medium",
-                timeStyle: "short",
+              {new Date(request.booking_date).toLocaleString('en-GB', {
+                dateStyle: 'medium',
+                timeStyle: 'short'
               })}
             </div>
             <div style={{ fontSize: '15px', color: '#333' }}>
@@ -252,9 +253,12 @@ export default function TutorAvailabilityManager() {
                   border: 'none',
                   cursor: 'pointer',
                 }}
-                onClick={() => handleAccept(request.id, request.requested_date)}
+                onClick={() => handleAccept(request.id, new Date(request.booking_date).toLocaleString('en-GB', {
+                  dateStyle: 'medium',
+                  timeStyle: 'short'
+                }))}
               >
-                 {t("Accept")}
+                {t("Accept")}
               </button>
               <button
                 style={{
