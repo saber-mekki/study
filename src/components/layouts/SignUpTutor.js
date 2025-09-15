@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import PasswordStrengthBar from "react-password-strength-bar";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -15,30 +15,27 @@ function SignUpTutor() {
   const [gender, setGender] = useState("male");
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
-
+  const [coverLetter, setCoverLetter] = useState("");
   const [EmailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [passwordScore, setPasswordScore] = useState(0);
   const [passwordScoreMessage, setPasswordScoreMessage] = useState("");
 
   const subjects = [
-    "English",
-    "Physics",
-    "Italian",
-    "French",
-    "Spanish",
-    "Psychology",
-    "Business",
-    "Geography",
-    "Latin",
-    "Religious_Studies",
-    "Economics",
-    "Biology",
-    "Chemistry",
-    "Maths_Higher_Level",
+    "English", "French", "Spanish", "German", "Italian", "Latin", "Arabic", "Chinese",
+    "Japanese", "Mathematics", "Statistics", "Computer Science", "Information Technology",
+    "Physics", "Chemistry", "Biology", "Environmental Science", "Earth Science", "History",
+    "Geography", "Economics", "Business", "Political Science", "Sociology", "Psychology",
+    "Philosophy", "Religious Studies", "Civics", "Visual Arts", "Music", "Drama", "Dance",
+    "Media Studies", "Physical Education", "Health Education", "Sports Science",
+    "Design & Technology", "Engineering", "Culinary Arts", "Agriculture", "Entrepreneurship"
   ];
+
   const [selectedSubject, setSelectedSubject] = useState([]);
-  const [country, setCountry] = useState("");
+
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState("");
+
   const [pricePerHour, setPricePerHour] = useState("");
   const [languages, setLanguages] = useState("");
 
@@ -131,33 +128,41 @@ function SignUpTutor() {
     setApiError("");
     setSubjectError("");
     setRobotMessage("");
-  
-    if (selectedSubject.length === 0) {
-      setSubjectError(t("pleaseSelectSubject"));
-      return;
-    }
-  
-    if (!country.trim()) {
+
+    if (!selectedCountry.trim()) {
       setApiError(t("Please enter your country"));
       return;
     }
-  
+
     const price = parseFloat(pricePerHour);
     if (Number.isNaN(price) || price <= 0) {
       setApiError(t("Please enter a valid price per hour"));
       return;
     }
-  
+
     if (!degree) {
       setApiError(t("Please select your degree"));
       return;
     }
-  
+
+    if (!degreeFile) {
+      setApiError(t("Please upload your degree certificate."));
+      return;
+    }
+    if (!idFile) {
+      setApiError(t("Please select your university degree."));
+      return;
+    }
+
     if (!captchaToken) {
       setRobotMessage(t("Please confirm you are not a robot."));
       return;
     }
-  
+
+    if (!coverLetter) {
+      setApiError(t("cover letter *"));
+      return;
+    }
     const userPayload = {
       name,
       email,
@@ -165,79 +170,81 @@ function SignUpTutor() {
       type_register: "tutor",
       phone_number,
       gender,
-      captchaToken,
+      captchaToken
+      
     };
-  
+
     try {
       setIsLoading(true);
-  
+
       const userRes = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/addUser`,
         userPayload
       );
       toast.success(userRes.data.message);
       setVerifMessage(userRes.data.message);
-  
+
       const tutorData = {
         email,
-        country: country.trim(),
+        country: selectedCountry.trim(),
         price_per_hour: price,
         specialty: selectedSubject[0],
         degree,
         languages: languages
           ? languages
-              .split(",")
-              .map((l) => l.trim())
-              .filter(Boolean)
+            .split(",")
+            .map((l) => l.trim())
+            .filter(Boolean)
           : [],
         availability: "available",
+        coverLetter
       };
-  
+
       const tutorRes = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}/addTutor`,
         tutorData
       );
-  
+
       if (tutorRes.data?.error) {
         setApiError(tutorRes.data.message || t("Failed to save tutor details"));
         return;
       }
-  
+
       const uploadFiles = async (file, type) => {
         if (!file) return null;
-  
+
         const formData = new FormData();
         formData.append("tutor_email", email);
-        formData.append("type", type); 
+        formData.append("type", type);
         formData.append("file", file);
-  
+
         const res = await axios.post(
           `${process.env.REACT_APP_API_BASE_URL}/tutors/upload-pdf`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
-  
+
         return res.data;
       };
-  
+
       await uploadFiles(idFile, "ID");
       await uploadFiles(degreeFile, "Degree");
-  
-  
+
+
       handleStepChange(4);
-  
+
       if (recaptchaRef.current) {
         recaptchaRef.current.reset();
         setCaptchaToken(null);
       }
     } catch (error) {
       console.error("Registration error:", error);
-      setApiError(error?.response?.data?.message || t("registrationError"));
+      setApiError(error?.response?.data?.message || error?.response?.data.error || t("Error"));
     } finally {
       setIsLoading(false);
     }
   };
-  
+
 
   const handleClose = () => {
     setFormIndex(1);
@@ -249,13 +256,34 @@ function SignUpTutor() {
     setSelectedSubject([]);
     setIdFile(null);
     setDegreeFile(null);
-    setCountry("");
+    setSelectedCountry("");
     setPricePerHour("");
     setLanguages("");
     setDegree("");
     setApiError("");
     setSubjectError("");
+    setCoverLetter("")
   };
+
+
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all?fields=name,cca3")
+      .then((res) => {
+        if (!res.ok) throw new Error("Network response was not ok");
+        return res.json();
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          const sorted = data.sort((a, b) =>
+            a.name.common.localeCompare(b.name.common)
+          );
+          setCountries(sorted);
+        } else {
+          console.error("Unexpected data format:", data);
+        }
+      })
+      .catch((err) => console.error("Fetch error:", err));
+  }, []);
 
   return (
     <div
@@ -288,7 +316,7 @@ function SignUpTutor() {
 
 
           {formIndex === 1 && (
-            <div className="modal-body">
+            <div className="modal-body" style={{ maxHeight: "80vh", overflowY: "auto" }}>
               <form method="POST" className="SignUptutorForm" onSubmit={handleSubmitStep1}>
                 <div>
                   <p className="mt-0 text-secondary fw-bold">
@@ -395,7 +423,7 @@ function SignUpTutor() {
                             name="gender"
                             className="custom-control-input"
                             value="male"
-                            onChange={(e) => setGender(e.target.value )}
+                            onChange={(e) => setGender(e.target.value)}
                             checked={gender === "male"}
                           />
                           <label className="custom-control-label" htmlFor="customRadioMaleTutor">
@@ -409,7 +437,7 @@ function SignUpTutor() {
                             name="gender"
                             className="custom-control-input"
                             value="female"
-                            onChange={(e) => setGender(e.target.value )}
+                            onChange={(e) => setGender(e.target.value)}
                             checked={gender === "female"}
                           />
                           <label className="custom-control-label" htmlFor="customRadioFemaleTutor">
@@ -431,12 +459,16 @@ function SignUpTutor() {
           )}
 
           {formIndex === 2 && (
-            <div className="modal-body">
-              <form method="POST" className="SignUptutorForm" onSubmit={(e) => e.preventDefault()}>
-                <div className="Inputs">
-                  <div className="signForm">
-                    <div className="form-group mb-2 col-12">
-                      <label className="text-secondary h6 mb-2">{t("Subject")}</label>
+            <div className="modal-body" style={{ maxHeight: "80vh", overflowY: "auto" }}>
+              <form
+                method="POST"
+                className="SignUptutorForm"
+                onSubmit={(e) => e.preventDefault()}
+              >
+                <div className="row g-3">
+                  <div className="col-12 col-md-6">
+                    <div className="form-group mb-3">
+                      <label className="text-secondary h6 mb-2">{t("subject")}:</label>
                       <select
                         value={selectedSubject[0] ?? ""}
                         onChange={(e) =>
@@ -452,27 +484,31 @@ function SignUpTutor() {
                           </option>
                         ))}
                       </select>
-                      {subjectError && <div className="text-danger mt-2">{subjectError}</div>}
+
                     </div>
 
-                    <div className="form-group mb-2 col-12">
+                    <div className="form-group mb-3">
                       <label htmlFor="country" className="text-secondary h6 mb-2">
-                        {t("Country")}
+                        {t("Select Country")}:
                       </label>
-                      <input
-                        type="text"
+                      <select
                         id="country"
-                        placeholder={t("Enter country")}
+                        value={selectedCountry}
+                        onChange={(e) => setSelectedCountry(e.target.value)}
                         className="form-control shadow-none rounded-sm"
-                        value={country}
-                        onChange={(e) => setCountry(e.target.value)}
                         required
-                      />
+                      >
+                        <option value="">{t("Select Country")}</option>
+                        {countries.map((c) => (
+                          <option key={c.cca3} value={c.name.common}>
+                            {c.name.common}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-
-                    <div className="form-group mb-2 col-12">
+                    <div className="form-group mb-3">
                       <label htmlFor="pricePerHour" className="text-secondary h6 mb-2">
-                        {t("Price per hour")}
+                        {t("Price per hour")}:
                       </label>
                       <input
                         type="number"
@@ -488,9 +524,11 @@ function SignUpTutor() {
                     </div>
                   </div>
 
-                  <div className="signForm">
-                    <div className="form-group mb-2 col-12">
-                      <label className="text-secondary h6 mb-2">{t("University Degree")}</label>
+                  <div className="col-12 col-md-6">
+                    <div className="form-group mb-3">
+                      <label className="text-secondary h6 mb-2">
+                        {t("University Degree:")}
+                      </label>
                       <select
                         value={degree}
                         onChange={(e) => setDegree(e.target.value)}
@@ -505,9 +543,9 @@ function SignUpTutor() {
                       </select>
                     </div>
 
-                    <div className="form-group mb-2 col-12">
+                    <div className="form-group mb-3">
                       <label htmlFor="languages" className="text-secondary h6 mb-2">
-                        {t("Languages (comma separated)")}
+                        {t("Languages (comma separated)")}:
                       </label>
                       <input
                         type="text"
@@ -522,51 +560,59 @@ function SignUpTutor() {
                 </div>
 
                 {apiError && <div className="text-danger my-2">{apiError}</div>}
-
-                <div className="d-flex justify-content-between w-100" style={{ direction: "ltr" }}>
+                {subjectError && (
+                  <div className="text-danger mt-2">{subjectError}</div>
+                )}
+                <div className="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-3">
                   <button
-                    className="btn btn-outline-primary rounded-sm"
+                    className="btn btn-outline-primary rounded-sm flex-fill"
                     type="button"
-                    onClick={() => handleStepChange(1)}
+                    onClick={() => { setVerifMessage(""); handleStepChange(1) }}
                   >
                     <i className="fas fa-arrow-left me-2"></i>
                     {t("back")}
                   </button>
+
                   <button
-                    className="btn btn-primary w-20 rounded-sm mr-5"
+                    className="btn btn-primary rounded-sm flex-fill"
                     type="button"
                     onClick={() => {
-                      if (selectedSubject.length === 0) {
-                        setSubjectError(t("pleaseSelectSubject"));
+                      if (
+                        selectedSubject.length === 0 ||
+                        !selectedCountry ||
+                        !pricePerHour ||
+                        !degree ||
+                        !languages.trim()
+                      ) {
+                        setSubjectError(t("Please fill all fields before proceeding."));
                       } else {
+                        setApiError("")
                         setSubjectError("");
                         handleStepChange(3);
                       }
                     }}
                   >
-                    {t("next")} <i className="fas fa-arrow-right ml-2"></i>
+                    {t("next")} <i className="fas fa-arrow-right ms-2"></i>
                   </button>
                 </div>
               </form>
             </div>
           )}
 
+
           {formIndex === 3 && (
-            <div className="container mt-1 p-3 bg-white shadow rounded">
+            <div className="container mt-1 p-3 bg-white shadow rounded" style={{ maxHeight: "80vh", overflowY: "auto" }}>
               <h4 className="mb-3">{t("Identity & Education")}</h4>
               <p className="text-muted mb-4">
                 {t("Please upload the required documents for verification.")}
               </p>
 
               <form onSubmit={handleFinish}>
-                <div className="row">
-                  <div className="col-12 col-md-6 mb-3">
+                <div className="row g-3">
+                  <div className="col-12 col-md-6">
                     <label className="form-label text-dark">{t("ID or Passport")}:</label>
-
                     <div
-                      className={`upload-zone border rounded-3 p-4 text-center ${
-                        dragActiveId ? "drag-active" : ""
-                      }`}
+                      className={`upload-zone border rounded-3 p-4 text-center ${dragActiveId ? "drag-active" : ""}`}
                       onDragOver={(e) => handleDragOver(e, setDragActiveId)}
                       onDragLeave={() => handleDragLeave(setDragActiveId)}
                       onDrop={(e) => handleDrop(e, setIdFile, setDragActiveId)}
@@ -584,31 +630,33 @@ function SignUpTutor() {
                           {t("Drag & Drop your file here or")}{" "}
                           <span className="text-primary fw-bold">{t("Browse")}</span>
                         </p>
-                        <small className="text-secondary">
-                          {t("Accepted formats: JPG, PNG, PDF")}
-                        </small>
+                        <small className="text-secondary">{t("Accepted formats: JPG, PNG, PDF")}</small>
                       </label>
                     </div>
 
                     {idFile && (
-                      <div className="mt-3 p-2 border rounded bg-light d-flex align-items-center">
-                        <i className="bi bi-check-circle-fill text-success me-2"></i>
-                        <span className="text-muted small">
-                          {t("Uploaded")}: <strong>{idFile.name}</strong>
-                        </span>
+                      <div className="mt-3 p-2 border rounded bg-light d-flex align-items-center flex-wrap justify-content-between">
+                        <div className="d-flex align-items-center">
+                          <i className="bi bi-check-circle-fill text-success me-2"></i>
+                          <span className="text-muted small">
+                            {t("Uploaded")}: <strong>{idFile.name}</strong>
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => setIdFile(null)}
+                        >
+                          {t("Delete")}
+                        </button>
                       </div>
                     )}
                   </div>
 
-                  <div className="col-12 col-md-6 mb-3">
-                    <label className="form-label text-dark">
-                      {t("Upload Degree Certificate")}:
-                    </label>
-
+                  <div className="col-12 col-md-6">
+                    <label className="form-label text-dark">{t("Upload Degree Certificate")}:</label>
                     <div
-                      className={`upload-zone border rounded-3 p-4 text-center ${
-                        dragActiveDegree ? "drag-active" : ""
-                      }`}
+                      className={`upload-zone border rounded-3 p-4 text-center ${dragActiveDegree ? "drag-active" : ""}`}
                       onDragOver={(e) => handleDragOver(e, setDragActiveDegree)}
                       onDragLeave={() => handleDragLeave(setDragActiveDegree)}
                       onDrop={(e) => handleDrop(e, setDegreeFile, setDragActiveDegree)}
@@ -626,60 +674,48 @@ function SignUpTutor() {
                           {t("Drag & Drop your file here or")}{" "}
                           <span className="text-primary fw-bold">{t("Browse")}</span>
                         </p>
-                        <small className="text-secondary">
-                          {t("Accepted formats: JPG, PNG, PDF")}
-                        </small>
+                        <small className="text-secondary">{t("Accepted formats: JPG, PNG, PDF")}</small>
                       </label>
                     </div>
 
                     {degreeFile && (
-                      <div className="mt-3 p-2 border rounded bg-light d-flex align-items-center">
-                        <i className="bi bi-check-circle-fill text-success me-2"></i>
-                        <span className="text-muted small">
-                          {t("Uploaded:")} <strong>{degreeFile.name}</strong>
-                        </span>
+                      <div className="mt-3 p-2 border rounded bg-light d-flex align-items-center flex-wrap justify-content-between">
+                        <div className="d-flex align-items-center">
+                          <i className="bi bi-check-circle-fill text-success me-2"></i>
+                          <span className="text-muted small">
+                            {t("Uploaded:")} <strong>{degreeFile.name}</strong>
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => setDegreeFile(null)}
+                        >
+                          {t("Delete")}
+                        </button>
                       </div>
                     )}
                   </div>
                 </div>
-
-                <div className="row">
-                  <div className="col-12 col-md-6 mb-3">
-                    <label className="form-label text-dark">{t("University Degree:")}</label>
-                    <select
-                      value={degree}
-                      onChange={(e) => setDegree(e.target.value)}
-                      className="form-select"
-                      required
-                    >
-                      <option value="">{t("Select your degree")}</option>
-                      <option value="bachelor">{t("Bachelor's")}</option>
-                      <option value="master">{t("Master's")}</option>
-                      <option value="phd">{t("PhD")}</option>
-                      <option value="other">{t("Other")}</option>
-                    </select>
-                  </div>
-
-                  <div className="col-12 mb-3">
-                    <label htmlFor="message" className="form-label text-dark">
-                      {t("Send a cover letter")}:
-                    </label>
-                    <textarea
-                      id="message"
-                      className="form-control"
-                      rows={4}
-                      placeholder={t(
-                        "Introduce yourself and explain why you're applying"
-                      )}
-                      required
-                    />
-                  </div>
+                <div className="col-12">
+                  <label htmlFor="message" className="form-label text-dark">
+                    {t("Send a cover letter")}:
+                  </label>
+                  <textarea
+                    id="message"
+                    className="form-control"
+                    rows={4}
+                    placeholder={t("Introduce yourself and explain why you're applying")}
+                    value={coverLetter} // bind value
+                    onChange={(e) => setCoverLetter(e.target.value)} // update state
+                    required
+                  />
                 </div>
 
-                <div className="form-group col-12 mb-3">
+                <div className="form-group col-12 mt-3">
                   <ReCAPTCHA
                     ref={recaptchaRef}
-                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY }
+                    sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
                     onChange={(token) => {
                       setCaptchaToken(token);
                       setRobotMessage("");
@@ -690,28 +726,33 @@ function SignUpTutor() {
                 {verifMessage && <div className="text-success mb-2">{verifMessage}</div>}
                 {apiError && <div className="text-danger mb-2">{apiError}</div>}
 
-                <div className="d-flex justify-content-between w-100">
+                <div className="d-flex flex-column flex-sm-row justify-content-between align-items-stretch mt-4 gap-2">
                   <button
-                    className="btn btn-primary w-20 rounded-sm"
+                    className="btn btn-primary flex-fill rounded-sm"
                     type="button"
                     onClick={() => handleStepChange(2)}
                     disabled={isLoading}
                   >
-                    <i className="fas fa-arrow-left mr-2"></i>
+                    <i className="fas fa-arrow-left me-2"></i>
                     {t("back")}
                   </button>
 
-                  <button className="btn btn-primary w-20 rounded-sm" type="submit" disabled={isLoading}>
+                  <button
+                    className="btn btn-primary flex-fill rounded-sm"
+                    type="submit"
+                    disabled={isLoading}
+                  >
                     {isLoading ? t("Please wait...") : t("next")}{" "}
-                    {!isLoading && <i className="fas fa-arrow-right ml-2"></i>}
+                    {!isLoading && <i className="fas fa-arrow-right ms-2"></i>}
                   </button>
                 </div>
               </form>
             </div>
           )}
 
+
           {formIndex === 4 && (
-            <div className="d-flex flex-column align-items-center p-4">
+            <div className="d-flex flex-column align-items-center p-4" style={{ maxHeight: "80vh", overflowY: "auto" }}>
               <div className="mb-4 text-center">
                 <h3 className="mb-3 text-primary">{t("Success!")}</h3>
                 <p className="mb-2 text-secondary">

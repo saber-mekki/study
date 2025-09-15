@@ -10,8 +10,9 @@ export default function UserCard({
   role,
   image,
   status,
+  coverLetter
 }) {
-     const { t } = useTranslation();
+  const { t } = useTranslation();
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function UserCard({
   const [securityCode, setSecurityCode] = useState("");
   const [modalTitle, setModalTitle] = useState("");
   const [tutorPDFs, setTutorPDFs] = useState([]);
+ 
   const user = useSelector((state) => state.user);
 
   const toggleDropdown = () => {
@@ -105,7 +107,7 @@ export default function UserCard({
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -180,7 +182,7 @@ export default function UserCard({
                   )}
                   <li>
                     <button className="dropdown-item text-danger" onClick={() => openModal("delete")}>
-                      <i className="fas  pr-2 fa-trash-alt me-2"></i>{role === "admin" ?  t("Delete Admin") : t("Delete User")}
+                      <i className="fas  pr-2 fa-trash-alt me-2"></i>{role === "admin" ? t("Delete Admin") : t("Delete User")}
                     </button>
                   </li>
                 </ul>
@@ -228,7 +230,7 @@ export default function UserCard({
                 <strong>{t("Courses Purchased")}: 0</strong>
               </div>
             )}
-            {role === "tutor" && tutorPDFs.length > 0 && (
+            {tutorPDFs.length > 0 && (
               <div className="mt-3 text-start">
                 <strong>{t("Uploaded Documents")}:</strong>
                 <ul className="list-unstyled mt-1">
@@ -246,18 +248,26 @@ export default function UserCard({
                         className="btn btn-sm btn-danger ms-2"
                         onClick={() => handleDeletePDF(pdf.id)}
                       >
-                      {t("Delete")}  
+                        {t("Delete")}
                       </button>
                     </li>
                   ))}
                 </ul>
               </div>
             )}
-            {role === "tutor" && tutorPDFs.length === 0 && (
+            {tutorPDFs.length === 0 && (
               <div className="mt-3 text-muted">
-               {t("No documents uploaded yet")}.
+                {t("No documents uploaded yet")}.
               </div>
             )}
+           
+            { coverLetter && (
+              <div className="mt-3 text-start">
+                <strong>{t("Cover Letter")}:</strong>
+                <p>{coverLetter}</p>
+              </div>
+            )}
+         
           </div>
         </div>
       </div>

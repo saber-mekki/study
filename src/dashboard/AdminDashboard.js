@@ -234,6 +234,7 @@ const AdminDashboard = ({ section }) => {
                   role={user.type_register}
                   status={user.status}
                   image={user.photo}
+                  coverLetter={user.cover_letter}
                 />
               ))}
               <Stack
@@ -270,6 +271,7 @@ const AdminDashboard = ({ section }) => {
                   role={user.type_register}
                   status={user.status}
                   image={user.photo}
+                  coverLetter={user.cover_letter}
                 />
               ))}
               <Stack
@@ -306,6 +308,7 @@ const AdminDashboard = ({ section }) => {
                   role={user.type_register}
                   status={user.status}
                   image={user.photo}
+                  coverLetter={user.cover_letter}
                 />
               ))}
               <Stack
@@ -342,6 +345,7 @@ const AdminDashboard = ({ section }) => {
                   role={user.type_register}
                   status={user.status}
                   image={user.photo}
+                  coverLetter={user.cover_letter}
                 />
               ))}
               <Stack
@@ -378,6 +382,7 @@ const AdminDashboard = ({ section }) => {
                   role={user.type_register}
                   status={user.status}
                   image={user.photo}
+                  coverLetter={user.cover_letter}
                 />
               ))}
               <Stack

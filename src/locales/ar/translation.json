@@ -657,5 +657,9 @@
   "All Users": "كل المستخدمين",
   "Recipients": "المستلمون",
   "Send Announcement": "إرسال إعلان",
-  "Prev": "السابق"
+  "Prev": "السابق",
+  "Select Country":"اختر الدولة",
+  "Please fill all fields before proceeding.":"يرجى ملء جميع الحقول قبل المتابعة."
+,"Please upload your degree certificate.":"يرجى تحميل شهادة التخرج الخاصة بك."
+,"Please select your university degree.":"يرجى اختيار شهادتك الجامعية."
 }

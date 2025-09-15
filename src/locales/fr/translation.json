@@ -644,5 +644,9 @@
     "All Users": "Tous les utilisateurs",
     "Recipients": "Destinataires",
     "Send Announcement": "Envoyer une annonce",
-    "Prev": "Précédent"
-  }
+    "Prev": "Précédent",
+    "Select Country":"Sélectionner un pays",
+      "Please fill all fields before proceeding.":"Veuillez remplir tous les champs avant de continuer."
+ ,"Please upload your degree certificate.":"Veuillez télécharger votre diplôme."
+ ,"Please select your university degree.":"Veuillez sélectionner votre diplôme universitaire."
+    }
