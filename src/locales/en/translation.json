@@ -627,4 +627,12 @@
   "Please fill all fields before proceeding.":"Please fill all fields before proceeding."
 ,"Please upload your degree certificate.":"Please upload your degree certificate."
 ,"Please select your university degree.":"Please select your university degree."
+,"Save": "Save",
+  "Security": "Security",
+  "Delete Account": "Delete Account",
+  "Confirm Deletion": "Confirm Deletion",
+  "Are you sure you want to permanently delete your account?": "Are you sure you want to permanently delete your account?",
+  "Strength": "Strength",
+  "Password is too weak": "Password is too weak"
+
 }

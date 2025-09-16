@@ -87,6 +87,7 @@ function ProfileMenu() {
                 dateOfBirth: response.data.user.date_of_birth,
                 gender: response.data.user.gender,
                 idUser: decodedToken.user_id,
+                email: response.data.user.user_email,
                 urlImage: urlImage
               })
             );

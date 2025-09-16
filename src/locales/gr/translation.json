@@ -649,5 +649,11 @@
   "Please fill all fields before proceeding.":"Bitte füllen Sie alle Felder aus, bevor Sie fortfahren."
 ,"Please upload your degree certificate.":"Bitte laden Sie Ihr Abschlusszeugnis hoch."
 ,"Please select your university degree.":"Bitte wählen Sie Ihren Hochschulabschluss aus."
-
+,"Save": "Speichern",
+  "Security": "Sicherheit",
+  "Delete Account": "Konto löschen",
+  "Confirm Deletion": "Löschung bestätigen",
+  "Are you sure you want to permanently delete your account?": "Sind Sie sicher, dass Sie Ihr Konto dauerhaft löschen möchten?",
+  "Strength": "Stärke",
+  "Password is too weak": "Passwort ist zu schwach"
 }

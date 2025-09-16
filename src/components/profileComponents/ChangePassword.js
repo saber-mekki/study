@@ -1,5 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import {
+  Box,
+  Stack,
+  TextField,
+  Typography,
+  Alert,
+  LinearProgress,
+  Button,
+  Snackbar,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 export default function ChangePassword({ email }) {
@@ -8,227 +18,162 @@ export default function ChangePassword({ email }) {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [CurrentPasswordError, setCurrentPasswordError] = useState("");
-  const [SendEmailMessage, setSendEmailMessage] = useState(false);
-  const [UpadateSucc, setUpadateSucc] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [strength, setStrength] = useState(0);
+  const [successOpen, setSuccessOpen] = useState(false);
 
-  const handleSendEmail = () => {
-    setSendEmailMessage(true);
+  const checkStrength = (pwd) => {
+    let score = 0;
+    if (!pwd) return 0;
+    if (pwd.length >= 8) score += 1;
+    if (/[A-Z]/.test(pwd)) score += 1;
+    if (/[0-9]/.test(pwd)) score += 1;
+    if (/[^A-Za-z0-9]/.test(pwd)) score += 1;
+    return score; // 0-4
   };
 
-  const handleClose = () => {
-    setUpadateSucc(false);
-    setSendEmailMessage(false);
-    setCurrentPasswordError("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setCurrentPassword("");
+  useEffect(() => {
+    setStrength(checkStrength(newPassword));
+  }, [newPassword]);
+
+  const getStrengthLabel = (score) => {
+    switch (score) {
+      case 0:
+      case 1:
+        return "Weak";
+      case 2:
+      case 3:
+        return "Medium";
+      case 4:
+        return "Strong";
+      default:
+        return "";
+    }
+  };
+
+  const getStrengthColor = (score) => {
+    switch (score) {
+      case 0:
+      case 1:
+        return "error";
+      case 2:
+      case 3:
+        return "warning";
+      case 4:
+        return "success";
+      default:
+        return "primary";
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
-    setCurrentPasswordError("");
+    setError("");
 
-    if (!email) {
-      setErrorMessage(t("error.userEmailMissing"));
+    if (newPassword !== confirmPassword) {
+      setError(t("error.passwordsDoNotMatch"));
       return;
     }
 
+    if (strength < 3) {
+      setError(t("Password is too weak"));
+      return;
+    }
+
+    setLoading(true);
     try {
-      const loginResponse = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/login`,
-        {
-          email: email,
-          password: currentPassword,
-        }
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/login`, {
+        email,
+        password: currentPassword,
+      });
+
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/updatePassword`, {
+        email,
+        password: newPassword,
+      });
+
+      setSuccessOpen(true); 
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err) {
+      setError(
+        err.response?.data?.error || "Failed to update password. Try again."
       );
-
-      if (loginResponse.status !== 200) {
-        setCurrentPasswordError(t("error.incorrectCurrentPassword"));
-        return;
-      }
-
-      if (newPassword !== confirmPassword) {
-        setErrorMessage(t("error.passwordsDoNotMatch"));
-        return;
-      }
-
-      if (newPassword === currentPassword) {
-        setErrorMessage(t("error.sameNewPassword"));
-        return;
-      }
-
-      if (!checkUpdateLimit()) {
-        setErrorMessage(t("error.passwordUpdateLimit"));
-        return;
-      }
-
-      const updateResponse = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/updatePassword`,
-        {
-          email: email,
-          password: newPassword,
-        }
-      );
-
-      if (updateResponse.status === 200) {
-        setUpadateSucc(true);
-        setCurrentPassword("");
-        setNewPassword("");
-        setConfirmPassword("");
-      } else {
-        setErrorMessage(t("error.passwordUpdateFailed"));
-      }
-    } catch (error) {
-      console.error("Update Password Error:", error.response ? error.response.data : error.message);
-      if (error.response) {
-        if (error.response.status === 401) {
-          setCurrentPasswordError(t("error.incorrectCurrentPassword"));
-        } else if (error.response.status === 404) {
-          setErrorMessage(t("error.userNotFound") + email);
-        } else {
-          setErrorMessage(`${error.response.data?.error || t("error.general")}`);
-        }
-      } else {
-        setErrorMessage(t("error.network"));
-      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="h-100 d-flex flex-column justify-content-between">
-        <h6 className="mb-2 text-primary w-100">{t("changePassword.title")}</h6>
-        <h6>{t("changePassword.instructions")}</h6>
-
-        <div className="f-flex flex-column gutters ">
-          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" style={{ maxWidth: "100%" }}>
-            <div className="form-group" style={{ maxWidth: "100%" }}>
-              <label htmlFor="currentPassword">{t("changePassword.currentPassword")}</label>
-              <input
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="form-control"
-                id="currentPassword"
-                required
-                placeholder={t("changePassword.placeholderCurrent")}
+    <>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+        <Stack spacing={2}>
+          <TextField
+            type="password"
+            label={t("changePassword.currentPassword")}
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            required
+            fullWidth
+          />
+          <TextField
+            type="password"
+            label={t("changePassword.newPassword")}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            required
+            fullWidth
+          />
+          {newPassword && (
+            <Box>
+              <Typography variant="caption">
+                {t("Strength")}: {getStrengthLabel(strength)}
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={(strength / 4) * 100}
+                color={getStrengthColor(strength)}
+                sx={{ height: 10, borderRadius: 5 }}
               />
-            </div>
-            {CurrentPasswordError && (
-              <div className="d-flex align-items-center w-100">
-                <span className="text-danger me-2">{CurrentPasswordError}</span>
-                <button
-                  onClick={handleSendEmail}
-                  type="button"
-                  className="btn ml-3 btn-link text-blue p-0 border-0 no-transform"
-                >
-                  {t("changePassword.forgotPassword")}
-                </button>
-              </div>
-            )}
+            </Box>
+          )}
+          <TextField
+            type="password"
+            label="Confirm New Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            fullWidth
+          />
+          {error && <Alert severity="error">{error}</Alert>}
+          <Button
+            type="submit"
+            variant="contained"
+            disabled={loading || strength < 3}
+            fullWidth
+            sx={{ mt: 1, py: 1.2 }}
+          >
+            {loading ? "Updating..." : "Change Password"}
+          </Button>
+        </Stack>
+      </Box>
 
-            {(SendEmailMessage || UpadateSucc) && (
-              <div className="modal fade show d-block" tabIndex="-1" role="dialog">
-                <div className="modal-dialog modal-dialog-centered" role="document">
-                  <div className="modal-content p-3">
-                    <div className="modal-body text-center">
-                      {SendEmailMessage && (
-                        <>
-                          <i className="bi bi-envelope-check text-success fs-1 mb-3"></i>
-                          <h5 className="text-success">{t("changePassword.emailSent")}</h5>
-                          <h3 className="text-muted">
-                            {t("changePassword.emailInstructions")} <strong>{maskEmail(email)}</strong>.
-                          </h3>
-                        </>
-                      )}
-                      {UpadateSucc && (
-                        <>
-                          <i className="bi bi-check-circle text-success fs-1 mb-3"></i>
-                          <h4 className="text-success mb-3">{t("changePassword.updateSuccessTitle")}</h4>
-                          <h6 className="text-muted mb-3">{t("changePassword.updateSuccessMessage")}</h6>
-                        </>
-                      )}
-                      <button type="button" className="btn rounded btn-primary mt-2" onClick={handleClose}>
-                        {t("general.ok")}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-            <div className="form-group">
-              <label htmlFor="newPassword">{t("changePassword.newPassword")}</label>
-              <input
-                type="password"
-                className="form-control"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                id="newPassword"
-                required
-                placeholder={t("changePassword.placeholderNew")}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="confirmPassword">{t("changePassword.confirmPassword")}</label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="form-control"
-                id="confirmPassword"
-                required
-                placeholder={t("changePassword.placeholderConfirm")}
-              />
-              {errorMessage && <div className="text-danger">{errorMessage}</div>}
-            </div>
-          </div>
-        </div>
-
-        <div className="row gutters">
-          <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div className="text-right">
-              <button type="button" className="btn btn-secondary">
-                {t("general.cancel")}
-              </button>
-              <button type="submit" className="btn btn-primary">
-                {t("changePassword.submit")}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
+      <Snackbar
+        open={successOpen}
+        autoHideDuration={4000}
+        onClose={() => setSuccessOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setSuccessOpen(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {t("changePassword.updateSuccessTitle")}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
-
-const maskEmail = (email) => {
-  const [localPart, domain] = email.split("@");
-  return `${localPart[0]}***@${domain}`;
-};
-
-const checkUpdateLimit = () => {
-  const updateCount = localStorage.getItem("passwordUpdateCount");
-  const lastUpdateTimestamp = localStorage.getItem("lastPasswordUpdateTimestamp");
-
-  const currentTime = Date.now();
-  const hourDifference = (currentTime - lastUpdateTimestamp) / (1000 * 60 * 60);
-
-  if (!updateCount || !lastUpdateTimestamp || hourDifference > 1) {
-    localStorage.setItem("passwordUpdateCount", 1);
-    localStorage.setItem("lastPasswordUpdateTimestamp", currentTime);
-    return true;
-  }
-
-  if (updateCount >= 3) {
-    return false;
-  }
-
-  localStorage.setItem("passwordUpdateCount", parseInt(updateCount) + 1);
-  return true;
-};
