@@ -72,7 +72,7 @@ function Routes() {
                     <Route exact path="/blog-details/:id" component={BlogDetails} />
 
                     <Route exact path={'/tutors'} render={(props) => (<Tutors {...props} />)} />
-                    <Route exact path={'/dash'} render={(props) => (<AdminDashboard {...props} />)} />
+                   
                     {isAuthenticated() ? (
                         <>
                             <Route exact path="/profile">
