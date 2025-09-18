@@ -7,6 +7,11 @@ const initialState = {
   phone: "",
   dateOfBirth: "",
   gender: "male",
+  country: "",
+  price_per_hour: "",
+  specialty: "",
+  degree: "",
+  languages: ""
 };
 
 const userSlice = createSlice({
@@ -22,6 +27,11 @@ const userSlice = createSlice({
       state.gender = action.payload.gender;
       state.urlImage = action.payload.urlImage;
       state.idUser = action.payload.idUser;
+      state.country = action.payload.country
+      state.price_per_hour = action.payload.price_per_hour
+      state.specialty = action.payload.specialty
+      state.degree = action.payload.degree
+      state.languages = action.payload.languages
     },
     updateUserStore: (state, action) => {
       return { ...state, ...action.payload };
@@ -29,5 +39,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, updateUser } = userSlice.actions;
+export const { setUser, updateUserStore } = userSlice.actions;
 export default userSlice.reducer;

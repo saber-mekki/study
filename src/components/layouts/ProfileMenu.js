@@ -43,7 +43,6 @@ function ProfileMenu() {
     setname(Cookies.get("name"));
   }, []);
 
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -88,7 +87,13 @@ function ProfileMenu() {
                 gender: response.data.user.gender,
                 idUser: decodedToken.user_id,
                 email: response.data.user.user_email,
-                urlImage: urlImage
+                urlImage: urlImage,
+                country: response.data.user.country,
+                price_per_hour: response.data.user.price_per_hour,
+                specialty: response.data.user.specialty,
+                degree: response.data.user.degree,
+                languages: response.data.user.languages
+
               })
             );
 
@@ -104,7 +109,7 @@ function ProfileMenu() {
     };
 
     fetchUserData();
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   return (
     <li className="nav-item dropdown ml-md-custom">

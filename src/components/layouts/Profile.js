@@ -106,7 +106,7 @@ const UserProfile = () => {
                 console.error("Error fetching images:", error);
               });
           }
-         
+
           dispatch(
             setUser({
               name: response.data.user.user_name,
@@ -117,6 +117,11 @@ const UserProfile = () => {
               idUser: decodedToken.user_id,
               email: response.data.user.user_email,
               urlImage: urlImage,
+              country: response.data.user.country,
+              price_per_hour: response.data.user.price_per_hour,
+              specialty: response.data.user.specialty,
+              degree: response.data.user.degree,
+              languages: response.data.user.languages
             })
           );
         }
@@ -287,7 +292,7 @@ const UserProfile = () => {
                       <li className="list-group-item d-flex align-items-center justify-content-between">
                         <button
                           className="btn btn-link text-primary pb-0 px-4"
-                          onClick={() => {handleSectionChange("announcements") }}
+                          onClick={() => { handleSectionChange("announcements") }}
                         >
                           {t("Announcements")}
                         </button>

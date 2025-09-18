@@ -484,7 +484,6 @@ function SignUpTutor() {
                           </option>
                         ))}
                       </select>
-
                     </div>
 
                     <div className="form-group mb-3">
@@ -599,7 +598,6 @@ function SignUpTutor() {
             </div>
           )}
 
-
           {formIndex === 3 && (
             <div className="container mt-1 p-3 bg-white shadow rounded" style={{ maxHeight: "80vh", overflowY: "auto" }}>
               <h4 className="mb-3">{t("Identity & Education")}</h4>
@@ -706,8 +704,8 @@ function SignUpTutor() {
                     className="form-control"
                     rows={4}
                     placeholder={t("Introduce yourself and explain why you're applying")}
-                    value={coverLetter} // bind value
-                    onChange={(e) => setCoverLetter(e.target.value)} // update state
+                    value={coverLetter} 
+                    onChange={(e) => setCoverLetter(e.target.value)} 
                     required
                   />
                 </div>

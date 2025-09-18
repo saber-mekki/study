@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import updateUserStore from "../../redux/userSlice";
+import { updateUserStore } from "../../redux/userSlice";
 
 export default function Account({ onAccountUpdate, email }) {
   const { t } = useTranslation();
@@ -13,10 +13,6 @@ export default function Account({ onAccountUpdate, email }) {
   const [isEditing, setIsEditing] = useState(false);
   const [Succ, SetSucc] = useState(false);
 
-  const [emailValue, setEmailValue] = useState(email);
-
-  const [prevEmail, setPrevEmail] = useState(email);
-
   const [showModal, setShowModal] = useState(false);
   const [errorCode, setErrorCode] = useState(false);
 
@@ -25,24 +21,46 @@ export default function Account({ onAccountUpdate, email }) {
   const [fullName, setFullName] = useState(user.name);
   const [birthDate, setBirthDate] = useState(user.dateOfBirth);
   const [gender, setGender] = useState(user.gender);
-
+  const [country, setCountry] = useState(user.country || "");
+  const [pricePerHour, setPricePerHour] = useState(user.price_per_hour || "");
+  const [specialty, setSpecialty] = useState(user.specialty || "");
+  const [degree, setDegree] = useState(user.degree || "");
+  const [languages, setLanguages] = useState(user.languages.length !== 0 ? user.languages.join(", ") : "");
   const [dateError, setDateError] = useState("");
+  const [countries, setCountries] = useState([]);
+  const subjects = [
+    "English", "French", "Spanish", "German", "Italian", "Latin", "Arabic", "Chinese",
+    "Japanese", "Mathematics", "Statistics", "Computer Science", "Information Technology",
+    "Physics", "Chemistry", "Biology", "Environmental Science", "Earth Science", "History",
+    "Geography", "Economics", "Business", "Political Science", "Sociology", "Psychology",
+    "Philosophy", "Religious Studies", "Civics", "Visual Arts", "Music", "Drama", "Dance",
+    "Media Studies", "Physical Education", "Health Education", "Sports Science",
+    "Design & Technology", "Engineering", "Culinary Arts", "Agriculture", "Entrepreneurship"
+  ];
+  const [dialCode, setDialCode] = useState("");
+
+  useEffect(() => {
+    fetch("https://restcountries.com/v3.1/all?fields=name,cca3,idd")
+      .then((res) => res.json())
+      .then((data) =>
+        setCountries(
+          data
+            .filter(c => c.idd?.root) // keep only those with a calling code
+            .sort((a, b) => a.name.common.localeCompare(b.name.common))
+        )
+      )
+      .catch((err) => console.error("Fetch error:", err));
+  }, []);
 
   const updateUser = async () => {
-
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/updateUser`,
-        {
-          name: fullName,
-      
-         
-          gender: gender,
-          date_of_birth: birthDate,
-          phone_number: phoneNumber,
-          idUser: user.idUser
-        }
-      );
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/updateUser`, {
+        name: fullName,
+        gender,
+        date_of_birth: birthDate,
+        phone_number: dialCode + phoneNumber,
+        idUser: user.idUser,
+      });
       const token = response.data.tokens.accessToken;
       localStorage.setItem("authToken", token);
 
@@ -50,27 +68,37 @@ export default function Account({ onAccountUpdate, email }) {
         setError(response.data.message || t("Error updating user"));
         return;
       }
+      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/updateTutor`, {
+        tutor_email: user.email,
+        country,
+        price_per_hour: parseFloat(pricePerHour),
+        specialty,
+        degree,
+        languages: languages.split(",").map(l => l.trim()),
+      });
+
+      dispatch(updateUserStore({
+        name: fullName,
+        phone: dialCode + phoneNumber,
+        dateOfBirth: birthDate,
+        gender,
+        country,
+        price_per_hour: pricePerHour,
+        specialty,
+        degree,
+        languages: languages.split(",").map(l => l.trim()),
+      }));
+
       setShowModal(false);
       setIsEditing(false);
       SetSucc(true);
-      setPrevEmail(emailValue);
-      dispatch(
-        updateUserStore({
-          name: fullName,
-          phone: phoneNumber,
-          dateOfBirth: birthDate,
-          gender,
-        })
-      );
       onAccountUpdate();
-      
     } catch (err) {
+      console.error(err);
       setError(t("An error occurred while updating user details."));
-      console.error("Error during the update process:", err);
     }
-    setError("");
-
   };
+
 
   const handleDateChange = (e) => {
     const selectedDate = new Date(e.target.value);
@@ -105,7 +133,7 @@ export default function Account({ onAccountUpdate, email }) {
   };
 
   const handleConfirm = async () => {
- 
+
     try {
       const token = localStorage.getItem("authToken");
       const verifyRes = await axios.post(
@@ -124,7 +152,7 @@ export default function Account({ onAccountUpdate, email }) {
         setErrorCode(true);
         return;
       }
-     
+
 
       updateUser();
     } catch (err) {
@@ -136,7 +164,6 @@ export default function Account({ onAccountUpdate, email }) {
 
   const handleCancel = () => {
     setFullName(user.name);
-    setEmailValue(prevEmail);
     setPhoneNumber(user.phone);
     setIsEditing(false);
     setDateError("");
@@ -158,7 +185,7 @@ export default function Account({ onAccountUpdate, email }) {
       <div className="row gutters">
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label htmlFor="fullName">{t("name")}</label>
+            <label className="text-secondary h6 mb-2">{t("name")}</label>
             <input
               type="text"
               className="form-control"
@@ -173,14 +200,13 @@ export default function Account({ onAccountUpdate, email }) {
 
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label htmlFor="eMail">{t("email")}</label>
+            <label className="text-secondary h6 mb-2">{t("email")}</label>
             <input
               type="email"
               className="form-control"
               id="eMail"
               placeholder={t("Enter email ID")}
               value={email}
-              onChange={(e) => setEmailValue(e.target.value)}
               disabled={true}
             />
           </div>
@@ -189,22 +215,43 @@ export default function Account({ onAccountUpdate, email }) {
 
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label htmlFor="phone">{t("phone")}</label>
-            <input
-              type="text"
-              className="form-control"
-              id="phone"
-              placeholder={t("Enter phone number")}
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              disabled={!isEditing}
-            />
+            <label className="text-secondary h6 mb-2">{t("phone")}</label>
+            <div className="input-group">
+    {/* Country Code Dropdown */}
+    <select
+      className="form-select rounded-start"
+      style={{ maxWidth: "140px" }}
+      value={dialCode}
+      onChange={(e) => setDialCode(e.target.value)}
+      disabled={!isEditing}
+    >
+      <option value="">{t("Code")}</option>
+      {countries.map((c) => {
+        const codes = c.idd.suffixes?.map((s) => `${c.idd.root}${s}`) || [];
+        return codes.map((code) => (
+          <option key={`${c.cca2}-${code}`} value={code}>
+           {c.name.common} {code} &nbsp; 
+          </option>
+        ));
+      })}
+    </select>
+
+    {/* Phone Number Input */}
+    <input
+      type="tel"
+      className="form-control rounded-end"
+      placeholder={t("Enter phone number")}
+      value={phoneNumber}
+      onChange={(e) => setPhoneNumber(e.target.value)}
+      disabled={!isEditing}
+    />
+  </div>
           </div>
         </div>
 
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label>{t("gender")}</label>
+            <label className="text-secondary h6 mb-2">{t("gender")}</label>
             <div className="d-flex custom-radio-group rounded-sm">
               <div className="custom-control custom-radio">
                 <input
@@ -215,6 +262,7 @@ export default function Account({ onAccountUpdate, email }) {
                   value="male"
                   onChange={(e) => setGender(e.target.value)}
                   checked={gender === "male"}
+                  disabled={!isEditing}
                 />
                 <label
                   className="custom-control-label"
@@ -232,6 +280,7 @@ export default function Account({ onAccountUpdate, email }) {
                   value="female"
                   onChange={(e) => setGender(e.target.value)}
                   checked={gender === "female"}
+                  disabled={!isEditing}
                 />
                 <label
                   className="custom-control-label"
@@ -246,7 +295,7 @@ export default function Account({ onAccountUpdate, email }) {
 
         <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
           <div className="form-group">
-            <label htmlFor="birthDate">{t("date_of_birth")}</label>
+            <label className="text-secondary h6 mb-2">{t("date_of_birth")}</label>
             <input
               type="date"
               className="form-control"
@@ -261,6 +310,83 @@ export default function Account({ onAccountUpdate, email }) {
             {dateError && <div className="alert alert-danger">{dateError}</div>}
           </div>
         </div>
+        <div className="col-md-6 mb-3">
+          <label className="text-secondary h6 mb-2">{t("Country")}</label>
+          <select
+            className="form-control"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            disabled={!isEditing}
+          >
+            <option value="">{t("Select Country")}</option>
+            {countries.map((c) => (
+              <option key={c.cca3} value={c.name.common}>
+                {c.name.common}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label className="text-secondary h6 mb-2">{t("Price per hour")}</label>
+          <input
+            type="number"
+            className="form-control"
+            value={pricePerHour}
+            onChange={(e) => setPricePerHour(e.target.value)}
+            disabled={!isEditing}
+          />
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label className="text-secondary h6 mb-2">{t("Specialty / Subject")}</label>
+
+          <select
+            value={specialty}
+            onChange={(e) => setSpecialty(e.target.value)}
+            className="form-control shadow-none rounded-sm"
+            required
+            disabled={!isEditing}
+          >
+            <option value="">{t("Select your subject")}</option>
+            {subjects.map((subject) => (
+              <option key={subject} value={subject}>
+                {t(subject)}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label className="text-secondary h6 mb-2">
+            {t("University Degree:")}
+          </label>
+          <select
+            value={degree}
+            onChange={(e) => setDegree(e.target.value)}
+            className="form-control shadow-none rounded-sm"
+            required
+            disabled={!isEditing}
+          >
+            <option value="">{t("Select your degree")}</option>
+            <option value="bachelor">{t("Bachelor's")}</option>
+            <option value="master">{t("Master's")}</option>
+            <option value="phd">{t("PhD")}</option>
+            <option value="other">{t("Other")}</option>
+          </select>
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label className="text-secondary h6 mb-2">{t("Languages (comma separated)")}</label>
+          <input
+            type="text"
+            className="form-control"
+            value={languages}
+            onChange={(e) => setLanguages(e.target.value)}
+            disabled={!isEditing}
+          />
+        </div>
+
       </div>
 
       {Succ && (
