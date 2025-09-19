@@ -6,9 +6,6 @@ import HeaderOne from "./layouts/HeaderOne";
 import BannerOne from "./layouts/BannerOne";
 import BannerAdmin from "./layouts/BannerAdmin";
 import BannerDefault from "./layouts/BannerDefault";
-
-
-
 import WeOfferSection from "./layouts/WeOfferSection";
 import VideoPopup from "./layouts/VideoPopup";
 import HowItWorks from "./layouts/HowItWorks";
@@ -23,51 +20,48 @@ import SignUpTutor from "./layouts/SignUpTutor";
 import { isAdmin, isStudent, isTutor } from "../helper";
 import BannerTutor from "./BannerTutor";
 
-
 class HomeOne extends Component {
-    render() {
+  render() {
+    // choose banner based on user role
+    const BannerComponent = isAdmin()
+      ? BannerAdmin
+      : isStudent()
+      ? BannerOne
+      : isTutor()
+      ? BannerTutor
+      : BannerDefault;
 
-        return (
-            <>
-                <SignUpTutor />
-                <ForgetPassword />
-                <SignUpModal />
-                <SignInModal />
-                <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 999 }}>
-                    <HeaderOne />
-                </div>
+    return (
+      <>
 
-                <div style={{ paddingTop: '80px' }}>
-                    {isAdmin() ? (
-                        <BannerAdmin />
-                    ) : isStudent() ? (
-                        <BannerOne />
-                    ) : isTutor() ? (
-                        <BannerTutor />
-                    ) : (
-                        <BannerDefault />
-                    )}
+        <SignUpTutor />
+        <ForgetPassword />
+        <SignUpModal />
+        <SignInModal />
 
+      
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 999 }}>
+          <HeaderOne />
+        </div>
 
+      
+        <main className="pt-header">
+          <BannerComponent />
 
-
-
-
-                    <WeOfferSection />
-                    <VideoPopup />
-                    <HowItWorks />
-                    <TrialSection />
-                    <FindTutorSection />
-                    <RecentTutorSection />
-                    <HowItWorksTutors />
-                    {/*                 <TutorsCarouselOne />
- */}                <MobileAppSection />
-                    <FooterOne />
-                    <BackToTop />
-                </div>
-            </>
-        );
-    }
+          <WeOfferSection />
+          <VideoPopup />
+          <HowItWorks />
+          <TrialSection />
+          <FindTutorSection />
+          <RecentTutorSection />
+          <HowItWorksTutors />
+          <MobileAppSection />
+          <FooterOne />
+          <BackToTop />
+        </main>
+      </>
+    );
+  }
 }
 
 export default HomeOne;

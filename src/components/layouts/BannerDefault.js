@@ -6,49 +6,36 @@ function BannerOne() {
 
   return (
     <section
-      className="banner-1 p-5 has-overlay bg-cover "
+      className="banner-1 p-5 has-overlay bg-cover"
       style={{ backgroundImage: "url(assets/images/banner-image-00.jpg)" }}
     >
-      <div className="w-100 d-flex flex-row align-items-center justify-content-start">
-        <div className="w-100 d-flex flex-row align-items-center justify-content-start">
-          <div className="text-white w-100">
-            <h2 className="text-lg mb-30">
+      <div className="container">
+        <div className="row align-items-center text-white">
+          <div className="col-lg-6 col-md-12 mb-4 mb-lg-0">
+            <h2 className="text-lg mb-3">
               <span className="has-line mb-3 line-primary">{t("welcome")}</span>
             </h2>
-            <div className="h1 text-white mb-30">{t("explorePlatform")}</div>
-            <p
-              className="h4 mb-5 px-2 bg-primary text-white rounded"
-              style={{ width: "fit-content" }}
-            >
+            <div className="h1 mb-3">{t("explorePlatform")}</div>
+            <p className="h4 mb-4 px-2 bg-primary text-white rounded w-fit-content">
               {t("educationMadeEasy")}
             </p>
           </div>
-        </div>
-
-        <div className="d-flex flex-column w-50 gap align-items-center mt-5">
-          <div
-            className="btn mb-5 btn-lg btn-blue rounded-pill"
-            style={{ width: "300px" }}
-            data-toggle="modal"
-            data-target="#signin-modal"
-          >
-            {t("login")}
-          </div>
-          <div
-            className="btn mb-5 btn-lg btn-blue rounded-pill"
-            style={{ width: "300px" }}
-            data-toggle="modal"
-            data-target="#signup-modal"
-          >
-            {t("signup")}
-          </div>
-          <div
-            className="btn btn-lg btn-blue rounded-pill"
-            style={{ width: "300px" }}
-            data-toggle="modal"
-            data-target="#signuptutor"
-          >
-            {t("Become A Tutor")}
+          <div className="col-lg-6 col-md-12 d-flex flex-column align-items-center mt-3 mt-lg-0">
+            {[
+              { label: t("login"), target: "#signin-modal" },
+              { label: t("signup"), target: "#signup-modal" },
+              { label: t("Become A Tutor"), target: "#signuptutor" },
+            ].map((btn, i) => (
+              <button
+                key={i}
+                className="btn btn-lg btn-blue rounded-pill mb-4 w-75 w-md-100"
+                data-toggle="modal"
+                data-target={btn.target}
+                type="button"
+              >
+                {btn.label}
+              </button>
+            ))}
           </div>
         </div>
       </div>

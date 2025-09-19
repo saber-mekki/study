@@ -349,3 +349,26 @@ html, body {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
 }
+
+.banner-1 {
+  background-size: cover;
+  background-position: center;
+}
+
+
+.w-fit-content {
+  width: fit-content;
+}
+
+.pt-header {
+  padding-top: 80px;
+}
+
+@media (max-width: 930px) {
+  .pt-header {
+    padding-top: 126px;
+  }
+  .profile-style {
+    padding-top: 50px;
+  }
+}

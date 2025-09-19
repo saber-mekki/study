@@ -170,7 +170,7 @@ const UserProfile = () => {
       <div style={{ paddingTop: "130px" }}></div>
       <div>
         {error && <div className="text-danger">{error}</div>}
-        <div className="row gutters">
+        <div className="row gutters profile-style">
           {!menuOpen && (
             <button
               onClick={handleReturn}
