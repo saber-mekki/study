@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   Box,
   Typography,
@@ -38,6 +39,7 @@ ChartJS.register(
 
 export default function GroupSessions() {
   const { t } = useTranslation();
+    const user = useSelector((state) => state.user);
   const { groupId } = useParams();
   const [sessions, setSessions] = useState([]);
   const [attendance, setAttendance] = useState([]);
@@ -128,9 +130,9 @@ export default function GroupSessions() {
         <Typography variant="h4" fontWeight="bold">
           {t("Group Sessions")}
         </Typography>
-        <Button variant="contained" color="primary" onClick={handleNewSession}>
+        {user.role === "tutor"&&  <Button variant="contained" color="primary" onClick={handleNewSession}>
           + {t("Start New Session")}
-        </Button>
+        </Button>}
       </Box>
 
       {/* Sessions List */}
@@ -183,7 +185,7 @@ export default function GroupSessions() {
         </>
       )}
 
-      {attendance.length > 0 && (
+      {user.role === "tutor" && attendance.length > 0 && (
         <Box mt={9}>
           <Typography variant="h3" fontWeight="bold" gutterBottom>
             {t("Attendance Statistics")}

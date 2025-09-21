@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import GetImage from "../GetImage";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
 export default function SessionAttendance() {
   const { t } = useTranslation();
@@ -28,6 +29,7 @@ export default function SessionAttendance() {
   const [loading, setLoading] = useState(true);
   const [sessionPDF, setSessionPDF] = useState(null);
   const [newPdfUrls, setNewPdfUrls] = useState([]); 
+  const user = useSelector((state) => state.user);
 
     const uploadSessionPDF = () => {
       if (!sessionPDF) return;
@@ -150,7 +152,7 @@ export default function SessionAttendance() {
             <a href={pdf.signed_url} target="_blank" rel="noopener noreferrer">
                {t("PDF uploaded at")}{new Date(pdf.uploaded_at).toLocaleString()}
             </a>
-            <Button
+        {user.role === "tutor" &&<Button
               variant="outlined"
               color="error"
               size="small"
@@ -159,13 +161,14 @@ export default function SessionAttendance() {
             >
               {t("Delete")}
             </Button>
+            }    
           </li>
         ))}
       </ul>
     )}
   </div>
 )}
-    <Box mb={3}>
+ {user.role === "tutor" &&   <Box mb={3}>
           <Typography variant="subtitle1" fontWeight="bold">
             {t("Add new PDFs")}:
           </Typography>
@@ -200,7 +203,7 @@ export default function SessionAttendance() {
               ))}
             </Box>
           )}
-        </Box>
+        </Box>}
 
 
         <Table>
@@ -208,8 +211,8 @@ export default function SessionAttendance() {
             <TableRow>
               <TableCell><strong>{t("Student")}</strong></TableCell>
               <TableCell><strong>{t("Status")}</strong></TableCell>
-                <TableCell><strong>{t("Note")}</strong></TableCell>
-              <TableCell align="right"><strong>{t("Actions")}</strong></TableCell>
+              {user.role === "tutor" &&   <TableCell><strong>{t("Note")}</strong></TableCell>}
+              {user.role === "tutor" && <TableCell align="right"><strong>{t("Actions")}</strong></TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -243,10 +246,10 @@ export default function SessionAttendance() {
                   </TableCell>
 
 
-                  <TableCell>
+                  {user.role === "tutor" &&  <TableCell>
                     {s.note}
-                  </TableCell>
-                  <TableCell align="right">
+                  </TableCell>}
+                  {user.role === "tutor" &&  <TableCell align="right">
                     <Box display="flex" gap={1} justifyContent="flex-end">
                       <Button
                         variant="contained"
@@ -267,7 +270,7 @@ export default function SessionAttendance() {
                         {t("Absent")}
                       </Button>
                     </Box>
-                  </TableCell>
+                  </TableCell>}
                 </TableRow>
               ))}
           </TableBody>

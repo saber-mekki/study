@@ -15,7 +15,6 @@ export default function Account({ onAccountUpdate, email }) {
 
   const [showModal, setShowModal] = useState(false);
   const [errorCode, setErrorCode] = useState(false);
-
   const [securityCode, setSecurityCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(user.phone);
   const [fullName, setFullName] = useState(user.name);
@@ -25,7 +24,7 @@ export default function Account({ onAccountUpdate, email }) {
   const [pricePerHour, setPricePerHour] = useState(user.price_per_hour || "");
   const [specialty, setSpecialty] = useState(user.specialty || "");
   const [degree, setDegree] = useState(user.degree || "");
-  const [languages, setLanguages] = useState(user.languages.length !== 0 ? user.languages.join(", ") : "");
+  const [languages, setLanguages] = useState(user.languages !== null && user.languages !== "" ? user.languages.join(", ") : "");
   const [dateError, setDateError] = useState("");
   const [countries, setCountries] = useState([]);
   const subjects = [
@@ -68,7 +67,7 @@ export default function Account({ onAccountUpdate, email }) {
         setError(response.data.message || t("Error updating user"));
         return;
       }
-      await axios.post(`${process.env.REACT_APP_API_BASE_URL}/updateTutor`, {
+      user.role === "tutor"&&    await axios.post(`${process.env.REACT_APP_API_BASE_URL}/updateTutor`, {
         tutor_email: user.email,
         country,
         price_per_hour: parseFloat(pricePerHour),
@@ -217,35 +216,35 @@ export default function Account({ onAccountUpdate, email }) {
           <div className="form-group">
             <label className="text-secondary h6 mb-2">{t("phone")}</label>
             <div className="input-group">
-    {/* Country Code Dropdown */}
-    <select
-      className="form-select rounded-start"
-      style={{ maxWidth: "140px" }}
-      value={dialCode}
-      onChange={(e) => setDialCode(e.target.value)}
-      disabled={!isEditing}
-    >
-      <option value="">{t("Code")}</option>
-      {countries.map((c) => {
-        const codes = c.idd.suffixes?.map((s) => `${c.idd.root}${s}`) || [];
-        return codes.map((code) => (
-          <option key={`${c.cca2}-${code}`} value={code}>
-           {c.name.common} {code} &nbsp; 
-          </option>
-        ));
-      })}
-    </select>
+              {/* Country Code Dropdown */}
+              <select
+                className="form-select rounded-start"
+                style={{ maxWidth: "140px" }}
+                value={dialCode}
+                onChange={(e) => setDialCode(e.target.value)}
+                disabled={!isEditing}
+              >
+                <option value="">{t("Code")}</option>
+                {countries.map((c) => {
+                  const codes = c.idd.suffixes?.map((s) => `${c.idd.root}${s}`) || [];
+                  return codes.map((code) => (
+                    <option key={`${c.cca2}-${code}`} value={code}>
+                      {c.name.common} {code} &nbsp;
+                    </option>
+                  ));
+                })}
+              </select>
 
-    {/* Phone Number Input */}
-    <input
-      type="tel"
-      className="form-control rounded-end"
-      placeholder={t("Enter phone number")}
-      value={phoneNumber}
-      onChange={(e) => setPhoneNumber(e.target.value)}
-      disabled={!isEditing}
-    />
-  </div>
+              {/* Phone Number Input */}
+              <input
+                type="tel"
+                className="form-control rounded-end"
+                placeholder={t("Enter phone number")}
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                disabled={!isEditing}
+              />
+            </div>
           </div>
         </div>
 
@@ -310,82 +309,80 @@ export default function Account({ onAccountUpdate, email }) {
             {dateError && <div className="alert alert-danger">{dateError}</div>}
           </div>
         </div>
-        <div className="col-md-6 mb-3">
-          <label className="text-secondary h6 mb-2">{t("Country")}</label>
-          <select
-            className="form-control"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            disabled={!isEditing}
-          >
-            <option value="">{t("Select Country")}</option>
-            {countries.map((c) => (
-              <option key={c.cca3} value={c.name.common}>
-                {c.name.common}
-              </option>
-            ))}
-          </select>
-        </div>
 
-        <div className="col-md-6 mb-3">
-          <label className="text-secondary h6 mb-2">{t("Price per hour")}</label>
-          <input
-            type="number"
-            className="form-control"
-            value={pricePerHour}
-            onChange={(e) => setPricePerHour(e.target.value)}
-            disabled={!isEditing}
-          />
-        </div>
+        {user.role === "tutor" &&
+          <>
+            <div className="col-md-6 mb-3">
+              <label className="text-secondary h6 mb-2">{t("Country")}</label>
+              <select
+                className="form-control"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                disabled={!isEditing}
+              >
+                <option value="">{t("Select Country")}</option>
+                {countries.map((c) => (
+                  <option key={c.cca3} value={c.name.common}>
+                    {c.name.common}
+                  </option>
+                ))}
+              </select>
+            </div> <div className="col-md-6 mb-3">
+              <label className="text-secondary h6 mb-2">{t("Price per hour")}</label>
+              <input
+                type="number"
+                className="form-control"
+                value={pricePerHour}
+                onChange={(e) => setPricePerHour(e.target.value)}
+                disabled={!isEditing}
+              />
+            </div><div className="col-md-6 mb-3">
+              <label className="text-secondary h6 mb-2">{t("Specialty / Subject")}</label>
 
-        <div className="col-md-6 mb-3">
-          <label className="text-secondary h6 mb-2">{t("Specialty / Subject")}</label>
+              <select
+                value={specialty}
+                onChange={(e) => setSpecialty(e.target.value)}
+                className="form-control shadow-none rounded-sm"
+                required
+                disabled={!isEditing}
+              >
+                <option value="">{t("Select your subject")}</option>
+                {subjects.map((subject) => (
+                  <option key={subject} value={subject}>
+                    {t(subject)}
+                  </option>
+                ))}
+              </select>
+            </div><div className="col-md-6 mb-3">
+              <label className="text-secondary h6 mb-2">
+                {t("University Degree:")}
+              </label>
+              <select
+                value={degree}
+                onChange={(e) => setDegree(e.target.value)}
+                className="form-control shadow-none rounded-sm"
+                required
+                disabled={!isEditing}
+              >
+                <option value="">{t("Select your degree")}</option>
+                <option value="bachelor">{t("Bachelor's")}</option>
+                <option value="master">{t("Master's")}</option>
+                <option value="phd">{t("PhD")}</option>
+                <option value="other">{t("Other")}</option>
+              </select>
+            </div>
+            <div className="col-md-6 mb-3">
+              <label className="text-secondary h6 mb-2">{t("Languages (comma separated)")}</label>
+              <input
+                type="text"
+                className="form-control"
+                value={languages}
+                onChange={(e) => setLanguages(e.target.value)}
+                disabled={!isEditing}
+              />
+            </div></>}
 
-          <select
-            value={specialty}
-            onChange={(e) => setSpecialty(e.target.value)}
-            className="form-control shadow-none rounded-sm"
-            required
-            disabled={!isEditing}
-          >
-            <option value="">{t("Select your subject")}</option>
-            {subjects.map((subject) => (
-              <option key={subject} value={subject}>
-                {t(subject)}
-              </option>
-            ))}
-          </select>
-        </div>
 
-        <div className="col-md-6 mb-3">
-          <label className="text-secondary h6 mb-2">
-            {t("University Degree:")}
-          </label>
-          <select
-            value={degree}
-            onChange={(e) => setDegree(e.target.value)}
-            className="form-control shadow-none rounded-sm"
-            required
-            disabled={!isEditing}
-          >
-            <option value="">{t("Select your degree")}</option>
-            <option value="bachelor">{t("Bachelor's")}</option>
-            <option value="master">{t("Master's")}</option>
-            <option value="phd">{t("PhD")}</option>
-            <option value="other">{t("Other")}</option>
-          </select>
-        </div>
-
-        <div className="col-md-6 mb-3">
-          <label className="text-secondary h6 mb-2">{t("Languages (comma separated)")}</label>
-          <input
-            type="text"
-            className="form-control"
-            value={languages}
-            onChange={(e) => setLanguages(e.target.value)}
-            disabled={!isEditing}
-          />
-        </div>
 
       </div>
 

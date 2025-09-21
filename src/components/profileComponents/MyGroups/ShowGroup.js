@@ -148,6 +148,12 @@ export default function ShowGroup({groupStudent}) {
                             >
                                {t("View Details")}
                             </button>
+                            <button
+                                className="btn btn-outline-warning text-dark "
+                                onClick={() => history.push(`/sessions/${groupStudent.id}`)}
+                            >
+                                 {t("View Sessions")}
+                            </button>
                         </div>
                     </div>
                 </div>
