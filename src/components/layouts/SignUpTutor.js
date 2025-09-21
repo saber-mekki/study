@@ -489,7 +489,7 @@ function SignUpTutor() {
                               e.target.value ? [e.target.value] : []
                             )
                           }
-                          className="form-control shadow-none rounded-sm"
+                          className="form-control subject-list shadow-none rounded-sm"
                           required
                         >
                           <option value="">{t("Select your subject")}</option>
@@ -512,7 +512,7 @@ function SignUpTutor() {
                           id="country"
                           value={selectedCountry}
                           onChange={(e) => setSelectedCountry(e.target.value)}
-                          className="form-control shadow-none rounded-sm"
+                          className="form-control shadow-none rounded-sm subject-list"
                           required
                         >
                           <option value="">{t("Select Country")}</option>
@@ -873,6 +873,17 @@ function SignUpTutor() {
         min-width: 80px;
         width: 80px;
         border: 1px solid #ced4da;
+        }
+        .subject-list.nice-select .list {
+        position: absolute !important;  
+        top: 100%;                      
+        left: 0;
+        right: 0;
+        max-height: 200px;              
+        overflow-y: auto;                
+        z-index: 9999;                  
+        background: #fff;               
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
       `}</style>
     </div>
