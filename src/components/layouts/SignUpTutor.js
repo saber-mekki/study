@@ -37,6 +37,7 @@ function SignUpTutor() {
   const [selectedCountry, setSelectedCountry] = useState("");
 
   const [pricePerHour, setPricePerHour] = useState("");
+  const [currency, setCurrency] = useState("TND");
   const [languages, setLanguages] = useState("");
 
   const [subjectError, setSubjectError] = useState("");
@@ -188,6 +189,7 @@ function SignUpTutor() {
         email,
         country: selectedCountry.trim(),
         price_per_hour: price,
+        currency: currency,
         specialty: selectedSubject[0],
         degree,
         languages: languages
@@ -258,6 +260,7 @@ function SignUpTutor() {
     setDegreeFile(null);
     setSelectedCountry("");
     setPricePerHour("");
+    setCurrency("TND");
     setLanguages("");
     setDegree("");
     setApiError("");
@@ -459,143 +462,184 @@ function SignUpTutor() {
           )}
 
           {formIndex === 2 && (
-            <div className="modal-body" style={{ maxHeight: "80vh", overflowY: "auto" }}>
-              <form
-                method="POST"
-                className="SignUptutorForm"
-                onSubmit={(e) => e.preventDefault()}
+            <>
+              <div
+                className="modal-body"
+                style={{
+                  maxHeight: "80vh",
+                  overflowY: "auto",
+                }}
               >
-                <div className="row g-3">
-                  <div className="col-12 col-md-6">
-                    <div className="form-group mb-3">
-                      <label className="text-secondary h6 mb-2">{t("subject")}:</label>
-                      <select
-                        value={selectedSubject[0] ?? ""}
-                        onChange={(e) =>
-                          setSelectedSubject(e.target.value ? [e.target.value] : [])
-                        }
-                        className="form-control shadow-none rounded-sm"
-                        required
-                      >
-                        <option value="">{t("Select your subject")}</option>
-                        {subjects.map((subject) => (
-                          <option key={subject} value={subject}>
-                            {t(subject)}
-                          </option>
-                        ))}
-                      </select>
+                <form
+                  method="POST"
+                  className="SignUptutorForm"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <div className="row g-3">
+                    <div className="col-12 col-md-6">
+                      <div className="form-group" style={{ display: "grid" }}>
+                        <label className="text-secondary h6 mb-2">
+                          {t("subject")}:
+                        </label>
+                        <select
+                          value={selectedSubject[0] ?? ""}
+                          onChange={(e) =>
+                            setSelectedSubject(
+                              e.target.value ? [e.target.value] : []
+                            )
+                          }
+                          className="form-control shadow-none rounded-sm"
+                          required
+                        >
+                          <option value="">{t("Select your subject")}</option>
+                          {subjects.map((subject) => (
+                            <option key={subject} value={subject}>
+                              {t(subject)}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="form-group" style={{ display: "grid" }}>
+                        <label
+                          htmlFor="country"
+                          className="text-secondary h6 mb-2"
+                        >
+                          {t("Select Country")}:
+                        </label>
+                        <select
+                          id="country"
+                          value={selectedCountry}
+                          onChange={(e) => setSelectedCountry(e.target.value)}
+                          className="form-control shadow-none rounded-sm"
+                          required
+                        >
+                          <option value="">{t("Select Country")}</option>
+                          {countries.map((c) => (
+                            <option key={c.cca3} value={c.name.common}>
+                              {c.name.common}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group" style={{ display: "grid" }}>
+                        <label
+                          htmlFor="pricePerHour"
+                          className="text-secondary h6 mb-2"
+                        >
+                          {t("Price per hour")}:
+                        </label>
+                        <div className="d-flex" style={{ gap: "10px" }}>
+                          <input
+                            type="number"
+                            id="pricePerHour"
+                            placeholder={t("Enter price")}
+                            className="form-control shadow-none rounded-sm"
+                            value={pricePerHour}
+                            onChange={(e) => setPricePerHour(e.target.value)}
+                            min="0"
+                            step="0.01"
+                            required
+                          />
+                          <select
+                            name="currency"
+                            className="devise-select"
+                            required
+                            onChange={(e) => setCurrency(e.target.value)}
+                          >
+                            <option value="TND">TND</option>
+                            <option value="USD">$</option>
+                            <option value="EUR">€</option>
+                          </select>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="form-group mb-3">
-                      <label htmlFor="country" className="text-secondary h6 mb-2">
-                        {t("Select Country")}:
-                      </label>
-                      <select
-                        id="country"
-                        value={selectedCountry}
-                        onChange={(e) => setSelectedCountry(e.target.value)}
-                        className="form-control shadow-none rounded-sm"
-                        required
-                      >
-                        <option value="">{t("Select Country")}</option>
-                        {countries.map((c) => (
-                          <option key={c.cca3} value={c.name.common}>
-                            {c.name.common}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="form-group mb-3">
-                      <label htmlFor="pricePerHour" className="text-secondary h6 mb-2">
-                        {t("Price per hour")}:
-                      </label>
-                      <input
-                        type="number"
-                        id="pricePerHour"
-                        placeholder={t("Enter price")}
-                        className="form-control shadow-none rounded-sm"
-                        value={pricePerHour}
-                        onChange={(e) => setPricePerHour(e.target.value)}
-                        min="0"
-                        step="0.01"
-                        required
-                      />
+                    <div className="col-12 col-md-6">
+                      <div className="form-group" style={{ display: "grid" }}>
+                        <label className="text-secondary h6 mb-2">
+                          {t("University Degree:")}
+                        </label>
+                        <select
+                          value={degree}
+                          onChange={(e) => setDegree(e.target.value)}
+                          className="form-control shadow-none rounded-sm"
+                          required
+                        >
+                          <option value="">{t("Select your degree")}</option>
+                          <option value="bachelor">{t("Bachelor's")}</option>
+                          <option value="master">{t("Master's")}</option>
+                          <option value="phd">{t("PhD")}</option>
+                          <option value="other">{t("Other")}</option>
+                        </select>
+                      </div>
+
+                      <div className="form-group" style={{ display: "grid" }}>
+                        <label
+                          htmlFor="languages"
+                          className="text-secondary h6 mb-2"
+                        >
+                          {t("Languages (comma separated)")}:
+                        </label>
+                        <input
+                          type="text"
+                          id="languages"
+                          placeholder={t("e.g. English, French")}
+                          className="form-control shadow-none rounded-sm"
+                          value={languages}
+                          onChange={(e) => setLanguages(e.target.value)}
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  <div className="col-12 col-md-6">
-                    <div className="form-group mb-3">
-                      <label className="text-secondary h6 mb-2">
-                        {t("University Degree:")}
-                      </label>
-                      <select
-                        value={degree}
-                        onChange={(e) => setDegree(e.target.value)}
-                        className="form-control shadow-none rounded-sm"
-                        required
-                      >
-                        <option value="">{t("Select your degree")}</option>
-                        <option value="bachelor">{t("Bachelor's")}</option>
-                        <option value="master">{t("Master's")}</option>
-                        <option value="phd">{t("PhD")}</option>
-                        <option value="other">{t("Other")}</option>
-                      </select>
-                    </div>
+                  {apiError && (
+                    <div className="text-danger my-2">{apiError}</div>
+                  )}
+                  {subjectError && (
+                    <div className="text-danger mt-2">{subjectError}</div>
+                  )}
+                </form>
+              </div>
+              <div className="modal-footer" style={{ flexShrink: "0" }}>
+                <button
+                  className="btn btn-outline-primary rounded-sm flex-fill"
+                  type="button"
+                  onClick={() => {
+                    setVerifMessage("");
+                    handleStepChange(1);
+                  }}
+                >
+                  <i className="fas fa-arrow-left me-2"></i>
+                  {t("back")}
+                </button>
 
-                    <div className="form-group mb-3">
-                      <label htmlFor="languages" className="text-secondary h6 mb-2">
-                        {t("Languages (comma separated)")}:
-                      </label>
-                      <input
-                        type="text"
-                        id="languages"
-                        placeholder={t("e.g. English, French")}
-                        className="form-control shadow-none rounded-sm"
-                        value={languages}
-                        onChange={(e) => setLanguages(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {apiError && <div className="text-danger my-2">{apiError}</div>}
-                {subjectError && (
-                  <div className="text-danger mt-2">{subjectError}</div>
-                )}
-                <div className="d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-3">
-                  <button
-                    className="btn btn-outline-primary rounded-sm flex-fill"
-                    type="button"
-                    onClick={() => { setVerifMessage(""); handleStepChange(1) }}
-                  >
-                    <i className="fas fa-arrow-left me-2"></i>
-                    {t("back")}
-                  </button>
-
-                  <button
-                    className="btn btn-primary rounded-sm flex-fill"
-                    type="button"
-                    onClick={() => {
-                      if (
-                        selectedSubject.length === 0 ||
-                        !selectedCountry ||
-                        !pricePerHour ||
-                        !degree ||
-                        !languages.trim()
-                      ) {
-                        setSubjectError(t("Please fill all fields before proceeding."));
-                      } else {
-                        setApiError("")
-                        setSubjectError("");
-                        handleStepChange(3);
-                      }
-                    }}
-                  >
-                    {t("next")} <i className="fas fa-arrow-right ms-2"></i>
-                  </button>
-                </div>
-              </form>
-            </div>
+                <button
+                  className="btn btn-primary rounded-sm flex-fill"
+                  type="button"
+                  onClick={() => {
+                    if (
+                      selectedSubject.length === 0 ||
+                      !selectedCountry ||
+                      !pricePerHour ||
+                      !currency ||
+                      !degree ||
+                      !languages.trim()
+                    ) {
+                      setSubjectError(
+                        t("Please fill all fields before proceeding.")
+                      );
+                    } else {
+                      setApiError("");
+                      setSubjectError("");
+                      handleStepChange(3);
+                    }
+                  }}
+                >
+                  {t("next")} <i className="fas fa-arrow-right ms-2"></i>
+                </button>
+              </div>
+            </>
           )}
 
           {formIndex === 3 && (
@@ -788,6 +832,14 @@ function SignUpTutor() {
           background-color: #eef6ff;
         }
         .cursor-pointer { cursor: pointer; }
+        .devise-select.nice-select {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 80px;
+        width: 80px;
+        border: 1px solid #ced4da;
+        }
       `}</style>
     </div>
   );
