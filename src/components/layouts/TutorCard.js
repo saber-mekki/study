@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import CalendarBooking from '../profileComponents/CalendarBooking';
-import { Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
+
+import { useTranslation } from "react-i18next";
+
 import {
   Rating,
 } from '@mui/material';
-import { useTranslation } from "react-i18next";
+
+
 
 export default function TutorCard({
   specialty,
@@ -24,9 +28,16 @@ export default function TutorCard({
   const [TutorDetails, setTutorDetails] = useState(false)
   const [error, setError] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const handleOpenTutorDetails = () => {
-    setTutorDetails(true)
+    const history = useHistory();
 
+  const handleOpenTutorDetails = () => {
+    const authToken = localStorage.getItem("authToken");
+
+    if( authToken=== null ) {
+      history.push('/login')
+    } else {
+    setTutorDetails(true)
+    }
   }
 
   const handleClose = () => {
