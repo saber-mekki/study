@@ -110,11 +110,11 @@ export default function DateListBooking({ tutorId }) {
       <button
         type="submit"
         onClick={handleSubmit}
-        disabled={!selectedDate || !message.trim()}
+        disabled={!selectedDate || !message.trim() || availableDates.length === 0}
         style={{
           width: '100%',
           padding: '10px',
-          backgroundColor: '#4caf50',
+          backgroundColor: availableDates.length === 0 ? '#4caf50' :'#a1a7a1ff' ,
           color: '#fff',
           border: 'none',
           borderRadius: '8px',
