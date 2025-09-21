@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import PasswordStrengthBar from "react-password-strength-bar";
 import ReCAPTCHA from "react-google-recaptcha";
 import { toast } from "react-toastify";
+import Select from "react-select";
 
 function SignUpTutor() {
   const { t } = useTranslation();
@@ -37,7 +38,13 @@ function SignUpTutor() {
   const [selectedCountry, setSelectedCountry] = useState("");
 
   const [pricePerHour, setPricePerHour] = useState("");
-  const [currency, setCurrency] = useState("TND");
+  const [currency, setCurrency] = useState({ value: "TND", label: "TND" });
+
+  const currencyOptions = [
+    { value: "TND", label: "TND" },
+    { value: "USD", label: "USD" },
+    { value: "EUR", label: "EUR" },
+  ];
   const [languages, setLanguages] = useState("");
 
   const [subjectError, setSubjectError] = useState("");
@@ -463,13 +470,7 @@ function SignUpTutor() {
 
           {formIndex === 2 && (
             <>
-              <div
-                className="modal-body"
-                style={{
-                  maxHeight: "80vh",
-                  overflowY: "auto",
-                }}
-              >
+              <div className="modal-body">
                 <form
                   method="POST"
                   className="SignUptutorForm"
@@ -488,7 +489,7 @@ function SignUpTutor() {
                               e.target.value ? [e.target.value] : []
                             )
                           }
-                          className="form-control subject-list shadow-none rounded-sm"
+                          className="form-control shadow-none rounded-sm"
                           required
                         >
                           <option value="">{t("Select your subject")}</option>
@@ -511,7 +512,7 @@ function SignUpTutor() {
                           id="country"
                           value={selectedCountry}
                           onChange={(e) => setSelectedCountry(e.target.value)}
-                          className="form-control shadow-none rounded-sm subject-list"
+                          className="form-control shadow-none rounded-sm"
                           required
                         >
                           <option value="">{t("Select Country")}</option>
@@ -541,16 +542,49 @@ function SignUpTutor() {
                             step="0.01"
                             required
                           />
-                          <select
-                            name="currency"
-                            className="devise-select subject-list"
-                            required
-                            onChange={(e) => setCurrency(e.target.value)}
-                          >
-                            <option value="TND">TND</option>
-                            <option value="USD">$</option>
-                            <option value="EUR">€</option>
-                          </select>
+                          <Select
+                            options={currencyOptions}
+                            value={currency}
+                            onChange={(selectedOption) => {
+                              console.log("Selected:", selectedOption);
+                              setCurrency(selectedOption);
+                            }}
+                            styles={{
+                              control: (base) => ({
+                                ...base,
+                                width: "80px",
+                                minWidth: "80px",
+                                border: "1px solid #ced4da",
+                                backgroundColor: "transparent",
+                              }),
+                              menu: (base) => ({
+                                ...base,
+                                boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                                zIndex: 9999,
+                              }),
+                              menuList: (base) => ({
+                                ...base,
+                                maxHeight: "200px",
+                              }),
+                              option: (base, state) => ({
+                                ...base,
+                                backgroundColor: state.isFocused
+                                  ? "#ddd"
+                                  : "#fff",
+                                cursor: "pointer",
+                              }),
+                              singleValue: (base) => ({
+                                ...base,
+                                display: "flex",
+                                alignItems: "center",
+                              }),
+                              dropdownIndicator: (base) => ({
+                                ...base,
+                                alignItems: "center",
+                                padding: "4px",
+                              }),
+                            }}
+                          />
                         </div>
                       </div>
                     </div>
@@ -839,17 +873,6 @@ function SignUpTutor() {
         min-width: 80px;
         width: 80px;
         border: 1px solid #ced4da;
-        }
-        .subject-list.nice-select .list {
-        position: absolute !important;  
-        top: 100%;                      
-        left: 0;
-        right: 0;
-        max-height: 200px;              
-        overflow-y: auto;                
-        z-index: 9999;                  
-        background: #fff;               
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
       `}</style>
     </div>
