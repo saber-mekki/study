@@ -866,14 +866,6 @@ function SignUpTutor() {
           background-color: #eef6ff;
         }
         .cursor-pointer { cursor: pointer; }
-        .devise-select.nice-select {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 80px;
-        width: 80px;
-        border: 1px solid #ced4da;
-        }
         .subject-list.nice-select .list {
         position: absolute !important;  
         top: 100%;                      
