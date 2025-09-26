@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
+import Select from "react-select";
+
 import { updateUserStore } from "../../redux/userSlice";
 
 export default function Account({ onAccountUpdate, email }) {
@@ -27,6 +29,9 @@ export default function Account({ onAccountUpdate, email }) {
   const [languages, setLanguages] = useState(user.languages !== null && user.languages !== "" ? user.languages.join(", ") : "");
   const [dateError, setDateError] = useState("");
   const [countries, setCountries] = useState([]);
+  const [currency, setCurrency] = useState(user.currency);
+
+
   const subjects = [
     "English", "French", "Spanish", "German", "Italian", "Latin", "Arabic", "Chinese",
     "Japanese", "Mathematics", "Statistics", "Computer Science", "Information Technology",
@@ -36,8 +41,15 @@ export default function Account({ onAccountUpdate, email }) {
     "Media Studies", "Physical Education", "Health Education", "Sports Science",
     "Design & Technology", "Engineering", "Culinary Arts", "Agriculture", "Entrepreneurship"
   ];
+  const currencyOptions = [
+    { value: "TND", label: "TND" },
+    { value: "USD", label: "USD" },
+    { value: "EUR", label: "EUR" },
+  ];
+
   const [dialCode, setDialCode] = useState("");
 
+  console.log({ user })
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all?fields=name,cca3,idd")
       .then((res) => res.json())
@@ -67,13 +79,14 @@ export default function Account({ onAccountUpdate, email }) {
         setError(response.data.message || t("Error updating user"));
         return;
       }
-      user.role === "tutor"&&    await axios.post(`${process.env.REACT_APP_API_BASE_URL}/updateTutor`, {
+      user.role === "tutor" && await axios.post(`${process.env.REACT_APP_API_BASE_URL}/updateTutor`, {
         tutor_email: user.email,
         country,
         price_per_hour: parseFloat(pricePerHour),
         specialty,
         degree,
         languages: languages.split(",").map(l => l.trim()),
+        currency:currency
       });
 
       dispatch(updateUserStore({
@@ -86,6 +99,7 @@ export default function Account({ onAccountUpdate, email }) {
         specialty,
         degree,
         languages: languages.split(",").map(l => l.trim()),
+        currency:currency
       }));
 
       setShowModal(false);
@@ -327,16 +341,57 @@ export default function Account({ onAccountUpdate, email }) {
                   </option>
                 ))}
               </select>
-            </div> <div className="col-md-6 mb-3">
-              <label className="text-secondary h6 mb-2">{t("Price per hour")}</label>
-              <input
-                type="number"
-                className="form-control"
-                value={pricePerHour}
-                onChange={(e) => setPricePerHour(e.target.value)}
-                disabled={!isEditing}
-              />
-            </div><div className="col-md-6 mb-3">
+            </div>
+
+            <div className="col-md-6 mb-3" style={{ display: "grid" }}>
+              <label
+                htmlFor="pricePerHour"
+                className="text-secondary h6 mb-2"
+              >
+                {t("Price per hour")}:
+              </label>
+              <div className="d-flex align-items-center" style={{ gap: "10px" }}>
+                <input
+                  type="number"
+                  id="pricePerHour"
+                  placeholder={t("Enter price")}
+                  className="form-control shadow-none rounded-sm"
+                  value={pricePerHour}
+                  onChange={(e) => setPricePerHour(e.target.value)}
+                  min="0"
+                  step="0.01"
+                  disabled={!isEditing}
+                  required
+                />
+
+                {isEditing ? (
+                  <Select
+                    options={currencyOptions}
+                    value={currencyOptions.find(opt => opt.value === currency)}
+                    onChange={(selectedOption) => setCurrency(selectedOption.value)}
+                    styles={{
+                      control: (base) => ({
+                        ...base,
+                        width: "80px",
+                        minWidth: "80px",
+                        border: "1px solid #ced4da",
+                        backgroundColor: "transparent",
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                        zIndex: 9999,
+                      }),
+                    }}
+                  />
+                ) : (
+
+                  <span className="ms-2 fw-bold">{currency}</span>
+                )}
+              </div>
+            </div>
+
+            <div className="col-md-6 mb-3">
               <label className="text-secondary h6 mb-2">{t("Specialty / Subject")}</label>
 
               <select

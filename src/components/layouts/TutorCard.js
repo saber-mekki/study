@@ -20,7 +20,8 @@ export default function TutorCard({
   name,
   image,
   bio,
-  id
+  id,
+  currency
 }) {
    const { t } = useTranslation();
   const [averageRating, setAverageRating] = useState(null);
@@ -127,7 +128,7 @@ export default function TutorCard({
             />
           </div>
           <div>
-            <span className="text-success h4 fw-bold">${price}</span>
+            <span className="text-success h4 fw-bold">{price} {currency}</span>
           </div>
         </div>
       </div>
@@ -146,9 +147,6 @@ export default function TutorCard({
                 ></button>
               </div>
               <div className="d-flex flex-row gap-4 align-items-start">
-
-
-
                 <div className="modal-body p-4 my-5 d-flex gap-4">
                   <div className="row  g-4">
                     <div className="col-md-4 text-center">
@@ -169,7 +167,7 @@ export default function TutorCard({
                       <p className="text-muted"><strong>{t("Languages")}:</strong> {languages?.join(', ') || 'Not specified'}</p>
 
 
-                      <p className="text-muted"><strong>{t("Price")}:</strong> <span className="text-success">${price} / session</span></p>
+                      <p className="text-muted"><strong>{t("Price")}:</strong> <span className="text-success">{price} {currency} / session</span></p>
                       <Rating
                         value={averageRating || 0}
                         precision={0.5}

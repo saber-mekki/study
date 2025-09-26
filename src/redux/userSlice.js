@@ -11,7 +11,8 @@ const initialState = {
   price_per_hour: "",
   specialty: "",
   degree: "",
-  languages: ""
+  languages: "",
+  currency:""
 };
 
 const userSlice = createSlice({
@@ -32,6 +33,7 @@ const userSlice = createSlice({
       state.specialty = action.payload.specialty
       state.degree = action.payload.degree
       state.languages = action.payload.languages
+      state.currency=action.payload.currency
     },
     updateUserStore: (state, action) => {
       return { ...state, ...action.payload };

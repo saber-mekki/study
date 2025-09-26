@@ -161,7 +161,7 @@ export default function UserProfile() {
   }
   const roleNumber = CurrentUser.role === 'student' ? 2 : 1
   const table = user.type_register !== 'student' ? [
-    { icon: <MonetizationOnIcon color="success" fontSize="large" />, label: 'Price/hour', value: user.price_per_hour ? `${user.price_per_hour} €` : 'N/A' },
+    { icon: <MonetizationOnIcon color="success" fontSize="large" />, label: 'Price/hour', value: user.price_per_hour ? `${user.price_per_hour} ${user.currency}` : 'N/A' },
 
     { icon: <CheckCircleIcon color={user.status!=="waiting" ? 'success' : 'error'} fontSize="large" />, label: 'Active', value: user.status!=="waiting" ? 'Yes' : 'No' }
   ] : [

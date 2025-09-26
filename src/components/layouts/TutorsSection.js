@@ -13,7 +13,7 @@ export default function TutorsSection() {
   const [filteredTutors, setFilteredTutors] = useState([]);
   const history = useHistory();
   const [query, setQuery] = useState("");
-
+  const user = useSelector((state) => state.user);
   const { t } = useTranslation();
   const filters = useSelector((state) => state.searchFilters);
   const dispatch = useDispatch();
@@ -290,6 +290,7 @@ export default function TutorsSection() {
                 bio={tutor.bio}
                 image={tutor.image}
                 id={tutor.user_id}
+                currency={user.currency}
               />
             ))
           ) : (

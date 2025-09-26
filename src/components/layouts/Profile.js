@@ -121,7 +121,8 @@ const UserProfile = () => {
               price_per_hour: response.data.user.price_per_hour,
               specialty: response.data.user.specialty,
               degree: response.data.user.degree,
-              languages: response.data.user.languages
+              languages: response.data.user.languages,
+              currency:response.data.user.currency
             })
           );
         }
