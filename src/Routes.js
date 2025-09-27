@@ -34,6 +34,7 @@ import { CoursesLibrary } from "./components/layouts/myClasses/CoursesLibrary";
 import { CourseDetailStudent } from "./components/layouts/myClasses/CourseDetailStudent";
 import Cart from "./components/Cart";
 import MessagesPage from "./components/chatBox/MessagesPage";
+import EditCourse from "./components/profileComponents/EditCourse";
 
 function Routes() {
 
@@ -72,7 +73,7 @@ function Routes() {
                     <Route exact path="/blog-details/:id" component={BlogDetails} />
 
                     <Route exact path={'/tutors'} render={(props) => (<Tutors {...props} />)} />
-                   
+                   <Route exact path={'/edit-course/:id'} render={(props) => (<EditCourse {...props} />)} />
                     {isAuthenticated() ? (
                         <>
                             <Route exact path="/profile">

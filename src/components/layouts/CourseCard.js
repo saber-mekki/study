@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { FaPencilAlt } from 'react-icons/fa'
 import CourseDetails from "./CourseDetails";
 
 export default function CourseCard({
@@ -49,14 +50,20 @@ export default function CourseCard({
 
   return (
     <>
-      <div style={{ cursor: "pointer" }} onClick={handleOpenModal} className="col-lg-4 col-md-5 col-sm-6">
+      <div style={{ cursor: "pointer" }} 
+   //   onClick={handleOpenModal}
+      className="col-lg-4 col-md-5 col-sm-6">
+ 
         <div className="card course-card shadow mt-40">
+             <div className="flex justify-content-center"> 
           <img
             className="card-img-top"
-            src={imageUrl ? imageUrl : "/assets/images/course-single.jpg"}
+            src={imageUrl ? imageUrl :  process.env.PUBLIC_URL + "/assets/images/course-single.jpg"}
             style={{ width: "350px", height: "200px" }}
             alt="Course preview"
           />
+           <FaPencilAlt onClick={()=> {       history.push(`/edit-course/${id}`)}} />
+           </div>
           <div className="card-body p-30">
             <h5 className="font-weight-600">
               {title}

@@ -1,48 +1,121 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { v4 as uuidv4 } from "uuid";
+import { useParams, Link } from "react-router-dom";
+//import { useCart } from "./context/CartContext";
+import SectionTwo from "../layouts/SectionTwo";
 import "./AddCourse.css";     //  <-- custom responsive tweaks
 
-export default function AddCourse({ email }) {
+export default function EditCourse({ email }) {
   const { t } = useTranslation();
   const history = useHistory();
   const user = useSelector((state) => state.user);
-
-  const [course, setCourse] = useState({
-    title: "",
-    category: "",
-    description: "",
-    price: "",
-    isFree: false,
-    image: null,
-    level: "",
-    duration: "",
-    language: "",
-    syllabus: "",
-    requirements: "",
-    videos: [],
-    pdfs: [],
-  });
-
-  const [newVideo, setNewVideo] = useState({ file: null, description: "" });
+  const { id } = useParams();
+  const [course, setCourse] = useState(null);
+  const [relatedCourses, setRelatedCourses] = useState([]);
+const [newVideo, setNewVideo] = useState({ file: null, description: "" });
   const [newPDF, setNewPDF] = useState({ file: null, description: "", previewURL: "" });
   const [errors, setErrors] = useState({});
   const [details, setDetails] = useState(false);
   const [PDF, setPDF] = useState(false);
   const [laoding, setLaoding] = useState(false);
+ // const { addToCart } = useCart();
+
+  // const handleAddToCart = () => {
+  //   addToCart({
+  //     id: course.id,
+  //     title: course.title,
+  //     price: course.price,
+  //     image: course.imageUrl
+  //   });
+    
+  // };
+
+  useEffect(() => {
+    const fetchCourse = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/courses/${id}`
+        );
+        const data = res.data;
+
+        const syllabusArray = Array.isArray(data.syllabus)
+          ? data.syllabus
+          : data.syllabus
+            ? data.syllabus.split(/[,.\n]/).map((s) => s.trim()).filter(Boolean)
+            : [];
+
+        const requirementsArray = Array.isArray(data.requirements)
+          ? data.requirements
+          : data.requirements
+            ? data.requirements.split(/[,.\n]/).map((r) => r.trim()).filter(Boolean)
+            : [];
+
+        setCourse({ ...data, syllabus: syllabusArray, requirements: requirementsArray });
+
+      } catch (err) {
+        console.error("Error fetching course:", err);
+      }
+    };
+
+    fetchCourse();
+  }, [id]);
+  useEffect(() => {
+    const fetchRelated = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/courses/${id}/related`
+        );
+        setRelatedCourses(res.data.relatedCourses.filter((c) => c.id !== id));
+      } catch (err) {
+        console.error("Error fetching related courses:", err);
+      }
+    };
+console.log({course})
+    if (course?.category) {
+      fetchRelated();
+    }
+  }, [id, course?.category]);
+  if (!course) {
+    return (
+      <SectionTwo title={"Loading..."}>
+        <div className="container">
+          <p>{t("Loading course details")}...</p>
+        </div>
+      </SectionTwo>
+    );
+  }
+  // const [course, setCourse] = useState({
+  //   title: "",
+  //   category: "",
+  //   description: "",
+  //   price: "",
+  //   isFree: false,
+  //   image: null,
+  //   level: "",
+  //   duration: "",
+  //   language: "",
+  //   syllabus: "",
+  //   requirements: "",
+  //   videos: [],
+  //   pdfs: [],
+  // });
+
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setCourse((prev) => ({ ...prev, [name]: value }));
+        console.log({c:course})
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
   const handleDetails = (e) => {
     e.preventDefault();
-    console.log({c:course.category})
+    console.log({c:course})
     const validationErrors = {};
     if (!course.title) validationErrors.title = t("titleRequired");
     if (!course.category) validationErrors.category = t("categoryRequired");
@@ -143,7 +216,7 @@ export default function AddCourse({ email }) {
     <div className="container py-3 add-course-container">
       <div className="row justify-content-center">
         <div className="col-12 col-md-10 col-lg-8">
-          <h2 className="text-center mb-3">{t("add_new_course")}</h2>
+          <h2 className="text-center mb-3">{t("edit_new_course")}</h2>
 
           <div className="card p-3 shadow-sm">
             <h3 className="text-center mb-4">{t("course")}</h3>
@@ -237,11 +310,19 @@ export default function AddCourse({ email }) {
               {/* Image */}
               <div className="mb-3">
                 <label className="form-label">{t("Course Image")}</label>
+                  <img
+            className="card-img-top"
+            src={course.image ? course.image :  process.env.PUBLIC_URL + "/assets/images/course-single.jpg"}
+            style={{ width: "350px", height: "200px" }}
+            alt="Course preview"
+          />
                 <input
                   type="file"
                   onChange={(e) => setCourse({ ...course, image: e.target.files[0] })}
                   className={`form-control ${errors.image ? "is-invalid" : ""}`}
-                />
+              // value={course?.image?}
+             />
+              
                 {errors.image && <div className="invalid-feedback">{errors.image}</div>}
               </div>
 
@@ -395,6 +476,7 @@ export default function AddCourse({ email }) {
                   type="file"
                   accept="application/pdf"
                   className="form-control mb-2"
+                  value={[...course.pdfs]}
                   onChange={(e) => {
                     const f = e.target.files[0];
                     if (f) setNewPDF({ ...newPDF, file: f, previewURL: URL.createObjectURL(f) });

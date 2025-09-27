@@ -154,10 +154,10 @@ function SignUpTutor() {
       return;
     }
 
-    if (!captchaToken) {
-      setRobotMessage(t("Please confirm you are not a robot."));
-      return;
-    }
+    // if (!captchaToken) {
+    //   setRobotMessage(t("Please confirm you are not a robot."));
+    //   return;
+    // }
 
     if (!coverLetter) {
       setApiError(t("cover letter *"));
