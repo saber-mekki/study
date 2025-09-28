@@ -31,7 +31,6 @@ export default function Account({ onAccountUpdate, email }) {
   const [countries, setCountries] = useState([]);
   const [currency, setCurrency] = useState(user.currency);
 
-
   const subjects = [
     "English", "French", "Spanish", "German", "Italian", "Latin", "Arabic", "Chinese",
     "Japanese", "Mathematics", "Statistics", "Computer Science", "Information Technology",
@@ -41,6 +40,7 @@ export default function Account({ onAccountUpdate, email }) {
     "Media Studies", "Physical Education", "Health Education", "Sports Science",
     "Design & Technology", "Engineering", "Culinary Arts", "Agriculture", "Entrepreneurship"
   ];
+
   const currencyOptions = [
     { value: "TND", label: "TND" },
     { value: "USD", label: "USD" },
@@ -49,7 +49,6 @@ export default function Account({ onAccountUpdate, email }) {
 
   const [dialCode, setDialCode] = useState("");
 
-  console.log({ user })
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all?fields=name,cca3,idd")
       .then((res) => res.json())
@@ -436,9 +435,6 @@ export default function Account({ onAccountUpdate, email }) {
                 disabled={!isEditing}
               />
             </div></>}
-
-
-
       </div>
 
       {Succ && (
@@ -522,15 +518,12 @@ export default function Account({ onAccountUpdate, email }) {
                   <button className="btn btn-secondary" onClick={() => setShowModal(false)}>
                     {t("Cancel")}
                   </button>
-
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
-
-
       {!isEditing ? (
         <button
           className="btn btn-primary mt-3"
