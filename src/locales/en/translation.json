@@ -633,6 +633,11 @@
   "Confirm Deletion": "Confirm Deletion",
   "Are you sure you want to permanently delete your account?": "Are you sure you want to permanently delete your account?",
   "Strength": "Strength",
-  "Password is too weak": "Password is too weak"
-
+  "Password is too weak": "Password is too weak",
+  "Use Zoom if the main video has an issue.":"Use Zoom if the main video has an issue.",
+  "Join via a backup link:":"Join via a backup link:",
+  "Continue on Zoom":"Continue on Zoom",
+  "No link available.":"No link available."
+,"Preparing backup links":"Preparing backup links",
+"Unable to generate backup links.":"Unable to generate backup links."
 }

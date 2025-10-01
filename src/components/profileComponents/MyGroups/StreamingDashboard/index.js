@@ -1,6 +1,7 @@
-import React from "react";
+import React , { useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import LiveFallback from "./LiveFallback";
 
 import JitsiMeeting from "./JitsiMeeting";
 import SessionAttendance from "./SessionAttendance";
@@ -12,10 +13,13 @@ function StreamingDashboard() {
   const userName = localStorage.getItem("userName") || "Invité";
   const result = roomId.substring(5);
 
+  const [crashed, setCrashed] = useState(false);
+  const handleCrashed = useCallback(() => setCrashed(true), []);
+
   return (
     <>
-     <style jsx>
-      {`
+      <style jsx>
+        {`
         .streaming-dashboard {
           background: #f7f9fc;
           padding: 40px 20px;
@@ -70,21 +74,32 @@ function StreamingDashboard() {
         }
       `}</style>
 
-        <header className="header">
-          <h1> {t("Espace de Streaming en Direct")}:</h1>
+      <header className="header">
+        <h1> {t("Espace de Streaming en Direct")}:</h1>
 
-          {role === "tutor"
-            ? "Créez une session en direct pour vos apprenants."
-            : "Rejoignez une session en direct avec un code fourni par votre tuteur."}
+        {role === "tutor"
+          ? "Créez une session en direct pour vos apprenants."
+          : "Rejoignez une session en direct avec un code fourni par votre tuteur."}
 
-        </header>
-         <div className="container mt-4">
-       <h2> {t("Vous êtes connecté à la session")}</h2>
-       <p className="text-muted">{t("Session interactive avec votre tuteur")}</p>
-      {role === "tutor" && <SessionAttendance id={result} />}
-       <JitsiMeeting  role={role} userName={userName} bookingId={roomId}/>
-     </div>
-     
+      </header>
+      <div className="container mt-4">
+        <h2> {t("Vous êtes connecté à la session")}</h2>
+        <p className="text-muted">{t("Session interactive avec votre tuteur")}</p>
+
+        {role === "tutor" && <SessionAttendance id={result} />}
+
+      
+          <JitsiMeeting
+            role={role}
+            userName={userName}
+            bookingId={roomId}
+            onCrashed={handleCrashed} 
+          />
+      
+          <LiveFallback roomId={roomId} userName={userName} />
+    
+      </div>
+
     </>
   );
 }

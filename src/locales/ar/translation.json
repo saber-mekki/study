@@ -668,4 +668,14 @@
 "Confirm Deletion": "تأكيد الحذف",
 "Are you sure you want to permanently delete your account?": "هل أنت متأكد أنك تريد حذف حسابك نهائيًا؟",
 "Strength": "القوة",
-"Password is too weak": "كلمة المرور ضعيفة جدًا"}
+"Password is too weak": "كلمة المرور ضعيفة جدًا",
+
+"Use Zoom if the main video has an issue.":"استخدم Zoom إذا واجهت الجلسة الرئيسية مشكلة",
+"Join via a backup link":"انضم عبر رابط احتياطي",
+"Continue on Zoom":"المتابعة عبر Zoom",
+"No link available.":"لا يوجد رابط متاح",
+"Preparing backup links":"جارٍ إعداد الروابط الاحتياطية",
+"Unable to generate backup links.":"تعذّر إنشاء الروابط الاحتياطية."
+}
+
+

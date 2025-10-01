@@ -655,5 +655,13 @@
   "Confirm Deletion": "Löschung bestätigen",
   "Are you sure you want to permanently delete your account?": "Sind Sie sicher, dass Sie Ihr Konto dauerhaft löschen möchten?",
   "Strength": "Stärke",
-  "Password is too weak": "Passwort ist zu schwach"
+  "Password is too weak": "Passwort ist zu schwach",
+  "Use Zoom if the main video has an issue.":"Verwende Zoom, wenn die Hauptverbindung ein Problem hat.",
+  "Join via a backup link:":"Über einen Backup-Link beitreten",
+  "Continue on Zoom":"Weiter mit Zoom",
+  "No link available.":"Kein Link verfügbar.",
+  "Preparing backup links":"Backup-Links werden vorbereitet",
+  "Unable to generate backup links.":"Backup-Links können nicht erstellt werden."
+  
+  
 }
