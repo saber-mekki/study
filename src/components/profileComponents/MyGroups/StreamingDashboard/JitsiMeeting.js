@@ -17,7 +17,7 @@ const JitsiMeeting = ({ role, userName, bookingId }) => {
       navigator.sendBeacon(url, new Blob([], { type: "application/json" }));
     } else {
       try {
-        axios.put(
+        axios.post(
           `${process.env.REACT_APP_API_BASE_URL}/groups/sessions/${storedSessionId}/close`
         );
         localStorage.removeItem("sessionId");
@@ -28,6 +28,7 @@ const JitsiMeeting = ({ role, userName, bookingId }) => {
 
     localStorage.removeItem("sessionId");
   };
+
 
   useEffect(() => {
     const domain = "meet.edixacademy.com"; 
